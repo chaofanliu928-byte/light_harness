@@ -58,6 +58,7 @@ harness/                     ← 框架源码（分发的部分）
 
 - [框架说明](harness/README.md) — 架构、组件清单、十条设计原则
 - [多智能体审查指南](harness/docs/references/multi-agent-review-guide.md) — 对抗-决策分离模式
+- [Roadmap](harness/docs/ROADMAP.md) — 下一阶段方向：可观测性、真实项目迁移验证、跨项目 skill 沉淀
 
 ## 许可证
 
