@@ -31,7 +31,7 @@ harness 最初定位为"Claude Code 治理层",测试策略委托给 Superpowers
   - L2 治理层:新增 testing-rules.md + testing-standard.md,implementation 阶段强制读
   - L3 声明层:finishing 阶段显式声明 Evidence Depth,hook 检查字段非空
 - **优点**:覆盖"事前指导 / 事后打分 / 收口声明"完整闭环;职责分层清晰(hook 管硬约束,evaluator 管内容质量);不越权到自动执行测试
-- **缺点**:改动跨 7+ 文件;L1-L5 档位语言需用户确认语义;文档同步成本增加
+- **缺点**:改动跨 7+ 文件;L1-L4 + CI 阻断 档位语言需用户确认语义;文档同步成本增加
 
 ### 方案 C:纳入 scope 并做 L4(Regression SSoT + Cadence Ledger)
 
@@ -113,7 +113,7 @@ harness 最初定位为"Claude Code 治理层",测试策略委托给 Superpowers
 - P0 拆分:residual 字段清晰化降级为 P-1(独立小改),P0 只保留测试覆盖
 - P0 内部顺序:L2 → L1 → L3 严格串行(L1 档位语言依赖 L2,L3 判断依赖 L1 规则)
 - "明确不做"改为"建议不做,待确认"(AI 不越权划治理边界)
-- L1-L5 档位语言标"术语提案,待用户确认语义"(F7 定标准是人的活)
+- L1-L4 + CI 阻断 档位语言标"术语提案,待用户确认语义"(F7 定标准是人的活)
 
 ## 后续影响
 
