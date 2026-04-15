@@ -1,0 +1,103 @@
+#!/bin/bash
+# setup.sh — 将 AI Dev Harness 安装到目标项目
+# 前置依赖：Superpowers 插件
+#
+# 用法：
+#   ./setup.sh                    # 安装到当前目录
+#   ./setup.sh /path/to/project   # 安装到指定目录
+
+set -e
+
+TARGET_DIR="${1:-.}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+echo "🔧 AI Dev Harness 安装器"
+echo "========================"
+echo "目标: $(cd "$TARGET_DIR" 2>/dev/null && pwd || echo "$TARGET_DIR")"
+echo ""
+
+# 检查依赖
+echo "检查依赖..."
+if ! command -v jq &>/dev/null; then
+    echo "⚠️  缺少 jq（hooks 需要）— brew install jq / sudo apt install jq"
+fi
+echo ""
+
+# 覆盖确认
+if [ -f "$TARGET_DIR/CLAUDE.md" ]; then
+    read -p "CLAUDE.md 已存在，覆盖？(y/N) " -n 1 -r
+    echo ""
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "已取消。"
+        exit 0
+    fi
+fi
+
+# 复制文件
+echo "复制文件..."
+
+# .claude/agents
+mkdir -p "$TARGET_DIR/.claude/agents"
+cp "$SCRIPT_DIR/.claude/agents/evaluator.md" "$TARGET_DIR/.claude/agents/"
+cp "$SCRIPT_DIR/.claude/agents/designer.md" "$TARGET_DIR/.claude/agents/"
+cp "$SCRIPT_DIR/.claude/agents/design-reviewer.md" "$TARGET_DIR/.claude/agents/"
+cp "$SCRIPT_DIR/.claude/agents/security-reviewer.md" "$TARGET_DIR/.claude/agents/"
+cp "$SCRIPT_DIR/.claude/agents/process-auditor.md" "$TARGET_DIR/.claude/agents/"
+
+# .claude/skills
+mkdir -p "$TARGET_DIR/.claude/skills/evaluate"
+mkdir -p "$TARGET_DIR/.claude/skills/skill-extract"
+mkdir -p "$TARGET_DIR/.claude/skills/structured-handoff"
+mkdir -p "$TARGET_DIR/.claude/skills/session-search"
+mkdir -p "$TARGET_DIR/.claude/skills/security-scan"
+mkdir -p "$TARGET_DIR/.claude/skills/system-design"
+mkdir -p "$TARGET_DIR/.claude/skills/design-review"
+mkdir -p "$TARGET_DIR/.claude/skills/project-setup"
+mkdir -p "$TARGET_DIR/.claude/skills/process-audit"
+cp "$SCRIPT_DIR/.claude/skills/evaluate/SKILL.md" "$TARGET_DIR/.claude/skills/evaluate/"
+cp "$SCRIPT_DIR/.claude/skills/skill-extract/SKILL.md" "$TARGET_DIR/.claude/skills/skill-extract/"
+cp "$SCRIPT_DIR/.claude/skills/structured-handoff/SKILL.md" "$TARGET_DIR/.claude/skills/structured-handoff/"
+cp "$SCRIPT_DIR/.claude/skills/session-search/SKILL.md" "$TARGET_DIR/.claude/skills/session-search/"
+cp "$SCRIPT_DIR/.claude/skills/security-scan/SKILL.md" "$TARGET_DIR/.claude/skills/security-scan/"
+cp "$SCRIPT_DIR/.claude/skills/system-design/SKILL.md" "$TARGET_DIR/.claude/skills/system-design/"
+cp "$SCRIPT_DIR/.claude/skills/design-review/SKILL.md" "$TARGET_DIR/.claude/skills/design-review/"
+cp "$SCRIPT_DIR/.claude/skills/project-setup/SKILL.md" "$TARGET_DIR/.claude/skills/project-setup/"
+cp "$SCRIPT_DIR/.claude/skills/process-audit/SKILL.md" "$TARGET_DIR/.claude/skills/process-audit/"
+
+# .claude/hooks
+mkdir -p "$TARGET_DIR/.claude/hooks"
+cp "$SCRIPT_DIR/.claude/hooks/"*.sh "$TARGET_DIR/.claude/hooks/"
+chmod +x "$TARGET_DIR/.claude/hooks/"*.sh
+cp "$SCRIPT_DIR/.claude/settings.json" "$TARGET_DIR/.claude/"
+
+# docs
+mkdir -p "$TARGET_DIR/docs/active"
+mkdir -p "$TARGET_DIR/docs/completed"
+mkdir -p "$TARGET_DIR/docs/decisions"
+mkdir -p "$TARGET_DIR/docs/governance"
+mkdir -p "$TARGET_DIR/docs/product-specs"
+mkdir -p "$TARGET_DIR/docs/references"
+mkdir -p "$TARGET_DIR/docs/audits"
+mkdir -p "$TARGET_DIR/docs/superpowers/specs"
+mkdir -p "$TARGET_DIR/docs/superpowers/plans"
+cp "$SCRIPT_DIR/docs/RUBRIC.md" "$TARGET_DIR/docs/"
+cp "$SCRIPT_DIR/docs/ARCHITECTURE.md" "$TARGET_DIR/docs/"
+cp "$SCRIPT_DIR/docs/PROGRESS.md" "$TARGET_DIR/docs/"
+cp "$SCRIPT_DIR/docs/governance/"*.md "$TARGET_DIR/docs/governance/"
+cp "$SCRIPT_DIR/docs/active/handoff.md" "$TARGET_DIR/docs/active/"
+cp "$SCRIPT_DIR/docs/product-specs/index.md" "$TARGET_DIR/docs/product-specs/"
+cp "$SCRIPT_DIR/docs/decisions/_TEMPLATE.md" "$TARGET_DIR/docs/decisions/" 2>/dev/null || true
+cp "$SCRIPT_DIR/docs/references/MODULE_DOC_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
+cp "$SCRIPT_DIR/docs/references/DESIGN_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
+cp "$SCRIPT_DIR/docs/references/multi-agent-review-guide.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
+
+# CLAUDE.md
+cp "$SCRIPT_DIR/CLAUDE.md" "$TARGET_DIR/"
+
+echo ""
+echo "✅ 安装完成！共 $(find "$TARGET_DIR/.claude" "$TARGET_DIR/docs" "$TARGET_DIR/CLAUDE.md" -type f 2>/dev/null | wc -l | tr -d ' ') 个文件"
+echo ""
+echo "下一步："
+echo "  1. 确保已安装 Superpowers: /plugin install superpowers@claude-plugins-official"
+echo "  2. 启动 Claude Code，配置向导会自动引导你完成项目配置（约 5 分钟对话）"
+echo "  3. 配置完成后，直接描述你想做的东西，AI 自动编排开发流程"
