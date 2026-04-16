@@ -10,19 +10,28 @@
 3. Critical 发现 → **必须修复后才能继续**；High/Medium 列出供参考
 4. 如果 security-scan fork 失败 → 调度者按 security-reviewer.md 的检测模式自行扫描（降级），在结果中标注 `⚠️ 降级执行，未经独立 agent 验证`
 
+## Evidence Depth 声明（方向评估之前）
+
+5. 在 `docs/active/handoff.md` 中填写 `## Evidence Depth` 和 `## CI 阻断` 两个字段
+   - 格式规则见 `docs/references/testing-standard.md`
+   - 四层逐行列出,每层 ✅/❌/⚠️ + 证据引用
+   - CI 阻断独立标 ✅/❌
+   - **hook 会检查字段非空,为空则阻断 finishing**
+6. 对照 `docs/governance/testing-rules.md` 的决策表,自检:本次变更的 Evidence Depth 是否满足最低要求?不满足 → 回到 implementation 补测试,不要带着缺口进 evaluate
+
 ## 方向评估
 
-5. **确认 `docs/active/security-scan-result.md` 存在且无 Critical** 后，运行 evaluate
-6. evaluate skill 自动触发（`invocation: auto`），fork evaluator agent team
-7. 如果 evaluator fork 失败 → 调度者按 evaluator.md 的评分维度自行评估（降级），在结果中标注 `⚠️ 降级执行，未经独立 agent 验证`
+7. **确认 `docs/active/security-scan-result.md` 存在且无 Critical** 后，运行 evaluate
+8. evaluate skill 自动触发（`invocation: auto`），fork evaluator agent team
+9. 如果 evaluator fork 失败 → 调度者按 evaluator.md 的评分维度自行评估（降级），在结果中标注 `⚠️ 降级执行，未经独立 agent 验证`
 
 ## 流程审计
 
-8. **确认 evaluate 已完成后**，运行 `/process-audit`（structured-handoff 在分流路径中执行，不作为前置条件）
-9. process-audit skill 自动触发（`invocation: auto`），fork process-auditor agent
-10. 审计结果写入 `docs/audits/audit-YYYY-MM-DD-HHMMSS.md`
-11. **审计结果不影响分流判断**——无论审计发现什么，都按 evaluate 结果分流
-12. 如果 process-auditor fork 失败 → 调度者标注 `⚠️ 降级执行，未经独立 agent 验证`，继续分流，不阻断
+10. **确认 evaluate 已完成后**，运行 `/process-audit`（structured-handoff 在分流路径中执行，不作为前置条件）
+11. process-audit skill 自动触发（`invocation: auto`），fork process-auditor agent
+12. 审计结果写入 `docs/audits/audit-YYYY-MM-DD-HHMMSS.md`
+13. **审计结果不影响分流判断**——无论审计发现什么，都按 evaluate 结果分流
+14. 如果 process-auditor fork 失败 → 调度者标注 `⚠️ 降级执行，未经独立 agent 验证`，继续分流，不阻断
 
 ---
 
