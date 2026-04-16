@@ -48,7 +48,7 @@
 | brainstorming（需求对接） | docs/governance/brainstorming-rules.md |
 | **系统设计** | **docs/governance/design-rules.md** |
 | writing-plans | docs/governance/planning-rules.md |
-| subagent-driven-development | docs/governance/implementation-rules.md |
+| subagent-driven-development | docs/governance/implementation-rules.md + **docs/governance/testing-rules.md** |
 | requesting-code-review | docs/governance/review-rules.md |
 | finishing-a-development-branch | docs/governance/finishing-rules.md |
 | process-audit（finishing 内自动触发） | docs/governance/finishing-rules.md |

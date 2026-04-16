@@ -90,6 +90,7 @@ cp "$SCRIPT_DIR/docs/decisions/_TEMPLATE.md" "$TARGET_DIR/docs/decisions/" 2>/de
 cp "$SCRIPT_DIR/docs/references/MODULE_DOC_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/DESIGN_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/multi-agent-review-guide.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
+cp "$SCRIPT_DIR/docs/references/testing-standard.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 
 # CLAUDE.md
 cp "$SCRIPT_DIR/CLAUDE.md" "$TARGET_DIR/"
