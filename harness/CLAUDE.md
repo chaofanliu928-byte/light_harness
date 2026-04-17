@@ -12,13 +12,15 @@
 | 角色 | 谁做 | 说明 |
 |------|------|------|
 | **调度** | 你（主 AI） | 需求对接、编排流程、与用户沟通 |
-| **设计** | designer agent（fork，含自检子智能体） | 逐节写设计文档 + fork 自检子智能体验证 |
-| **设计审查** | design-reviewer agent team（fork → 4 个并行子智能体） | 自洽性 / 完整性 / 合理性 / RUBRIC 对齐 |
+| **设计** | 调度者 fork designer → 调度者再 fork 自检挑战者 | 逐节写设计文档 + 独立自检 |
+| **设计审查** | 调度者并行 fork 4 个挑战者 | 自洽性 / 完整性 / 合理性 / RUBRIC 对齐 |
 | **开发** | Superpowers subagent | 写代码（TDD + code review） |
-| **安全扫描** | security-reviewer agent team（fork → 3 个并行子智能体） | 凭证数据 / 危险操作 / 注入混淆 |
-| **方向评估** | evaluator agent team（fork → 4 个并行子智能体） | 设计方向 / 架构一致 / 文档健康 / Slop 检测 |
+| **安全扫描** | 调度者并行 fork 3 个挑战者 | 凭证数据 / 危险操作 / 注入混淆 |
+| **方向评估** | 调度者并行 fork 4 个挑战者 | RUBRIC 合规 / 架构一致 / 文档健康 / Slop 检测 |
 
 做事的和判断的分开，设计的和审查的分开。每个角色只看到自己需要的输入，不受其他角色的上下文影响。
+
+**架构**：扁平 fork（2026-04-16 改造）。调度者（主对话）直接 fork N 个独立挑战者，不做两级嵌套 fork。详见 `docs/decisions/2026-04-16-fork-flat-refactor.md`。
 
 ## 技术栈
 
@@ -83,9 +85,9 @@
 | Skill | 什么时候 | 做什么 |
 |-------|---------|--------|
 | **project-setup** | 首次使用，配置未完成时 | 对话式引导完成项目配置 |
-| **system-design** | brainstorming 后，需求锁定后 | fork designer agent（含自检子智能体）编写设计文档 |
-| **design-review** | 系统设计完成后 | fork design-reviewer agent team（4 个并行子智能体）审查设计文档 |
-| **evaluate** | finishing 阶段，自动触发 | fork evaluator 做方向评估 |
+| **system-design** | brainstorming 后，需求锁定后 | 调度者 fork designer 写草稿 → 调度者再 fork 独立自检挑战者 |
+| **design-review** | 系统设计完成后 | 调度者并行 fork 4 个挑战者审查设计文档 |
+| **evaluate** | finishing 阶段，自动触发 | 调度者并行 fork 4 个挑战者做方向评估 |
 | **security-scan** | finishing 阶段，evaluate 之前 | 扫描代码安全问题 |
 | **skill-extract** | finishing 阶段，evaluate 通过后 | 提取可复用模式 |
 | **process-audit** | finishing 阶段，evaluate 之后、分流之前 | 审计流程遵从度和用户满意度，记录到 docs/audits/ |
