@@ -1,79 +1,74 @@
 # 工作交接文档
 
-> 只保留当前状态，给"下一个 AI"看。SessionStart hook 自动注入。
-> 详细见 docs/PROGRESS.md / docs/decisions/ / docs/ROADMAP.md。
+> 只保留当前状态。SessionStart hook 自动注入。
 
-更新时间：2026-04-17
+更新时间：2026-04-17（会话末节点）
 
 ## 目标
 
-承接 decision `2026-04-17-harness-self-governance-gap.md`：harness 自身改动暂停，下一阶段聚焦 **P0.9 self-governance brainstorming**。
+P0.9.1 harness self-governance —— **brainstorming 已收敛**，下一步 design 阶段。
 
 ## 进度
 
-### 本会话已完成
-- 接收目标项目老版本审查报告（`C:\Users\刘超凡\Downloads\harness-retrospective-20260417.md`）
-- 起草 M0-M4（5 条治理改动）→ 4 挑战者扁平 fork 元审查 → 31 条发现
-- 用户追问识别根源三条 → 立 decision `2026-04-17-harness-self-governance-gap.md`
-- ROADMAP 加 P0.9 节，M0-M4 推迟为其首个使用批次
+### 本会话已完成（2026-04-17）
+- 接收目标项目老版本审查报告 + 立根源 decision `2026-04-17-harness-self-governance-gap.md`
+- ROADMAP 加 P0.9 节（先于 P1），M0-M4 推迟
+- 启动 P0.9.1 brainstorming，3 轮问答收敛
+- 创建 spec 骨架 + 填第 1 节：`docs/superpowers/specs/2026-04-17-p0-9-self-governance-design.md`
+- 更新 `docs/product-specs/index.md` 加 P0.9 条目
+- commit `159c495`（decision + ROADMAP + handoff） + push 到 origin/main
 
 ### 阻塞
-P1 阻塞于 P0.9 就绪。
+P1 阻塞于 P0.9.1 完成。
 
 ## 关键决策
 - `decisions/2026-04-15-testing-scope-expansion.md`
 - `decisions/2026-04-16-fork-flat-refactor.md`
-- **`decisions/2026-04-17-harness-self-governance-gap.md`**（本会话产出，根源承认 + P0.9 启动）
+- **`decisions/2026-04-17-harness-self-governance-gap.md`**（根源承认 + P0.9 启动）
 
-## 涉及文件
-- 新建 `docs/decisions/2026-04-17-harness-self-governance-gap.md`
-- 改 `docs/ROADMAP.md`（加 P0.9 + 排期逻辑 + 顶部 2026-04-17 重排）
-- 重写 `docs/active/handoff.md`（本文件）
-- 待改 memory `project_harness_overview.md`（当前状态加根源三条）
+## 涉及文件（本会话末节点）
+- 新建 `docs/superpowers/specs/2026-04-17-p0-9-self-governance-design.md`
+- 改 `docs/product-specs/index.md`
+- 改 `docs/active/handoff.md`（本文件）
+- （前节点已 commit）`docs/decisions/2026-04-17-harness-self-governance-gap.md` + `docs/ROADMAP.md`
+- memory 已更新（`project_harness_overview.md` + `feedback_spec_gap_masking.md` + `MEMORY.md` 索引）
 
 ## 下一步
 
-1. **下一会话启动 P0.9 brainstorming**——收敛 self-governance 的具体需求和验收
-2. **不做**：M0-M4 任一条治理规则改动（已推迟）
-3. **不做**：在 P0.9 没规范时继续 ad-hoc 修补 harness（这是根源 2 反模式）
-4. **可复用**：本会话 4 挑战者审查记录 + 用户已确认的判断（block-dangerous 拟删 / bypass 模式放弃 / 简洁性维度待重审）
+1. **下一会话：启动 P0.9.1 design 阶段** —— 调度者 fork designer agent 填写 spec 第 2-8 节，判定规模级别（初判重量级）
+2. 填完后走 `/design-review`（扁平 fork 4 挑战者）。bootstrap 状态：本次 design-review 维度用本会话原型（核心原则合规 / 目的达成度 / 副作用 / scope 漂移）
+3. design 通过后进 planning → implementation
+4. P0.9.1 落地后执行 M0-M4（首个使用批次）
+5. **不做**：任何 meta 改动未走 P0.9.1 流程即开始实施
 
-## 研究发现
+## P0.9.1 Brainstorming 关键确认
 
-### 根源三条（详见 decision）
-1. 治理文本，缺执法层（硬 hook 仅覆盖"字段非空"和"format"）
-2. bootstrap 缺陷（meta 层无治理）
-3. 马鞍定位错位（稳定性标准比 feature 还松，反了）
+| 问题 | 回答 |
+|---|---|
+| scope | A+B+C+D+F 纳入（治理文件/hook/skill prompt/RUBRIC+DESIGN_TEMPLATE/setup+模板）；E+G 排除（ROADMAP/handoff/README）|
+| 强制层级 | 光谱 B 对抗审查流程化，不加主硬强制 hook，每次产出 audit trail |
+| 分批 | P0.9.1 主体 / P0.9.2 诊断 / P0.9.3 兜底 |
+| 维度策略 | 每次按主题定制，"具体情况具体分析"。混合结构：推荐清单 + 最低必选 + 定制理由留痕 |
+| scope 选择 | X1 —— P0.9.1 既做 meta finishing 路径又改 4 个现有审查 agent |
+| audit 归档 | `docs/audits/meta-review-YYYY-MM-DD-[主题].md` |
+| 前置已确认待 P0.9 落实 | block-dangerous 删除 / bypass 模式放弃 / 简洁性维度降级为行为准则 |
 
-### 用户已确认的判断（待 P0.9 落实）
-- block-dangerous 拟删除（理由：harness 是治理框架不是安全沙箱；删时补 decision）
-- bypass decision 模式放弃，finishing 不允许"用户主动跳过"通道
-- 简洁性维度从 RUBRIC 降级为 CLAUDE.md 行为准则（待 decision）
+## 研究发现（保留关键,细节见 spec 1.6 + decision）
 
-### meta finishing 与 feature finishing 关键差异
-- 评估视角：feature 外部 ✅；meta 循环（评估者=被评估者）❌
-- RUBRIC evaluate：feature ✅；meta 改 RUBRIC 时无法用 RUBRIC 评 ❌
-- 完成边界：feature 有 milestone；meta 无自然边界
-
-### 元教训
-本会话调度者两次踩"用便利答案掩盖规范缺口"的坑（"统一更新一次" / 路径 1/2/3 假设有收尾方式），证明 rule-negotiation 不是 agent 道德问题，是规范缺口 + 便利偏向的必然产物。P0.9 设计需特别警惕此模式。
-
-## 当前阶段
-**阶段切换**：从"等目标项目审查" → "根源 decision 已立，待 P0.9 brainstorming"。
-
-## 当前分支
-`main`，与 origin/main 一致（10 提交已推送）。本会话 decision + ROADMAP + handoff 改动尚未 commit。
+- 三条根源：治理文本缺执法层 / bootstrap 缺陷 / 马鞍定位错位
+- 元教训：调度者本会话两次踩"便利答案掩盖缺口"坑 → 登记 `feedback_spec_gap_masking.md`
+- 发现：harness 自身的 RUBRIC 项目特定标准和 ARCHITECTURE 分层是空模板 —— 是 self-governance 缺口的另一面,挪后续条目
 
 ## 已知问题 / Residual
 
-> 包含 4 类：bug / 故意暂缓的优化 / 待外部决策 / 测试或文档缺口。
-
-- **故意暂缓**：M0-M4 推迟到 P0.9 就绪后；P1 阻塞于 P0.9；P2 三项保持
-- **测试文档缺口**：harness 自身仍未走完整 finishing 闭环（self-dogfood）—— 已上升为根源 2/3
-- **bootstrap 自承认**：本 decision 是 ad-hoc 动作，写在 self-governance 建立之前，不可避免
+- **故意暂缓**：M0-M4 推迟到 P0.9.1 完成后；P0.9.2/P0.9.3 按序启动；P1/P2 不变
+- **待决**：harness 自身的项目特定 RUBRIC/ARCHITECTURE 是否在 P0.9 scope 内？当前 spec 1.3 标"挪后续"
+- **Residual（未决）**：现有 spec `2026-04-13-process-audit-design.md` 未在 `product-specs/index.md` 追踪；非本次任务 scope
+- **Bootstrap 自承认**：本 spec 的 design-review 将用本会话原型 4 维作 bootstrap
 
 ## Evidence Depth + CI
-> 格式见 `docs/references/testing-standard.md`。
-
-- L1 单测 ❌ 不适用 / L2 冒烟 ⚠️ 部分（文档交叉引用核查完成）/ L3 ❌ 不适用 / L4 ❌ 不适用
+- L1 ❌ 不适用 / L2 ⚠️ 部分（文档交叉引用核查完成）/ L3 ❌ 不适用 / L4 ❌ 不适用
 - CI 阻断 ❌ harness 仓库未配 CI
+
+## 当前分支
+`main`，前节点已推送；本节点（spec + index + handoff）未 commit
