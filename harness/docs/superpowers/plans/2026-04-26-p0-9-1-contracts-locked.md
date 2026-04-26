@@ -425,7 +425,7 @@ P0.9.1 落地反审 — 已完成 — audit:`docs/audits/meta-review-YYYY-MM-DD-
 
 **类型**:契约任务(prompt 结构契约 — 静态文件结构 + runtime 嵌入约束)
 **关联模块**:M2(定义)/ M6-M9(消费 prompt 结构)/ M10-M13(skill 引)
-**spec 锚点**:§3.1.4 + §3.1.5 + §3.1.6 + §3.1.7(runtime 嵌入)+ D2 + D7 + D22 fix-2(防下游污染)
+**spec 锚点**:§3.1.4 + §3.1.5 + §3.1.6 + §3.1.7(runtime 嵌入)+ D2 + D7 + 第七轮 fix-2(防下游污染)
 **plan 锚点**:plan §3 C4(line 265-335)
 
 ### 文件位置
@@ -505,7 +505,7 @@ G.  调度者按主题细化粒度(可选)
     - 维度细化: [每维度内的子项]
 ```
 
-### 配套静态约束(D22 fix-2 — 防下游污染)
+### 配套静态约束(第七轮 fix-2 — 防下游污染)
 
 实施 M6-M9 时必须遵守:
 
@@ -545,7 +545,7 @@ G.  调度者按主题细化粒度(可选)
   4. 嵌入挑战者 prompt(§3.1.5 挑战者调用契约的输入字段)
 
 agent 文件(M6-M9)本身:
-  - 只放结构占位 + 引用 M2 路径(D22 fix-2)
+  - 只放结构占位 + 引用 M2 路径(第七轮 fix-2)
   - 不抄 M2 实文
   - setup.sh 分发到下游时,下游 agent 文件无 meta 语境
 ```
@@ -559,7 +559,7 @@ agent 文件(M6-M9)本身:
 | vs spec §3.1.7 runtime 嵌入契约 | ✅ 配套约束(只引路径不抄实文 + 调度者运行时读)对齐 |
 | vs D2(模态分型) | ✅ M6/M7 全 A/B/C / M8 混合 / M9 事实统计 N 维 |
 | vs D7(bootstrap 4 维) | ✅ 对抗式 B 段嵌 4 维基线(核心原则合规 / 目的达成度 / 副作用 / scope 漂移) |
-| vs D22 fix-2(防下游污染) | ✅ 配套约束节明示 |
+| vs 第七轮 fix-2(防下游污染) | ✅ 配套约束节明示 |
 | 完整性:三模态全覆盖 | ✅ 子节 1/2/3 均有完整模板 |
 | 完整性:写侧 + 读侧 | ✅ 写侧:M2 内含三套模板 / 读侧:调度者 runtime 读 + 嵌入 |
 | 完整性:D.2 8 KB 软上限 | ✅ 应用并明示 |
@@ -601,7 +601,7 @@ agent 文件(M6-M9)本身:
 | **M18** | `.claude/settings.json` | harness 自身用(自身 hook 注册 + meta hook 注册) |
 | **M19** | `harness/templates/settings.json` | 分发模板(下游用,无 meta hook 注册) |
 
-### 唯一差异点(精确)
+### 差异点(精确)
 
 | 字段 | M18(harness 自身) | M19(分发模板) |
 |---|---|---|
@@ -685,18 +685,19 @@ agent 文件(M6-M9)本身:
 
 ### 本阶段(P0.9.1) harness 自身行为
 
-> **再强调序言警告**:harness 自身 hook 激活不在 P0.9.1 scope 内。
+> **再强调序言警告**:harness 自身 hook 激活不在 P0.9.1 scope 内。Controller 已决不激活方式(2026-04-26 用户决策):
 >
-> 即:
-> - I7.1 创建/更新 M18 时,**确实追加 M15 + meta-self-review-detect.sh 注册行**(让 settings.json 文件内容与契约一致)
-> - 但**不在 harness 仓库实际触发 hook 链**(用户决定本阶段不调整开发环境;具体不激活方式由 I7.1 / I7.2 实施时定 — 候选包括(a)文件就绪但 settings.json 不写注册行直到下个阶段 / (b)写但 hook 文件 exit 0 占位 — 由 controller 在 I-task 启前澄清)
-> - **下游分发逻辑(D19 a 方案 / D12 命名前缀过滤)保留**(分发是文件层面,与本仓库激活无关)
+> - I7.1 修改 M18 = `harness/.claude/settings.json`(setup.sh source 同一份),**逐字按契约追加 M15 + meta-self-review-detect.sh 注册行**(文件内容与契约一致),无 special handling
+> - **harness 仓库根 `.claude/` 不创建 `settings.json` 副本**(保持现状只有 `settings.local.json` 权限白名单)— Claude Code 工作目录是仓库根,自然读不到 `harness/.claude/settings.json`,所以 hook 不被注册到平台,实际不触发
+> - **`.git/hooks/pre-commit` 不安装**(M16 git hook 跳过 — plan §8.2 line 1237 2 选 1 自动失效)
+> - 实施层:I7.1 / I7.2 / I8.1 按 contract 文本机械执行,**无需为 harness 自身做"不激活"特殊处理 — 不激活是开发环境层面的事实(仓库根无 settings.json),不是 contract 层面的逻辑分支**
+> - **下游分发逻辑(D19 a 方案 / D12 命名前缀过滤)保留**(分发是文件层面,与本仓库激活无关 — 下游若做开发环境适配,可获得完整 hook 行为)
 
 ### 验证结果
 
 | 检查项 | 结果 |
 |---|---|
-| vs spec §4.1.6 distribution_settings_template | ✅ 一致(M19 结构 + 唯一差异点) |
+| vs spec §4.1.6 distribution_settings_template | ✅ 一致(M19 结构 + 差异点) |
 | vs spec §3.1.8 setup.sh line 71 改造 | ✅ 一致(改 source 指向 M19) |
 | vs D19 a 方案(零污染) | ✅ 一致(双轨独立维护) |
 | 完整性:四个 hook 数组(Post/Pre/Session/Stop)全覆盖 | ✅ 表格四行 |
@@ -737,10 +738,12 @@ agent 文件(M6-M9)本身:
 - I7.2 (M19 templates/settings.json):SessionStart 数组**只列 `session-init.sh`**(不列 meta hook)
 - I8.1 (M14 setup.sh):**删除** sed 删除反审检测段相关逻辑(若 plan 中有);仅保留命名前缀过滤(D12)即可
 
-### Notes(potential controller 决策)
+### Notes(controller 已决 — 无遗留)
 
-- **本阶段 harness 自身 hook 激活方式**:序言已声明"hook 激活不在 P0.9.1 scope";I7.1 实施 M18 时,具体如何让"文件就绪但 hook 实际不在 harness 自身触发"由 I-task agent 决定。**候选**:(a)settings.json 不写 meta hook 注册行,等用户决定后再写;(b)写注册行但 hook 文件本身 exit 0 占位;(c)写注册行 + 文件含完整逻辑,激活与否靠用户在 settings.local.json 注释。本契约不锁定 — 由 controller 在 I7.1 启前澄清。
-  - **flagged for controller**:此项需 controller 在批次 7 开始前给出明确激活策略,否则 I7.1 / I7.2 / T 系列测试无法判断"测试 vs harness 自身行为"的预期。
+- **本阶段 harness 自身 hook 激活方式**(已决,见上"本阶段 harness 自身行为"):
+  - 决定 = **不激活,通过开发环境层面实现**(仓库根 `.claude/` 不创建 settings.json,Claude Code 自然读不到 `harness/.claude/settings.json`)
+  - I-task implementer:按 contract 文本逐字执行 `harness/.claude/settings.json`(M18)的修改,**不需要任何 special handling 让其"不激活"** — 不激活是仓库环境的事实
+  - T 系列测试预期:harness 自身仓库内 hook 不触发是预期行为;测试焦点在文件内容正确(与契约一致)+ 下游 setup.sh 分发后行为(可在 /tmp/test-target 验证)
 
 ---
 
@@ -768,7 +771,7 @@ agent 文件(M6-M9)本身:
 | §3.1.4 meta-review 流程 + audit 产出 | C2(audit 格式)+ C4(pattern 节) |
 | §3.1.5 挑战者调用 | C4(嵌入约束) |
 | §3.1.6 三段结构契约 | C4 |
-| §3.1.7 runtime 嵌入 | C4(D.2 8 KB + D22 fix-2 配套) |
+| §3.1.7 runtime 嵌入 | C4(D.2 8 KB + 第七轮 fix-2 配套) |
 | §3.1.8 setup.sh 分发隔离 | C5(M14 改 source)+ C1(F 组 M19 入 scope) |
 | §3.1.9 hook 执法 | C2(读 covers + 失效)+ C3(读 skip) |
 | §3.1.10 SessionStart 反审检测 | C2(覆盖 covers 检测)+ C3(反审待办字段)+ C5(D.1 拆分 meta-self-review-detect.sh) |
@@ -791,11 +794,11 @@ agent 文件(M6-M9)本身:
 
 ### 跨 controller 待决 flag
 
-| 编号 | 内容 | 影响阶段 |
+| 编号 | 内容 | 状态 |
 |---|---|---|
-| **C5-1** | harness 自身 hook 激活策略(P0.9.1 scope 外) | 批次 7(I7.1 / I7.2)开始前 |
+| **C5-1**(原 flag) | harness 自身 hook 激活策略(P0.9.1 scope 外) | **已闭环** — controller 已决:不激活,通过仓库根不创建 settings.json 实现(见 C5"本阶段 harness 自身行为")。I-task implementer 无需 special handling。 |
 
-> 仅此一项 flagged。其他契约可直接进入 I-task 实施。
+> 无 flagged 待决项。所有契约可直接进入 I-task 实施。
 
 ---
 
@@ -805,6 +808,6 @@ agent 文件(M6-M9)本身:
 - **D.1 / D.2 已应用**(C5 SessionStart + C4 8 KB)
 - **plan line 406 已解决**(扩 B 组为 `.claude/hooks/*`)
 - **无 spec-level 矛盾**(所有契约可机械落地)
-- **C5-1** 一项需 controller 在批次 7 启前澄清(harness 自身 hook 激活方式)
+- **C5-1** 已闭环 — controller 决定 hook 不激活,通过开发环境层面实现(仓库根不创建 settings.json),I-task implementer 无需 special handling
 
 I-task agent 应严格按本文档"最终精确文本"实施;遇歧义优先回查 spec 同锚点节(本文档每契约头部已列锚点)。
