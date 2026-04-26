@@ -1,3 +1,21 @@
+## scope 分流入口（进入 finishing 时第一步）
+
+> **harness 自身仓库**：本段触发分流；改动若 scope=meta 或 mixed，**不**走本文件，改读 `meta-finishing-rules.md`（M1）。
+>
+> **下游目标项目**：本段保留但 meta 分支不会触达（下游无 meta scope 改动 / meta-finishing-rules.md 由分发过滤自然不存在），feature 路径继续走本文件流程。
+
+### 步骤
+
+1. 识别本次改动 scope（参考仓库根 `/CLAUDE.md`（M3）的 scope 触发判定段落 + `.claude/hooks/meta-scope.conf` 配置）
+   - 命中 A/B/C/D/F 任一组 glob → scope=meta
+   - 部分命中 + 部分未命中 → scope=mixed
+   - 完全未命中 → scope=feature 或 none
+2. 按 scope 分流：
+   - **scope=meta 或 mixed** → 走 `docs/governance/meta-finishing-rules.md`（M1）— **本文件后续内容不适用**
+   - **scope=feature 或 none** → 继续本文件后续内容（feature 侧 finishing 流程）
+
+---
+
 # Finishing 阶段治理规则
 
 > 当 Superpowers 的 finishing-a-development-branch skill 激活时，读取本文件。
