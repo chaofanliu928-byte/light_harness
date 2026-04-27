@@ -65,10 +65,20 @@ cp "$SCRIPT_DIR/.claude/skills/project-setup/SKILL.md" "$TARGET_DIR/.claude/skil
 cp "$SCRIPT_DIR/.claude/skills/process-audit/SKILL.md" "$TARGET_DIR/.claude/skills/process-audit/"
 
 # .claude/hooks
+# 命名前缀过滤(D12):跳过 meta-* / check-meta-* hooks(meta scope 治理 hook 不分发下游)
 mkdir -p "$TARGET_DIR/.claude/hooks"
-cp "$SCRIPT_DIR/.claude/hooks/"*.sh "$TARGET_DIR/.claude/hooks/"
-chmod +x "$TARGET_DIR/.claude/hooks/"*.sh
-cp "$SCRIPT_DIR/.claude/settings.json" "$TARGET_DIR/.claude/"
+for hook in "$SCRIPT_DIR/.claude/hooks/"*.sh; do
+    [ -e "$hook" ] || continue
+    name=$(basename "$hook")
+    case "$name" in
+        meta-*) continue ;;       # M20 反审检测段拆分文件 / 未来 meta-* hook
+        check-meta-*) continue ;; # M15 / M16 治理 hook
+    esac
+    cp "$hook" "$TARGET_DIR/.claude/hooks/"
+done
+chmod +x "$TARGET_DIR/.claude/hooks/"*.sh 2>/dev/null || true
+# settings.json 走 M19 双轨模板(D19 a 方案):下游零 meta hook 注册痕迹
+cp "$SCRIPT_DIR/templates/settings.json" "$TARGET_DIR/.claude/"
 
 # docs
 mkdir -p "$TARGET_DIR/docs/active"
@@ -83,7 +93,15 @@ mkdir -p "$TARGET_DIR/docs/superpowers/plans"
 cp "$SCRIPT_DIR/docs/RUBRIC.md" "$TARGET_DIR/docs/"
 cp "$SCRIPT_DIR/docs/ARCHITECTURE.md" "$TARGET_DIR/docs/"
 cp "$SCRIPT_DIR/docs/PROGRESS.md" "$TARGET_DIR/docs/"
-cp "$SCRIPT_DIR/docs/governance/"*.md "$TARGET_DIR/docs/governance/"
+# governance:命名前缀过滤(D12),跳过 meta-* 治理文件(M1 / M2 不分发下游)
+for gov in "$SCRIPT_DIR/docs/governance/"*.md; do
+    [ -e "$gov" ] || continue
+    name=$(basename "$gov")
+    case "$name" in
+        meta-*) continue ;;
+    esac
+    cp "$gov" "$TARGET_DIR/docs/governance/"
+done
 cp "$SCRIPT_DIR/docs/active/handoff.md" "$TARGET_DIR/docs/active/"
 cp "$SCRIPT_DIR/docs/product-specs/index.md" "$TARGET_DIR/docs/product-specs/"
 cp "$SCRIPT_DIR/docs/decisions/_TEMPLATE.md" "$TARGET_DIR/docs/decisions/" 2>/dev/null || true
@@ -102,3 +120,5 @@ echo "下一步："
 echo "  1. 确保已安装 Superpowers: /plugin install superpowers@claude-plugins-official"
 echo "  2. 启动 Claude Code，配置向导会自动引导你完成项目配置（约 5 分钟对话）"
 echo "  3. 配置完成后，直接描述你想做的东西，AI 自动编排开发流程"
+echo ""
+echo "💡 提示:harness 治理文件不应在下游本地修改,如有改动需求请回 harness 仓库 PR"
