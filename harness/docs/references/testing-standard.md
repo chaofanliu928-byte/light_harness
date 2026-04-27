@@ -1,5 +1,7 @@
 # 测试标准 (Testing Standard)
 
+> **适用域**:本文档定义 **feature 改动** 的证据深度 L1-L4。**meta 改动**(scope=meta / mixed)的证据语义见 `docs/governance/meta-finishing-rules.md` § 4 meta evidence depth(meta-L1 ~ meta-L4)。两套语义并行,不互引用,handoff Evidence Depth 字段按 scope 选填(feature → L1-L4;meta → meta-L1-meta-L4;mixed → 两份各填一个)。
+
 > 本文件是测试相关术语和证据格式的**单一事实源(术语 SSoT)**。
 > RUBRIC、finishing-rules、handoff 模板、evaluator 提示词若用到 Evidence Depth 词汇,**只引用不重复定义**。
 > 术语修改:先改本文件,再同步下游(F3 文档先行)。
