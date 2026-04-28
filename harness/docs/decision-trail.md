@@ -27,6 +27,14 @@
 
 ---
 
+## 2026-04-28 — M0:删 block-dangerous hook(P0.9.1.5 第一个 trial)
+
+- **抉择**:删 PreToolUse 危险命令拦截 hook;基础防御责任移交下游用户 + 上游 Claude Code permission 兜底;harness 范畴是治理不是安全
+- **替代**:B 改 advisory(exit 0 + 警告) / C 缩 patterns / D 模板留默认空 — 三者维持"hook 维护负担 + 误拦风险",不如直接删
+- **触发**:用户(2026-04-28)启动 M0 — 2026-04-17 起草的 M0-M4 治理修改批次第一项
+- **影响**:首次跑通 P0.9.1 完整治理流程(brainstorming → meta-review → finishing) → meta-L4 第一条数据点;识别 `.gitignore .claude/` 让 hook 改动无 git audit trail(推 P0.9.2/3);decision file 完整附 hook 源码作 git 不留 history 唯一保留位置
+- **decision file**:[2026-04-28-m0-delete-block-dangerous.md](decisions/2026-04-28-m0-delete-block-dangerous.md);audit:[meta-review-2026-04-28-215638-m0-delete-block-dangerous.md](audits/meta-review-2026-04-28-215638-m0-delete-block-dangerous.md)
+
 ## 2026-04-28 — 用户原则:边做边提升,ROADMAP 不预设固化阶段
 
 - **抉择**:删除 ROADMAP 中"P1 真实项目迁移阶段"/"P2 L4 回归层"/"建议不做"段中纯远期反案 / "排期逻辑"大段;只保留当前在做 + 已识别下一步

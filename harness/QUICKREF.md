@@ -52,7 +52,6 @@
 | Hook | 作用 |
 |------|------|
 | prettier | 自动格式化 |
-| block-dangerous | 拦截危险命令 |
 | check-module-docs | 代码改了就提醒更新模块 README |
 | session-init | 注入交接文档 + 治理提醒 |
 | check-handoff | 停止前检查交接文档时效 |

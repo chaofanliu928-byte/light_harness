@@ -29,7 +29,9 @@
 
 **已识别下一步**(由 P0.9.1 落地暴露,非预设):
 
-- **P0.9.1.5 — M0-M4 启动**:用户决定型(D20 fix-7 = B);P0.9.1 治理流程的首批使用(无机械触发条件,等用户启动 M0 删 block-dangerous 等)
+- **P0.9.1.5 — M0-M4 启动**(用户决定型,D20 fix-7 = B):
+  - 🟢 **M0**(2026-04-28 完成):删 block-dangerous hook — 首个 trial,验证 P0.9.1 治理流程从 brainstorming → meta-review → finishing 跑通(audit `meta-review-2026-04-28-215638-m0-delete-block-dangerous.md`)
+  - M1-M4:封死简化收尾 / 元规则评分维度不得作跳过依据 / 修 finishing 内部冲突 / 轻量级判定收紧 — 等用户启动
 - **P0.9.2 — 诊断流程**:实战观察期累积数据后启动
   - 反审字段重置 enforcement(C2 P-4)
   - D5 / D.2 字节软上限 enforcement(C2 P-3)

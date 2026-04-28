@@ -13,7 +13,6 @@
 | 数组 | M18(harness 自身) | M19(分发模板) |
 |------|---|---|
 | `PostToolUse` | prettier / check-module-docs | **同 M18**(无差异) |
-| `PreToolUse` | block-dangerous | **同 M18**(无差异) |
 | `SessionStart` | session-init.sh + meta-self-review-detect.sh | 仅 session-init.sh(无 meta hook) |
 | `Stop` | check-handoff / check-finishing-skills / check-evidence-depth / **check-meta-review** | check-handoff / check-finishing-skills / check-evidence-depth(无 meta hook) |
 
