@@ -27,6 +27,14 @@
 
 ---
 
+## 2026-04-28 — 用户原则:边做边提升,ROADMAP 不预设固化阶段
+
+- **抉择**:删除 ROADMAP 中"P1 真实项目迁移阶段"/"P2 L4 回归层"/"建议不做"段中纯远期反案 / "排期逻辑"大段;只保留当前在做 + 已识别下一步
+- **替代**:保留预设阶段(原 ROADMAP 形态)— 但等于把未来需求假装当成已知
+- **触发**:用户(2026-04-28)指示"将迁移和测试都移除计划中,我们这个是边做边提升的"
+- **影响**:ROADMAP 大幅精简(~270 行 → ~80 行);新建 memory `feedback_iterative_progression.md`;handoff "下一步建议"段去 P1 迁移选项;新需求出现时再开 brainstorming + 立 decision
+- **decision file**:[2026-04-28-iterative-progression-no-fixed-roadmap-stages.md](decisions/2026-04-28-iterative-progression-no-fixed-roadmap-stages.md)
+
 ## 2026-04-28 — glassbox 角色 reframe(用户级工具,harness 推荐不分发)
 
 - **抉择**:P2 空间维度 glassbox 不做 submodule / 不做 setup.sh 自动 clone;harness 仅"推荐 + 链接记录,防找错"
