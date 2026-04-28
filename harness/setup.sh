@@ -109,6 +109,8 @@ cp "$SCRIPT_DIR/docs/references/MODULE_DOC_TEMPLATE.md" "$TARGET_DIR/docs/refere
 cp "$SCRIPT_DIR/docs/references/DESIGN_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/multi-agent-review-guide.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/testing-standard.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
+# 注意:recommended-tools.md 不分发下游 — 它是 harness 仓库内的"用户级工具推荐清单",
+# 下游目标项目不应混入;用户在 setup.sh 末尾 echo 中获取 URL 即可。
 
 # CLAUDE.md
 cp "$SCRIPT_DIR/CLAUDE.md" "$TARGET_DIR/"
@@ -122,3 +124,10 @@ echo "  2. 启动 Claude Code，配置向导会自动引导你完成项目配置
 echo "  3. 配置完成后，直接描述你想做的东西，AI 自动编排开发流程"
 echo ""
 echo "💡 提示:harness 治理文件不应在下游本地修改,如有改动需求请回 harness 仓库 PR"
+echo ""
+echo "📦 推荐工具(可选,用户级 — 不与项目绑定):"
+echo "  - glassbox: AI 工作 session 内可视化(7 类 HTML 页面 + lint 工具,"
+echo "    辅助审查 AI 工作产出的真实性)"
+echo "    仓库: https://github.com/chaofanliu928-byte/glassbox"
+echo "    建议装在 ~/tools/glassbox/ 之类全局位置,装不装、装哪、装啥版本由你决定"
+echo "    harness 治理流程不依赖此工具在场,不装也能正常工作"

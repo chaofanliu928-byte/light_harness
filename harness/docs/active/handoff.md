@@ -4,15 +4,25 @@
 > 详细设计在 docs/superpowers/specs/,实现计划在 docs/superpowers/plans/。
 > 里程碑历史在 docs/PROGRESS.md。
 
-更新时间:2026-04-28 18:00
+更新时间:2026-04-28 18:25
 
 ## 目标
 
-P0.9.1 self-governance 已完成 + meta-review pass(2026-04-28 上午,audit `meta-review-2026-04-28-102359-p0-9-1-self-review.md`);
-P2 可观测性双层定义已落地 — glassbox 空间维度(外部仓库参考)+ decision-trail 时间维度(本仓库新增,4 挑战者 meta-review pass after revision)。
+P0.9.1 self-governance 已完成 + meta-review pass(audit `meta-review-2026-04-28-102359-p0-9-1-self-review.md`);
+P2 可观测性双层定义已落地 + glassbox 角色 reframe — **空间维度(glassbox)由"集成依赖"降级为"用户级外部工具,harness 推荐不分发"**;时间维度(decision-trail)harness 自带。
 下一步候选:M0-M4 治理修改 / P0.9.1.5 / P0.9.2 / P1 真实项目迁移 — 由用户决定。
 
 ## 进度
+
+### 已完成(本会话最最后一批 — glassbox reframe)
+
+- **glassbox 角色 reframe — 用户级工具,harness 推荐不分发**:
+  - 新建 `docs/references/recommended-tools.md`(harness 仓库内 SSoT,**不分发下游**;含 URL + 简介 + 维护规则 4 处同步点)
+  - 新建 `docs/decisions/2026-04-28-glassbox-recommendation-not-integration.md`(方案选择型 — A submodule(harness)/ B submodule(目标项目)/ C 自动 clone / D 纯推荐;选 D)
+  - 改 `setup.sh`:末尾加 echo 推荐段(纯功能描述,去 P 阶段名);不 cp recommended-tools.md(避免下游污染)
+  - 改 ROADMAP P2 空间维度描述:从"集成依赖"reframe 为"用户级外部工具,harness 推荐不分发"
+  - 改 decision-trail.md append 1 条新抉择"glassbox 角色 reframe"
+  - meta-review audit:`docs/audits/meta-review-2026-04-28-182335-glassbox-recommendation-reframe.md`(4 挑战者扁平 fork 共识发现 setup.sh cp recommended-tools.md 与"不归项目管"自相矛盾 + echo 暴露 P2 阶段名;initial needs-revision → P0+P1 修补 → pass)
 
 ### 已完成(本会话最后一批 — decision-trail 引入)
 
@@ -81,9 +91,14 @@ P0.9.1 落地反审 — 已完成 — audit:`docs/audits/meta-review-2026-04-28-
 
 ## Evidence Depth
 
-> 本次 decision-trail 引入是 meta scope 改动,evidence depth 用 meta-L1~meta-L4(spec §4.1.4)。
+> 本次 glassbox reframe 是 meta scope 改动(setup.sh 改 — F 组),其他 4 文件 scope=none。evidence depth 用 meta-L1~meta-L4。
 
-- meta-L1: ✅ decision file 内 §问题 / §方案 / §决定 / §不做 / §后续 / §自动化 6 节自检通过(本次跳过完整 design 文档,采用 decision file 范式 — 主题为常规新机制接入,非系统性 spec)
-- meta-L2: ✅ 全局自检 — scope 边界与现有载体差异化经 4 挑战者并行验证;触发机制覆盖 meta + feature 双路径;与 PROGRESS / decisions / memory 三方差异化职责真实
-- meta-L3: ✅ `docs/audits/meta-review-2026-04-28-174615-decision-trail-introduction.md` verdict=pass(after revision);4 挑战者(核心原则 / 目的达成度 / 副作用 / scope 漂移)对抗式审查;共识发现 M1 同步缺失已修
-- meta-L4: ⏳ 待观察(下一次 meta 改动 finishing 是否真发生 append / 提取质量;P1 真实项目验证 glassbox + decision-trail 双层闭环;P0.9.2 诊断 1-2 月观察期)
+- meta-L1: ✅ decision file 内 §问题 / §方案(A/B/C/D 4 选项)/ §决定 / §不做 / §后续 5 节自检通过
+- meta-L2: ✅ 全局自检 — scope=mixed covers 范围正确(只列 setup.sh);recommended-tools.md 不分发下游边界正确;URL 同步点 4 处显式列出
+- meta-L3: ✅ `docs/audits/meta-review-2026-04-28-182335-glassbox-recommendation-reframe.md` verdict=pass(after revision);4 挑战者(核心原则 / 目的达成度 / 副作用 / scope 漂移)对抗式审查;共识发现 cp recommended-tools.md 自相矛盾 + P2 阶段名暴露下游均已修
+- meta-L4: ⏳ 待观察(P1 真实项目验证用户是否真装 glassbox / 装了用得多不多;链接保鲜检查;decision-trail append 频率)
+
+## 历史 Evidence Depth(本会话先前批)
+
+- decision-trail 引入(commit `1144f6a`):`meta-review-2026-04-28-174615-decision-trail-introduction.md` verdict=pass after revision
+- P0.9.1 自身(commits `6e8bda1..34129ae`):`meta-review-2026-04-28-102359-p0-9-1-self-review.md` verdict=pass after revision

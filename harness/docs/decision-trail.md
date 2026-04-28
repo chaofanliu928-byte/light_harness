@@ -27,6 +27,14 @@
 
 ---
 
+## 2026-04-28 — glassbox 角色 reframe(用户级工具,harness 推荐不分发)
+
+- **抉择**:P2 空间维度 glassbox 不做 submodule / 不做 setup.sh 自动 clone;harness 仅"推荐 + 链接记录,防找错"
+- **替代**:1A submodule(harness 内嵌)/ 1B submodule(目标项目内嵌)/ 4 setup.sh 询问 + clone — 三者均把 glassbox 绑到项目层,与"用户级工具"本质不符
+- **触发**:用户(2026-04-28)指出 glassbox 是个人工具不归项目管,harness 仅需"提示安装 + 记录链接"
+- **影响**:新建 `docs/references/recommended-tools.md`(scope=none)+ setup.sh 末尾加推荐段(scope=meta)+ ROADMAP P2 空间维度描述 reframe + harness 仓库零依赖管理负担
+- **decision file**:[2026-04-28-glassbox-recommendation-not-integration.md](decisions/2026-04-28-glassbox-recommendation-not-integration.md)
+
 ## 2026-04-28 — 引入 decision-trail(本条,自指)
 
 - **抉择**:P2 可观测性拆双层 — glassbox(session 空间) + decision-trail(跨 session 时间)

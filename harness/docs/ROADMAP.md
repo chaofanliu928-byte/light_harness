@@ -184,28 +184,31 @@ P0 先于 P1 的理由**只成立一半**:P0 产物(testing-rules / Evidence Dep
 
 ## P2:等 P1 产出真实数据后再定
 
-### 可观测性 — 双层(2026-04-28 重写,原 ROADMAP 1)
+### 可观测性 — 双层(2026-04-28 立 + 同日 reframe glassbox 角色)
 
-让 harness 治理过程可见、可审计、可回溯。**空间 + 时间双层**:
+让 harness 治理过程可见、可审计、可回溯。**空间 + 时间双层**,但两层归属不同:
 
-**空间维度(session 内)— glassbox**
-- 现状:外部仓库 https://github.com/chaofanliu928-byte/glassbox 已实现 AI 工作 session 内可视化(7 类 HTML 页面 + lint 工具)
-- harness 不重新发明:作为 P1 候选项目跑闭环时验证 glassbox 可作 P2 空间维度的样板
-- **关键约束**:glassbox 自有 skill 留在 glassbox(同 `feedback_skill_no_cross_project.md` 原则,不反向吸进 harness)
+**空间维度(session 内)— glassbox(用户级外部工具,harness 推荐不分发)**
+- 现状:外部仓库 https://github.com/chaofanliu928-byte/glassbox(7 类 HTML 页面 + lint 工具)
+- **harness 角色**:仅推荐 + 记录链接(`docs/references/recommended-tools.md`)+ setup.sh 末尾 echo 提示;**不**做 submodule / 不 clone / 不锁版本 / 不集成 API
+- **用户角色**:自行决定装哪、装啥版本、装在哪(建议 `~/tools/glassbox/` 等全局位置,不与项目绑定);glassbox 是用户工具,harness 之外也可用
+- **harness 治理流程不依赖 glassbox 在场**(不装也能正常工作)
+- decision:`docs/decisions/2026-04-28-glassbox-recommendation-not-integration.md`
 
-**时间维度(跨 session)— decision-trail**
+**时间维度(跨 session)— decision-trail(项目内置)**
 - 已落地:`docs/decision-trail.md`(2026-04-28 引入,scope=none)
-- 自动化:`docs/governance/finishing-rules.md` "通过"路径 milestone commit 后调度者 append 1-2 条判断拐点
+- 自动化:M5 `docs/governance/finishing-rules.md` "通过" Step 2 + M1 `docs/governance/meta-finishing-rules.md` Step D 双路径 append
 - decision:`docs/decisions/2026-04-28-decision-trail-introduction.md`
 
 **验收信号**:
 - 能回答"当前抉择的历史背景是什么"(decision-trail 链回溯)
 - 能回答"上一次 design-review / meta-review 为什么打这个 verdict"(audit + decision-trail 索引)
-- glassbox + decision-trail 双层闭环在 P1 真实项目至少跑 1 次
+- 用户视角:harness 推荐 → 用户装 glassbox(可选)→ AI 工作 session 内可视化产出可看
+- decision-trail 在 P1 真实项目至少跑 1 次,append 频率 + 提取质量 met meta-L4
 
 **就绪信号**:
 - decision-trail meta-L4 验证:1-2 月观察 finishing append 是否真发生 / 提取质量
-- glassbox 套 P1 跑闭环
+- glassbox 链接保鲜:每次 P0.9.x 落地或 P1 启动时复核 URL 有效性
 
 ### L4 回归层(条件启用)
 
