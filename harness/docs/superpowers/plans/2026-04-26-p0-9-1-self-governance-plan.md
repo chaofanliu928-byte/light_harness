@@ -375,6 +375,40 @@ G.  调度者按主题细化粒度(可选)
 
 ---
 
+## 3.6 实施收敛(2026-04-28 落地后回填)
+
+> 本节由 P0.9.1 落地后 finishing 阶段回填,记录哪些 plan 任务实际执行 / 推迟 / 改向。**目的**:让后续审计 + P0.9.1.5/P0.9.2 启动时一目了然 plan vs 实际差距,不需翻 commit log。
+
+### 已完成(27 commits + 1 finishing commit)
+
+- I 系列 18 项实施任务全部完成(I2.1 / I3.1-3.2 / I4.1-4.3 / I5.1-5.8 / I6.1-6.3 / I7.1-7.2 / I8.1-8.3)
+- C 系列 5 项契约 C1-C5 锁定 + 1 次修订
+- 测试 T10 / T4 / T8 自动化通过(其中 T4-4 暴露 scope.conf F 组 glob 路径前缀 bug → 34129ae 修)
+
+### 推迟项(8 项 T 测试)
+
+| 任务 | 推迟到 | 理由 / 触发条件 |
+|------|--------|----------------|
+| T1 / T2 / T3 单元测试(M15 / M16 / M20) | **不补**(spec §6.3 授权"hook bug 由实战暴露") | hook 是声明式 shell 检测,实战暴露 bug 后再补针对性测试 |
+| T5 / T6 / T7 集成测试 | **P1 真实项目阶段** | 需真实 fork + 走 finishing 全链路;harness 自仓库的"实战"已通过 P0.9.1 自身 finishing 自然练习 |
+| T9 E2E meta 改动 commit 路径 | **P1 真实项目阶段** | 需真实场景跑端到端;P0.9.1 自身 finishing 已部分覆盖 |
+| T11 反审本 spec(meta-L4 留痕首条) | ✅ **已完成**(2026-04-28 P0.9.1 finishing 自然闭合) | bootstrap loop 闭合,首个 meta-review audit `meta-review-2026-04-28-102359-p0-9-1-self-review.md` |
+
+依据:2026-04-28 meta-review C1 Y4 + process-audit P-1。**用户原则**:实战验证不在 harness 自仓库 artificial trial,推 P1 真实项目(memory `feedback_realworld_testing_in_other_projects.md`)。
+
+### 改向项(implementation-time follow-on,非 plan 漂移)
+
+- **D.1 选项 2 follow-on**(I7.1):M18 settings.json **同时改 Stop 数组**(注册 M15)**+ SessionStart 数组**(注册 meta-self-review-detect.sh 拆分文件)。原 plan I7.1 line 797-803 约束"不改其他段",但 M20 拆分后 SessionStart 注册是必然 follow-on。已立 decision 子决策 4 接受(`docs/decisions/2026-04-28-p0-9-1-meta-review-revision.md`)
+- **scope.conf B 组 glob 扩展**(I2.1):spec C1 字面契约 `.claude/hooks/*.sh` → 实施层扩为 `.claude/hooks/*`(覆盖 meta-scope.conf 自身入 scope)。已立 decision 子决策 3 接受
+- **F 组 glob 路径前缀修正**(34129ae):scope.conf F 组 strip `harness/` 前缀(hook cwd=harness/ 视角)。已立 decision 子决策 1
+- **templates/README.md plan 外建**(I7.2):plan §4 line 827 "无需另建 README" → 实施层创建 43 行 README。已立 decision 子决策 2 接受
+
+### plan §2.1 措辞修订留痕
+
+§2.1 模块表中 M6-M9 标"改动",实际是首次新建 agent 文件(harness 之前无 4 review agent 定义)。后续 plan 模板演化时改"改动 / 新建"分类。依据:meta-review C4 G4
+
+---
+
 ## 4. 实现任务(I 系列,按批次,问题式)
 
 > 实现任务描述"要解决的问题和约束",不规定具体实现路径。实现 agent 比 planner 更接近代码状态,由它决定具体实现方式。

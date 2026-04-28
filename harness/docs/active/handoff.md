@@ -80,6 +80,8 @@ P0.9.1 harness self-governance — **已完成 + meta-review pass**(commit `6e8b
 3. **启动 M0**(重):P0.9.1.5 第一个 trial — 删 block-dangerous,用 P0.9.1 流程跑完整 meta finishing 路径,产首条 P0.9.1.5 数据
 4. **P1 真实项目迁移**(更重):用 harness 跑真实项目闭环
 
+## meta-review: skipped(理由: 本次 7 项 doc-level 修订均为已通过 meta-review 的 documented 推迟项 + process-audit P-3/P-4 明确建议落地,无新架构决策,属 M1 §3 Step A 小修类)
+
 ## 反审待办
 
 P0.9.1 落地反审 — 已完成 — audit:`harness/docs/audits/meta-review-2026-04-28-102359-p0-9-1-self-review.md`

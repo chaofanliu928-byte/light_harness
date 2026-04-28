@@ -1760,6 +1760,7 @@ handoff 字段格式(B7 决策):同字段名 `## Evidence Depth`,档位值用 me
 - **不做负载 / 性能测试**(audit_trail 和 hook 是文本/git 操作,无性能瓶颈;§1.3 已估算成本)
 - **不定具体可量化指标**(A7 决策 + Q2 拍板 — 见 §6.6 Q2 论证)
 - **不强制单元测试 hook 脚本逻辑**(hook 是声明式 shell 检测,bug 由实战暴露;参考 check-handoff.sh / check-evidence-depth.sh 现有范式)
+- **不测 D5 / D.2 字节软上限 enforcement**(D5 = 64 kB 单 prompt / D.2 = 8 KB M2 嵌入;光谱 B+ 最小硬 hook 原则下不加 hook 校验;P0.9.1 调度者 / 实施者自律,P0.9.2 诊断阶段实战观察是否需要补 enforcement)
 
 **外部依赖的 mock 策略**:
 

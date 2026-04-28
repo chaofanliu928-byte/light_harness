@@ -113,6 +113,7 @@ scope 由调度者按 spec §3.1.1 + M17 `.claude/hooks/meta-scope.conf` + M3 `/
 - **marker**:固定字符串 `## meta-review: skipped`(hook grep 识别)
 - **括号字段**:`(理由: <reason>)` 整体必出现,括号 + `理由:` + 内容 + 括号闭合
 - **`<reason>`**:string,非空非全空白,至少 1 个非空白字符
+- **括号必须半角**(`(` `)` U+0028/U+0029,不是全角 `(` `)` U+FF08/U+FF09)。中文 IME 默认全角,写入时需切换为半角。hook grep 字面匹配半角,全角不命中。依据:2026-04-28 meta-review C3 Y3
 - **覆盖语义**:每次新 meta 改动开始时,调度者覆盖此字段(不累积旧 skip 记录),字段不归档(handoff 本来就 mutable)
 - **hook 校验**(M15 / M16):grep `## meta-review: skipped\(理由: ([^)]+)\)`(POSIX ERE),提取 `\1` 后用 `\S` 至少匹配 1 个非空白字符 → skip 有效;否则 skip 无效,继续要求 audit
 
