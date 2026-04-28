@@ -4,116 +4,91 @@
 > 详细设计在 docs/superpowers/specs/,实现计划在 docs/superpowers/plans/。
 > 里程碑历史在 docs/PROGRESS.md。
 
-更新时间:2026-04-26 20:05
+更新时间:2026-04-28 10:30
 
 ## 目标
 
-P0.9.1 harness self-governance — **设计 + planning 阶段已完成**,下一会话进入 implementation(subagent-driven-development)跑 34 任务。
+P0.9.1 harness self-governance — **已完成 + meta-review pass**(commit `6e8bda1..34129ae` + audit `meta-review-2026-04-28-102359-p0-9-1-self-review.md`)。下一步候选:M0-M4 治理修改 / P0.9.1.5 / P0.9.2 / P1 真实项目迁移 — 由用户决定。
 
 ## 进度
 
-### 已完成
+### 已完成(本会话 P0.9.1 闭环)
 
-- spec `docs/superpowers/specs/2026-04-17-p0-9-self-governance-design.md` 经 10 轮 designer + 9 轮独立自检挑战者收敛
-  - 20 模块(M1-M20)、22 决策(D1-D22 全 🟢)、5 场景、bootstrap 4 维(D5 过度工程化撤回)
-- 第八轮拍板 3 项 🟡 → 🟢 决策(详见 `docs/decisions/`):
-  - D20 fix-7 P0.9.1.5 触发=B(M0-M4 启动前用户决定)
-  - D21 fix-8 反审触发=A+C(SessionStart hook + handoff 反审待办字段)
-  - D22 fix-9 6 项 bypass 路径:(iii)(v) 修设计,(i)(ii)(iv)(vi) 接受/推 P0.9.3
-- 第十轮补 M20 cascade(§2.1 模块表 / §2.2 依赖图 / §2 自检 / §7.3 文件统计 / §7 自检 line 1992)
-- plan `docs/superpowers/plans/2026-04-26-p0-9-1-self-governance-plan.md`(1293 行,34 任务,8 批次)第一轮自检通过 0 ❌
-- commit `6e8bda1`(spec + 3 决策 + plan)未 push
+- **8 个 implementation batch 全部 done**(27 任务 + 1 测试 fix = 29 commit)
+  - C 系列:契约 lock + revise(`90be204`, `11e72d6`)
+  - I2.1:M17 scope.conf 落地(`0055bb8`)
+  - I3.1-3.2:M2 + M1 governance 落地(`c0c61ca`, `4686ff2`)
+  - I4.1-4.3:M3 自治理入口 + M5 分流入口 + M4 模板对齐(`16c100f`, `5ab2cfc`, `4d8d670`)
+  - I5.1-5.8:4 agent 模态分型 + 4 skill §3.1.7 引用(`b7d3e2f..62b1e94`)
+  - I6.1-6.3:M15 / M16 / M20 hook 落地(`434d680`, `2a1b761`, `bf52c41`)
+  - I7.1-7.2:M18 自用 + M19 分发模板 settings(`7e04d70`, `7c4d81e`)
+  - I8.1-8.3:M14 setup.sh + handoff 模板 + testing-standard(`64c7883`, `286eb6f`, `ed056c4`)
+  - T 修复:T4-4 暴露 scope.conf F 组 glob 路径前缀 bug(`34129ae`)
+
+- **T 系列测试**:
+  - 自动化通过:T10(setup.sh 分发隔离 7/7) + T4(scope 识别 6/6 after `34129ae`) + T8(hook 执法两扇门 5/5)
+  - 推迟(spec §6.3 授权):T1/T2/T3 单元测试 / T5/T6/T7/T9 集成 / T11 由本次 finishing 自然闭合
+
+- **meta-review audit**:`harness/docs/audits/meta-review-2026-04-28-102359-p0-9-1-self-review.md`
+  - 4 挑战者并行(对抗式 bootstrap 4 维基线):核心原则合规 / 目的达成度 / 副作用 / scope 漂移
+  - 综合 verdict=pass(初判 needs-revision → P0+P1+P2 修补后升 pass)
+  - 共识发现:M3 hook 不可见缺口(3/4 挑战者交叉)
+  - 修订 decision:`harness/docs/decisions/2026-04-28-p0-9-1-meta-review-revision.md`(D9 范式,5 子项)
+  - **首条 P0.9.2 诊断输入数据点**(spec §1.2 场景 4)
+
+- **修订修补**(meta-review 后落地):
+  - `harness/setup.sh:105-106` 加 `2>/dev/null || true`(C3 Y1)
+  - `harness/CLAUDE.md`(M4)角色分离表反向锚说明(C1 Y1)
+  - spec §1.3 加 fix-9 (vii) M3 hook 不可见 acceptance(三方共识)
+
+- **ROADMAP / PROGRESS 同步**:
+  - `harness/docs/ROADMAP.md` P0.9 节加 🟢 P0.9.1 完成行 + 未完成项推后续阶段
+  - `harness/docs/PROGRESS.md` 表格首行加 P0.9.1 milestone
 
 ### 进行中
 
-无(本节点收尾)
+无(P0.9.1 finishing 闭环)
 
-### 阻塞
+### 推后续阶段(已 documented 留痕)
 
-P1 阻塞于 P0.9.1 implementation 完成。
+**P0.9.1.5(M0-M4 启动前用户决定 — D20 fix-7 = B)**:
+- M0:删 block-dangerous(用户接收审查报告时拟做)
+- M1-M4:其他治理修改(本会话归档保留草案)
 
-## 关键决策
+**P0.9.2 诊断流程**:
+- 反审字段重置 enforcement(C2 P-4)
+- D5 / D.2 字节软上限 enforcement(C2 P-3)
+- mixed scope 双 finishing 成本量化(C3 Y4,实战 1-2 月观察)
 
-- D20-D22 三项 🟢(见上)
-- bootstrap 例外原则实战:第二轮 design-review 中 D2 self-reference 攻击作废,沿用 4 维不加第 5 维"过度工程化"(`feedback_unprovable_in_bootstrap.md`)
-- D19 a 方案分发隔离零污染:M19 `harness/templates/settings.json` 双轨
+**P0.9.3 governance 漂移检测兜底**:
+- M3 hook 不可见(spec §1.3 fix-9 (vii))
+- 现有 fix-9 (i)(ii)(iv)(vi) 推 P0.9.3 处理
 
-## 涉及文件
+**实战 + 文档项**:
+- M5 触发链 superpowers:finishing-a-development-branch skill 实战验证(C2 P-6)
+- M15 grep 半角括号硬编码 — 文档加"必须半角"明示(C3 Y3)
+- T-deferred 8 项推迟在 plan §3 加"实施收敛"节(C1 Y4)
+- M18 SessionStart follow-on — plan §6.5 注释 D.1 配套(C4 Y4)
+- plan §2.1 agent 文件改动 vs 新建措辞(C4 G4)
 
-- 改 `harness/docs/superpowers/specs/2026-04-17-p0-9-self-governance-design.md`(+2014/-111)
-- 创建 `harness/docs/decisions/2026-04-26-p0-9-1-5-trigger-condition.md`
-- 创建 `harness/docs/decisions/2026-04-26-p0-9-1-self-review-trigger.md`
-- 创建 `harness/docs/decisions/2026-04-26-bypass-paths-handling.md`
-- 创建 `harness/docs/superpowers/plans/2026-04-26-p0-9-1-self-governance-plan.md`(plans 目录新建)
-- memory:`feedback_choice_visualization.md` + `feedback_unprovable_in_bootstrap.md` + MEMORY.md 索引(HTML 可视化 `docs/active/p0-9-1-flows-visualization-2026-04-26.html` untracked)
+## 下一步建议
 
-## 下一步
+**用户选择**(优先级由低到高,看时间预算):
 
-1. **下一会话:启动 P0.9.1 implementation(subagent-driven-development)** — 按 plan §2-§5 跑 34 任务,8 批次
-2. **批次 1(契约任务 C1-C5)先行**:M17 scope.conf / audit covers / handoff 字段 / M2 pattern / M19 vs M18 差异
-3. 注意 plan §8.5 boot 顺序风险:hook enable 后,后续 P0.9.1 改动会被 M15/M16 拦,实施层需把握
-4. 注意 plan §8.2 留实施层用户决定的 2 选 1:M20 反审检测段分发隔离方式 / M16 git pre-commit 安装方式 / D5 prompt 字节软上限
-5. push origin/main(本 commit `6e8bda1` 当前未 push)
-6. P0.9.1 落地后:fix-8 A 部分 SessionStart 反审 hook 自动检测并提示反审本 spec(meta-L4 实战数据点)
-
-## 关键上下文
-
-- bootstrap 例外:本 spec 自身审查用旧 4 维 ad-hoc;P0.9.1 落地后由 D21 SessionStart hook 自动触发反审(meta-L4 第一数据点)
-- VAULT_PATH 未配置(PKM hook SessionStart 报警);commit hash:6e8bda1
-
-## 当前阶段
-
-writing-plans **已完成** → 下一会话进 subagent-driven-development
-
-## 当前分支
-
-`main`,本节点(commit `6e8bda1`)未 push;前节点 `d447763` 已推送 origin/main
-
-## 已知问题
-
-- HTML 可视化 `harness/docs/active/p0-9-1-flows-visualization-2026-04-26.html` 仍 untracked(brainstorming 阶段产物,你判断保留 / 删除 / 进 .gitignore)
-- spec §1.4 line 118 由调度者补完 SessionStart 扩展描述(第十轮自检发现 ⚠️)— 已修
-- harness 自身的 RUBRIC 项目特定 3 维(文档第一公民 / 最小变更 / 治理留痕)和 ARCHITECTURE 分层在 spec 中按 bootstrap 例外不强求,留 P0.9.x 后续
-
-## Evidence Depth + CI
-
-- L1/L3 ❌ 不适用 / L2 ⚠️ 部分(spec 9 轮 + plan 1 轮自检通过)/ L4 ⏳ P0.9.1 落地后 D21 反审 / CI ❌ 未配
-
-> **档位说明**:本字段填 L1/L2/L3/L4(feature)或 meta-L1/meta-L2/meta-L3/meta-L4(meta)。详细定义:
-> - feature:`docs/references/testing-standard.md`(本仓库 `harness/docs/references/`)
-> - meta:`docs/governance/meta-finishing-rules.md` § 4(本仓库 `harness/docs/governance/`)
-> - mixed:两份均填(feature 一个 L,meta 一个 meta-L,详见 meta-finishing-rules.md § 4.2 mixed 8 行示例)
-
-## meta-review skip(可选 — 仅本次 meta 改动选 skip 时填)
-
-> 字段格式:`## meta-review: skipped(理由: <非空理由>)`
->
-> 仅当 §3.1.3 Step A 判选不走 meta-review 时填本字段(如改动是 typo / 单字符 / 无语义变更)。
-> 理由必须非空非全空白(grep 校验 `理由:\s*[^)]+`)。
-> 每次新 meta 改动开始时,调度者覆盖此字段(不累积)。
-
-示例(填写时取消注释):
-
-<!--
-## meta-review: skipped(理由: 仅修改注释 typo,无语义 / 行为变更)
--->
+1. **结束本会话**(轻):P0.9.1 闭环完成,可直接 push 收尾。下次 SessionStart M20 hook 检 audit covers 含本 spec → 不再注入提醒(验证 bootstrap 停止条件)
+2. **抽取 skill**(中):/skill-extract 分析本次 P0.9.1 实施的可复用模式(meta-review 流程 / 模态分型 / 命名前缀过滤等)
+3. **启动 M0**(重):P0.9.1.5 第一个 trial — 删 block-dangerous,用 P0.9.1 流程跑完整 meta finishing 路径,产首条 P0.9.1.5 数据
+4. **P1 真实项目迁移**(更重):用 harness 跑真实项目闭环
 
 ## 反审待办
 
-> 字段格式:见 contracts-locked.md C3 字段 2(初始 / 完成两态)
->
-> P0.9.1 落地最后一次 finishing 时由 M1 引导写入此字段。反审完成后更新为完成态。
+P0.9.1 落地反审 — 已完成 — audit:`harness/docs/audits/meta-review-2026-04-28-102359-p0-9-1-self-review.md`
 
-**初始态**(P0.9.1 commit 进 main 后写入):
+## Evidence Depth
 
-```
-P0.9.1 落地反审 — 未完成
-```
+> 本次 P0.9.1 是 meta scope 改动,evidence depth 用 meta-L1~meta-L4(spec §4.1.4)。无 feature 层档位(无 feature 代码改动)。
 
-**完成态**(反审 audit 产出后):
-
-```
-P0.9.1 落地反审 — 已完成 — audit:`docs/audits/meta-review-YYYY-MM-DD-HHMMSS-p0-9-1-self-review.md`
-```
-
-> **权威依据**:audit covers 是反审完成的权威依据(M20 SessionStart hook 按 covers 判定);本字段是辅助留痕。失同步以 covers 为准。
+- meta-L1: ✅ design 阶段 spec §2-§9 各节末尾 [x] 自检全勾选(详见 spec §9 全局自检)
+- meta-L2: ✅ design-rules 10 项全局自洽通过(spec §9 + designer 10 轮 + 独立自检挑战者 9 轮收敛)
+- meta-L3: ✅ `docs/audits/meta-review-2026-04-28-102359-p0-9-1-self-review.md` verdict=pass(after revision);4 挑战者(核心原则合规 / 目的达成度 / 副作用 / scope 漂移)对抗式审查
+- meta-L4: ⏳ 待观察(下一个 meta 改动 audit 是否引用本 P0.9.1 治理规则;P0.9.1.5 启动 / 自然 meta 改动累积时验证)

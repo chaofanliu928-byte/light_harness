@@ -102,8 +102,8 @@ for gov in "$SCRIPT_DIR/docs/governance/"*.md; do
     esac
     cp "$gov" "$TARGET_DIR/docs/governance/"
 done
-cp "$SCRIPT_DIR/docs/active/handoff.md" "$TARGET_DIR/docs/active/"
-cp "$SCRIPT_DIR/docs/product-specs/index.md" "$TARGET_DIR/docs/product-specs/"
+cp "$SCRIPT_DIR/docs/active/handoff.md" "$TARGET_DIR/docs/active/" 2>/dev/null || true
+cp "$SCRIPT_DIR/docs/product-specs/index.md" "$TARGET_DIR/docs/product-specs/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/decisions/_TEMPLATE.md" "$TARGET_DIR/docs/decisions/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/MODULE_DOC_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/DESIGN_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true

@@ -13,7 +13,7 @@
 
 | # | 功能名称 | 完成时间 | 评估总分 | commit hash | 备注 |
 |---|---------|---------|---------|-------------|------|
-| - | [待开始] | - | - | - | 描述需求，Superpowers 自动开始 |
+| 1 | P0.9.1 harness self-governance | 2026-04-28 | meta-review verdict=pass(after revision) | `6e8bda1..34129ae` | 首条 meta-L4 数据点,bootstrap loop 闭合;audit `docs/audits/meta-review-2026-04-28-102359-p0-9-1-self-review.md`;修订 decision `docs/decisions/2026-04-28-p0-9-1-meta-review-revision.md` |
 
 <!-- 示例：
 | 1 | 用户注册与登录 | 2026-04-01 | 8.2 | a1b2c3d | 首个功能，架构基础 |
