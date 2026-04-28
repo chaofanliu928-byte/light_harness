@@ -51,7 +51,7 @@
 | **B 组** | hooks + settings | `.claude/hooks/*` / `.claude/settings.json` / `.claude/settings.local.json` |
 | **C 组** | skills + agents | `.claude/skills/*/SKILL.md` / `.claude/agents/*.md` |
 | **D 组** | RUBRIC + DESIGN_TEMPLATE | `docs/RUBRIC.md` / `docs/references/DESIGN_TEMPLATE.md` |
-| **F 组** | setup.sh + 分发模板 | `setup.sh` / `harness/CLAUDE.md` / `harness/templates/*.json` |
+| **F 组** | setup.sh + 分发模板 | `setup.sh` / `templates/*.json`(实际匹配 `harness/setup.sh` / `harness/templates/*.json`;M4 `harness/CLAUDE.md` 由 A 组 `CLAUDE.md` glob 覆盖) |
 | **排除** | 流程产出物(避免自循环) | `!docs/audits/meta-review-*.md` / `!docs/audits/archive/**` |
 | **E + G 组** | scope 外 | 不命中 include glob 即 scope 外(无需显式列) |
 
@@ -73,8 +73,8 @@
 **A 组**(governance + 核心规则):
 - `harness/docs/governance/{brainstorming,design,planning,implementation,testing,review,finishing}-rules.md`(feature 路径治理 — 7 个)
 - `harness/docs/governance/meta-{review,finishing}-rules.md`(meta 路径治理 — M1/M2)
-- `/CLAUDE.md`(M3,本文件;**不分发下游**)
-- `harness/CLAUDE.md`(M4 分发模板) — 注意 M4 同时入 A 组(因含 `CLAUDE.md` glob)+ F 组(因 `harness/CLAUDE.md` 独列于分发模板),双重计入
+- `/CLAUDE.md`(M3,本文件;**不分发下游**;**hook 不可见 — 已知缺口**:hook cwd=harness/ 时 git diff --relative 不含 repo 根文件,M3 改动不触发 meta-review;后续若需补,需让 hook 加扫 repo 根 git diff)
+- `harness/CLAUDE.md`(M4 分发模板)— 由 A 组 `CLAUDE.md` glob 匹配(从 hook cwd=harness/ 视角,git diff --relative 输出 `CLAUDE.md`)
 
 **B 组**(hooks + settings):
 - `harness/.claude/hooks/*`(check-* / block-* / notify-* / session-init / **meta-scope.conf 自身**)
@@ -88,9 +88,9 @@
 - `harness/docs/RUBRIC.md`(评分标准)
 - `harness/docs/references/DESIGN_TEMPLATE.md`(系统设计模板)
 
-**F 组**(setup.sh + 分发模板):
+**F 组**(setup.sh + 分发模板 — **概念归类**;M4 实际经 A 组 glob 匹配):
 - `harness/setup.sh`(安装脚本)
-- `harness/CLAUDE.md`(M4 分发模板,A+F 双重计入)
+- `harness/CLAUDE.md`(M4 分发模板)— 实际匹配走 A 组 `CLAUDE.md` glob,本组保留概念归属
 - `harness/templates/*.json`(若有模板文件)
 
 **排除**(scope.conf `!` 前缀):
