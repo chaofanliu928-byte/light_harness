@@ -2,6 +2,12 @@
 
 > 当 Superpowers 的 writing-plans skill 激活时，读取本文件。
 
+## 反模式约束(用户 feedback 硬编码 — 必读)
+
+> 依据:`memory/MEMORY.md` 索引下的 feedback 条目。
+
+- **实战验证不阻塞 harness 开发**(`feedback_realworld_testing_in_other_projects.md`):涉及"实战留痕 / 真实场景验证 / meta-L4"等延后项,**不**为补这些数据在 harness 自仓库构造 artificial trial。明确 documented 推后到 P1 真实项目阶段产出。决策时不把"等实战数据"当 blocking 条件;采用最佳已知判断 + 推真实项目验证。
+
 ## 前置：读取设计文档
 
 1. **读取设计文档** `docs/superpowers/specs/[功能名]-design.md`

@@ -21,6 +21,13 @@
 > 当 Superpowers 的 finishing-a-development-branch skill 激活时，读取本文件。
 > 以下步骤在 Superpowers 的合并/PR/清理**之前**执行。
 
+## 反模式约束(用户 feedback 硬编码 — 必读)
+
+> 依据:`memory/MEMORY.md` 索引下的 feedback 条目。
+
+- **实战验证不阻塞 harness 开发**(`feedback_realworld_testing_in_other_projects.md`):finishing 阶段评估"是否完成"时,**不**把"等实战数据"当 blocking 条件。涉及实战留痕 / 真实场景验证 / meta-L4 项推 P1 真实项目阶段;handoff 中明确 documented 推后,本阶段不为补 artificial 数据停留。
+- **handoff 写入断言前必须 verification-before-completion**(2026-04-28 process-audit P-2 + N2 事件 5 实证):若 handoff 含"下次 SessionStart hook 自动注入 X"/"下次 session 会自动 Y"等断言,**必须先用 superpowers:verification-before-completion skill 验证**(实际 hook 是否注册 / 文件是否就位等),不得先写断言再口头说"应该会"。
+
 ## 安全扫描
 
 1. 运行 `/security-scan`（fork security-reviewer agent team）
