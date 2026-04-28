@@ -188,6 +188,7 @@ scope 由调度者按 spec §3.1.1 + M17 `.claude/hooks/meta-scope.conf` + M3 `/
 - meta 改动落地后,**必做**:
   - `docs/ROADMAP.md`:对应阶段 / 任务条目状态更新(如 `🟡 进行中` → `🟢 已完成`)
   - `docs/PROGRESS.md`:里程碑或阶段表格更新(若该改动跨阶段)
+  - `docs/decision-trail.md`:从本次 commit 涉及的 `docs/decisions/` 与 `docs/audits/` 提取 1-2 条**判断拐点** append(时间倒序,最新在上)。**meta 拐点(治理改动 / 缺口承认 / 用户原则确立)恰是 decision-trail 主要数据源,本步不可省**。提取规则与 M5 `finishing-rules.md` "通过" Step 2 同源(架构选择 / 用户原则确立 / 缺口承认 / 替代方案否决);跳过条件:本次改动无任何架构 / 原则级抉择。依据:`docs/decisions/2026-04-28-decision-trail-introduction.md`。**触发不限于 milestone commit** — 用户原则确立 / 缺口承认 等时点也可即时 append(不必等到下次 finishing)
   - `memory/project_harness_overview.md`:若有结构性变化(如新增模块 / 改架构)则同步
 
 **调度者动作 — P0.9.1 特例(D21 fix-8 C 部分)**:

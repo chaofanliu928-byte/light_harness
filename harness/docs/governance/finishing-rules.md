@@ -65,16 +65,24 @@
 ### 通过
 
 1. 创建 milestone commit：`milestone: [功能名称] 验收通过`
-2. 更新 `docs/PROGRESS.md` 里程碑表格
-3. 更新 `docs/product-specs/index.md` 状态为 🟢 已完成
-4. 运行 `/skill-extract`（不强求，无模式时跳过）
-5. 运行 `/structured-handoff`（归档旧版本到 `docs/completed/`）
-6. Superpowers 继续合并/PR/清理
-7. 合并后归档：
+2. **append decision-trail**:从本次 commit 涉及的 `docs/decisions/` 与 `docs/audits/` 提取 1-2 条**判断拐点**,append 到 `docs/decision-trail.md`(时间倒序,最新在上)
+    - **抉择 = 判断拐点**:架构选择 / 用户原则确立 / 缺口承认 / 替代方案否决
+    - **不写**:任务进度(归 PROGRESS) / 技术细节(归 decisions/ 单 file) / 用户偏好(归 memory)
+    - **link**:有 decisions/ 文件必须链;无 file 标"暂无 + 原因"
+    - **跳过**:本次 commit 无架构 / 原则级抉择 → 跳过 append,commit message 简记即可
+    - **触发不限于 milestone commit**:用户原则确立 / 缺口承认 等关键时点不在 milestone 时,调度者也应即时 append(不必等到下次 finishing)
+    - **与 step 9 区别**:step 9 是 decisions/ 文件标 commit hash(反向链);本步是 commit 提取抉择 append(前向链)。两者不冲突
+    - **依据**:`docs/decisions/2026-04-28-decision-trail-introduction.md`(meta scope 改动同步走 M1 `meta-finishing-rules.md` Step D 的对应项)
+3. 更新 `docs/PROGRESS.md` 里程碑表格
+4. 更新 `docs/product-specs/index.md` 状态为 🟢 已完成
+5. 运行 `/skill-extract`（不强求，无模式时跳过）
+6. 运行 `/structured-handoff`（归档旧版本到 `docs/completed/`）
+7. Superpowers 继续合并/PR/清理
+8. 合并后归档：
     - `docs/active/evaluation-result.md` → `docs/completed/eval-[功能名]-[日期].md`
     - 设计文档 → 在顶部标注 `> ARCHIVED [日期] — 功能已合并，本文档仅供历史参考`
     - `docs/active/security-scan-result.md` → 删除（一次性结果）
-8. 检查 `docs/decisions/` 中与本功能相关的决策文件，已决定的标注关联 commit hash
+9. 检查 `docs/decisions/` 中与本功能相关的决策文件，已决定的标注关联 commit hash
 
 ### 精磨
 

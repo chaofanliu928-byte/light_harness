@@ -184,23 +184,28 @@ P0 先于 P1 的理由**只成立一半**:P0 产物(testing-rules / Evidence Dep
 
 ## P2:等 P1 产出真实数据后再定
 
-### 可观测性(原 ROADMAP 1)
+### 可观测性 — 双层(2026-04-28 重写,原 ROADMAP 1)
 
-让 harness 治理过程可见、可审计、可回溯。
+让 harness 治理过程可见、可审计、可回溯。**空间 + 时间双层**:
 
-- 待定:观测对象(agent 决策过程?fork 执行历史?RUBRIC 演变?audit 趋势?)
-- 待定:呈现形式(静态报告?hook 输出?CLI 暂不考虑,除非 P1 暴露"非 Claude 用户也要审计"的需求)
-- 验收信号:能回答"上一次 design-review 为什么打这个分"
-- **就绪信号**:P1 一次 finishing 就能产出足够数据
+**空间维度(session 内)— glassbox**
+- 现状:外部仓库 https://github.com/chaofanliu928-byte/glassbox 已实现 AI 工作 session 内可视化(7 类 HTML 页面 + lint 工具)
+- harness 不重新发明:作为 P1 候选项目跑闭环时验证 glassbox 可作 P2 空间维度的样板
+- **关键约束**:glassbox 自有 skill 留在 glassbox(同 `feedback_skill_no_cross_project.md` 原则,不反向吸进 harness)
 
-### 重复工作 skill 化持久化(原 ROADMAP 3)
+**时间维度(跨 session)— decision-trail**
+- 已落地:`docs/decision-trail.md`(2026-04-28 引入,scope=none)
+- 自动化:`docs/governance/finishing-rules.md` "通过"路径 milestone commit 后调度者 append 1-2 条判断拐点
+- decision:`docs/decisions/2026-04-28-decision-trail-introduction.md`
 
-把反复出现的手动步骤归纳为 skill 并跨项目复用。
+**验收信号**:
+- 能回答"当前抉择的历史背景是什么"(decision-trail 链回溯)
+- 能回答"上一次 design-review / meta-review 为什么打这个 verdict"(audit + decision-trail 索引)
+- glassbox + decision-trail 双层闭环在 P1 真实项目至少跑 1 次
 
-- 现状:`skill-extract` 产出只落在当前项目
-- 待定:持久化载体、触发条件
-- 验收信号:一次识别的模式下一次/下一项目自动可用
-- **就绪信号**:需 ≥2 个真实项目,P1 单项目无法触发
+**就绪信号**:
+- decision-trail meta-L4 验证:1-2 月观察 finishing append 是否真发生 / 提取质量
+- glassbox 套 P1 跑闭环
 
 ### L4 回归层(条件启用)
 
@@ -240,7 +245,7 @@ P0 先于 P1 的理由**只成立一半**:P0 产物(testing-rules / Evidence Dep
 - P0.5 是 P1 验证暴露的应急修复(已完成)
 - **P0.9 是根源级**,先于 P1。原因:harness 自身缺 self-governance,P1 套上去无法明确归因
 - P1 是真实验证,**依赖 P0.9 就绪**——否则 P1 的 finishing 仍套在 ad-hoc meta 规范下
-- P2 三项的就绪信号不同源(可观测性 P1 一轮即可,skill 持久化需 ≥2 项目,L4 需多 surface)
+- P2 两项的就绪信号不同源(可观测性 P1 一轮即可,L4 需多 surface;skill 持久化已删除 — 用户 2026-04-28 否决,见 `feedback_skill_no_cross_project.md`)
 
 所有"做或不做"的判断,只依据两类输入:
 1. 已确认的事实(文件状态、scope 定义、设计哲学)
