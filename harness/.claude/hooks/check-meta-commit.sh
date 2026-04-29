@@ -189,10 +189,8 @@ is_in_scope() {
 # 不含 deleted-only(deleted 不需要 audit 覆盖,被删的文件无未来改动入仓需求)
 DIFF_FILES=$(git diff --cached --name-only --diff-filter=ACMR --relative 2>/dev/null | awk 'NF' | sort -u)
 
-# git diff --cached 失败或无 staged 文件 → 空字符串
-if [ -z "$DIFF_FILES" ]; then
-    exit 0
-fi
+# 注:不在此处因 DIFF_FILES 为空而 exit 0 — 允许 §5.5 repo 根扫描段继续执行
+# (repo 根级文件如 CLAUDE.md 不含 harness/ 前缀,--relative 不显示,需 §5.5 补扫)
 
 CHANGED_META_FILES=()
 while IFS= read -r f; do
@@ -201,6 +199,41 @@ while IFS= read -r f; do
         CHANGED_META_FILES+=("$f")
     fi
 done <<< "$DIFF_FILES"
+
+# ============================================================================
+# 5.5. repo 根扫描段(P0.9.3 (vii-a) 修 — M3 hook 不可见缺口)
+# ============================================================================
+# 主扫 cwd=harness/,git diff --cached --relative 输出不含 repo 根级文件(M3 = 根 CLAUDE.md)。
+# 新增段:cwd=repo 根 跑 git diff --cached,过滤无 / 前缀的根级文件。
+# 与 Stop hook 差异:仅扫 staged + diff-filter=ACMR(沿用 M16 主扫语义)。
+# 失败降级:R1(git -C 失败)→ stderr warning + 跳过段;R2(ROOT_DIR 缺失)→ silent 跳过。
+
+ROOT_DIR="$(cd "$WORK_DIR/.." 2>/dev/null && pwd)"
+if [ -n "$ROOT_DIR" ] && [ -d "$ROOT_DIR/.git" ]; then
+    # R1: git -C 健康检查 — 若 git 调用失败(repo 损坏 / submodule 未初始化等),
+    # stderr warning + 跳过段(主扫继续);spec §3.1 + §5 R1 + §5.2 要求
+    if ! git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        echo "⚠️ repo 根 git -C 调用失败,§5.5 跳过(主扫继续)" >&2
+        ROOT_DIFF=""
+    else
+        ROOT_DIFF=$(git -C "$ROOT_DIR" diff --cached --name-only --diff-filter=ACMR 2>/dev/null | \
+                    awk 'NF' | sort -u)
+    fi
+
+    if [ -n "$ROOT_DIFF" ]; then
+        while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            # 仅取 repo 根级文件(无 / 前缀)— 子目录已在 harness/ 主扫覆盖
+            case "$f" in
+                */*) continue ;;
+            esac
+            if is_in_scope "$f"; then
+                CHANGED_META_FILES+=("$f")
+            fi
+        done <<< "$ROOT_DIFF"
+    fi
+fi
+# else: ROOT_DIR 不存在(单层下游)→ 跳过段(R2)
 
 if [ "${#CHANGED_META_FILES[@]}" -eq 0 ]; then
     exit 0
