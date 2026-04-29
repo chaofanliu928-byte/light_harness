@@ -27,6 +27,14 @@
 
 ---
 
+## 2026-04-29 — P0.9.3 第一个 trial:governance 漂移检测兜底 batch
+
+- **抉择**:做 (vii) M3 hook 不可见 + cross-file 互引 hook 检测(2 项 batch);不做 (i)(ii) 占位等数据 / (iv)(vi) spec 已 accept / B 方案弱需求;scope=meta(B 组 hooks + A 组 settings)
+- **替代**:B 加 B 方案(主仓库↔下游版本漂移)/ C 全 5 项强行 batch — 都违反 `feedback_judgment_basis`(无实战数据不预防)
+- **触发**:用户(2026-04-29)指示"如果没有新任务的话,进行 P0.9.3 candidates";brainstorming Q1 阶段按 fix-9 历史决策 + 当下可做性重排 5 候选,识别"可做" vs "占位等数据" vs "已 accept 关闭"
+- **影响**:7 commits;5 文件改动(2 改 check-meta-review/commit.sh + 2 新建 cross-ref + cross-ref-commit + 1 settings.json);2 处实施过程修补(R1 stderr warning 缺失 + §5 early-exit guard latent bug — plan/spec 漏);新发现 1 secondary bug(M3/M4 路径混淆,推 P0.9.4);**P0.9.3 第一条 meta-L4 数据点** — P0.9.1 治理流程对 hook 改动 trial 仍有效;ROADMAP 副产物修正(把 (iv)(vi) 标已 accept 不再列候选 + (i)(ii) 标占位);spec §9.4 加 1 条新缺口(路径混淆)
+- **decision file**:[2026-04-29-p0-9-3-governance-drift-detection-batch.md](decisions/2026-04-29-p0-9-3-governance-drift-detection-batch.md);audit:[meta-review-2026-04-29-150902-p0-9-3-governance-drift-batch.md](audits/meta-review-2026-04-29-150902-p0-9-3-governance-drift-batch.md)(verdict=pass-after-revision,4+2 挑战者扁平 fork,第 1 轮 26 finding → 第 2 轮 D4 pass + D2 部分 → 第 3 轮调度者补完)
+
 ## 2026-04-29 — M1+M2+M4:治理改动 batch(P0.9.1.5 第二个 trial)
 
 - **抉择**:batch 1 个 trial(M1 封死简化收尾 + M2 RUBRIC 不作跳过依据 + M4 轻量级判定收紧 + spec §0 偏离规则);M3 drop(报告 #1 已解决 + #2 超 scope 推 P0.9.2);scope=meta(A 组 + D 组 DESIGN_TEMPLATE.md)

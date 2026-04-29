@@ -467,6 +467,10 @@ fi
     echo "     docs/audits/meta-review-YYYY-MM-DD-HHMMSS-[主题].md(YAML covers 列出上述文件)"
     echo "  2. 在 docs/active/handoff.md 写入(必须含非空理由):"
     echo "     ## meta-review: skipped(理由: <非空理由>)"
+    echo ""
+    echo "注意:本 hook 只扫 modified + staged 文件,**不扫 untracked**(git diff 不输出 untracked)"
+    echo "  - 若是新建未 git add 的根级文件(如 root CLAUDE.md 全新增加),需先 git add 才会触发后续检测"
+    echo "  - 非 scope 改动(ROADMAP / handoff / decision-trail)无需 covers 覆盖"
 } >&2
 
 exit 2

@@ -474,11 +474,37 @@ P0.9.1 落地反审 — 已完成 — audit:`docs/audits/meta-review-YYYY-MM-DD-
 
 详见 contracts-locked.md C3 + spec §4.1.7。
 
-### 9.3 两字段共存约束
+### 9.3 字段 3:`## meta-cross-ref: skipped`(P0.9.3 第一个 trial 引入)
 
-- **同一 handoff 文件**:两字段共存,marker 不同(`## meta-review: skipped` vs `## 反审待办`)
-- **不互覆盖**:skip 字段每次 meta 改动可覆盖;反审待办字段保留至反审完成
-- **顺序无要求**:两字段在 handoff 内出现顺序不强制(handoff 模板可固定一种顺序便于阅读)
+> P0.9.3 第一个 trial 加 cross-file 互引 anchor 完整性检测 hook(`check-meta-cross-ref.sh` / `check-meta-cross-ref-commit.sh`),引入第三个 hook-driven skip 字段。详细字段规范见 M1 `meta-finishing-rules.md` §5.3;本节列简表配合 M2 流程。
+
+#### 精确格式
+
+```markdown
+## meta-cross-ref: skipped(理由: <非空理由>)
+```
+
+#### 与字段 1 的关系
+
+- **独立字段**,marker 不同
+- 用户在 handoff 写 `## meta-review: skipped` **不**让 cross-ref hook 放行;反之亦然
+- 每次新 cross-ref hook 报错时可覆盖,不累积
+
+#### hook 读取规则(check-meta-cross-ref.sh / check-meta-cross-ref-commit.sh)
+
+- grep 匹配:`## meta-cross-ref: skipped\(理由: ([^)]+)\)`(POSIX ERE)
+- 提取 `\1` 即理由内容
+- 校验:`\S` 至少匹配 1 个非空白字符 → skip 有效,exit 0
+- 半角括号约束同字段 1
+
+详见 M1 `meta-finishing-rules.md` §5.3 + P0.9.3 spec §3.1 cross-ref hook 伪码。
+
+### 9.4 三字段共存约束(原"两字段共存约束"扩展 — P0.9.3 audit D4-F1 修订)
+
+- **同一 handoff 文件**:三字段共存,marker 不同(`## meta-review: skipped` / `## 反审待办` / `## meta-cross-ref: skipped`)
+- **不互覆盖**:字段 1 + 字段 3 短期可覆盖;字段 2 长期保留至反审完成
+- **顺序无要求**:三字段在 handoff 内出现顺序不强制(handoff 模板可固定一种顺序便于阅读)
+- **用户混淆风险**:新用户可能不知道 `meta-review: skipped` ≠ `meta-cross-ref: skipped`;cross-ref hook stderr 必须显式提示
 
 ---
 

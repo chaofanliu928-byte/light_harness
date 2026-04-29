@@ -462,6 +462,10 @@ fi
     echo "     docs/audits/meta-review-YYYY-MM-DD-HHMMSS-[主题].md(YAML covers 列出上述文件)"
     echo "  2. 在 docs/active/handoff.md 写入(必须含非空理由):"
     echo "     ## meta-review: skipped(理由: <非空理由>)"
+    echo ""
+    echo "注意:本 hook 只扫 staged 文件(--diff-filter=ACMR),已 staged 的新建文件本 hook 能扫到"
+    echo "  - 但 untracked(未 git add)文件 git diff 不输出,需先 git add"
+    echo "  - 非 scope 改动(ROADMAP / handoff / decision-trail)无需 covers 覆盖"
 } >&2
 
 exit 1

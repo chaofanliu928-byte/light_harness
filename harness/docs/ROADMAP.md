@@ -43,10 +43,12 @@
   - **挑战者有效性元疑问 D5 场景频率**(2026-04-29 audit §9.4 #9):first-pass 全 pass 无 finding 时是否需 D5 元验证
   - **M3 #2 若重现** — structured-handoff skill 分工(scope=C 组)
 - **P0.9.3 — governance 漂移检测兜底**:
-  - M3 hook 不可见缺口(spec §1.3 fix-9 (vii))
-  - 现有 fix-9 (i)(ii)(iv)(vi)
+  - 🟢 **第一个 trial 闭合**(2026-04-29):**(vii) M3 hook 不可见 + cross-file 互引 hook 检测**(audit `meta-review-2026-04-29-150902-p0-9-3-governance-drift-batch.md` verdict=pass-after-revision 4+2 挑战者,decision `2026-04-29-p0-9-3-governance-drift-detection-batch.md`);7 commits;5 文件改动(2 改 + 2 新建 + 1 settings)
+  - ⏸ 现有 fix-9 (i)(ii) 占位等 P0.9.2 实战数据(`feedback_judgment_basis`)
+  - ❌ ~~现有 fix-9 (iv)(vi)~~:已 accept 关闭(spec §5 B18 + decision `2026-04-26-bypass-paths-handling.md`),ROADMAP 误登
   - decision-trail hook 校验(若 P0.9.2 显示频繁忽略)
-  - **cross-file 互引 hook 检测**(2026-04-29 audit §9.4 #6):M4 表 ↔ finishing M2 引用悬空检测兜底
+  - 🟡 **主仓库 ↔ 下游版本漂移检测**(B 方案):用户接受现状,主动需求弱;留候选不做
+  - 🟡 **M3/M4 路径混淆**(本 trial 实施过程新发现):`CLAUDE.md`(M3 root)与 `harness/CLAUDE.md`(M4 模板)在 hook 内不可区分,影响 audit covers 比对精度;推 P0.9.4 / 后续 trial
 
 ### P2:可观测性 — 双层(2026-04-28 立 + 同日 reframe glassbox 角色)
 

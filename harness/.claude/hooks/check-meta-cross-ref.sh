@@ -152,8 +152,18 @@ fi
     echo ""
     echo "处理方式(任选其一):"
     echo "  1. 在对应文件补回 anchor(参考 spec §3.1 PAIRS 列表)"
-    echo "  2. 在 docs/active/handoff.md 写入(必须含非空理由):"
+    echo "  2. 若 anchor 是有意重命名,**同步改本 hook 的 PAIRS 数组 L98-103**(改 hook = scope=meta,会触发 meta-review)"
+    echo "  3. 在 docs/active/handoff.md 写入(必须含非空理由):"
     echo "     ## meta-cross-ref: skipped(理由: <非空理由>)"
+    echo ""
+    echo "字段名注意:"
+    echo "  - **必须**用 \`## meta-cross-ref: skipped\` — 与 \`## meta-review: skipped\`(M15 字段)是不同字段"
+    echo "  - 写 \`## meta-review: skipped\` 不让本 hook 放行,反之亦然"
+    echo "  - 三字段共存规则详见 \`docs/governance/meta-finishing-rules.md\` §5.4"
+    echo ""
+    echo "若 anchor 视觉存在但 hook 仍报缺:"
+    echo "  - 检 design-rules.md / finishing-rules.md 文件编码(必须 UTF-8 LF)"
+    echo "  - 非 UTF-8 编辑器(Win Notepad ANSI / GBK)保存可能改 anchor 字节流 → grep -F 不命中"
 } >&2
 
 exit 2
