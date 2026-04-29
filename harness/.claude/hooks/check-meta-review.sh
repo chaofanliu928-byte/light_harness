@@ -213,9 +213,16 @@ done <<< "$DIFF_FILES"
 
 ROOT_DIR="$(cd "$WORK_DIR/.." 2>/dev/null && pwd)"
 if [ -n "$ROOT_DIR" ] && [ -d "$ROOT_DIR/.git" ]; then
-    ROOT_DIFF=$( (git -C "$ROOT_DIR" diff --name-only 2>/dev/null; \
-                  git -C "$ROOT_DIR" diff --cached --name-only 2>/dev/null) | \
-                 awk 'NF' | sort -u )
+    # R1: git -C 健康检查 — 若 git 调用失败(repo 损坏 / submodule 未初始化等),
+    # stderr warning + 跳过段(主扫继续);spec §3.1 + §5 R1 + §5.2 要求
+    if ! git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        echo "⚠️ repo 根 git -C 调用失败,§5.5 跳过(主扫继续)" >&2
+        ROOT_DIFF=""
+    else
+        ROOT_DIFF=$( (git -C "$ROOT_DIR" diff --name-only 2>/dev/null; \
+                      git -C "$ROOT_DIR" diff --cached --name-only 2>/dev/null) | \
+                     awk 'NF' | sort -u )
+    fi
 
     if [ -n "$ROOT_DIFF" ]; then
         while IFS= read -r f; do
