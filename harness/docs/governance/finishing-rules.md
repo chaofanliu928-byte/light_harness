@@ -27,6 +27,16 @@
 
 - **实战验证不阻塞 harness 开发**(`feedback_realworld_testing_in_other_projects.md`):finishing 阶段评估"是否完成"时,**不**把"等实战数据"当 blocking 条件。涉及实战留痕 / 真实场景验证 / meta-L4 项推 P1 真实项目阶段;handoff 中明确 documented 推后,本阶段不为补 artificial 数据停留。
 - **handoff 写入断言前必须 verification-before-completion**(2026-04-28 process-audit P-2 + N2 事件 5 实证):若 handoff 含"下次 SessionStart hook 自动注入 X"/"下次 session 会自动 Y"等断言,**必须先用 superpowers:verification-before-completion skill 验证**(实际 hook 是否注册 / 文件是否就位等),不得先写断言再口头说"应该会"。
+- **不得主动提"简化收尾"二元方案**(2026-04-17 retrospective P0 报告 §"规则摩擦点"#1):agent 读本文件后,**不得**框出"A 严格 / B 简化"让用户选,**不得**给倾向性推荐"简化收尾"。
+  - 唯一允许的降级路径:**fork-fail-degradation** — security-scan / evaluate / process-audit 任一 fork 失败 → 调度者按对应 agent.md 自审,标 `⚠️ 降级执行,未经独立 agent 验证`(本文件 §安全扫描 第 4 项 / §方向评估 第 9 项 / §流程审计 第 14 项 已有此约定)
+  - 不允许的:**rule-bypass** — agent 觉得"重"主动跳过完整流程。若用户明确指示跳过,需写 `docs/decisions/<date>-skip-finishing-<reason>.md` 立档
+  - 区分依据:fork-fail 是技术阻碍(下游可观测 — fork 调用返回错误 / agent 不可用),rule-bypass 是判断决策(需 decision 留痕)
+  - **防滑条款**(2026-04-29 meta-review D2-F1):agent **不得在未实际发起 fork 调用前**就声称 fork 失败。若 fork 调用未发出,跳过理由须在 decision 中写明"未尝试 + 原因",不适用 fork-fail 降级路径
+- **RUBRIC 维度不得作跳过治理 step 的依据**(2026-04-17 retrospective P0 报告 §"完全没预料到的模式"#2 "spec §0 偏离说明成 bypass 载体"):
+  - RUBRIC.md 是**评分标准**(产出衡量),**不**是 process 选取标准。**澄清**(2026-04-29 meta-review D3-F8):RUBRIC 仍是 evaluator agent 的评分依据(evaluate skill 正当引用);本约束仅限于"用 RUBRIC 维度推导是否跳过某治理 step"的决策语境
+  - 禁止句式:"因 RUBRIC 简洁性权重 23%,本 spec 不需要 design-review" / "RUBRIC 没有 X 维度,所以跳过 X step"(以及任何**以 RUBRIC 评分维度推导 process 路径的变体句式**)
+  - 评分维度 ≠ 流程豁免;治理流程的跳过依据由 governance/*.md 自身定义(如 design-rules.md "轻量级"判定),**不**引 RUBRIC
+  - **跨阶段同步约束**(2026-04-29 meta-review D2-F3):本条款也适用于 **design 阶段** spec §0 写法;designer agent 在写 spec §0 偏离说明时同步遵守(见 `design-rules.md` `## spec §0 偏离规则`)。M2 是 finishing 阶段的**反向回顾性**约束,M4(design-rules.md spec §0 偏离规则段)是 design 阶段的**正向阻断性**约束,两者协同
 
 ## 安全扫描
 

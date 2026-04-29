@@ -29,18 +29,24 @@
 
 **已识别下一步**(由 P0.9.1 落地暴露,非预设):
 
-- **P0.9.1.5 — M0-M4 启动**(用户决定型,D20 fix-7 = B):
+- **P0.9.1.5 — M0-M4 启动**(用户决定型,D20 fix-7 = B):**整体闭合**(2026-04-29)
   - 🟢 **M0**(2026-04-28 完成):删 block-dangerous hook — 首个 trial,验证 P0.9.1 治理流程从 brainstorming → meta-review → finishing 跑通(audit `meta-review-2026-04-28-215638-m0-delete-block-dangerous.md`)
-  - M1-M4:封死简化收尾 / 元规则评分维度不得作跳过依据 / 修 finishing 内部冲突 / 轻量级判定收紧 — 等用户启动
+  - 🟢 **M1+M2+M4**(2026-04-28 brainstorming / 2026-04-29 meta-review fork 完成):治理改动 batch — 第二个 trial(audit `meta-review-2026-04-29-095821-m1-m2-m4-governance-batch.md`,decision `2026-04-28-m1-m2-m4-governance-batch.md`);finishing-rules.md 加 M1 封死简化收尾 + M2 RUBRIC 不作跳过依据;design-rules.md 加 M4 轻量级判定第 4 列前置硬条件 + spec §0 偏离规则段 + 默认升级原则 + M2 互引;DESIGN_TEMPLATE.md L14 同步;13 处 meta-review 修订;P0.9.1.5 第二个 meta-L4 数据点
+  - ⚪ **M3 drop**(2026-04-28):报告 #1 已解决(security-scan-result.md §方向评估第 7 项检查 + §通过 Step 9 删除,职责不同) + #2 超 scope(structured-handoff skill 分工属 C 组,推 P0.9.2 实战观察)
 - **P0.9.2 — 诊断流程**:实战观察期累积数据后启动
   - 反审字段重置 enforcement(C2 P-4)
   - D5 / D.2 字节软上限 enforcement(C2 P-3)
   - mixed scope 双 finishing 成本量化
   - decision-trail meta-L4 验证(append 频率 / 提取质量 / 调度者忽略率)
+  - **harness self-trial 验证局限**(2026-04-29 audit §9.4 #5):下游真实项目首次使用 finishing-rules.md 时采集
+  - **反模式段膨胀分类治理**(2026-04-29 audit §9.4 #8):2→4 条扩张后是否需要数量门槛
+  - **挑战者有效性元疑问 D5 场景频率**(2026-04-29 audit §9.4 #9):first-pass 全 pass 无 finding 时是否需 D5 元验证
+  - **M3 #2 若重现** — structured-handoff skill 分工(scope=C 组)
 - **P0.9.3 — governance 漂移检测兜底**:
   - M3 hook 不可见缺口(spec §1.3 fix-9 (vii))
   - 现有 fix-9 (i)(ii)(iv)(vi)
   - decision-trail hook 校验(若 P0.9.2 显示频繁忽略)
+  - **cross-file 互引 hook 检测**(2026-04-29 audit §9.4 #6):M4 表 ↔ finishing M2 引用悬空检测兜底
 
 ### P2:可观测性 — 双层(2026-04-28 立 + 同日 reframe glassbox 角色)
 

@@ -27,6 +27,14 @@
 
 ---
 
+## 2026-04-29 — M1+M2+M4:治理改动 batch(P0.9.1.5 第二个 trial)
+
+- **抉择**:batch 1 个 trial(M1 封死简化收尾 + M2 RUBRIC 不作跳过依据 + M4 轻量级判定收紧 + spec §0 偏离规则);M3 drop(报告 #1 已解决 + #2 超 scope 推 P0.9.2);scope=meta(A 组 + D 组 DESIGN_TEMPLATE.md)
+- **替代**:separate 4 个 trial(meta-L4 数据点 ×4 但边际收益递减,M0 已产 1 个数据点)
+- **触发**:用户(2026-04-28)指示":启动 M1-M4"(2026-04-17 起草的 M0-M4 治理修改批次第二项起);跨日继续(meta-review 实际 fork 跑于 2026-04-29 09:58:21)
+- **影响**:`finishing-rules.md` 反模式段加 M1+M2 两条;`design-rules.md` 规模判断表加第 4 列前置硬条件 + 加新段 spec §0 偏离规则 + 默认升级原则 + 互引 M2;`DESIGN_TEMPLATE.md` L14 同步;ROADMAP P0.9.1.5 段 M1/M2/M4 🟢 已完成 + M3 ⚪ drop;**P0.9.1.5 整体闭合**;meta-review 4 挑战者第 1 轮 needs-revision → 13 处修订(spec 7 + finishing 3 + design 2 + DESIGN_TEMPLATE 1)→ 第 2 轮 N=2(D2+D4)pass → final verdict=pass after revision;**P0.9.1.5 第二个 meta-L4 数据点**(P0.9.1 治理流程对 batch trial 仍有效);spec §9.4 加 5 条新缺口(harness self-trial 局限 / cross-file 互引脆弱 / 下游 retrospective 不可见 / 反模式段膨胀 / 挑战者有效性)
+- **decision file**:[2026-04-28-m1-m2-m4-governance-batch.md](decisions/2026-04-28-m1-m2-m4-governance-batch.md);audit:[meta-review-2026-04-29-095821-m1-m2-m4-governance-batch.md](audits/meta-review-2026-04-29-095821-m1-m2-m4-governance-batch.md)
+
 ## 2026-04-28 — M0:删 block-dangerous hook(P0.9.1.5 第一个 trial)
 
 - **抉择**:删 PreToolUse 危险命令拦截 hook;基础防御责任移交下游用户 + 上游 Claude Code permission 兜底;harness 范畴是治理不是安全
