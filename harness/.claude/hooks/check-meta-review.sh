@@ -191,10 +191,9 @@ is_in_scope() {
 
 DIFF_FILES=$( (git diff --name-only --relative 2>/dev/null; git diff --cached --name-only --relative 2>/dev/null) | awk 'NF' | sort -u)
 
-# git diff 失败 → 空字符串(下面循环自然不进入)
-if [ -z "$DIFF_FILES" ]; then
-    exit 0
-fi
+# 注:不在此早退 — 即使 harness/ 内 DIFF_FILES 为空,§5.5 仍要扫 repo 根
+# (M3 = 根 CLAUDE.md 仅在 §5.5 中可见)。最终 §5.5 后的 CHANGED_META_FILES 空检查统一处理。
+# 与 check-meta-commit.sh 修补一致(同一 latent bug)。
 
 CHANGED_META_FILES=()
 while IFS= read -r f; do
