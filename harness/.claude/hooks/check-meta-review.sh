@@ -204,6 +204,34 @@ while IFS= read -r f; do
     fi
 done <<< "$DIFF_FILES"
 
+# ============================================================================
+# 5.5. repo 根扫描段(P0.9.3 (vii-a) 修 — M3 hook 不可见缺口)
+# ============================================================================
+# 主扫 cwd=harness/,git diff --relative 输出不含 repo 根级文件(如 M3 = 根 CLAUDE.md)。
+# 新增段:cwd=repo 根 跑 git diff,过滤无 / 前缀的根级文件,用现有 INCLUDE_GLOBS 匹配。
+# 失败降级:git -C 失败 / ROOT_DIR 不存在 → stderr warning + 跳过段(主扫继续)。
+
+ROOT_DIR="$(cd "$WORK_DIR/.." 2>/dev/null && pwd)"
+if [ -n "$ROOT_DIR" ] && [ -d "$ROOT_DIR/.git" ]; then
+    ROOT_DIFF=$( (git -C "$ROOT_DIR" diff --name-only 2>/dev/null; \
+                  git -C "$ROOT_DIR" diff --cached --name-only 2>/dev/null) | \
+                 awk 'NF' | sort -u )
+
+    if [ -n "$ROOT_DIFF" ]; then
+        while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            # 仅取 repo 根级文件(无 / 前缀)— 子目录已在 harness/ 主扫覆盖
+            case "$f" in
+                */*) continue ;;
+            esac
+            if is_in_scope "$f"; then
+                CHANGED_META_FILES+=("$f")
+            fi
+        done <<< "$ROOT_DIFF"
+    fi
+fi
+# else: ROOT_DIR 不存在(单层下游)→ 跳过段,主扫继续(R2)
+
 if [ "${#CHANGED_META_FILES[@]}" -eq 0 ]; then
     exit 0
 fi
