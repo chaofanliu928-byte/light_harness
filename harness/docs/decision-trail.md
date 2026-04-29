@@ -27,6 +27,16 @@
 
 ---
 
+## 2026-04-29 — session-search skill 保留(用户拍板)
+
+- **抉择**:保留 `session-search` skill;harness/CLAUDE.md skill 表 session-search 行 git checkout 恢复
+- **替代**:删 skill + 走 M0 范式 trial 清理(被否决)
+- **触发**:老版本生图项目 retrospective(`D:\项目\智能体-生图\docs\active\harness-retrospective-2026-04-29.md`)显示 5 session 累计 1 次调用 + 用户 2026-04-29 之前 linter/手动删 harness/CLAUDE.md 一行;讨论是否走 M0 范式 trial 删除
+- **影响**:无代码改动(状态保留 + 1 条 decision-trail 留痕);决定不主动删 — 设计目的合理(/clear 后跨 session 知识检索),实战用得少不等于有害;真删等 P0.9.2 实战观察期数据(`feedback_judgment_basis`:数据少不主动改);decision-trail.md 已部分覆盖其用例(自动 append + handoff 可读),但不构成废弃理由
+- **decision file**:暂无(状态保留型,不立 decision file;若 P0.9.2 数据驱动删除再建 decision)
+
+---
+
 ## 2026-04-29 — P0.9.3 第一个 trial:governance 漂移检测兜底 batch
 
 - **抉择**:做 (vii) M3 hook 不可见 + cross-file 互引 hook 检测(2 项 batch);不做 (i)(ii) 占位等数据 / (iv)(vi) spec 已 accept / B 方案弱需求;scope=meta(B 组 hooks + A 组 settings)
