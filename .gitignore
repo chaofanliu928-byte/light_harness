@@ -1,5 +1,7 @@
-# 本地配置
-.claude/
+# 本地配置(仅排除仓库根 Claude Code 用户级配置 + harness 子目录 user override)
+# /.claude/ 锚定 root,不影响 harness/.claude/(harness 自身的 hook/skill/agent — 应 tracked)
+/.claude/
+harness/.claude/settings.local.json
 
 # 打包产物
 *.zip
