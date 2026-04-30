@@ -169,7 +169,7 @@ P0.9.3 第一个 trial(governance 漂移检测兜底)反审 — 已完成 — au
 - decision-trail 引入(commit `1144f6a`):`meta-review-2026-04-28-174615-decision-trail-introduction.md` verdict=pass after revision
 - P0.9.1 自身(commits `6e8bda1..34129ae`):`meta-review-2026-04-28-102359-p0-9-1-self-review.md` verdict=pass after revision
 
+## meta-review: skipped(理由: P0.9.3 第二个 trial 实现期 — D1+D4 hook 改动 + M2 §7.3 + spec/decision 措辞同步,audit 由 meta-finishing 阶段产)
 
-
-
+## meta-cross-ref: skipped(理由: P0.9.3 第二个 trial 实现期 — PAIRS 加 2 条同步 design ↔ finishing 实际 4 处互引,audit 由 meta-finishing 产)
 

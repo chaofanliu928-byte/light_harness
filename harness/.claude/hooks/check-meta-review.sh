@@ -231,7 +231,8 @@ if [ -n "$ROOT_DIR" ] && [ -d "$ROOT_DIR/.git" ]; then
                 */*) continue ;;
             esac
             if is_in_scope "$f"; then
-                CHANGED_META_FILES+=("$f")
+                # D1 sentinel 前缀:repo 根级文件加 `<root>/`,与主扫输出区分(M3 vs M4)
+                CHANGED_META_FILES+=("<root>/$f")
             fi
         done <<< "$ROOT_DIFF"
     fi
@@ -471,6 +472,11 @@ fi
     echo "注意:本 hook 只扫 modified + staged 文件,**不扫 untracked**(git diff 不输出 untracked)"
     echo "  - 若是新建未 git add 的根级文件(如 root CLAUDE.md 全新增加),需先 git add 才会触发后续检测"
     echo "  - 非 scope 改动(ROADMAP / handoff / decision-trail)无需 covers 覆盖"
+    echo ""
+    echo "路径前缀约定(P0.9.3 第二个 trial 引入 — sentinel 协议):"
+    echo "  - <root>/<path> 表示 repo 根级文件(M3 = repo 根 CLAUDE.md / .gitignore 等)"
+    echo "  - 无前缀路径表示 harness/ 内部相对(M4 / 治理 / hook 等)"
+    echo "  - 写 audit covers 字段:M3 改动用 <root>/CLAUDE.md,M4 改动用 CLAUDE.md"
 } >&2
 
 exit 2
