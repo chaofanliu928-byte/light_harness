@@ -310,7 +310,7 @@ PAIRS=(
     'docs/governance/finishing-rules.md|见 `design-rules.md`'
     # P0.9.3 第二个 trial 加(D4 修复 — 覆盖 design L28+L45 / finishing L38 间接引用):
     'docs/governance/finishing-rules.md|## 反模式约束'
-    'docs/governance/design-rules.md|"轻量级"判定'
+    'docs/governance/design-rules.md|**轻量级**'
 )
 ```
 
@@ -327,7 +327,7 @@ PAIRS=(
     'docs/governance/finishing-rules.md|见 `design-rules.md`'
     # P0.9.3 第二个 trial 加(D4 修复 — 覆盖 design L28+L45 / finishing L38 间接引用):
     'docs/governance/finishing-rules.md|## 反模式约束'
-    'docs/governance/design-rules.md|"轻量级"判定'
+    'docs/governance/design-rules.md|**轻量级**'
 )
 ```
 
@@ -343,9 +343,11 @@ bash -n harness/.claude/hooks/check-meta-cross-ref-commit.sh
 
 ```bash
 grep -F '## 反模式约束' harness/docs/governance/finishing-rules.md
-grep -F '"轻量级"判定' harness/docs/governance/design-rules.md
+grep -F '**轻量级**' harness/docs/governance/design-rules.md
 ```
-预期:两条 grep 各命中 ≥1 行(确认 anchor 在 baseline 状态下存在)。
+预期:两条 grep 各命中 ≥1 行(`## 反模式约束` 在 finishing-rules.md L7 内部段;`**轻量级**` 在 design-rules.md L28 规模判断表加粗形式声明,全文唯一)。
+
+> **修正记录**:本步骤原写 anchor `"轻量级"判定`(以为存在于 design-rules.md);第一次实施时 grep 验证暴露该字面**仅**存在于 finishing-rules.md L38(反向引用)— 改用 design L28 `**轻量级**`(spec §9.4 #25 第四次错 documented)。
 
 - [ ] **Step 2.5: meta-L1 inline 验证场景 6 — 删 finishing-rules.md `## 反模式约束` 段标题 → hook 报警**
 
@@ -366,20 +368,20 @@ git -C /d/个人/harness/harness checkout docs/governance/finishing-rules.md
 
 > **注**:若 handoff `## meta-cross-ref: skipped` 字段存在(Pre-Task Step 0 写入),hook 会 exit 0 但 stderr 仍输出 violations。验证可改用 `grep -F '## 反模式约束' /tmp/scenario6.out` 是否在"缺失 anchor"段命中,而非依赖 exit code。
 
-- [ ] **Step 2.6: meta-L1 inline 验证场景 7 — 删 design-rules.md `"轻量级"判定` 字面 → hook 报警**
+- [ ] **Step 2.6: meta-L1 inline 验证场景 7 — 删 design-rules.md `**轻量级**` 字面 → hook 报警**
 
 ```bash
-# fixture: 临时改 design-rules.md "轻量级"为 "小改动"(全文替换)
-sed -i 's/"轻量级"/"小改动"/g' harness/docs/governance/design-rules.md
+# fixture: 临时把 **轻量级** 改为 **小改动**(L28 表格,全文唯一一处)
+sed -i 's/\*\*轻量级\*\*/\*\*小改动\*\*/g' harness/docs/governance/design-rules.md
 cd /d/个人/harness/harness
 echo '{"stop_hook_active": false}' | bash .claude/hooks/check-meta-cross-ref.sh 2>&1 | tee /tmp/scenario7.out
 echo "exit code: $?"
-# 验证 stderr 列出 design-rules.md 缺失 "轻量级"判定
-grep -F '"轻量级"判定' /tmp/scenario7.out
+# 验证 stderr 列出 design-rules.md 缺失 **轻量级**
+grep -F '**轻量级**' /tmp/scenario7.out
 # 清理
 git -C /d/个人/harness/harness checkout docs/governance/design-rules.md
 ```
-预期:stderr 含 `design-rules.md 缺失 anchor: "轻量级"判定`。
+预期:stderr 含 `design-rules.md 缺失 anchor: **轻量级**`。
 
 - [ ] **Step 2.7: 检查无 fixture 残留**
 
