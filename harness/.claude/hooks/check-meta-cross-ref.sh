@@ -100,6 +100,9 @@ PAIRS=(
     'docs/governance/design-rules.md|另见 `finishing-rules.md`'
     'docs/governance/finishing-rules.md|跨阶段同步约束'
     'docs/governance/finishing-rules.md|见 `design-rules.md`'
+    # P0.9.3 第二个 trial 加(D4 修复 — 覆盖 design L28+L45 / finishing L38 间接引用):
+    'docs/governance/finishing-rules.md|## 反模式约束'
+    'docs/governance/design-rules.md|**轻量级**'
 )
 
 VIOLATIONS=()
