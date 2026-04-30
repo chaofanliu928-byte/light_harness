@@ -323,6 +323,12 @@ covers:
 2. **正斜杠分隔**:Windows 仓库也用 `/`(YAML 跨平台一致)
 3. **路径必须实存**:写 audit 时调度者列入的路径必须在仓库内实存(允许扩展提交后实存)
 4. **无去重要求**:数组内允许重复,hook 处理时按集合并集计算
+5. **`<root>/` sentinel 前缀(P0.9.3 第二个 trial 引入)** — 区分 repo 根级文件(M3 = `/CLAUDE.md`)与 harness/ 内部相对路径(M4 = `harness/CLAUDE.md`,在 hook `git diff --relative` 视角输出 `CLAUDE.md`):
+   - **写 audit covers 时**:M3 改动写 `<root>/CLAUDE.md`;M4 改动写 `CLAUDE.md`(harness 内部相对,与第 1-4 条规则一致)
+   - **hook §5.5 段输出**:`check-meta-review.sh` / `check-meta-commit.sh` 在 repo 根扫描发现 root 级文件后,push CHANGED_META_FILES 前对该文件加 `<root>/` 前缀
+   - **比对语义**:hook 用 `grep -Fxq` 字面比对 covers 与 CHANGED_META_FILES;`<root>/CLAUDE.md` ≠ `CLAUDE.md`(独立项)
+   - **历史 audit 兼容**:5/6 现有 audit covers 用 harness 内部相对路径(无前缀),自动命中 M4 语义;唯 P0.9.1 audit covers 用仓库相对(`harness/...`)作为孤例不 backfill
+   - **字面独占性**:`<root>/` 7 字节 ASCII 字面与所有现实文件路径不冲突(`<` 字符在 git 实际路径中罕见 + 跨平台兼容性问题保证不出现);若用户真创建以 `<root>/` 字面开头的文件,与本协议冲突(spec 2026-04-30 §9.4 #23 接受边缘 case)
 
 ### 7.4 写侧契约(D22 fix-9 (iii))
 
