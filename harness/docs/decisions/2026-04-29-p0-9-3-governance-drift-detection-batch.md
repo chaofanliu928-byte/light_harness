@@ -156,9 +156,9 @@ P0.9.3 ROADMAP 候选 5 项(我在本对话开始时新加 1 条 B 方案),brain
 7. 下游 retrospective 引用不可见(spec §9.4 #7,继承 P0.9.1.5 #7)
 8. **pre-commit hook 默认未挂 + 双注册防护层在 harness 实际单拦**(spec §9.4 #8;audit D3-F2 升级):harness 自仓库 `.git/hooks/pre-commit` 默认不软链;`check-meta-cross-ref-commit.sh` / `check-meta-commit.sh` 在 harness 自仓库**实际不触发**;光谱 B+ "双拦最稳"在 harness 自仓库实际是单拦
 9. 挑战者有效性元疑问(spec §9.4 #9,继承 P0.9.1.5 #9)
-10. **M3/M4 路径混淆**(spec §9.4 #10;audit D2-F3 + D3-F1 + D4-F6 共识):hook 输出 `CLAUDE.md` 字面对应 M3 / M4 两文件;covers 比对精度受限;推 P0.9.4;**推后窗口期接受机制**:调度者人工记忆 + handoff 显式标注规避
+10. **🟢 已修(P0.9.3 第二个 trial — 2026-04-30)**:hook §5.5 加 `<root>/` sentinel 前缀;audit covers 约定 M3 用 `<root>/CLAUDE.md` / M4 用 `CLAUDE.md`;原识别保留作记录:**M3/M4 路径混淆**(spec §9.4 #10;audit D2-F3 + D3-F1 + D4-F6 共识):hook 输出 `CLAUDE.md` 字面对应 M3 / M4 两文件;covers 比对精度受限;推 P0.9.4;**推后窗口期接受机制**:调度者人工记忆 + handoff 显式标注规避
 11. **untracked 漏检**(spec §9.4 #11;audit D2-F1):新仓库初始化时 M3 全新建未 git add 路径走 untracked 漏检;hook stderr 已加引导;本 trial 选 B 显式承认
-12. **PAIRS 仅覆盖 2/5 实际互引**(spec §9.4 #12;audit D4-F2 + D4-F5):design ↔ finishing 实际互引清单 5 处(L28 / L3 / L5 / L14 / L45);PAIRS 实际只覆盖 2 处 + 同行重复;本 trial 选 B 显式承认
+12. **🟢 已修(P0.9.3 第二个 trial — 2026-04-30)**:cross-ref PAIRS 4 → 6 条,扩 finishing `## 反模式约束` + design `**轻量级**` anchor,实际 4 处互引全覆盖(audit 原 5 处 经重审实为 4 处;详 spec 2026-04-30 §9.4 #25 留痕);原识别保留:**PAIRS 仅覆盖 2/5 实际互引**(spec §9.4 #12;audit D4-F2 + D4-F5):design ↔ finishing 实际互引清单 5 处(L28 / L3 / L5 / L14 / L45);PAIRS 实际只覆盖 2 处 + 同行重复;本 trial 选 B 显式承认
 13. **R1 stderr warning 实际 dead path**(spec §9.4 #13;audit D2-F2):5 场景 fixture 未触发 R1 路径(.git 损坏 case 未造);代码逻辑正确但实测未跑;接受
 14. **新 skip 字段 `meta-cross-ref` 已在 M1/M2 同步**(spec §9.4 #14;audit D4-F1):本 audit revision 已修补
 15. **M3 §5 处置:不细分 cross-ref hook 类**(spec §9.4 #15;audit D4-F3):decision file 显式声明
