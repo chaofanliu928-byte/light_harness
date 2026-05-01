@@ -399,7 +399,7 @@ fix(p0.9.3-trial2): D4 — cross-ref PAIRS 4 → 6 条
 
 check-meta-cross-ref.sh + check-meta-cross-ref-commit.sh PAIRS 数组扩 2 条:
 - finishing-rules.md|## 反模式约束(覆盖 design L28+L45 间接引用)
-- design-rules.md|"轻量级"判定(覆盖 finishing L38 间接引用)
+- design-rules.md|**轻量级**(覆盖 finishing L38 间接引用 — 检 design L28 规模判断表 markdown 加粗形式声明)
 
 闭合 P0.9.3 第一个 trial §9.4 #12(PAIRS 覆盖度 2/4 → 6/4 全覆盖)。
 
@@ -519,7 +519,7 @@ EOF
 
 新代码:
 ```markdown
-12. **🟢 已修(P0.9.3 第二个 trial — 2026-04-30,commit `<TBD>`)**:cross-ref hook PAIRS 数组从 4 条扩到 6 条,新增 `finishing-rules.md|## 反模式约束`(覆盖 design L28+L45 间接引用)+ `design-rules.md|"轻量级"判定`(覆盖 finishing L38 间接引用),实际 4 处互引全覆盖(原 audit 误判 5 处,重审实测 4 处,详 spec 2026-04-30 §9.4 #25)。原识别保留作历史记录:**PAIRS 仅覆盖 2/5 实际互引**(audit D4-F2 + D4-F5):design ↔ finishing 实际互引清单(grep 验证):...
+12. **🟢 已修(P0.9.3 第二个 trial — 2026-04-30,commit `<TBD>`)**:cross-ref hook PAIRS 数组从 4 条扩到 6 条,新增 `finishing-rules.md|## 反模式约束`(覆盖 design L28+L45 间接引用)+ `design-rules.md|**轻量级**`(覆盖 finishing L38 间接引用),实际 4 处互引全覆盖(原 audit 误判 5 处,重审实测 4 处,详 spec 2026-04-30 §9.4 #25)。原识别保留作历史记录:**PAIRS 仅覆盖 2/5 实际互引**(audit D4-F2 + D4-F5):design ↔ finishing 实际互引清单(grep 验证):...
 ```
 
 - [ ] **Step 4.3: 验证 #10 + #12 标注完整**
@@ -579,7 +579,7 @@ EOF
 
 新代码:
 ```markdown
-12. **🟢 已修(P0.9.3 第二个 trial — 2026-04-30)**:cross-ref PAIRS 4 → 6 条,扩 finishing `## 反模式约束` + design `"轻量级"判定` anchor,实际 4 处互引全覆盖(audit 原 5 处 经重审实为 4 处;详 spec 2026-04-30 §9.4 #25 留痕);原识别保留:**PAIRS 仅覆盖 2/5 实际互引**(spec §9.4 #12;audit D4-F2 + D4-F5):design ↔ finishing 实际互引清单 5 处;PAIRS 实际只覆盖 2 处 + 同行重复
+12. **🟢 已修(P0.9.3 第二个 trial — 2026-04-30)**:cross-ref PAIRS 4 → 6 条,扩 finishing `## 反模式约束` + design `**轻量级**` anchor,实际 4 处互引全覆盖(audit 原 5 处 经重审实为 4 处;详 spec 2026-04-30 §9.4 #25 留痕);原识别保留:**PAIRS 仅覆盖 2/5 实际互引**(spec §9.4 #12;audit D4-F2 + D4-F5):design ↔ finishing 实际互引清单 5 处;PAIRS 实际只覆盖 2 处 + 同行重复
 ```
 
 - [ ] **Step 5.3: 验证标注**
