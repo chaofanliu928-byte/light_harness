@@ -20,7 +20,7 @@ P0.9.3 第一个 trial — 用 P0.9.1 治理流程开发 governance 漂移检测
 
 实质功能:
 - 让 hook 执法层覆盖 M3 改动(repo 根 `CLAUDE.md`)— 现状 hook cwd=`harness/` 看不到根级文件(fix-9 (vii) 缺口);**精度边界**:本 trial 仅修复 modified + staged-ACMR 路径,untracked 漏检 + M3/M4 路径混淆(hook 不区分 root CLAUDE.md vs harness/CLAUDE.md)推 P0.9.4(见 §9.4 #10/#11)
-- 检测 `design-rules.md` ↔ `finishing-rules.md` 互引 anchor 完整性 — 防 cross-file 互引悬空(2026-04-29 audit §9.4 #6);**精度边界**:PAIRS 4 条 anchor 仅覆盖 design ↔ finishing 实际互引中的 2 / 5 处(见 §9.4 #12),本 trial 仅证机制可行,不做覆盖度优化
+- 检测 `design-rules.md` ↔ `finishing-rules.md` 互引 anchor 完整性 — 防 cross-file 互引悬空(2026-04-29 audit §9.4 #6);**精度边界**:PAIRS 4 条 anchor 仅覆盖 design ↔ finishing 实际互引中的 2 / 4 处(见 §9.4 #12;原 audit 写 5 处,经第二个 trial 重审实测 4 处,详 spec 2026-04-30 §9.4 #25),本 trial 仅证机制可行,不做覆盖度优化
 
 ### 1.2 核心场景
 

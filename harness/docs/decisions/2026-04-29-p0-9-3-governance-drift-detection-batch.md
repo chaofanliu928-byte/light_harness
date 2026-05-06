@@ -138,7 +138,7 @@ P0.9.3 ROADMAP 候选 5 项(我在本对话开始时新加 1 条 B 方案),brain
 - **修 plan / spec 文档**(audit D1-F7 修订承认):R1 + early-exit fix 在 commit 后未同步回 plan / spec,本 trial 暂时违反 `feedback_design_philosophy` "变更先改文档"原则。**承认违反**;本 audit revision 时统一修订(spec / decision file / handoff / hook stderr / M1 / M2 / decision-trail / ROADMAP),不再以"避免反复改"为延后理由
 - **不修路径混淆 secondary bug**(audit D4-F6 修订):超本 trial scope,推 P0.9.4 / 后续 trial。**推后窗口期接受机制**:中间任何 audit 标 `covers: [CLAUDE.md]` 时**调度者人工记忆 + handoff 显式标注**(M3 改动时在 handoff "反审待办" 段加 `CLAUDE.md = 根 M3` 注;M4 改动时加 `CLAUDE.md = harness/CLAUDE.md M4` 注),依赖人工兜底直至 P0.9.4 加路径前缀绝对化
 - **不修 untracked 漏检**(audit D2-F1 修订):本 trial 选 B 显式承认(见 spec §9.4 #11);新仓库初始化场景在 harness 自仓库实战频率低;P0.9.4 候选可加 `git ls-files --others --exclude-standard` 扫 untracked
-- **不扩 PAIRS 覆盖完整 5 处实际互引**(audit D4-F2 修订):本 trial 选 B 显式承认(见 spec §9.4 #12);仅证 anchor-anchor 1 对样本机制可行,不做覆盖度优化(YAGNI 一致)
+- **不扩 PAIRS 覆盖完整 4 处实际互引**(audit D4-F2 修订;原写 5 处经第二个 trial 第三次审查重审为 4 处,详 spec 2026-04-30 §9.4 #25):本 trial 选 B 显式承认(见 spec §9.4 #12);仅证 anchor-anchor 1 对样本机制可行,不做覆盖度优化(YAGNI 一致)。**注:本条"不扩"在第二个 trial 已变为"扩到 6 条覆盖 4 处"** — §已知缺口 #12 已标 🟢 已修
 - **不细分 M3 §5 cross-ref hook 类**(audit D4-F3 修订):决定保持 M3 §5 笼统(`check-*` prefix 已涵盖 cross-ref hook);若后续 trial 加更多 cross-ref 类 hook 累积到一定数量再细分
 - **不取 M22 module 编号**(audit D4-F4 修订):cross-ref hook 是 P0.9.3 trial 内部产出;主 spec M14-M21 是 P0.9.1 锁定的核心模块表,不为后续 trial hook 全部加新 module 编号;handoff "M22-1/M22-2" 命名删除改纯文件名引用(本 audit revision 时一并处理)
 - **不解 (vi) 升级路径(B 方案)**:用户接受现状
