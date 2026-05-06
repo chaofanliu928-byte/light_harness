@@ -27,6 +27,26 @@
 
 ---
 
+## 2026-05-06 — P0.9.3 第二个 trial 闭合:D 类技术债 batch(D1+D4)
+
+- **抉择**:闭合 P0.9.3 第一个 trial §9.4 #10(M3/M4 路径混淆)+ #12(PAIRS 覆盖度 2/4 不足)— D1 形态选 sentinel 前缀 B(0 backfill,与 5/6 现有 audit 约定一致);D4 加 PAIRS 2 条(实际 4 处互引全覆盖,原 audit 写 5 处经第三次审查重审为 4 处);M2 §7.3 加第 5 条 sentinel 协议规则
+- **替代**:D1 候选 A(全仓库相对路径,需 backfill 5/6 历史 audit) / C(scope.conf 锚点 glob,fnmatch 不可行)— 都被否决;D4 候选 A(不修)/ C(语义比对 LLM-call,YAGNI)— 都被否决
+- **触发**:用户判定"P0.9.3 第一个 trial 留下 #10/#12 用'调度者人工记忆'兜底脆弱",D 类技术债积累值得做 batch 闭合;`feedback_iterative_progression`(实战需求拉动)+ `feedback_judgment_basis`(D2/D3/D6 实战暴露面接近 0 不预防)
+- **影响**:13 commits;~36 行 hook + governance 改动 + sentinel 协议 documented;trial 序列 hook 实现类的高 finding 密度部分由"视觉跳过 / 字面未验证 / 修复 sweep 不全"模式贡献,留痕 5 错链(audit revision 后扩第 6 错)+ 5 教训(spec §9.4 #25)。M3 root `/CLAUDE.md` §5 A 组描述同步更新("hook §5.5 可见");额外 D5 单独 commit `0e8283d` 修 `.gitignore` 精确化 + 11 historical untracked 治理文件入仓
+- **decision file**:[2026-04-30-d-class-tech-debt-batch.md](decisions/2026-04-30-d-class-tech-debt-batch.md);audit:[meta-review-2026-05-06-143426-d-class-tech-debt-batch.md](audits/meta-review-2026-05-06-143426-d-class-tech-debt-batch.md)(verdict=pass-after-revision,4 挑战者扁平 fork,3 Important + 9 Minor — 3 Important + 4 Minor 修复,5 Minor 接受)
+
+---
+
+## 2026-05-06 — meta-review 元过程留痕:spec_gap_masking 6 错链(P0.9.3 第二个 trial 副产物)
+
+- **抉择**:本 trial 累积 6 错(audit revision 时由 challenger 3 暴露第 6 错 — sweep scope 仍局限本 trial 文件,漏上游 P0.9.3 第一个 trial spec L23 "2/5" + decision §不做 L141 "5 处" stale ref)→ 教训第 4 条扩"全仓库 + 跨 trial 上游文件";challenger 3 F3.4 暴露 spec §6.1 测试预期未标注 handoff skip 干扰 → 加 §9.4 #26 留痕 + 教训扩第 5 条"测试场景预期列必须标外部状态依赖"
+- **替代**:沿用原"修字面错只 sweep 命中点"叙事(被 challenger 3 否决);沿用 spec §6.1 原"hook exit 2"单态描述(被 F3.4 否决,改双态)
+- **触发**:meta-review 4 challenger 中 challenger 3 维度("`feedback_spec_gap_masking` 元过程留痕完整性"混合式 pattern)主动找未识别的 spec_gap_masking 实例;challenger 3 自身就是抓出 trial 内部修复 sweep 不全的元层 challenger
+- **影响**:本条不立独立 decision file(留痕型,继承 P0.9.3 第二个 trial decision §教训留痕节);meta-review pattern 价值实证 — challenger 3 抓出的 F3.1+F3.2 通过任务级 review(spec compliance + code quality)+ final code reviewer **全部漏检**,只有混合式元过程 challenger 抓住;用户原则 `feedback_spec_gap_masking` 实战 6 次重现,模式高频
+- **decision file**:暂无(留痕型;并入 [2026-04-30-d-class-tech-debt-batch.md §教训留痕](decisions/2026-04-30-d-class-tech-debt-batch.md))
+
+---
+
 ## 2026-04-29 — session-search skill 保留(用户拍板)
 
 - **抉择**:保留 `session-search` skill;harness/CLAUDE.md skill 表 session-search 行 git checkout 恢复
