@@ -130,7 +130,7 @@ fi
     echo ""
     echo "处理方式(任选其一,然后重新 git commit):"
     echo "  1. 在对应文件补回 anchor(参考 spec §3.1 PAIRS 列表)"
-    echo "  2. 若 anchor 是有意重命名,同步改本 hook 的 PAIRS 数组 L72-77"
+    echo "  2. 若 anchor 是有意重命名,同步改本 hook 的 PAIRS 数组(grep 'PAIRS=(' 定位)"
     echo "  3. 在 docs/active/handoff.md 写入(必须含非空理由):"
     echo "     ## meta-cross-ref: skipped(理由: <非空理由>)"
     echo ""

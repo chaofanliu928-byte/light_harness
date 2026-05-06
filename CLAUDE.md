@@ -73,7 +73,7 @@
 **A 组**(governance + 核心规则):
 - `harness/docs/governance/{brainstorming,design,planning,implementation,testing,review,finishing}-rules.md`(feature 路径治理 — 7 个)
 - `harness/docs/governance/meta-{review,finishing}-rules.md`(meta 路径治理 — M1/M2)
-- `/CLAUDE.md`(M3,本文件;**不分发下游**;**hook 不可见 — 已知缺口**:hook cwd=harness/ 时 git diff --relative 不含 repo 根文件,M3 改动不触发 meta-review;后续若需补,需让 hook 加扫 repo 根 git diff)
+- `/CLAUDE.md`(M3,本文件;**不分发下游**;**hook §5.5 可见**(P0.9.3 第一个 trial 引入 repo 根扫描段;P0.9.3 第二个 trial 加 `<root>/` sentinel 前缀)— 改动 audit covers 字段写 `<root>/CLAUDE.md`;详见 `harness/docs/governance/meta-review-rules.md` §7.3 第 5 条;**残留缺口**:全新建未 git add 的根级文件走 untracked 漏检,详 `harness/docs/superpowers/specs/2026-04-29-p0-9-3-governance-drift-detection-batch-design.md` §9.4 #11)
 - `harness/CLAUDE.md`(M4 分发模板)— 由 A 组 `CLAUDE.md` glob 匹配(从 hook cwd=harness/ 视角,git diff --relative 输出 `CLAUDE.md`)
 
 **B 组**(hooks + settings):
