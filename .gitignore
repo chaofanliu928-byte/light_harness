@@ -30,3 +30,6 @@ desktop.ini
 # 临时文件
 /tmp/
 *.tmp
+
+# 外部参考项目(P2 brainstorming 下载的 codex 相关项目,不入仓库)
+/vendor/

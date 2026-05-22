@@ -21,6 +21,8 @@
 > 当 Superpowers 的 finishing-a-development-branch skill 激活时，读取本文件。
 > 以下步骤在 Superpowers 的合并/PR/清理**之前**执行。
 
+> **调度者面对挑战者时遵守 `synthesis-rules.md` 事前/事后规则**(2026-05-13 加入) — 涉及阶段:evaluate / process-audit / security-scan。
+
 ## 反模式约束(用户 feedback 硬编码 — 必读)
 
 > 依据:`memory/MEMORY.md` 索引下的 feedback 条目。

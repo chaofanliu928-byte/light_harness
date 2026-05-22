@@ -141,6 +141,18 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 
 上下文快满时 → 更新 handoff.md → `/clear` → 新会话自动加载
 
+## 可选：接入 OpenAI Codex（多模型成本路由）
+
+部分 sub-agent 角色可 swap 到 codex（Claude 同等能力比 codex 贵 → 成本节省）。
+
+- **Swap 列表**：silent-failure-hunter / designer / design-review 4 挑战者 / evaluate 非关键 / security-scan 危险+注入
+- **不 Swap**：调度者 / evaluate 关键 / security-scan 凭证 / meta-review / process-audit / 综合阶段
+- **完整决策表 + sandbox/approval/model/effort**：[`docs/governance/model-route.md`](docs/governance/model-route.md)
+- **综合阶段规则**（防多 Agent 旁观者效应）：[`docs/governance/synthesis-rules.md`](docs/governance/synthesis-rules.md)
+- **理论锚点**（二公设）：见 `CLAUDE.md` §角色分离原则 段后的 blockquote
+
+安装步骤详见根目录 `README.md`。
+
 ## 十条设计原则
 
 ### 一、根基性原则

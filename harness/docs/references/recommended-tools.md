@@ -6,6 +6,26 @@
 
 ---
 
+## codex-plugin-cc — OpenAI Codex 接入(可选,成本节省)
+
+- **仓库**:https://github.com/openai/codex-plugin-cc
+- **作用**:Claude Code 插件,让部分 sub-agent 角色 swap 到 OpenAI Codex(Claude 同等能力比 codex 贵 → 成本节省)。跨模型对抗是副产品,不是主要目的
+- **定位**:用户个人工具 + harness 治理集成(`docs/governance/model-route.md` 定义 swap 决策表 — 与 glassbox "推荐但解耦" 不同,本工具有显式治理集成)
+- **依赖**:Node 18.18+ + `@openai/codex` CLI + ChatGPT 订阅 或 OpenAI API key
+- **安装方式**(用户自行执行):
+  ```bash
+  npm install -g @openai/codex
+  codex login
+  # 在 Claude Code 内:
+  /plugin marketplace add openai/codex-plugin-cc
+  /plugin install codex@openai-codex
+  /reload-plugins
+  /codex:setup --enable-review-gate    # 可选启用 Stop-time review gate
+  ```
+- **使用关系**:harness 通过 `docs/governance/model-route.md` 定义哪些角色 swap codex / 哪些保 Claude。**综合阶段全部保 Claude**(防 GPT 同族在多 Agent 协作中的从众效应,详见 `docs/governance/synthesis-rules.md`)
+- **Swap 角色**:silent-failure-hunter / designer / design-review 4 挑战者 / evaluate 非关键 / security-scan 危险+注入
+- **不 Swap**:调度者 / evaluate 关键 / security-scan 凭证 / meta-review / process-audit / 综合阶段
+
 ## glassbox — AI 工作可观测层
 
 - **仓库**:https://github.com/chaofanliu928-byte/glassbox

@@ -3,6 +3,8 @@
 > 当 Superpowers 的 requesting-code-review skill 激活时，读取本文件。
 > 这些规则在 Superpowers 默认审查维度之上追加。
 
+> **调度者面对挑战者时遵守 `synthesis-rules.md` 事前/事后规则**(2026-05-13 加入)。
+
 ## RUBRIC 审查
 
 - 按 `docs/RUBRIC.md` 的项目特定标准逐项检查

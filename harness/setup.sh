@@ -93,6 +93,7 @@ mkdir -p "$TARGET_DIR/docs/superpowers/plans"
 cp "$SCRIPT_DIR/docs/RUBRIC.md" "$TARGET_DIR/docs/"
 cp "$SCRIPT_DIR/docs/ARCHITECTURE.md" "$TARGET_DIR/docs/"
 cp "$SCRIPT_DIR/docs/PROGRESS.md" "$TARGET_DIR/docs/"
+cp "$SCRIPT_DIR/docs/experience-index.md" "$TARGET_DIR/docs/" 2>/dev/null || true
 # governance:命名前缀过滤(D12),跳过 meta-* 治理文件(M1 / M2 不分发下游)
 for gov in "$SCRIPT_DIR/docs/governance/"*.md; do
     [ -e "$gov" ] || continue

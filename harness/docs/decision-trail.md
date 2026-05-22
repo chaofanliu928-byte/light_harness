@@ -27,6 +27,16 @@
 
 ---
 
+## 2026-05-22 — P0.9.4 主线:二公设 + synthesis-rules + P2 codex 接入
+
+- **抉择**:确立二公设(Pathological Optimist + 行动公设)+ 反向硬约束;新建 synthesis-rules.md(事前+事后规则,Council 轻量替代)+ model-route.md(P2 codex swap 决策表 7 swap / 6 保 Claude);P2 路径选 codex-plugin-cc + ChatGPT 订阅(gpt-5.4 / gpt-5.4-mini 验证可用;gpt-5.5 需 CLI 升级,spark 仅 API key)
+- **替代**:Council 完整机制(剔除 — 扁平 fork 已 prompt 隔离)/ 脚手架主动拆(剔除 — 冗余)/ 分两波 swap(剔除 — git 兜底足够)/ 监控同质化(剔除 — 主观)
+- **触发**:ECC 项目分析(`vendor/everything-claude-code` 3 agent + 反向找漏 + 用户红线 grep)→ 23 条吸收清单 + 黑名单 7 条;P2 codex 目的修正"成本节省核心,跨模型对抗副产品"
+- **影响**:N=5 meta-review 24 问题(5 高)→ 14 修订 + 3 cosmetic + 4 model-route 兼容性修订;N=2 复核 verdict=pass;7 新建文件;3 governance 加 synthesis 引用;M3/M4 二公设;setup.sh 加 cp experience-index;README/harness-README/recommended-tools 加 codex GitHub 入口
+- **decision files**:[2026-05-12-ecc-analysis-snapshot.md](decisions/2026-05-12-ecc-analysis-snapshot.md)+ [2026-05-12-p3-debug-sop-original-framework.md](decisions/2026-05-12-p3-debug-sop-original-framework.md);audit:[meta-review-2026-05-13-165053-twin-axioms-and-synthesis-rules.md](audits/meta-review-2026-05-13-165053-twin-axioms-and-synthesis-rules.md)
+
+---
+
 ## 2026-05-06 — P0.9.3 第二个 trial 闭合:D 类技术债 batch(D1+D4)
 
 - **抉择**:闭合 P0.9.3 第一个 trial §9.4 #10(M3/M4 路径混淆)+ #12(PAIRS 覆盖度 2/4 不足)— D1 形态选 sentinel 前缀 B(0 backfill,与 5/6 现有 audit 约定一致);D4 加 PAIRS 2 条(实际 4 处互引全覆盖,原 audit 写 5 处经第三次审查重审为 4 处);M2 §7.3 加第 5 条 sentinel 协议规则

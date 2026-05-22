@@ -54,10 +54,47 @@ harness/                     ← 框架源码（分发的部分）
     └── references/          ← 参考文档（含多智能体审查指南）
 ```
 
+## 可选：接入 OpenAI Codex
+
+harness 可选接入 OpenAI Codex 作为部分 sub-agent 角色的替代。**核心目的：成本节省**（Claude 同等能力比 codex 贵）。跨模型对抗是副产品，不是主要目的。
+
+### 适用场景
+
+- 你已有 ChatGPT 订阅 或 OpenAI API key
+- 你接受 7 个 sub-agent 角色 swap codex（silent-failure-hunter / designer / design-review 4 挑战者 / evaluate 非关键维度 / security-scan 危险+注入）
+- 你接受 6 个角色保 Claude（调度者 / evaluate 关键维度 / security-scan 凭证 / meta-review / process-audit / **综合阶段**）
+
+### 安装步骤
+
+```bash
+# 1. 装 codex CLI（需 Node 18.18+）
+npm install -g @openai/codex
+codex login    # ChatGPT 订阅 或 OpenAI API key
+
+# 2. 在 Claude Code 内
+/plugin marketplace add openai/codex-plugin-cc
+/plugin install codex@openai-codex
+/reload-plugins
+
+# 3. 启用 Review Gate（可选）
+/codex:setup --enable-review-gate
+```
+
+### 详细 swap 决策表
+
+详见 [`harness/docs/governance/model-route.md`](harness/docs/governance/model-route.md) — 完整角色 × 配置（sandbox / approval / model / effort）。
+
+### 不接入也完全可用
+
+harness 默认所有角色保 Claude。codex 接入是**可选**增强，不接入不影响任何 harness 治理流程。
+
 ## 完整文档
 
 - [框架说明](harness/README.md) — 架构、组件清单、十条设计原则
 - [多智能体审查指南](harness/docs/references/multi-agent-review-guide.md) — 对抗-决策分离模式
+- [Model-Route 治理规则](harness/docs/governance/model-route.md) — codex 接入的角色 swap 决策表
+- [综合阶段规则](harness/docs/governance/synthesis-rules.md) — 调度者面对挑战者的事前/事后规则
+- [推荐工具](harness/docs/references/recommended-tools.md) — 用户级可选工具链接（含 codex / glassbox）
 - [Roadmap](harness/docs/ROADMAP.md) — 下一阶段方向：可观测性、真实项目迁移验证、跨项目 skill 沉淀
 
 ## 许可证

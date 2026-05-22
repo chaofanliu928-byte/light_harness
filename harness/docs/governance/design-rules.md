@@ -44,13 +44,21 @@
   - **harness 自身仓库语境**(2026-04-29 meta-review D3-F4):harness feature scope 改动同样适用本路径;meta scope 改动走 meta-review 流程,不经本 emergency 路径(harness 自仓库无"线上故障"场景,本路径主要为下游业务项目设计)
 - **同步约束**(2026-04-29 meta-review D2-F3):另见 `finishing-rules.md` `## 反模式约束` 段 RUBRIC 维度不作跳过依据条款(M2 同步约束)。M4 spec §0 偏离规则是 design 阶段**正向阻断**,M2 是 finishing 阶段**反向回顾**,两条规则协同覆盖完整时序
 
+## 挑战者 prompt 构造规则(2026-05-13 合并至 synthesis-rules.md)
+
+> **本节内容已合并至 `synthesis-rules.md` 事前规则段**。调度者构造给挑战者的 prompt 时,遵守 `synthesis-rules.md` 事前规则 4 条(材料 selection 中性 / 材料 ordering 中性 / 措辞中性 / 调度者自检 + 抽检兜底)。
+>
+> 调度者综合挑战者输出时,遵守 `synthesis-rules.md` 事后规则 4 条。
+>
+> 两节合起来管"调度者面对挑战者的完整行为流" — fork 前不污染挑战者,fork 后不被挑战者污染。
+
 ## 角色分离
 
 本阶段由**独立的 designer agent** 执行（context: fork），不是调度者亲自做设计。
 
-- **调度者**：检查前置条件 → 判断规模 → fork designer agent → 接收结果 → 处理待决策项 → fork design-reviewer agent → 处理审查结果
+- **调度者**：检查前置条件 → 判断规模 → fork designer agent → 接收结果 → 处理待决策项 → fork design-reviewer agent → 处理审查结果(遵守 `synthesis-rules.md` 综合阶段规则 4 条)
 - **designer agent**：逐节填写设计文档 + 自检（详见 `.claude/agents/designer.md`）
-- **design-reviewer agent team**：领审员 fork 4 个并行子智能体（自洽性/完整性/合理性/RUBRIC）独立审查，汇总判定（详见 `.claude/agents/design-reviewer.md`）
+- **design-reviewer agent team**：领审员 fork 4 个并行子智能体（自洽性/完整性/合理性/RUBRIC）独立审查,汇总判定（详见 `.claude/agents/design-reviewer.md`)。**调度者 fork 时遵守 `synthesis-rules.md` 事前规则 4 条**
 
 ## 调度者的执行步骤
 

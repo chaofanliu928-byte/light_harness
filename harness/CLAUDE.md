@@ -24,6 +24,16 @@
 
 **架构**: 扁平 fork(2026-04-16 改造)。调度者(主对话)直接 fork N 个独立挑战者,不做两级嵌套 fork。详见 `docs/decisions/2026-04-16-fork-flat-refactor.md`。
 
+> **二条公设**(治理的认知约束 — 2026-05-13 加入):
+>
+> 1. **Pathological Optimist**:AI 评估自己的产出存在系统性乐观偏差 — 这是扁平 fork 架构的认知前提,所以做事和判断必须分开,不是经验,是结构性的认知约束。
+>
+> 2. **行动公设**:AI 在自己的窗口内"再想想"不能消除盲区(信息状态不变) — 不确定时必须执行一个改变上下文的外部动作(Grep / Read / WebFetch),不能放任内省。
+>
+> **应用**:做事和判断由**不同上下文 / 不同会话**承担(公设 1)/ 不确定时执行外部动作 Grep / Read / 查文档,不要内省(公设 2)。
+>
+> **反向规则**:任何主张"让同一 agent 同时执行做与审 / 设计与审查"的提议,违反公设 1,**默认拒绝**;主张"内省思考可代替外部动作"的提议,违反公设 2,**默认拒绝**。除非有新事实推翻公设来源依据,**否则不进入辩论**。
+
 ## 技术栈
 
 - 前端：
@@ -56,6 +66,11 @@
 | requesting-code-review | docs/governance/review-rules.md |
 | finishing-a-development-branch | docs/governance/finishing-rules.md |
 | process-audit（finishing 内自动触发） | docs/governance/finishing-rules.md |
+
+> **跨阶段治理规则**(2026-05-13 加入):
+> - `docs/governance/synthesis-rules.md` — 调度者综合多挑战者结论时必读
+>   涉及阶段:design-review / evaluate / process-audit / security-scan
+>   核心:基于上下文意图 / 决策 / 客观 / 避免先入为主(防多 Agent 旁观者效应)
 
 ## 核心规则
 
