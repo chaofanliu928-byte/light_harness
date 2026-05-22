@@ -241,9 +241,9 @@ P2 codex 接入经过多轮简化,最终方案如下:
 
 ```
 1. 接入前:git tag 标记当前状态(如 pre-codex-swap)
-2. swap 所有可 swap 角色(按 model-route 自定义结果)
-   - silent-failure-hunter / designer / security-scan 危险操作 + 注入
-   - design-review 4 挑战者 / evaluate 非关键评分维度
+2. swap 所有可 swap 角色(按 model-route 自定义结果 — 共 11 个 swap 角色,2026-05-22 修订加入 4 个实现链路角色)
+   实现链路:designer / planner / implementer / testing
+   审查链路:silent-failure-hunter / security-scan 危险/注入 / 设计自检 / design-review 4 挑战者 / code-reviewer / evaluate 非关键维度
 3. 逐角色独立 commit(便于精确 revert)
 4. 综合阶段全部保 Claude + 遵守"综合阶段规则"4 条
 5. 实际跑一段时间

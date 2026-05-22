@@ -32,8 +32,12 @@
 |---|---|---|---|---|---|---|---|
 | **调度者**(主对话) | ❌ 保 Claude | — | — | — | — | — | 综合阶段保 Claude(synthesis-rules.md);公设 1 |
 | **designer**(单 agent 写设计) | ✅ swap | workspace-write | on-failure | `--write` | gpt-5.4 | high | 单 agent 无社交压力;复杂任务用 high |
+| **planner**(writing-plans 写计划) | ✅ swap | read-only | never | 不加 | gpt-5.4 | medium | 单 agent 写计划,无社交压力;中等复杂 |
+| **implementer**(写代码 subagent-driven-development) | ✅ swap | workspace-write | on-failure | `--write` | gpt-5.4 | high | **P2 核心目的**(成本节省);单 agent 写代码 |
+| **testing**(test-driven-development 写测试) | ✅ swap | workspace-write | on-failure | `--write` | gpt-5.4 | medium | 单 agent;中等复杂 |
 | **设计自检挑战者** | ✅ swap | read-only | never | 不加 | gpt-5.4 | medium | 单挑战者;比 designer 简单 |
 | **design-review 4 挑战者** | ✅ swap(并行 fork) | read-only | never | 不加 | gpt-5.4 | high | 关键决策,P2 价值最大;扁平 fork |
+| **code-reviewer**(requesting-code-review) | ✅ swap | read-only | never | 不加 | gpt-5.4 | high | 对抗类挑战者;实现后审代码 |
 | **evaluate 非关键维度** | ✅ swap | read-only | never | 不加 | gpt-5.4-mini | medium | 维度评分,中等复杂 |
 | **evaluate 关键评分维度** | ❌ 保 Claude | — | — | — | — | — | 关键决策不 swap |
 | **silent-failure-hunter** | ✅ swap | read-only | never | 不加 | gpt-5.4-mini | low | 5 类 pattern grep,简单任务 |
@@ -46,7 +50,10 @@
 
 ### 2.1 swap 列表汇总
 
-**Swap 列表**(7 个角色):designer / 设计自检挑战者 / design-review 4 挑战者 / evaluate 非关键维度 / silent-failure-hunter / security-scan 危险操作 / security-scan 注入混淆
+**Swap 列表**(11 个角色 — 2026-05-22 加入 planner/implementer/testing/code-reviewer 4 个实现链路角色):
+
+*实现链路*:designer / **planner** / **implementer** / **testing**
+*审查链路*:设计自检挑战者 / design-review 4 挑战者 / **code-reviewer** / evaluate 非关键维度 / silent-failure-hunter / security-scan 危险操作 / security-scan 注入混淆
 
 **不 swap 列表**(6 个角色):调度者 / evaluate 关键评分维度 / security-scan 凭证档 / meta-review N 挑战者 / process-audit 2 挑战者 / 综合阶段
 
@@ -109,6 +116,9 @@ git tag pre-codex-swap-wave1
 1. **silent-failure-hunter** — `task --model gpt-5.4-mini -c model_reasoning_effort=low -s read-only`
 2. **designer** — `task --model gpt-5.4 -c model_reasoning_effort=high -s workspace-write --write --background`
 3. **security-scan 危险/注入** — `task --model gpt-5.4-mini -c model_reasoning_effort=low -s read-only`(2 挑战者)
+4. **planner** — `task --model gpt-5.4 -c model_reasoning_effort=medium -s read-only`(2026-05-22 加入)
+5. **implementer** — `task --model gpt-5.4 -c model_reasoning_effort=high -s workspace-write --write --background`(2026-05-22 加入;**P2 核心**)
+6. **testing** — `task --model gpt-5.4 -c model_reasoning_effort=medium -s workspace-write --write --background`(2026-05-22 加入)
 
 ### 4.2 第二波(第一波观察后)
 
@@ -118,9 +128,10 @@ git tag pre-codex-swap-wave2
 
 逐角色独立 commit:
 
-4. **design-review 4 挑战者** — `task --model gpt-5.4 -c model_reasoning_effort=high -s read-only`(并行 4 个,单 turn 内发起)
-5. **evaluate 非关键维度** — `task --model gpt-5.4-mini -c model_reasoning_effort=medium -s read-only`(部分挑战者)
-6. **设计自检挑战者** — `task --model gpt-5.4 -c model_reasoning_effort=medium -s read-only`
+7. **design-review 4 挑战者** — `task --model gpt-5.4 -c model_reasoning_effort=high -s read-only`(并行 4 个,单 turn 内发起)
+8. **evaluate 非关键维度** — `task --model gpt-5.4-mini -c model_reasoning_effort=medium -s read-only`(部分挑战者)
+9. **设计自检挑战者** — `task --model gpt-5.4 -c model_reasoning_effort=medium -s read-only`
+10. **code-reviewer** — `task --model gpt-5.4 -c model_reasoning_effort=high -s read-only`(2026-05-22 加入;对抗类挑战者)
 
 ### 4.3 不进入 swap(永久保 Claude)
 

@@ -145,8 +145,10 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 
 部分 sub-agent 角色可 swap 到 codex（Claude 同等能力比 codex 贵 → 成本节省）。
 
-- **Swap 列表**：silent-failure-hunter / designer / design-review 4 挑战者 / evaluate 非关键 / security-scan 危险+注入
-- **不 Swap**：调度者 / evaluate 关键 / security-scan 凭证 / meta-review / process-audit / 综合阶段
+- **Swap 列表**(11 角色,2026-05-22 修订):
+  - 实现链路:designer / **planner** / **implementer** / **testing**
+  - 审查链路:silent-failure-hunter / 设计自检 / design-review 4 挑战者 / **code-reviewer** / evaluate 非关键 / security-scan 危险+注入
+- **不 Swap**:调度者 / evaluate 关键 / security-scan 凭证 / meta-review / process-audit / 综合阶段
 - **完整决策表 + sandbox/approval/model/effort**：[`docs/governance/model-route.md`](docs/governance/model-route.md)
 - **综合阶段规则**（防多 Agent 旁观者效应）：[`docs/governance/synthesis-rules.md`](docs/governance/synthesis-rules.md)
 - **理论锚点**（二公设）：见 `CLAUDE.md` §角色分离原则 段后的 blockquote

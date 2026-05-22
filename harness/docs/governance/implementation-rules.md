@@ -3,6 +3,8 @@
 > 当 Superpowers 的 subagent-driven-development 或 executing-plans 激活时，
 > 子代理读取本文件。
 
+> **调度者 fork agent 时遵守 `synthesis-rules.md` 事前/事后规则**(2026-05-22 加入)— 适用 implementer swap codex 场景(model-route.md 列为 P2 核心 swap 角色)。
+
 ## 评分标准
 
 - 读取 `docs/RUBRIC.md`，遵守项目特定标准

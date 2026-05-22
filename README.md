@@ -61,8 +61,10 @@ harness 可选接入 OpenAI Codex 作为部分 sub-agent 角色的替代。**核
 ### 适用场景
 
 - 你已有 ChatGPT 订阅 或 OpenAI API key
-- 你接受 7 个 sub-agent 角色 swap codex（silent-failure-hunter / designer / design-review 4 挑战者 / evaluate 非关键维度 / security-scan 危险+注入）
-- 你接受 6 个角色保 Claude（调度者 / evaluate 关键维度 / security-scan 凭证 / meta-review / process-audit / **综合阶段**）
+- 你接受 11 个 sub-agent 角色 swap codex(2026-05-22 修订加入实现链路 4 角色):
+  - **实现链路**:designer / **planner** / **implementer** / **testing**
+  - **审查链路**:silent-failure-hunter / 设计自检挑战者 / design-review 4 挑战者 / **code-reviewer** / evaluate 非关键维度 / security-scan 危险+注入
+- 你接受 6 个角色保 Claude:调度者 / evaluate 关键维度 / security-scan 凭证 / meta-review / process-audit / **综合阶段**
 
 ### 安装步骤
 

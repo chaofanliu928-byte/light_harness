@@ -3,6 +3,8 @@
 > 当 Superpowers 的 subagent-driven-development 或 executing-plans 激活时,agent 在动手写代码前读取本文件。
 > 本文件与 implementation-rules.md 并列,专注"测试决策"。
 
+> **调度者 fork agent 时遵守 `synthesis-rules.md` 事前/事后规则**(2026-05-22 加入)— 适用 testing swap codex 场景(model-route.md 已列入 swap 角色)。
+
 ## 定位
 
 本文件只回答两个问题:

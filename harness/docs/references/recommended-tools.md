@@ -23,7 +23,9 @@
   /codex:setup --enable-review-gate    # 可选启用 Stop-time review gate
   ```
 - **使用关系**:harness 通过 `docs/governance/model-route.md` 定义哪些角色 swap codex / 哪些保 Claude。**综合阶段全部保 Claude**(防 GPT 同族在多 Agent 协作中的从众效应,详见 `docs/governance/synthesis-rules.md`)
-- **Swap 角色**:silent-failure-hunter / designer / design-review 4 挑战者 / evaluate 非关键 / security-scan 危险+注入
+- **Swap 角色**(11 个,2026-05-22 修订):
+  - 实现链路:designer / **planner** / **implementer** / **testing**
+  - 审查链路:silent-failure-hunter / 设计自检 / design-review 4 挑战者 / **code-reviewer** / evaluate 非关键 / security-scan 危险+注入
 - **不 Swap**:调度者 / evaluate 关键 / security-scan 凭证 / meta-review / process-audit / 综合阶段
 
 ## glassbox — AI 工作可观测层
