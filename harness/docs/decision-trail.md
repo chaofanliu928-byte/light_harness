@@ -27,6 +27,14 @@
 
 ---
 
+## 2026-05-24 — codex 接入搁置
+
+- **抉择**:搁置 P2 codex 接入(11 swap 角色 — `model-route.md` §4),fork 子任务维持全 Claude;**不删** `model-route.md` / `synthesis-rules.md` P2 段 / `planning/implementation/testing-rules.md` 顶部引用 / `p0-9-4-self-check.md` §C/§G3/§G4/§F2(保留作日后基线);11 处文件改动 = 5 governance(scope=meta)+ ROADMAP + self-check(scope=none 跟随)+ decision-trail + handoff + 2 README(scope=none 跟随)
+- **替代**:A 全删 codex 规划文档(信息丢失,重启时需重写)/ C 改写为"日后启动 + 触发信号"(违反 `feedback_iterative_progression`);banner 内容动版本(违反 `feedback_spec_gap_masking` B 风格)
+- **触发**:2026-05-24 用户 + 调度者 cross-check 发现实施层 0% 落地(11 swap 角色中 5-6 个在 `.claude/{agents,skills}/` 里本身不存在)+ plugin-cc + codex 0.133.0 + ChatGPT 账户对 gpt-5.5 上游拒绝实证 + codex exec 直调 gpt-5.5 通但 harness 入口需 skill/agent 文件设计调用范式 + `feedback_iterative_progression`(无具体真实需求拉动时不做)
+- **影响**:11 处文件加 `[2026-05-24] codex 接入搁置` banner(字面统一,详 spec §8.2);3 commits(A 类 governance / B 类 ROADMAP+self-check / C 类 decision-trail+handoff+README);N=4 标准 meta-review(bootstrap 4 维基线 — 挑战者 #1 核心原则合规 / #2 目的达成度 / #3 副作用 / #4 scope 漂移;各维子焦点详 spec §6.2);**不预设重启时间 / 启动条件 / 触发信号**(D1 决策 D 风格);未来重启时重走完整 brainstorming + design,不从本 spec 草拟启动条件;plugin-cc patch 保留(D7 决策,独立于 11 swap 角色搁置)
+- **decision file**:暂无(留痕型,本拐点 + spec `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` 自身构成完整记录;`docs/decisions/2026-05-12-ecc-analysis-snapshot.md` §11 P2 实施路径 superseded by 本拐点);spec `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md`(本 batch 设计文档);audit:待 meta-review 跑完后回填(预期 `docs/audits/meta-review-2026-05-24-HHMMSS-codex-shelved-batch.md`)
+
 ## 2026-05-22 — P0.9.4 主线:二公设 + synthesis-rules + P2 codex 接入
 
 - **抉择**:确立二公设(Pathological Optimist + 行动公设)+ 反向硬约束;新建 synthesis-rules.md(事前+事后规则,Council 轻量替代)+ model-route.md(P2 codex swap 决策表 7 swap / 6 保 Claude);P2 路径选 codex-plugin-cc + ChatGPT 订阅(gpt-5.4 / gpt-5.4-mini 验证可用;gpt-5.5 需 CLI 升级,spark 仅 API key)

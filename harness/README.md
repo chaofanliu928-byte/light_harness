@@ -143,6 +143,8 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 
 ## 可选：接入 OpenAI Codex（多模型成本路由）
 
+> **[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。本段保留作日后基线,不预设重启时间(`feedback_iterative_progression`);若日后激活 codex 接入,先读 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `docs/decision-trail.md` 2026-05-24 拐点回溯本搁置背景。下方 swap 列表 + 不 Swap 列表 + 决策表入口保留作完整参考。
+
 部分 sub-agent 角色可 swap 到 codex（Claude 同等能力比 codex 贵 → 成本节省）。
 
 - **Swap 列表**(11 角色,2026-05-22 修订):
