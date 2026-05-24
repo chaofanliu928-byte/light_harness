@@ -101,39 +101,37 @@ codex exec --model gpt-5.4-mini -c model_reasoning_effort=low -s read-only <prom
 
 ---
 
-## 4. 分批 swap 实施顺序(P2 极简方案)
+## 4. swap 实施清单(P2 极简方案 — 一次性扩范围 + git 兜底)
 
-按 `decisions/2026-05-12-ecc-analysis-snapshot.md` §11:**直接扩范围 + git 兜底**,但实际操作分两波(降低单次风险)。
+按 `decisions/2026-05-12-ecc-analysis-snapshot.md` §11:**直接扩范围 + git 兜底**,**不预设观察期**,**不分波**。
 
-### 4.1 第一波(立即可做 — 社交压力暴露低)
+> **2026-05-22 修订记录**:删除原"第一波 / 第二波"分类。原 §4 隐含"第一波观察后才进第二波"语义,违反用户 2026-05-13 "不分波"决策 + `feedback_iterative_progression`(不预设固化阶段)。本次修订与 ECC §11 完全对齐 — 一次性 swap 全部 10 角色,git revert 单 commit 是唯一回退机制。
+
+### 4.1 实施步骤
 
 ```bash
-git tag pre-codex-swap-wave1
+git tag pre-codex-swap
 ```
 
-逐角色独立 commit:
+逐角色独立 commit(commit 顺序无强制约束;提供精确 revert 能力,不构成"观察期"约束):
+
+**read-only 角色(7 个;codex 不写文件)**:
 
 1. **silent-failure-hunter** — `task --model gpt-5.4-mini -c model_reasoning_effort=low -s read-only`
-2. **designer** — `task --model gpt-5.4 -c model_reasoning_effort=high -s workspace-write --write --background`
-3. **security-scan 危险/注入** — `task --model gpt-5.4-mini -c model_reasoning_effort=low -s read-only`(2 挑战者)
-4. **planner** — `task --model gpt-5.4 -c model_reasoning_effort=medium -s read-only`(2026-05-22 加入)
-5. **implementer** — `task --model gpt-5.4 -c model_reasoning_effort=high -s workspace-write --write --background`(2026-05-22 加入;**P2 核心**)
-6. **testing** — `task --model gpt-5.4 -c model_reasoning_effort=medium -s workspace-write --write --background`(2026-05-22 加入)
+2. **security-scan 危险/注入** — `task --model gpt-5.4-mini -c model_reasoning_effort=low -s read-only`(2 挑战者)
+3. **planner**(2026-05-22 加入)— `task --model gpt-5.4 -c model_reasoning_effort=medium -s read-only`
+4. **设计自检挑战者** — `task --model gpt-5.4 -c model_reasoning_effort=medium -s read-only`
+5. **evaluate 非关键维度** — `task --model gpt-5.4-mini -c model_reasoning_effort=medium -s read-only`
+6. **design-review 4 挑战者** — `task --model gpt-5.4 -c model_reasoning_effort=high -s read-only`(并行 4 个,单 turn 内发起)
+7. **code-reviewer**(2026-05-22 加入)— `task --model gpt-5.4 -c model_reasoning_effort=high -s read-only`
 
-### 4.2 第二波(第一波观察后)
+**workspace-write 角色(3 个;codex 可写文件)**:
 
-```bash
-git tag pre-codex-swap-wave2
-```
+8. **designer** — `task --model gpt-5.4 -c model_reasoning_effort=high -s workspace-write --write --background`
+9. **implementer**(2026-05-22 加入;**P2 核心**)— `task --model gpt-5.4 -c model_reasoning_effort=high -s workspace-write --write --background`
+10. **testing**(2026-05-22 加入)— `task --model gpt-5.4 -c model_reasoning_effort=medium -s workspace-write --write --background`
 
-逐角色独立 commit:
-
-7. **design-review 4 挑战者** — `task --model gpt-5.4 -c model_reasoning_effort=high -s read-only`(并行 4 个,单 turn 内发起)
-8. **evaluate 非关键维度** — `task --model gpt-5.4-mini -c model_reasoning_effort=medium -s read-only`(部分挑战者)
-9. **设计自检挑战者** — `task --model gpt-5.4 -c model_reasoning_effort=medium -s read-only`
-10. **code-reviewer** — `task --model gpt-5.4 -c model_reasoning_effort=high -s read-only`(2026-05-22 加入;对抗类挑战者)
-
-### 4.3 不进入 swap(永久保 Claude)
+### 4.2 不进入 swap(永久保 Claude)
 
 - 调度者(主对话)
 - evaluate 关键评分维度
@@ -192,12 +190,10 @@ codex sandbox windows  # Windows Restricted token
 git revert <commit-hash>   # revert 单个角色 swap commit
 ```
 
-### 7.2 整波回退
+### 7.2 整体回退
 
 ```bash
-git checkout pre-codex-swap-wave1  # 回到第一波之前
-# 或
-git checkout pre-codex-swap-wave2  # 回到第二波之前
+git checkout pre-codex-swap  # 回到 swap 之前的基线 tag(单 tag,不分波 — 见 §4)
 ```
 
 ### 7.3 触发回退的信号
