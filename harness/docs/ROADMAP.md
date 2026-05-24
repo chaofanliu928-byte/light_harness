@@ -52,6 +52,18 @@
   - ❌ ~~M3/M4 路径混淆~~ 已闭合(第二个 trial,2026-04-30)
   - 🟡 **D 类残留**(D2 untracked / D3 anchor 写死 / D6 case 子串包含):YAGNI 接受不修(详 decision `2026-04-30-d-class-tech-debt-batch.md` §不做)
 
+### 已识别但搁置
+
+> **[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。本段保留作日后基线,不预设重启时间(`feedback_iterative_progression`)。详见 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点。
+
+- **codex 接入**(11 swap 角色 — `model-route.md` §4):
+  - 实现链路 4:designer / planner / implementer / testing
+  - 审查链路 7:silent-failure-hunter / 设计自检 / design-review 4 挑战者 / code-reviewer / evaluate 非关键 / security-scan 危险 / security-scan 注入
+  - 不 swap 6:调度者 / evaluate 关键 / security-scan 凭证 / meta-review / process-audit / 综合阶段
+  - 现状:0% 落地(实施层 swap 配置未进 `.claude/{agents,skills,hooks}/`);plugin-cc + codex 0.133.0 + ChatGPT 账户对 gpt-5.5 上游拒绝(实证)
+  - 保留作日后基线:`model-route.md` / `synthesis-rules.md` P2 段 / `planning/implementation/testing-rules.md` 顶部引用 / `p0-9-4-self-check.md` §C/§G3/§G4/§F2
+  - **不预设重启时间 / 启动条件 / 触发信号**(`feedback_iterative_progression` 硬约束)
+
 ### P2:可观测性 — 双层(2026-04-28 立 + 同日 reframe glassbox 角色)
 
 让 harness 治理过程可见、可审计、可回溯。**空间 + 时间双层**,两层归属不同:
