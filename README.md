@@ -36,7 +36,7 @@
 
 #### 层 4:协作机制(智能体友好基础设施)
 - **4.1 智能体友好文档系统** — CLAUDE.md 索引 + 5 产物(spec/decision-trail/audit/banner/handoff)各司其职。**Why**:索引让智能体一眼找入口 / 维护良好让 Read 任何文件能拿到 fresh+actionable / 智能体友好 ≠ 人友好(需要 self-contained + structured + cross-referenced)。**实现**:`CLAUDE.md`(索引)+ `docs/superpowers/specs/`(spec)+ `decision-trail.md` + `docs/audits/` + inline banner + `docs/active/handoff.md`
-- **4.2 综合阶段中性化** — 调度者构造挑战者 prompt 必须中立(材料/排序/措辞);综合按 RUBRIC 维度评判。**Why**:防 anchoring,多智能体审查的有效性前提。**实现**:`docs/governance/synthesis-rules.md` 完整规范
+- **4.2 综合阶段中性化** — 调度者构造挑战者 prompt 必须中立(材料/排序/措辞);综合按 RUBRIC 维度评判。**Why**:防 anchoring,多智能体审查的有效性前提。**实现**:`docs/governance/synthesis-rules.md`(事前 5 条 + 事后 4 条 + 综合输出表达准则)
 - **4.3 改动范围自动识别** — governance 改动 glob 机械触发 meta-review。**Why**:不靠 AI 自觉,机械触发不可被自我说服绕过。**实现**:`CLAUDE.md` §3-§4 + `.claude/hooks/meta-scope.conf` + `check-meta-*.sh` 系列 hook
 - **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:9 个 SKILL.md 统一结构
 

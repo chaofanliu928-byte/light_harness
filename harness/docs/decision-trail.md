@@ -27,6 +27,15 @@
 
 ---
 
+## 2026-05-25 — fork 前现场意图识别 + 报告通俗化(方向「己」)
+
+- **抉择**:落地用户原诉求"审查时 fork 智能体知道主线" + "报告通俗化(不预设用户和 AI 上下文,信息论)"。实现路径选方向「己」 — fork 前调度者现场意图识别,绑在 fork 事件;**不**实现 GateGuard 全套三层 hook(SessionStart + UserPromptSubmit + PreToolUse),GateGuard 设计哲学(`decisions/2026-05-12-ecc-analysis-snapshot.md §12`)保留作未来参考。
+- **触发**:2026-05-25 用户会话提"审查的时候要有主线任务和分支任务的概念...将这主线任务+支线任务都输入给 fork 的智能体" + "汇报使用通俗的语言,不预设用户和你有相同的上下文(信息论)"。
+- **走过的弯路(决策追溯)**:意图源初指 GateGuard → 选方案 D 三层 hook 全启 → 提取动力纠正为 LLM → 撞上"用 LLM + 不每次跑 + 不懒触发"三条结构性张力 → 用户提"或者使用 fork 之前进行意图识别?" → 收敛到方向「己」(最小可行实现:fork 事件触发点)。
+- **改动 scope**:meta(7 个文件 / 14 处改动)— `synthesis-rules.md`(主改:加事前规则 5 + 综合输出表达准则节)+ `meta-review-rules.md`(补引用行)+ 4 个领审员 agent 文件(design-reviewer / evaluator / process-auditor / security-reviewer 各加 fork 前意图识别节 + 综合输出加用户视图段)+ `README.md`(§4.2 实现字段微调)。
+- **不在 scope**:GateGuard 全套三层 hook / 不可逆动作前 C 确认 / 状态文件 / LLM CLI 调用 / brainstorming-rules 改动 / designer.md 改动 / hook 体系改动。
+- **decision file**:暂无(留痕型,本拐点 + spec `docs/superpowers/specs/2026-05-25-fork-intent-and-report-clarity-design.md` 自身构成完整记录);spec `docs/superpowers/specs/2026-05-25-fork-intent-and-report-clarity-design.md`(本 batch 设计文档);plan `docs/superpowers/plans/2026-05-25-fork-intent-and-report-clarity.md`(实施计划);audit:待 meta-review 跑完后回填(预期 `docs/audits/meta-review-2026-05-25-HHMMSS-fork-intent.md`)。
+
 ## 2026-05-24 — codex 接入搁置
 
 - **抉择**:搁置 P2 codex 接入(11 swap 角色 — `model-route.md` §4),fork 子任务维持全 Claude;**不删** `model-route.md` / `synthesis-rules.md` P2 段 / `planning/implementation/testing-rules.md` 顶部引用 / `p0-9-4-self-check.md` §C/§G3/§G4/§F2(保留作日后基线);11 处文件改动 = 5 governance(scope=meta)+ ROADMAP + self-check(scope=none 跟随)+ decision-trail + handoff + 2 README(scope=none 跟随)
