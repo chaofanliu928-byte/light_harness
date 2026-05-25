@@ -54,7 +54,7 @@
 
 ### 已识别但搁置
 
-> **[2026-05-24] codex 接入搁置** — 详 model-route.md 文件头主 banner(状态/背景/决策/影响)。
+> **[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。本段保留作日后基线,不预设重启时间(`feedback_iterative_progression`)。详见 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点。
 
 - **codex 接入**(11 swap 角色 — `model-route.md` §4):
   - 实现链路 4:designer / planner / implementer / testing
