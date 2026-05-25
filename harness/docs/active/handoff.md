@@ -20,7 +20,7 @@ P2 可观测性双层落地 + glassbox 角色 reframe(用户级外部工具,推�
 
 下一步:边做边提升,无预设阶段;P0.9.2 候选累积(harness self-trial 局限 / cross-file 互引脆弱 / 反模式段膨胀 / 挑战者有效性元疑问 等 spec §9.4 #5-#9 推后续);P0.9.4 候选(本 trial 新发现 M3/M4 路径混淆)。
 
-**[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。详见 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点;11 处文件改动已落地(5 governance + ROADMAP + self-check + decision-trail + handoff + 2 README);不预设重启时间(`feedback_iterative_progression`)。
+**[2026-05-24] codex 接入搁置(详 model-route.md 文件头主 banner)** — 11 处文件改动已落地(5 governance + ROADMAP + self-check + decision-trail + handoff + 2 README)。
 
 ## 进度
 

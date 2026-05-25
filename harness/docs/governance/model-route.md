@@ -1,8 +1,13 @@
 # Model-Route 治理规则
 
-> **[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。本文件保留作日后基线,不预设重启时间(`feedback_iterative_progression`)。详见 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点。
+> **[2026-05-24] codex 接入搁置**
+> - **状态**:已搁置
+> - **背景**:计划用 codex 替代部分 fork 角色降本,但实施层 0% 落地(`.claude/{agents,skills}/` 缺 swap 角色文件)+ codex 0.133.0 + ChatGPT 账户对 gpt-5.5 上游拒
+> - **决策**:暂停 11 swap 角色实施;model-route 等规划保留作日后基线
+> - **影响**:fork 子任务继续全 Claude;不预设重启时间(`feedback_iterative_progression`)
+> - **详见**:`docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点
 
-> **何时读本文件**:进入 P2 codex 接入实施时 — **[2026-05-24] codex 接入搁置,本文件保留作日后基线;若重启接入,详见 spec `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点回溯本搁置背景。**
+> **何时读本文件**:进入 P2 codex 接入实施时 — **[2026-05-24] codex 接入搁置(详本文件头主 banner 状态/背景/决策/影响)**;本文件保留作日后基线。
 >
 > **来源决策**:`docs/decisions/2026-05-12-ecc-analysis-snapshot.md` §11(P2 实施路径)+ 必做 #5
 >

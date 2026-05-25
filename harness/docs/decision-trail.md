@@ -29,6 +29,13 @@
 
 ## 2026-05-24 — codex 接入搁置
 
+> **[2026-05-24] codex 接入搁置**
+> - **状态**:已搁置
+> - **背景**:计划用 codex 替代部分 fork 角色降本,但实施层 0% 落地(`.claude/{agents,skills}/` 缺 swap 角色文件)+ codex 0.133.0 + ChatGPT 账户对 gpt-5.5 上游拒
+> - **决策**:暂停 11 swap 角色实施;model-route 等规划保留作日后基线
+> - **影响**:fork 子任务继续全 Claude;不预设重启时间(`feedback_iterative_progression`)
+> - **详见**:`docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点
+
 - **抉择**:搁置 P2 codex 接入(11 swap 角色 — `model-route.md` §4),fork 子任务维持全 Claude;**不删** `model-route.md` / `synthesis-rules.md` P2 段 / `planning/implementation/testing-rules.md` 顶部引用 / `p0-9-4-self-check.md` §C/§G3/§G4/§F2(保留作日后基线);11 处文件改动 = 5 governance(scope=meta)+ ROADMAP + self-check(scope=none 跟随)+ decision-trail + handoff + 2 README(scope=none 跟随)
 - **替代**:A 全删 codex 规划文档(信息丢失,重启时需重写)/ C 改写为"日后启动 + 触发信号"(违反 `feedback_iterative_progression`);banner 内容动版本(违反 `feedback_spec_gap_masking` B 风格)
 - **触发**:2026-05-24 用户 + 调度者 cross-check 发现实施层 0% 落地(11 swap 角色中 5-6 个在 `.claude/{agents,skills}/` 里本身不存在)+ plugin-cc + codex 0.133.0 + ChatGPT 账户对 gpt-5.5 上游拒绝实证 + codex exec 直调 gpt-5.5 通但 harness 入口需 skill/agent 文件设计调用范式 + `feedback_iterative_progression`(无具体真实需求拉动时不做)
