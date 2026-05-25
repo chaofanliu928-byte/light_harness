@@ -181,6 +181,26 @@ const files = fs.readdirSync(jsonlDir).filter(f => f.endsWith('.jsonl'));
 
 将提取结果写入临时文件（每个 JSONL 一个摘要文件），供子 agent 读取。
 
+### 第三步前 — fork 前意图识别(synthesis-rules 事前规则 5)
+
+调度者按 `harness/docs/governance/synthesis-rules.md` 事前规则 5,提取主线 / 支线 / 关系
+三字段,作为独立段加入每个挑战者 prompt 的顶部(在 N1/N2/G 段之前)。
+
+提取来源:
+- **主线**:本会话整体在做什么 — handoff.md / brainstorming 需求清单 / 最新活跃 spec
+- **支线**:本次 process-audit 的 sub-task 是什么 — 如"审 X 功能开发过程的流程遵从度 + 用户满意度"
+- **关系**:本支线服务于主线的哪一节 / 哪个决策点
+
+注入挑战者 prompt 的固定段格式:
+
+  ## 主线-支线-关系(领审员 fork 前注入)
+  - **主线**:[本会话整体任务,1-3 行]
+  - **支线**:[本次挑战者的具体任务,1 行]
+  - **关系**:[本支线服务于主线的哪一节,1-2 行]
+
+注意:此段是任务边界,**不是结论引导**(参 synthesis-rules.md 事前规则 5 与中性化 1-3 的关系)。
+process-audit 是事实统计式 D2 模态,不涉及对抗,但意图识别仍应用 — 让挑战者知道审什么。
+
 ### 第三步:在一条消息中并行 fork 2 个挑战者
 
 使用 Agent 工具,subagent_type: general-purpose,**在一条消息中同时发起 2 个 agent 调用**。
@@ -400,3 +420,27 @@ mkdir -p docs/audits
 ```
 
 写入后读取一遍确认格式正确、无遗漏占位符。
+
+### 第六步 — 综合后给用户的口语报告(synthesis-rules 综合输出表达准则)
+
+将 `docs/audits/audit-YYYY-MM-DD-HHMMSS.md`(持久化产物,术语精确)写完后,
+**额外**给用户口语报告,按 `synthesis-rules.md` "综合输出表达准则" 4 段格式:
+
+  ## 结论先行
+  [1 句话:本次流程遵从度如何 / 用户满意度如何 / 是否有高优先级流程问题]
+
+  ## 关键发现
+  [挑战者发现的核心流程问题,通俗描述;不堆术语]
+  - 流程问题 1:...
+  - 用户不满意事件 1:...
+
+  ## 建议下一步
+  [harness 开发者应关注哪些流程优化点]
+
+  ## 细节链接
+  - 完整 audit 报告:docs/audits/audit-YYYY-MM-DD-HHMMSS.md
+
+通俗化原则同其他 agent:
+- 不预设用户和你有相同上下文
+- 术语 1 行解释
+- 避免堆叠

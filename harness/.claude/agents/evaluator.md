@@ -41,6 +41,26 @@ Superpowers 的 code-review 关注"代码好不好"——它在每个任务之�
 - 最新的设计文档(`docs/superpowers/specs/*-design.md`)
 - 最新的实现计划(`docs/superpowers/plans/*.md`)
 
+### 第二步前 — fork 前意图识别(synthesis-rules 事前规则 5)
+
+调度者按 `harness/docs/governance/synthesis-rules.md` 事前规则 5,提取主线 / 支线 / 关系
+三字段,作为独立段加入每个挑战者 prompt 的顶部(在 A/B/C 三段之前)。
+
+提取来源:
+- **主线**:本会话整体在做什么 — handoff.md / brainstorming 需求清单 / 最新活跃 spec
+- **支线**:本次 evaluator 的 sub-task 是什么 — 如"评估 X 功能方向是否对、是否推翻"
+- **关系**:本支线服务于主线的哪一节 / 哪个决策点
+
+注入挑战者 prompt 的固定段格式:
+
+  ## 主线-支线-关系(领审员 fork 前注入)
+  - **主线**:[本会话整体任务,1-3 行]
+  - **支线**:[本次挑战者的具体任务,1 行]
+  - **关系**:[本支线服务于主线的哪一节,1-2 行]
+
+注意:此段是任务边界,**不是结论引导**(参 synthesis-rules.md 事前规则 5 与中性化 1-3 的关系)。
+不要写"重点是 X、应找 Y";只描述审什么、为什么。
+
 ### 第二步:在一条消息中并行 fork 4 个挑战者
 
 **维度说明**:evaluator 的三个评分维度(设计方向、架构一致性、文档健康)是**方向级别**的审查,决定加权总分和通过判定。RUBRIC 中的代码级别维度(功能完整性、代码质量、一致性、简洁性、测试充分性)由 Superpowers 的 code-review 在实现阶段**逐任务检查**。挑战者 1(RUBRIC 合规挑战者)在 finishing 阶段做**全局复查**——检查 code-review 是否遗漏了 RUBRIC 违反项,特别是跨任务才能发现的问题(如整体过度工程化、全局命名不一致)。两者的分工是:code-review 逐任务拦截,evaluator 全局兜底。任何 RUBRIC 惩罚项触发即不通过。
@@ -434,3 +454,27 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 ## 🙋 需要人工判断(如有)
 - [具体问题和选项]
 ```
+
+### 第九步 — 综合后给用户的口语报告(synthesis-rules 综合输出表达准则)
+
+将 `docs/active/evaluation-result.md`(持久化产物,术语精确)写完后,
+**额外**给用户口语报告,按 `synthesis-rules.md` "综合输出表达准则" 4 段格式:
+
+  ## 结论先行
+  [1 句话:总分 / 通过 / 不通过 / 方向建议;不通过原因摘要]
+
+  ## 关键发现
+  [挑战者发现的核心问题,通俗描述;不堆术语]
+  - 共识问题 1:...
+  - 共识问题 2:...
+
+  ## 建议下一步
+  [用户 / 调度者接下来做什么 — 精磨 / 推翻 / finishing]
+
+  ## 细节链接
+  - evaluation-result:docs/active/evaluation-result.md
+
+通俗化原则同 design-reviewer:
+- 不预设用户和你有相同上下文(不写 raw ID)
+- 术语第一次出现时 1 行解释
+- 一句话超过 2 个术语 → 拆成两句

@@ -30,6 +30,26 @@ git diff $(git rev-parse --verify main 2>/dev/null || git rev-parse --verify mas
 
 过滤出需要扫描的文本文件（.ts, .tsx, .js, .jsx, .py, .go, .rs, .java, .rb, .sh, .md, .json, .yaml, .yml, .toml, .env*, .sql）。跳过 node_modules/、dist/、build/、.git/、*.lock、*.min.js。
 
+### 第二步前 — fork 前意图识别(synthesis-rules 事前规则 5)
+
+调度者按 `harness/docs/governance/synthesis-rules.md` 事前规则 5,提取主线 / 支线 / 关系
+三字段,作为独立段加入每个挑战者 prompt 的顶部(在该 prompt 主体之前)。
+
+提取来源:
+- **主线**:本会话整体在做什么 — handoff.md / brainstorming 需求清单 / 最新活跃 spec
+- **支线**:本次 security-scan 的 sub-task 是什么 — 如"扫描 X 功能 commit 前的安全风险"
+- **关系**:本支线服务于主线的哪一节 / 哪个决策点
+
+注入挑战者 prompt 的固定段格式:
+
+  ## 主线-支线-关系(领审员 fork 前注入)
+  - **主线**:[本会话整体任务,1-3 行]
+  - **支线**:[本次挑战者的具体任务,1 行]
+  - **关系**:[本支线服务于主线的哪一节,1-2 行]
+
+注意:此段是任务边界,**不是结论引导**(参 synthesis-rules.md 事前规则 5 与中性化 1-3 的关系)。
+security-scan 是模式匹配为主,但意图识别仍应用 — 让挑战者知道审的是哪个功能 / 哪个 commit。
+
 ### 第二步:在一条消息中并行 fork 3 个挑战者
 
 使用 Agent 工具,subagent_type: general-purpose,**在一条消息中同时发起 3 个 agent 调用**。将变更文件列表**嵌入每个挑战者的 prompt**(挑战者看不到你的上下文)。
@@ -252,3 +272,27 @@ Medium — 混淆执行：
 - Medium: {N} 个
 - 扫描通过：{是/否}
 ```
+
+### 第六步 — 综合后给用户的口语报告(synthesis-rules 综合输出表达准则)
+
+将 `docs/active/security-scan-result.md`(持久化产物,术语精确)写完后,
+**额外**给用户口语报告,按
+`synthesis-rules.md` "综合输出表达准则" 4 段格式:
+
+  ## 结论先行
+  [1 句话:扫描通过 / 发现 N 个安全问题 / 阻塞 commit]
+
+  ## 关键发现
+  [挑战者发现的安全问题,通俗描述]
+  - 凭证泄露 / 危险操作 / 注入混淆 各列关键问题
+
+  ## 建议下一步
+  [用户应采取的修复 / 撤回操作]
+
+  ## 细节链接
+  - security-scan-result:docs/active/security-scan-result.md
+
+通俗化原则同其他 agent:
+- 不预设用户和你有相同上下文(不写 raw ID)
+- 术语第一次出现时 1 行解释
+- 一句话超过 2 个术语 → 拆成两句
