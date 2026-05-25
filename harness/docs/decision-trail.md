@@ -29,7 +29,7 @@
 
 ## 2026-05-25 — fork 前现场意图识别 + 报告通俗化(方向「己」)
 
-- **抉择**:落地用户原诉求"审查时 fork 智能体知道主线" + "报告通俗化(不预设用户和 AI 上下文,信息论)"。实现路径选方向「己」 — fork 前调度者现场意图识别,绑在 fork 事件;**不**实现 GateGuard 全套三层 hook(SessionStart + UserPromptSubmit + PreToolUse),GateGuard 设计哲学(`decisions/2026-05-12-ecc-analysis-snapshot.md §12`)保留作未来参考。
+- **抉择**:落地用户原诉求"审查时 fork 智能体知道主线" + "报告通俗化(不预设用户和 AI 上下文,信息论)"。实现路径选方向「己」 — fork 前调度者现场意图识别,绑在 fork 事件;**不**实现 GateGuard 全套三层 hook(SessionStart + UserPromptSubmit + PreToolUse),GateGuard 设计哲学(`decisions/2026-05-12-ecc-analysis-snapshot.md §11.12`)保留作未来参考。
 - **触发**:2026-05-25 用户会话提"审查的时候要有主线任务和分支任务的概念...将这主线任务+支线任务都输入给 fork 的智能体" + "汇报使用通俗的语言,不预设用户和你有相同的上下文(信息论)"。
 - **走过的弯路(决策追溯)**:意图源初指 GateGuard → 选方案 D 三层 hook 全启 → 提取动力纠正为 LLM → 撞上"用 LLM + 不每次跑 + 不懒触发"三条结构性张力 → 用户提"或者使用 fork 之前进行意图识别?" → 收敛到方向「己」(最小可行实现:fork 事件触发点)。
 - **改动 scope**:meta(7 个文件 / 14 处改动)— `synthesis-rules.md`(主改:加事前规则 5 + 综合输出表达准则节)+ `meta-review-rules.md`(补引用行)+ 4 个领审员 agent 文件(design-reviewer / evaluator / process-auditor / security-reviewer 各加 fork 前意图识别节 + 综合输出加用户视图段)+ `README.md`(§4.2 实现字段微调)。

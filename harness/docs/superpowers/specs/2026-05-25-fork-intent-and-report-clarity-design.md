@@ -46,7 +46,7 @@ batch_name: fork-intent-and-report-clarity
 
 ### 1.2 走过的弯路(决策追溯)
 
-用户提"主线意图来源"指向"我们之前有的一个功能,判断用户潜在意图" — 调度者初次理解为 **GateGuard**(`ecc-analysis-snapshot.md §12` 的纸面设计,P1 未实现)。
+用户提"主线意图来源"指向"我们之前有的一个功能,判断用户潜在意图" — 调度者初次理解为 **GateGuard**(`ecc-analysis-snapshot.md §11.12` 的纸面设计,P1 未实现)。
 
 经过 5 轮澄清:
 - Q1:意图源(用户选 C — GateGuard,但 GateGuard 未实现 → 用户选"先做 GateGuard 再改 fork")
@@ -57,7 +57,7 @@ batch_name: fork-intent-and-report-clarity
 
 **收敛拐点**:用户提"**或者使用 fork 之前进行意图识别?**" — 调度者意识到原诉求最小可行实现就是"fork 之前现场提取",不需要 GateGuard 全套 hook 系统。
 
-**最终方向(方向「己」)**:fork 事件作为意图识别触发点,调度者(主对话 AI)现场提取意图注入挑战者 prompt。GateGuard 全套搁置(`ecc-analysis-snapshot.md §12` 保留作未来参考)。
+**最终方向(方向「己」)**:fork 事件作为意图识别触发点,调度者(主对话 AI)现场提取意图注入挑战者 prompt。GateGuard 全套搁置(`ecc-analysis-snapshot.md §11.12` 保留作未来参考)。
 
 ---
 
@@ -83,7 +83,7 @@ batch_name: fork-intent-and-report-clarity
 - (按 meta finishing)decision-trail.md 加 2026-05-25 拐点 + 本 spec 自身 + audit 文件
 
 **不在 scope 内**:
-- **GateGuard 全套三层 hook**(SessionStart / UserPromptSubmit / PreToolUse hook 实现) — 搁置,`ecc-analysis-snapshot.md §12` 保留作未来参考
+- **GateGuard 全套三层 hook**(SessionStart / UserPromptSubmit / PreToolUse hook 实现) — 搁置,`ecc-analysis-snapshot.md §11.12` 保留作未来参考
 - **C 用户确认 / 不可逆动作前拦截**(commit / push / 改 governance 前的强制确认) — 不实现
 - **状态文件**(`intent-session.json` / `intent-task.json`) — 不创建
 - **LLM CLI 调用**(`claude -p` headless 模式) — 不引入
@@ -427,7 +427,7 @@ batch_name: fork-intent-and-report-clarity
 | **不做通俗化,用户能读懂报告吗?** | 读不全。当前 audit / decision 文件含大量 M2/fix-N/§ID,用户每次得问"这是什么"才能跟上 |
 | **只做意图识别不做通俗化,或反过来?** | 可分 2 batch,但 scope 一致(都是综合阶段 governance),分两次反而增加 meta-finishing / meta-review 开销 |
 | **调度者每次 fork 前手动提取会漏吗?** | 三重兜底:synthesis-rules 强制治理规则 + meta-review 抽检 + process-audit 复盘;`feedback_iterative_progression` 适用 — 先做规则版,真出问题再加 hook |
-| **为什么不做 GateGuard 全套?** | 全套 hook 解决"动作前 C 确认 + 三层意图粒度",超出 fork 拿主线这一个原诉求 — over-engineer;`ecc-analysis-snapshot.md §12` 保留作未来参考,真需求拉动时再启 |
+| **为什么不做 GateGuard 全套?** | 全套 hook 解决"动作前 C 确认 + 三层意图粒度",超出 fork 拿主线这一个原诉求 — over-engineer;`ecc-analysis-snapshot.md §11.12` 保留作未来参考,真需求拉动时再启 |
 | **为什么不引入 LLM CLI 调用?** | 方向「己」由调度者(主对话 AI 本身就是 LLM)现场提取,不需要 bash 调外部 LLM;成本 0,延迟 0 |
 
 ### 7.2 风险
@@ -465,12 +465,12 @@ batch_name: fork-intent-and-report-clarity
 
 ## 8. 与现有架构的关系
 
-### 8.1 与 GateGuard(`ecc-analysis-snapshot.md §12`)
+### 8.1 与 GateGuard(`ecc-analysis-snapshot.md §11.12`)
 
 - GateGuard 是设计哲学层(D 意图溯源链 + C 用户确认),P1 hook 未实现
 - 方向「己」是 GateGuard "D 意图溯源链"在 fork 事件触发点上的**最小可行实现**
 - GateGuard 全套(SessionStart + UserPromptSubmit + PreToolUse 三层 + C 确认)**搁置**,不在本 batch
-- `ecc-analysis-snapshot.md §12` 内容**保留不动**(它是未来参考蓝本,本 batch 不 supersede 它)
+- `ecc-analysis-snapshot.md §11.12` 内容**保留不动**(它是未来参考蓝本,本 batch 不 supersede 它)
 
 ### 8.2 与 synthesis-rules.md §1 "基于上下文意图综合"
 
@@ -558,7 +558,7 @@ scope 小(14 处改动),如果偏好原子性,合一个 commit 也可。
 - 本 spec:`harness/docs/superpowers/specs/2026-05-25-fork-intent-and-report-clarity-design.md`
 - 决策追溯:`harness/docs/decision-trail.md`(2026-05-25 拐点)
 - 治理主改:`harness/docs/governance/synthesis-rules.md`
-- 触发起源:`harness/docs/decisions/2026-05-12-ecc-analysis-snapshot.md` §12(GateGuard 设计哲学,保留作未来参考)
+- 触发起源:`harness/docs/decisions/2026-05-12-ecc-analysis-snapshot.md` §11.12(GateGuard 设计哲学,保留作未来参考)
 - 用户原诉求:2026-05-25 会话第 1 条 user message(本 spec §1.1 录入)
 
 ---
