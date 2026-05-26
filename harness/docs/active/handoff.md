@@ -4,7 +4,7 @@
 > 详细设计在 docs/superpowers/specs/,实现计划在 docs/superpowers/plans/。
 > 里程碑历史在 docs/PROGRESS.md。
 
-更新时间:2026-04-29(P0.9.3 第一个 trial 闭合)
+更新时间:2026-05-26(fork-intent-and-report-clarity batch 闭合)
 
 ## 目标
 
@@ -21,6 +21,12 @@ P2 可观测性双层落地 + glassbox 角色 reframe(用户级外部工具,推�
 下一步:边做边提升,无预设阶段;P0.9.2 候选累积(harness self-trial 局限 / cross-file 互引脆弱 / 反模式段膨胀 / 挑战者有效性元疑问 等 spec §9.4 #5-#9 推后续);P0.9.4 候选(本 trial 新发现 M3/M4 路径混淆)。
 
 **[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。详见 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点;11 处文件改动已落地(5 governance + ROADMAP + self-check + decision-trail + handoff + 2 README);不预设重启时间(`feedback_iterative_progression`)。
+
+**[2026-05-26] fork-intent-and-report-clarity batch 闭合** — synthesis-rules 加事前规则 5(fork 前现场意图识别)+ 综合输出表达准则节;4 agent 文件应用规则。**方向「己」**(fork 事件触发点,不实现 GateGuard 全套三层 hook)。9 文件 / +337 行 / 5 commits + 1 audit + 1 fix(process-auditor 通俗化精度)。verdict=pass-after-revision,10 known-gaps 入清单(详 `docs/audits/meta-review-2026-05-26-094034-fork-intent.md` §6):
+- **KG1**(🔴 共识 1)— 事前规则 5 ↔ 中性化 1-3 结构性张力,兜底不够硬。3 挑战者共识(规则 5 推 framing,规则 1-3 反 framing,目标方向反)。spec §7.2 R4 风险预声明但兜底只在措辞 + ✅/❌ 例。**修复路径**:后续 batch 决定硬约束(主线逐字引用 / 不可改写)
+- **KG2/3** — spec §9.1 措辞过严 + 4 agent ~176 行重复(与 fix-2 静态约束冲突);后续 batch 校正
+- **KG4/5/7** — spec_gap_masking 风险(提取源缺失边界 / 双写退化 / 嵌套 3 层无对照);后续 batch 加硬约束
+- **KG10**(dogfooding 实例)— 本次 meta-review fork audit 自身触发了 R4(主线段含"方向「己」"结论引导);process-audit 数据点
 
 ## 进度
 

@@ -441,6 +441,6 @@ mkdir -p docs/audits
   - 完整 audit 报告:docs/audits/audit-YYYY-MM-DD-HHMMSS.md
 
 通俗化原则同其他 agent:
-- 不预设用户和你有相同上下文
-- 术语 1 行解释
-- 避免堆叠
+- 不预设用户和你有相同上下文(不写 raw ID)
+- 术语第一次出现时 1 行解释
+- 一句话超过 2 个术语 → 拆成两句

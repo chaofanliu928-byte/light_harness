@@ -34,7 +34,7 @@
 - **走过的弯路(决策追溯)**:意图源初指 GateGuard → 选方案 D 三层 hook 全启 → 提取动力纠正为 LLM → 撞上"用 LLM + 不每次跑 + 不懒触发"三条结构性张力 → 用户提"或者使用 fork 之前进行意图识别?" → 收敛到方向「己」(最小可行实现:fork 事件触发点)。
 - **改动 scope**:meta(7 个文件 / 14 处改动)— `synthesis-rules.md`(主改:加事前规则 5 + 综合输出表达准则节)+ `meta-review-rules.md`(补引用行)+ 4 个领审员 agent 文件(design-reviewer / evaluator / process-auditor / security-reviewer 各加 fork 前意图识别节 + 综合输出加用户视图段)+ `README.md`(§4.2 实现字段微调)。
 - **不在 scope**:GateGuard 全套三层 hook / 不可逆动作前 C 确认 / 状态文件 / LLM CLI 调用 / brainstorming-rules 改动 / designer.md 改动 / hook 体系改动。
-- **decision file**:暂无(留痕型,本拐点 + spec `docs/superpowers/specs/2026-05-25-fork-intent-and-report-clarity-design.md` 自身构成完整记录);spec `docs/superpowers/specs/2026-05-25-fork-intent-and-report-clarity-design.md`(本 batch 设计文档);plan `docs/superpowers/plans/2026-05-25-fork-intent-and-report-clarity.md`(实施计划);audit:待 meta-review 跑完后回填(预期 `docs/audits/meta-review-2026-05-25-HHMMSS-fork-intent.md`)。
+- **decision file**:暂无(留痕型,本拐点 + spec `docs/superpowers/specs/2026-05-25-fork-intent-and-report-clarity-design.md` 自身构成完整记录);spec `docs/superpowers/specs/2026-05-25-fork-intent-and-report-clarity-design.md`(本 batch 设计文档);plan `docs/superpowers/plans/2026-05-25-fork-intent-and-report-clarity.md`(实施计划);audit:`docs/audits/meta-review-2026-05-26-094034-fork-intent.md`(verdict=pass-after-revision,9 covers,10 known-gaps;4 挑战者对抗式 D2 — C1 核心+副作用 / C2 目的+scope / C3 规则 5↔中性化张力专项 / C4 通俗化+4 agent 一致专项;35 finding / 6 🔴 全部接受为 known-gap 或 1 实施 bug fix 修补)。
 
 ## 2026-05-24 — codex 接入搁置
 
