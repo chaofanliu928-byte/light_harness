@@ -3,6 +3,12 @@
 > 所有审查类 agent（evaluator、design-reviewer 等）设计时参照本文件。
 > 本文件定义审查原则和操作模式，不定义具体维度——维度由每个 agent 根据审查对象自行设计。
 
+> **本指南面向"领审员"视角**(谁来设计审查 agent / 怎么切分维度 / 怎么综合)。
+>
+> **挑战者(fork 出的子智能体)视角的导览**另见 `harness/docs/references/challenger-orientation.md`(方法论 / 数据来源向导 / 输入策略 / 常见陷阱)— **挑战者必读**。
+>
+> 两者对称:本指南管"领审员侧 / 调度者侧",challenger-orientation.md 管"挑战者侧"。
+
 ## 核心架构：对抗-决策分离
 
 ```

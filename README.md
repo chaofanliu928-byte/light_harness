@@ -39,6 +39,13 @@
 - **4.2 综合阶段中性化** — 调度者构造挑战者 prompt 必须中立(材料/排序/措辞);综合按 RUBRIC 维度评判。**Why**:防 anchoring,多智能体审查的有效性前提。**实现**:`docs/governance/synthesis-rules.md`(事前 5 条 + 事后 4 条 + 综合输出表达准则)
 - **4.3 改动范围自动识别** — governance 改动 glob 机械触发 meta-review。**Why**:不靠 AI 自觉,机械触发不可被自我说服绕过。**实现**:`CLAUDE.md` §3-§4 + `.claude/hooks/meta-scope.conf` + `check-meta-*.sh` 系列 hook
 - **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:9 个 SKILL.md 统一结构
+- **4.5 挑战者导览体系**(挑战者侧基础设施)— 主智能体(调度者)进项目时读 `CLAUDE.md` 知道项目结构 / Skill 地图 / 文档索引;挑战者(fork 出的子智能体)对称地需要一份"挑战者侧导览" — 知道:
+  - **怎么找问题**(方法论 — 通用自检清单 + 角色专属技巧:矛盾追踪 / 场景遍历 / 反向追问 / 条款对照 等)
+  - **去哪找信息**(数据来源向导 — 跨平台路径 + 命令模板 + 项目 slug 推断脚本)
+  - **怎么看调度者输入**(批判看 + 自取用户原话校验主线 framing)
+  - **哪些陷阱要避**(公设 1 / spec_gap_masking / framing / 反对反对 / 越权)
+
+  **实现**:`harness/docs/references/challenger-orientation.md`。fork 挑战者时 prompt 内含"先 Read 此文件";挑战者输出格式末尾必填 `### 已对照用户原话` section,调度者综合时校验(`synthesis-rules.md` 事后规则 5 落地)。**与下游的关系**:本文件属 `references/`,setup.sh 复制下游 — 下游项目的挑战者也用同一份导览。
 
 #### 层 5:反模式警示(用户校准过的硬约束)
 - **5.1 警惕"便利答案掩盖规范缺口"**(`spec_gap_masking`)— 遇缺口要承认,不包装成动作

@@ -152,6 +152,28 @@
 
 不按 fork 顺序的理由:LLM 处理输入序列时存在系统性顺序敏感性 — 先读到的结论会成为后续解读的锚点,影响中立判断。harness 扁平 fork 设计本身就是为消除这种锚定,综合阶段需配套规则才能完整生效。
 
+### 5. 校验挑战者"已对照用户原话"section(挑战者侧自取机制的综合阶段落地)
+
+调度者综合每个挑战者输出时,**必须校验末尾 `### 已对照用户原话` section**:
+
+**reject 条件**(任一命中 → 要求该挑战者重审):
+
+- section 缺失
+- section 内容空泛(无 timestamp + 完整 quote)
+- "用户原话" 列出 < 1 条
+- 主线-支线-关系校验结论全部 ✅ 但 finding 中含主线偏离问题(自相矛盾)
+
+**升级条件**:section 显示主线偏离 🔴 → 升为综合阶段 finding,可能触发主线段重写。
+
+**适用范围**:design-review / evaluate / process-audit / security-scan / meta-review 所有 fork 场景 — 与事前规则 5 同步生效。
+
+**与挑战者侧导览的关系**:本规则的挑战者侧动作落入 `harness/docs/references/challenger-orientation.md` §3.3(自取用户原话)+ §3.4(输出必填 section)。本规则是调度者综合阶段的校验落地。
+
+**例外**:
+
+- 若挑战者明确标 "⚠️ 无法定位会话 JSONL,跳过主线校验" 且解释合理 → 不 reject,但在 audit trail 记录
+- 若挑战者标 "⚠️ 信息不足无法判断" 但解释合理 → 不 reject(信号 B 防 spec_gap_masking)
+
 ---
 
 ## 综合输出表达准则(调度者综合后给用户的报告)
