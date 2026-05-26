@@ -137,7 +137,7 @@ batch_name: challenger-orientation-system
 audience: 挑战者(fork 出的 subagent)
 purpose: 给挑战者(子智能体)提供方法论 / 数据来源 / 输入策略 / 陷阱避坑的"入门必读"
 when_to_read: fork 你的时候,prompt 内含 "先 Read `harness/docs/references/challenger-orientation.md`" — 这是必读第一步
-not_distributed: 本文件分发到下游(setup.sh 复制 references/)
+distribution: 本文件分发到下游(setup.sh 复制 references/)
 ---
 
 # 挑战者导览(Challenger Orientation)
