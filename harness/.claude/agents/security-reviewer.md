@@ -30,25 +30,15 @@ git diff $(git rev-parse --verify main 2>/dev/null || git rev-parse --verify mas
 
 过滤出需要扫描的文本文件（.ts, .tsx, .js, .jsx, .py, .go, .rs, .java, .rb, .sh, .md, .json, .yaml, .yml, .toml, .env*, .sql）。跳过 node_modules/、dist/、build/、.git/、*.lock、*.min.js。
 
-### 第二步前 — fork 前意图识别(synthesis-rules 事前规则 5)
+### Fork 流程协议(synthesis-rules + challenger-orientation 引用)
 
-调度者按 `harness/docs/governance/synthesis-rules.md` 事前规则 5,提取主线 / 支线 / 关系
-三字段,作为独立段加入每个挑战者 prompt 的顶部(在该 prompt 主体之前)。
+本 agent fork 3 个挑战者时遵守以下协议:
 
-提取来源:
-- **主线**:本会话整体在做什么 — handoff.md / brainstorming 需求清单 / 最新活跃 spec
-- **支线**:本次 security-scan 的 sub-task 是什么 — 如"扫描 X 功能 commit 前的安全风险"
-- **关系**:本支线服务于主线的哪一节 / 哪个决策点
+- **事前**:`harness/docs/governance/synthesis-rules.md` 事前规则 5(fork 前意图识别)— prompt 注入"主线-支线-关系"段(在每个挑战者 prompt 主体之前)
+- **挑战者侧导览**:每个挑战者 prompt 必含 1 行 "**先 Read `harness/docs/references/challenger-orientation.md`**,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
+- **事后**:`synthesis-rules.md` 综合输出表达准则(用户报告 4 段)+ 综合时校验挑战者 "已对照用户原话" section(缺失或空泛 reject,见 synthesis-rules.md 事后规则 5)
 
-注入挑战者 prompt 的固定段格式:
-
-  ## 主线-支线-关系(领审员 fork 前注入)
-  - **主线**:[本会话整体任务,1-3 行]
-  - **支线**:[本次挑战者的具体任务,1 行]
-  - **关系**:[本支线服务于主线的哪一节,1-2 行]
-
-注意:此段是任务边界,**不是结论引导**(参 synthesis-rules.md 事前规则 5 与中性化 1-3 的关系)。
-security-scan 是模式匹配为主,但意图识别仍应用 — 让挑战者知道审的是哪个功能 / 哪个 commit。
+> **静态约束(fix-2 恢复)**:本 agent 文件不抄 synthesis-rules / challenger-orientation 实文,只引用路径(第七轮 fix-2 静态约束;本 batch 2026-05-26 KG3 fix 落实)。
 
 ### 第二步:在一条消息中并行 fork 3 个挑战者
 
@@ -82,7 +72,9 @@ security-scan 是模式匹配为主,但意图识别仍应用 — 让挑战者知
 
 #### 挑战者 1：凭证与数据安全
 
-```
+````
+**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+
 你是凭证与数据安全扫描员。使用 Grep 工具（不是 bash grep）扫描以下变更文件。
 
 ## X. 凭证 / 数据扫描 pattern(硬编码,不变)
@@ -129,11 +121,32 @@ High — 数据外泄：
 - 启用的推荐维度: [列表]
 - 禁用的推荐维度 + 理由: [列表](禁用 minimum 项不被允许;凭证泄露场景判定恒不可绕)
 - 新增的定制维度 + 理由: [列表]
+
+**输出最末必填 section**(挑战者侧 spec_gap_masking 防御 — 跟用户原话留痕):
+
+```markdown
+### 已对照用户原话
+
+**从 JSONL 抽取的用户原话**(N 条,按时间序;详 challenger-orientation.md §3.4):
+1. [timestamp] "原话片段 1"
+...
+
+**主线-支线-关系校验结论**:
+- 主线对应用户原诉求:✅ / 🟡 / 🔴
+- 支线对应调度者意图:✅ / 🟡
+- 关系字段是任务边界:✅ / 🟡
+
+(如发现偏离 🔴)主线偏离 finding 详细。
 ```
+
+> 缺失或空泛(无 timestamp + 完整 quote)→ 调度者综合时 reject,要求重审。
+````
 
 #### 挑战者 2：危险操作与持久化
 
-```
+````
+**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+
 你是危险操作扫描员。使用 Grep 工具扫描以下变更文件。
 
 ## X. 危险操作 / 持久化 pattern(硬编码,不变)
@@ -179,11 +192,32 @@ Medium — 持久化后门：
 - 启用的推荐维度: [列表]
 - 禁用的推荐维度 + 理由: [列表](禁用 minimum 项不被允许)
 - 新增的定制维度 + 理由: [列表]
+
+**输出最末必填 section**(挑战者侧 spec_gap_masking 防御 — 跟用户原话留痕):
+
+```markdown
+### 已对照用户原话
+
+**从 JSONL 抽取的用户原话**(N 条,按时间序;详 challenger-orientation.md §3.4):
+1. [timestamp] "原话片段 1"
+...
+
+**主线-支线-关系校验结论**:
+- 主线对应用户原诉求:✅ / 🟡 / 🔴
+- 支线对应调度者意图:✅ / 🟡
+- 关系字段是任务边界:✅ / 🟡
+
+(如发现偏离 🔴)主线偏离 finding 详细。
 ```
+
+> 缺失或空泛(无 timestamp + 完整 quote)→ 调度者综合时 reject,要求重审。
+````
 
 #### 挑战者 3：注入与混淆
 
-```
+````
+**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+
 你是注入与混淆扫描员。使用 Grep 工具扫描以下变更文件。
 
 ## X. 注入 / 混淆 pattern(硬编码,不变)
@@ -227,7 +261,26 @@ Medium — 混淆执行：
 - 启用的推荐维度: [列表]
 - 禁用的推荐维度 + 理由: [列表](禁用 minimum 项不被允许)
 - 新增的定制维度 + 理由: [列表]
+
+**输出最末必填 section**(挑战者侧 spec_gap_masking 防御 — 跟用户原话留痕):
+
+```markdown
+### 已对照用户原话
+
+**从 JSONL 抽取的用户原话**(N 条,按时间序;详 challenger-orientation.md §3.4):
+1. [timestamp] "原话片段 1"
+...
+
+**主线-支线-关系校验结论**:
+- 主线对应用户原诉求:✅ / 🟡 / 🔴
+- 支线对应调度者意图:✅ / 🟡
+- 关系字段是任务边界:✅ / 🟡
+
+(如发现偏离 🔴)主线偏离 finding 详细。
 ```
+
+> 缺失或空泛(无 timestamp + 完整 quote)→ 调度者综合时 reject,要求重审。
+````
 
 ### 错误处理
 
@@ -236,6 +289,12 @@ Medium — 混淆执行：
 - 凭证扫描挑战者失败时**必须**重试或降级为调度者手动扫描——凭证泄露是最高优先级
 
 ### 第三步：汇总结果
+
+**预校验(挑战者输出完整性)**:汇总前先校验每个挑战者输出:
+
+- 缺末尾 `### 已对照用户原话` section → reject 该挑战者,要求重审(参 `synthesis-rules.md` 事后规则 5)
+- section 内容空泛(无 timestamp + 完整 quote)→ reject
+- section 显示主线偏离 🔴 → 升级为综合阶段 finding,可能触发主线段重写
 
 挑战者返回后，合并所有发现，按严重性排序。**去重**：同一文件同一行被多个挑战者发现的只保留一条。
 
@@ -273,26 +332,3 @@ Medium — 混淆执行：
 - 扫描通过：{是/否}
 ```
 
-### 第六步 — 综合后给用户的口语报告(synthesis-rules 综合输出表达准则)
-
-将 `docs/active/security-scan-result.md`(持久化产物,术语精确)写完后,
-**额外**给用户口语报告,按
-`synthesis-rules.md` "综合输出表达准则" 4 段格式:
-
-  ## 结论先行
-  [1 句话:扫描通过 / 发现 N 个安全问题 / 阻塞 commit]
-
-  ## 关键发现
-  [挑战者发现的安全问题,通俗描述]
-  - 凭证泄露 / 危险操作 / 注入混淆 各列关键问题
-
-  ## 建议下一步
-  [用户应采取的修复 / 撤回操作]
-
-  ## 细节链接
-  - security-scan-result:docs/active/security-scan-result.md
-
-通俗化原则同其他 agent:
-- 不预设用户和你有相同上下文(不写 raw ID)
-- 术语第一次出现时 1 行解释
-- 一句话超过 2 个术语 → 拆成两句

@@ -41,25 +41,15 @@ Superpowers 的 code-review 关注"代码好不好"——它在每个任务之�
 - 最新的设计文档(`docs/superpowers/specs/*-design.md`)
 - 最新的实现计划(`docs/superpowers/plans/*.md`)
 
-### 第二步前 — fork 前意图识别(synthesis-rules 事前规则 5)
+### Fork 流程协议(synthesis-rules + challenger-orientation 引用)
 
-调度者按 `harness/docs/governance/synthesis-rules.md` 事前规则 5,提取主线 / 支线 / 关系
-三字段,作为独立段加入每个挑战者 prompt 的顶部(在 A/B/C 三段之前)。
+本 agent fork 4 个挑战者时遵守以下协议:
 
-提取来源:
-- **主线**:本会话整体在做什么 — handoff.md / brainstorming 需求清单 / 最新活跃 spec
-- **支线**:本次 evaluator 的 sub-task 是什么 — 如"评估 X 功能方向是否对、是否推翻"
-- **关系**:本支线服务于主线的哪一节 / 哪个决策点
+- **事前**:`harness/docs/governance/synthesis-rules.md` 事前规则 5(fork 前意图识别)— prompt 注入"主线-支线-关系"段(在每个挑战者 prompt 的 A/B/C 三段之前)
+- **挑战者侧导览**:每个挑战者 prompt 必含 1 行 "**先 Read `harness/docs/references/challenger-orientation.md`**,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
+- **事后**:`synthesis-rules.md` 综合输出表达准则(用户报告 4 段)+ 综合时校验挑战者 "已对照用户原话" section(缺失或空泛 reject,见 synthesis-rules.md 事后规则 5)
 
-注入挑战者 prompt 的固定段格式:
-
-  ## 主线-支线-关系(领审员 fork 前注入)
-  - **主线**:[本会话整体任务,1-3 行]
-  - **支线**:[本次挑战者的具体任务,1 行]
-  - **关系**:[本支线服务于主线的哪一节,1-2 行]
-
-注意:此段是任务边界,**不是结论引导**(参 synthesis-rules.md 事前规则 5 与中性化 1-3 的关系)。
-不要写"重点是 X、应找 Y";只描述审什么、为什么。
+> **静态约束(fix-2 恢复)**:本 agent 文件不抄 synthesis-rules / challenger-orientation 实文,只引用路径(第七轮 fix-2 静态约束;本 batch 2026-05-26 KG3 fix 落实)。
 
 ### 第二步:在一条消息中并行 fork 4 个挑战者
 
@@ -112,7 +102,9 @@ Superpowers 的 code-review 关注"代码好不好"——它在每个任务之�
 
 #### 挑战者 1:RUBRIC 合规挑战者(对应维度:设计方向,权重 40%)
 
-```
+````
+**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+
 你是一个严苛的项目标准审查者。你坚信这个实现偷偷违反了 RUBRIC 的标准。
 你的任务不是评价"总体上怎么样",而是逐条找出违反和缺失。
 
@@ -175,13 +167,34 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 不要给分数。不要提替代方案。只找问题,附证据。
 
 [附:完整 RUBRIC.md / ARCHITECTURE.md / 设计文档 / 代码变更范围 / 领审员嵌入的 evidence depth 文件]
+
+**输出最末必填 section**(挑战者侧 spec_gap_masking 防御 — 跟用户原话留痕):
+
+```markdown
+### 已对照用户原话
+
+**从 JSONL 抽取的用户原话**(N 条,按时间序;详 challenger-orientation.md §3.4):
+1. [timestamp] "原话片段 1"
+...
+
+**主线-支线-关系校验结论**:
+- 主线对应用户原诉求:✅ / 🟡 / 🔴
+- 支线对应调度者意图:✅ / 🟡
+- 关系字段是任务边界:✅ / 🟡
+
+(如发现偏离 🔴)主线偏离 finding 详细。
 ```
+
+> 缺失或空泛(无 timestamp + 完整 quote)→ 调度者综合时 reject,要求重审。
+````
 
 ---
 
 #### 挑战者 2:架构一致性挑战者(对应维度:架构一致性,权重 30%)
 
-```
+````
+**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+
 你是一个熟悉现有代码库的资深工程师。你坚信这个实现和设计文档/架构规范存在偏差。
 你的任务是找出"纸上"和"实际"之间的裂缝。
 
@@ -230,13 +243,34 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 不要给分数。不要提替代方案。只找问题,附证据。
 
 [附:完整 ARCHITECTURE.md / 设计文档 / 代码变更范围]
+
+**输出最末必填 section**(挑战者侧 spec_gap_masking 防御 — 跟用户原话留痕):
+
+```markdown
+### 已对照用户原话
+
+**从 JSONL 抽取的用户原话**(N 条,按时间序;详 challenger-orientation.md §3.4):
+1. [timestamp] "原话片段 1"
+...
+
+**主线-支线-关系校验结论**:
+- 主线对应用户原诉求:✅ / 🟡 / 🔴
+- 支线对应调度者意图:✅ / 🟡
+- 关系字段是任务边界:✅ / 🟡
+
+(如发现偏离 🔴)主线偏离 finding 详细。
 ```
+
+> 缺失或空泛(无 timestamp + 完整 quote)→ 调度者综合时 reject,要求重审。
+````
 
 ---
 
 #### 挑战者 3:文档健康挑战者(对应维度:文档健康,权重 30%)
 
-```
+````
+**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+
 你是一个强迫症级别的文档审查者。你坚信文档和代码已经脱节了。
 你的任务是找出每一处文档与代码不一致的地方。
 
@@ -285,13 +319,34 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 不要给分数。不要提替代方案。只找问题,附证据。
 
 [附:设计文档 / 代码变更范围 / 涉及模块的 README]
+
+**输出最末必填 section**(挑战者侧 spec_gap_masking 防御 — 跟用户原话留痕):
+
+```markdown
+### 已对照用户原话
+
+**从 JSONL 抽取的用户原话**(N 条,按时间序;详 challenger-orientation.md §3.4):
+1. [timestamp] "原话片段 1"
+...
+
+**主线-支线-关系校验结论**:
+- 主线对应用户原诉求:✅ / 🟡 / 🔴
+- 支线对应调度者意图:✅ / 🟡
+- 关系字段是任务边界:✅ / 🟡
+
+(如发现偏离 🔴)主线偏离 finding 详细。
 ```
+
+> 缺失或空泛(无 timestamp + 完整 quote)→ 调度者综合时 reject,要求重审。
+````
 
 ---
 
 #### 挑战者 4:Slop 检测
 
-```
+````
+**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+
 你是代码漂移检测员。检测代码和文档中的"slop"(渐进退化)。
 
 ## A. 推荐维度清单(领审员当次填,markdown 列表)
@@ -342,7 +397,26 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 不要给分数。不要提替代方案。只找问题,附证据。
 
 [附:代码变更范围 / 涉及模块的 README]
+
+**输出最末必填 section**(挑战者侧 spec_gap_masking 防御 — 跟用户原话留痕):
+
+```markdown
+### 已对照用户原话
+
+**从 JSONL 抽取的用户原话**(N 条,按时间序;详 challenger-orientation.md §3.4):
+1. [timestamp] "原话片段 1"
+...
+
+**主线-支线-关系校验结论**:
+- 主线对应用户原诉求:✅ / 🟡 / 🔴
+- 支线对应调度者意图:✅ / 🟡
+- 关系字段是任务边界:✅ / 🟡
+
+(如发现偏离 🔴)主线偏离 finding 详细。
 ```
+
+> 缺失或空泛(无 timestamp + 完整 quote)→ 调度者综合时 reject,要求重审。
+````
 
 ### 错误处理
 
@@ -351,6 +425,12 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 - 如果 Slop 检测挑战者失败:不影响评分,Slop 部分标记"未检测"
 
 ### 第三步:汇总——共识/分歧/盲区
+
+**预校验(挑战者输出完整性)**:汇总前先校验每个挑战者输出:
+
+- 缺末尾 `### 已对照用户原话` section → reject 该挑战者,要求重审(参 `synthesis-rules.md` 事后规则 5)
+- section 内容空泛(无 timestamp + 完整 quote)→ reject
+- section 显示主线偏离 🔴 → 升级为共识阶段 finding,可能触发主线段重写
 
 4 个挑战者返回后(至少 2 个成功):
 
@@ -454,27 +534,3 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 ## 🙋 需要人工判断(如有)
 - [具体问题和选项]
 ```
-
-### 第九步 — 综合后给用户的口语报告(synthesis-rules 综合输出表达准则)
-
-将 `docs/active/evaluation-result.md`(持久化产物,术语精确)写完后,
-**额外**给用户口语报告,按 `synthesis-rules.md` "综合输出表达准则" 4 段格式:
-
-  ## 结论先行
-  [1 句话:总分 / 通过 / 不通过 / 方向建议;不通过原因摘要]
-
-  ## 关键发现
-  [挑战者发现的核心问题,通俗描述;不堆术语]
-  - 共识问题 1:...
-  - 共识问题 2:...
-
-  ## 建议下一步
-  [用户 / 调度者接下来做什么 — 精磨 / 推翻 / finishing]
-
-  ## 细节链接
-  - evaluation-result:docs/active/evaluation-result.md
-
-通俗化原则同 design-reviewer:
-- 不预设用户和你有相同上下文(不写 raw ID)
-- 术语第一次出现时 1 行解释
-- 一句话超过 2 个术语 → 拆成两句

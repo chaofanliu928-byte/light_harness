@@ -181,25 +181,15 @@ const files = fs.readdirSync(jsonlDir).filter(f => f.endsWith('.jsonl'));
 
 将提取结果写入临时文件（每个 JSONL 一个摘要文件），供子 agent 读取。
 
-### 第三步前 — fork 前意图识别(synthesis-rules 事前规则 5)
+### Fork 流程协议(synthesis-rules + challenger-orientation 引用)
 
-调度者按 `harness/docs/governance/synthesis-rules.md` 事前规则 5,提取主线 / 支线 / 关系
-三字段,作为独立段加入每个挑战者 prompt 的顶部(在 N1/N2/G 段之前)。
+本 agent fork 2 个挑战者时遵守以下协议:
 
-提取来源:
-- **主线**:本会话整体在做什么 — handoff.md / brainstorming 需求清单 / 最新活跃 spec
-- **支线**:本次 process-audit 的 sub-task 是什么 — 如"审 X 功能开发过程的流程遵从度 + 用户满意度"
-- **关系**:本支线服务于主线的哪一节 / 哪个决策点
+- **事前**:`harness/docs/governance/synthesis-rules.md` 事前规则 5(fork 前意图识别)— prompt 注入"主线-支线-关系"段(在每个挑战者 prompt 的 N1/N2/G 段之前)
+- **挑战者侧导览**:每个挑战者 prompt 必含 1 行 "**先 Read `harness/docs/references/challenger-orientation.md`**,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
+- **事后**:`synthesis-rules.md` 综合输出表达准则(用户报告 4 段)+ 综合时校验挑战者 "已对照用户原话" section(缺失或空泛 reject,见 synthesis-rules.md 事后规则 5)
 
-注入挑战者 prompt 的固定段格式:
-
-  ## 主线-支线-关系(领审员 fork 前注入)
-  - **主线**:[本会话整体任务,1-3 行]
-  - **支线**:[本次挑战者的具体任务,1 行]
-  - **关系**:[本支线服务于主线的哪一节,1-2 行]
-
-注意:此段是任务边界,**不是结论引导**(参 synthesis-rules.md 事前规则 5 与中性化 1-3 的关系)。
-process-audit 是事实统计式 D2 模态,不涉及对抗,但意图识别仍应用 — 让挑战者知道审什么。
+> **静态约束(fix-2 恢复)**:本 agent 文件不抄 synthesis-rules / challenger-orientation 实文,只引用路径(第七轮 fix-2 静态约束;本 batch 2026-05-26 KG3 fix 落实)。
 
 ### 第三步:在一条消息中并行 fork 2 个挑战者
 
@@ -230,7 +220,9 @@ process-audit 是事实统计式 D2 模态,不涉及对抗,但意图识别仍应
 
 #### 挑战者 1：流程遵从度审计(N1 维度)
 
-```
+````
+**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+
 你是流程遵从度审计员。你的任务是对照 harness 的治理规则，检查 AI 在本项目的开发过程中是否遵守了流程。
 
 ## N1. 流程遵从度(固定维度,可细化粒度)
@@ -281,11 +273,32 @@ process-audit 是事实统计式 D2 模态,不涉及对抗,但意图识别仍应
 
 #### 流程建议（仅记录，不执行）
 - [观察到的流程摩擦点或可优化处]
+
+**输出最末必填 section**(挑战者侧 spec_gap_masking 防御 — 跟用户原话留痕):
+
+```markdown
+### 已对照用户原话
+
+**从 JSONL 抽取的用户原话**(N 条,按时间序;详 challenger-orientation.md §3.4):
+1. [timestamp] "原话片段 1"
+...
+
+**主线-支线-关系校验结论**:
+- 主线对应用户原诉求:✅ / 🟡 / 🔴
+- 支线对应调度者意图:✅ / 🟡
+- 关系字段是任务边界:✅ / 🟡
+
+(如发现偏离 🔴)主线偏离 finding 详细。
 ```
+
+> 缺失或空泛(无 timestamp + 完整 quote)→ 调度者综合时 reject,要求重审。
+````
 
 #### 挑战者 2：效果与满意度审计(N2 维度)
 
-```
+````
+**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+
 你是效果与满意度审计员。你的任务是从对话历史中识别用户满意度信号，并将不满意归因到流程/skill 层面。
 
 ## N2. 效果满意度(固定维度,可细化粒度)
@@ -360,7 +373,26 @@ process-audit 是事实统计式 D2 模态,不涉及对抗,但意图识别仍应
 
 #### 效果建议（仅记录，不执行）
 - [观察到的效果问题和可能的优化方向]
+
+**输出最末必填 section**(挑战者侧 spec_gap_masking 防御 — 跟用户原话留痕):
+
+```markdown
+### 已对照用户原话
+
+**从 JSONL 抽取的用户原话**(N 条,按时间序;详 challenger-orientation.md §3.4):
+1. [timestamp] "原话片段 1"
+...
+
+**主线-支线-关系校验结论**:
+- 主线对应用户原诉求:✅ / 🟡 / 🔴
+- 支线对应调度者意图:✅ / 🟡
+- 关系字段是任务边界:✅ / 🟡
+
+(如发现偏离 🔴)主线偏离 finding 详细。
 ```
+
+> 缺失或空泛(无 timestamp + 完整 quote)→ 调度者综合时 reject,要求重审。
+````
 
 ### 错误处理
 
@@ -369,6 +401,12 @@ process-audit 是事实统计式 D2 模态,不涉及对抗,但意图识别仍应
 - 预处理 JSONL 失败（文件不存在或格式异常）：标注"⚠️ 无法读取会话历史"，仅基于过程产物做有限审计
 
 ### 第四步：汇总报告
+
+**预校验(挑战者输出完整性)**:汇总前先校验每个挑战者输出:
+
+- 缺末尾 `### 已对照用户原话` section → reject 该挑战者,要求重审(参 `synthesis-rules.md` 事后规则 5)
+- section 内容空泛(无 timestamp + 完整 quote)→ reject
+- section 显示主线偏离 🔴 → 升级为综合阶段 finding,可能触发主线段重写
 
 挑战者返回后：
 
@@ -421,26 +459,3 @@ mkdir -p docs/audits
 
 写入后读取一遍确认格式正确、无遗漏占位符。
 
-### 第六步 — 综合后给用户的口语报告(synthesis-rules 综合输出表达准则)
-
-将 `docs/audits/audit-YYYY-MM-DD-HHMMSS.md`(持久化产物,术语精确)写完后,
-**额外**给用户口语报告,按 `synthesis-rules.md` "综合输出表达准则" 4 段格式:
-
-  ## 结论先行
-  [1 句话:本次流程遵从度如何 / 用户满意度如何 / 是否有高优先级流程问题]
-
-  ## 关键发现
-  [挑战者发现的核心流程问题,通俗描述;不堆术语]
-  - 流程问题 1:...
-  - 用户不满意事件 1:...
-
-  ## 建议下一步
-  [harness 开发者应关注哪些流程优化点]
-
-  ## 细节链接
-  - 完整 audit 报告:docs/audits/audit-YYYY-MM-DD-HHMMSS.md
-
-通俗化原则同其他 agent:
-- 不预设用户和你有相同上下文(不写 raw ID)
-- 术语第一次出现时 1 行解释
-- 一句话超过 2 个术语 → 拆成两句
