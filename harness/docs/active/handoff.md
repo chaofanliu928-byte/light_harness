@@ -4,7 +4,7 @@
 > 详细设计在 docs/superpowers/specs/,实现计划在 docs/superpowers/plans/。
 > 里程碑历史在 docs/PROGRESS.md。
 
-更新时间:2026-05-26(fork-intent-and-report-clarity batch 闭合)
+更新时间:2026-05-29(challenger-orientation-system batch 修订完成,待 push)
 
 ## 目标
 
@@ -27,6 +27,12 @@ P2 可观测性双层落地 + glassbox 角色 reframe(用户级外部工具,推�
 - **KG2/3** — spec §9.1 措辞过严 + 4 agent ~176 行重复(与 fix-2 静态约束冲突);后续 batch 校正
 - **KG4/5/7** — spec_gap_masking 风险(提取源缺失边界 / 双写退化 / 嵌套 3 层无对照);后续 batch 加硬约束
 - **KG10**(dogfooding 实例)— 本次 meta-review fork audit 自身触发了 R4(主线段含"方向「己」"结论引导);process-audit 数据点
+
+**[2026-05-29] challenger-orientation-system batch 修订完成(待 push)** — 建挑战者侧导览体系 `challenger-orientation.md`(主智能体 CLAUDE.md 对称物,4 块:方法论 / 数据来源向导 / 输入策略 / 常见陷阱)+ 挑战者侧自取用户原话(否决"用户原话提取 skill")+ 输出必填 `### 已对照用户原话` section(synthesis-rules 加事后规则 5 reject)。同 batch 4 agent 文件改 include 模式 = **KG3 闭合**(上 batch KG3 4 agent 176 行重复已解,fix-2 静态约束恢复)。9 文件 / 7 commits(spec + plan + 3 实施 + 1 meta-review audit+修订 + 1 finishing 留痕)。
+- **dogfooding 里程碑**:meta-review 本身是导览体系第一次实战 — 4 挑战者全部成功 Read 导览 + 自取用户原话 + 输出合规 section,自取机制防住 framing(上 batch KG1 本次未触发);**meta-L2 验收通过**。audit `docs/audits/meta-review-2026-05-29-081645-challenger-orientation.md`(verdict=pass-after-revision,4 挑战者 + 2 验证者)。
+- **meta-review 修订(用户决策共识 1 选 A 扩 scope)**:导览声明分发下游但 setup.sh 没复制 + 22 处 `harness/docs/` 前缀下游断链 → setup.sh 加复制 + 路径统一裸 `docs/` + §2 加路径前缀约定;共识 2(命令 bash-only vs PowerShell)+ 共识 3/KG-D(reject 不对称)低成本修。
+- **本 batch new known-gaps**(audit §6):KG-C(batch 切分锚点挑战者拿不到,只能语义切分)/ KG-D 深层(挑战者贴 quote ≠ 真比对,推 P1 实战)/ KG-E(调度者并行 fork 纪律 — 本次漏 fork C4 串行补发,同构 2026-04-28 P-3)。
+- **上 batch KG 状态更新**:KG3 ✅ 已闭合(本 batch);KG1(主线 framing 兜底)— 本次 dogfooding 实战未触发(自取机制给了客观锚点),但硬约束仍未加,留观察。
 
 ## 进度
 

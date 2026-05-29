@@ -27,6 +27,15 @@
 
 ---
 
+## 2026-05-29 — 挑战者导览体系(挑战者侧基础设施)+ KG3 顺手解
+
+- **抉择**:给挑战者(fork 出的子智能体)建一份"导览"`challenger-orientation.md` — 主智能体侧 CLAUDE.md + Skill 地图的**对称物**。4 块:方法论(通用自检 + 4 agent 角色专属技巧)/ 数据来源向导(架构 + 跨平台路径 + 命令模板)/ 输入策略(批判看调度者输入 + **挑战者侧自取用户原话**校验主线 framing)/ 常见陷阱(公设 1 / spec_gap_masking / 反对反对 / 越权)。挑战者输出必填 `### 已对照用户原话` section,调度者综合时缺/空 reject(synthesis-rules 加事后规则 5)。同 batch 4 agent 文件 prompt 改 include 模式(删 governance 实文重复,fix-2 静态约束恢复)= KG3 顺手解。
+- **触发**:上 batch(fork-intent)meta-review 暴露 4 个同根问题 — 挑战者没方法论(只 freestyle)/ 不知道去哪找信息 / 主线 framing 防御缺失 / KG3 4 agent 176 行重复。本质同根:挑战者跟 governance 之间没有标准"知识传递"机制。
+- **走过的弯路**:议题 C(挑战者拿什么输入)→ 暴露方法论 + 数据源向导缺失 → 候选"用户原话提取 skill"被用户否决("跑了不一定有人读,调度者不读相当于白跑")→ 收敛到**挑战者侧自取**(挑战者用自带 Read/Grep 工具直接读会话 JSONL,不依赖调度者预提取)。
+- **改动 scope**:meta(challenger-orientation.md 新建 + 4 agent + synthesis-rules + multi-agent-review-guide + setup.sh + README)。**dogfooding 里程碑**:meta-review 本身是导览体系第一次实战 — 4 挑战者全部成功 Read 导览 + 自取用户原话 + 输出合规 section,自取机制防住 framing(上 batch KG1 本次未触发);meta-L2 验收通过。
+- **meta-review 修订**:共识 1(导览声明分发下游但 setup.sh 没复制 + 22 处 `harness/docs/` 前缀下游断链)— **用户选 A 扩 scope**:setup.sh 加复制 + 路径统一裸 `docs/`(下游视角)+ §2 加路径前缀约定。共识 2(命令 bash-only vs PowerShell 默认)+ 共识 3/KG-D(reject 不对称)低成本修。
+- **decision file**:暂无(留痕型,本拐点 + spec `docs/superpowers/specs/2026-05-26-challenger-orientation-design.md` + audit `docs/audits/meta-review-2026-05-29-081645-challenger-orientation.md`(verdict=pass-after-revision,4 挑战者 + 2 验证者,5 known-gaps)构成完整记录);plan `docs/superpowers/plans/2026-05-26-challenger-orientation-system.md`。
+
 ## 2026-05-25 — fork 前现场意图识别 + 报告通俗化(方向「己」)
 
 - **抉择**:落地用户原诉求"审查时 fork 智能体知道主线" + "报告通俗化(不预设用户和 AI 上下文,信息论)"。实现路径选方向「己」 — fork 前调度者现场意图识别,绑在 fork 事件;**不**实现 GateGuard 全套三层 hook(SessionStart + UserPromptSubmit + PreToolUse),GateGuard 设计哲学(`decisions/2026-05-12-ecc-analysis-snapshot.md §11.12`)保留作未来参考。
