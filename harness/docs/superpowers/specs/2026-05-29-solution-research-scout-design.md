@@ -232,7 +232,7 @@ deep-research 是 Claude Code **自带**工作流(用户 2026-05-29 确认 + 本
 - [ ] 底座写明:默认用 Claude Code 自带的 deep-research + WebSearch fork 工程兜底
 - [ ] brainstorming-rules 加"方案调研(按需)"步骤,引用路径不抄实文
 - [ ] challenger-orientation §2 加外部调研数据源 + 红线划界,§2.4 更新
-- [ ] research-scout §4 + README + CLAUDE 角色表注明 deep-research 是 Claude Code 自带(不进 recommended-tools)
+- [ ] research-scout §4 + README 注明 deep-research 是 Claude Code 自带(CLAUDE 角色表只列"方案调研"角色,不重复"自带";不进 recommended-tools)
 - [ ] CLAUDE.md M3+M4 角色表加 research-scout 行
 - [ ] README 原理段更新
 - [ ] §7.3 未来工作记"重视模型的输入"
@@ -265,7 +265,7 @@ deep-research 是 Claude Code **自带**工作流(用户 2026-05-29 确认 + 本
 ## 8. 与现有架构的关系
 
 - **与扁平 fork**:research-scout 沿用"调度者 fork + 嵌 prompt"(说明文件,非 custom agent type),与 design-reviewer 一致。
-- **与公设 1**:触发判断由独立方做(非待调研 agent 自评)— deep-research finding 3(模型自评不可靠)是公设 1 的外部印证。
+- **与公设 1**:触发判断由独立方做(非待调研 agent 自评)— deep-research finding 3(模型自评知识边界不可靠)是"**做事 / 判断分离**"的外部印证(公设 1 的延伸:自评不可靠不限于已有产出,也含自评知识边界)。
 - **与公设 2**:本能力把"行动公设"的 WebFetch 从"空挂口子"激活成真实流程链路。
 - **与 challenger-orientation(上 batch)**:数据来源向导扩展(加外部调研),红线划界。
 - **与 feedback_judgment_basis**:§3.3 显式划界(技术方案当证据 ✅ / 别人数据撑判断 ❌)。
