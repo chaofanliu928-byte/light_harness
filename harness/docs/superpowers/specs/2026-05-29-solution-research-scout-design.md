@@ -1,7 +1,7 @@
 ---
 status: brainstorming-approved
 date: 2026-05-29
-purpose: 给 harness 加"主动搜寻 / 联网调研外部方案"能力 — 规划多智能体方案时先界定领域+问题,按需 fork 联网调研员;薄纪律层 + 编排现成 deep-research workflow(可插拔底座)
+purpose: 给 harness 加"主动搜寻 / 联网调研外部方案"能力 — 规划多智能体方案时先界定领域+问题,按需 fork 联网调研员;薄纪律层 + 默认编排 Claude Code 自带的 deep-research workflow(WebSearch 工程兜底)
 scope: meta
 batch_name: solution-research-scout
 ---
@@ -10,7 +10,7 @@ batch_name: solution-research-scout
 
 > 本 batch 落地用户原诉求:**遇到不了解的地方要主动搜寻 + 规划多智能体方案时先界定"什么领域什么问题",再分一个智能体联网调研业界现有方案**。
 >
-> 核心:harness **不造调研引擎**(重复造轮子 = 犯本 batch 要防的"别瞎抄"红线),只加一层"**何时该调研 + 调研结果怎么用**"的纪律,引擎用现成的 `deep-research` workflow(可插拔:没有则 fork 轻量调研员用内置 WebSearch)。
+> 核心:harness **不造调研引擎**(重复造轮子 = 犯本 batch 要防的"别瞎抄"红线),只加一层"**何时该调研 + 调研结果怎么用**"的纪律,引擎**默认用 Claude Code 自带的 `deep-research` workflow**(万一某环境调不到,fork 轻量调研员用内置 WebSearch 兜底)。
 
 ---
 
@@ -20,11 +20,11 @@ batch_name: solution-research-scout
 |---|---|
 | **本 batch 名** | solution-research-scout |
 | **改动 scope** | meta(新 agent 文件 + governance + references + README) |
-| **涉及文件** | 7 个(1 新建 + 6 改):新建 `research-scout.md`;改 `brainstorming-rules.md` / `challenger-orientation.md` / `recommended-tools.md` / `README.md` / `CLAUDE.md`(M3 根)/ `harness/CLAUDE.md`(M4)|
+| **涉及文件** | 6 个(1 新建 + 5 改):新建 `research-scout.md`;改 `brainstorming-rules.md` / `challenger-orientation.md` / `README.md` / `CLAUDE.md`(M3 根)/ `harness/CLAUDE.md`(M4)|
 | **工程量** | 2-3 天落地 + meta-finishing + meta-review |
 | **Evidence Depth** | meta-L2(规则文档 + agent 文件 + 实战 fork 1 次验证) |
 | **finishing 路径** | M1 meta-finishing + M2 meta-review(对抗式 D2) |
-| **不在 scope 内** | 不造调研引擎(用现成 deep-research)/ 不硬依赖 deep-research(可插拔)/ 不改 model-route(claude subagent 自带联网)/ "重视模型的输入"(用户明确推迟,记未来工作)/ 不预设触发阈值(实战调) |
+| **不在 scope 内** | 不造调研引擎(默认用 Claude Code 自带的 deep-research)/ 不改 model-route(claude subagent 自带联网)/ 不进 recommended-tools(deep-research 是自带工作流,非外部推荐工具)/ "重视模型的输入"(用户明确推迟,记未来工作)/ 不预设触发阈值(实战调) |
 
 ---
 
@@ -90,25 +90,24 @@ batch_name: solution-research-scout
 | 目标 | 落地形式 |
 |---|---|
 | **G1**:规划方案时能按需 fork 联网调研员 | 新建 `research-scout.md`(调研编排说明)+ brainstorming-rules 加触发+framing 步骤 |
-| **G2**:不造引擎,复用现成 deep-research(可插拔) | research-scout 底座:deep-research 优先 / WebSearch fork fallback;recommended-tools 推荐 deep-research |
+| **G2**:不造引擎,默认用 Claude Code 自带的 deep-research | research-scout 底座:默认 `Workflow({name:"deep-research"})`(Claude Code 自带工作流);WebSearch fork 仅工程健壮性兜底 |
 | **G3**:按需触发,默认 skip(省成本) | 触发规则:可逆性主轴 + 不熟次轴,默认不调研,独立判断(非待调研 agent 自评),阈值实战调 |
 | **G4**:红线 — 调研结果只当证据/选项不当判断依据 | research-scout prompt 契约:UNPHAT 字段 + 不给推荐排名 + "别人这么做不单独构成理由" + 原始 context 匹配性 + 元自警 |
 | **G5**:跟"判断基于事实逻辑"红线划清界 | challenger-orientation §2 加外部调研数据源 + 显式区分(禁:别人数据撑判断 / 允:技术方案当证据) |
-| **G6**:不引入硬依赖 / 不改代码 | 纯文档 + agent 文件;不改 model-route(claude subagent 自带联网);deep-research 可选不硬依赖 |
+| **G6**:不引入硬依赖 / 不改代码 | 纯文档 + agent 文件;不改 model-route(claude subagent 自带联网);deep-research 是 Claude Code 自带,直接用 |
 
 ### 2.2 Scope 边界
 
 **在 scope 内**:
 - 新建 `harness/.claude/agents/research-scout.md`(调研编排说明 + 红线契约)
 - 改 `harness/docs/governance/brainstorming-rules.md`(需求深挖后、方案讨论前加"领域+问题界定 → 触发判断 → 调研"步骤)
-- 改 `harness/docs/references/challenger-orientation.md` §2(加"外部联网调研"数据源 + 红线划界)
-- 改 `harness/docs/references/recommended-tools.md`(deep-research 可选增强)
+- 改 `harness/docs/references/challenger-orientation.md` §2(修正红线误读 + 加"外部联网调研"数据源)
 - 改 `README.md`(原理段加方案调研能力)
 - 改 `CLAUDE.md`(M3)+ `harness/CLAUDE.md`(M4)角色分离表加 research-scout 行
 
 **不在 scope 内**:
 - **造调研引擎**(用现成 deep-research;无则轻量 WebSearch fork)
-- **硬依赖 deep-research**(可插拔 — 下游没装则 fallback)
+- **把 deep-research 当外部推荐工具放 recommended-tools**(它是 Claude Code 自带工作流,直接用;WebSearch fork 仅工程兜底)
 - **改 model-route.md**(那是 codex networkAccess;claude subagent 联网不受其限,dogfood 已证)
 - **"重视模型的输入"**(用户明确推迟 → §7.3 未来工作)
 - **预设触发阈值公式**(论文公式未过对抗核验;实战调)
@@ -142,10 +141,10 @@ batch_name: solution-research-scout
 - 把方案设计问题**转成一个明确的 research question**(四要素委派:目标 / 产出格式 / 用什么源 / 边界 — Anthropic 共识)。
 - framing 段是任务边界,遵守 synthesis-rules 中性化(不暗示结论)。
 
-#### §4 底座选择(可插拔 — G2)
-- **优先**:`Workflow({name: "deep-research", args: "<research question>"})`(现成,完善:5 角度 → fetch → 3 票对抗验证 → 带引用综合)。
-- **fallback**(deep-research 不可用):fork 1 个 general-purpose subagent 用 claude 自带 WebSearch/WebFetch 做轻量调研(prompt 契约见 §5)。
-- **下游可得性**:deep-research 是否所有 Claude Code 都有未确定(§7.3 KG);可插拔设计使其不阻塞 — 下游开箱即用(WebSearch fallback),装了 deep-research 的更强。
+#### §4 底座(默认用 Claude Code 自带的 deep-research — G2)
+- **默认**:`Workflow({name: "deep-research", args: "<research question>"})` — **deep-research 是 Claude Code 自带的工作流**(5 角度 → fetch 15 源 → 每条 claim 3 票对抗验证 → 带引用综合)。规划方案调研直接用它。
+- 说明文件**注明 deep-research 是 Claude Code 自带工作流**,调度者直接 `Workflow({name:"deep-research"})` 调用,无需另装。
+- **健壮性兜底**(仅工程稳健,非因怀疑可得性 — 任何外部调用都该有兜底):万一某环境调不到,fork 1 个 general-purpose subagent 用 claude 自带 WebSearch/WebFetch 做轻量调研(prompt 契约见 §5)。
 
 #### §5 调研员产出的红线契约(G4 — 本设计核心)
 不论底座是 deep-research 还是 WebSearch fork,调研产出**必须整形成**:
@@ -174,19 +173,21 @@ batch_name: solution-research-scout
 ```
 引用 research-scout.md 路径,不抄实文(include 范式)。
 
-### 3.3 challenger-orientation.md §2(加外部调研数据源 + 红线划界)
+### 3.3 challenger-orientation.md §2(修正红线误读 + 加外部调研数据源)
 
-§2 数据来源向导加一行 + 一个红线划界小节:
-- 数据源表加:`| 业界现有技术方案(规划方案时) | 外部联网调研(research-scout,按需)— 见 §2.X |`
-- 新小节"§2.X 外部联网调研(红线划界)":
-  - **允许**:调研业界**技术方案**(有哪些做法、各自原理 / 适用前提)作为**证据 / 选项**。
-  - **禁止**:用别人项目数据 / 流行度 / "X% 项目这么做"撑**判断 / 市场结论**(`[[feedback_judgment_basis]]` 红线)。
-  - 区分点:**证据 ≠ 判断依据**(EBSE:调研是 step2 证据,决策是 step4;调研结果过"对我是否适用"闸才进决策)。
-  - 更新原 §2.4"跨项目模式→不查":改为"跨项目**数据/流行度**不用于判断;跨项目**技术方案**可调研当证据(走 research-scout 红线契约)"。
+**先修正一处反复误读的红线**(用户 2026-05-29,`[[feedback_judgment_basis]]` 已同步澄清):上 batch §2.4 写"跨项目模式 → **不查**",是把红线误读成"不许看别人项目"。**红线本意 = "不照搬,要经自己思考",不是"不查"**。
 
-### 3.4 recommended-tools.md(deep-research 可选增强)
+改动:
+- §2.4 表那行"跨项目模式 → 不查" **改为**:`| 业界 / 别的项目的技术方案 | **可调研参考**(走 research-scout)— 但不照搬,看完要基于事实和逻辑自己判断"对我们是否适用";别人的数据 / 流行度不能直接当判断依据 |`
+- §2 数据来源向导**加一行**:`| 业界现有技术方案(规划方案时) | 外部联网调研(research-scout,按需) |`
+- 加小节"外部调研与红线"(简短):
+  - 红线 = **不照搬要思考**(不是不许看)。调研业界方案**允许且鼓励**(尤其为下游项目开发时用 — 用户 2026-05-29:"调研业界技术方案更多是为下游使用")。
+  - 调研结果是**证据 / 选项**,不是**判断依据**(EBSE:证据要过"对我是否适用"这道闸才进决策)。
+  - 唯一禁止:把别人的**数据 / 流行度**("X% 项目这么做")不经思考直接当结论。
 
-加一条:deep-research workflow(Claude Code 内置/插件,需确认可得性)— 联网方案调研的现成强力底座(5 角度 + 3 票对抗验证 + 带引用)。harness research-scout 优先用它;不可用则 fallback 内置 WebSearch。**推荐不硬依赖**(同 glassbox 处理)。
+### 3.4 deep-research 是 Claude Code 自带(无需改 recommended-tools)
+
+deep-research 是 Claude Code **自带**工作流(用户 2026-05-29 确认 + 本会话实测可 `Workflow({name:"deep-research"})` 调用),research-scout 默认直接用它,**不进 recommended-tools**(那是"用户级外部工具推荐清单",自带工作流不属于此)。"自带"的说明落在 research-scout §4 + README 原理段 + CLAUDE 角色表三处,不新增 recommended-tools 改动。
 
 ### 3.5 CLAUDE.md(M3)+ harness/CLAUDE.md(M4)角色表
 
@@ -205,8 +206,7 @@ batch_name: solution-research-scout
 |---|---|---|
 | `harness/.claude/agents/research-scout.md` | 新建 | 调研编排说明 6 节(角色/触发/framing/底座/红线契约/核查分离) |
 | `harness/docs/governance/brainstorming-rules.md` | 改 | 加"方案调研(按需)"步骤,引用 research-scout 路径 |
-| `harness/docs/references/challenger-orientation.md` | 改 | §2 加外部调研数据源 + §2.X 红线划界 + 更新 §2.4 |
-| `harness/docs/references/recommended-tools.md` | 改 | 加 deep-research 可选增强条目 |
+| `harness/docs/references/challenger-orientation.md` | 改 | §2.4 修正红线误读(可调研不照搬)+ 加外部调研数据源 |
 | `README.md` | 改 | 原理段加主动调研能力 |
 | `CLAUDE.md`(M3)+ `harness/CLAUDE.md`(M4) | 改 | 角色表加 research-scout 行 |
 
@@ -216,7 +216,7 @@ batch_name: solution-research-scout
 
 - **scope = meta**(命中 C 组 agent / A 组 governance+CLAUDE.md / D 组 references)。
 - finishing:M1 meta-finishing + M2 meta-review(对抗式 D2,bootstrap 4 维 + 1-2 定制专项)。
-- 定制专项建议:**红线自洽专项**(联网调研 vs feedback_judgment_basis 是否真划清界,会不会反而打开"用别人数据撑判断"的口子)+ **可插拔/可得性专项**(deep-research 不可用时 fallback 是否真 work)。
+- 定制专项建议:**红线自洽专项**(联网调研 vs feedback_judgment_basis 是否真划清界,会不会反而打开"用别人数据撑判断"的口子)+ **健壮性兜底专项**(deep-research 调不到时 WebSearch fork 兜底是否真 work)。
 
 ---
 
@@ -229,10 +229,10 @@ batch_name: solution-research-scout
 ### 6.2 验收清单(meta-L1)
 - [ ] research-scout.md 6 节齐全,红线契约含 UNPHAT/不给推荐/Rust RFC 硬规则/原始context/元自警
 - [ ] 触发判据=可逆性主轴+熟悉度次轴+独立判断+默认skip,阈值不写死
-- [ ] 底座可插拔(deep-research 优先 + WebSearch fallback)写明
+- [ ] 底座写明:默认用 Claude Code 自带的 deep-research + WebSearch fork 工程兜底
 - [ ] brainstorming-rules 加"方案调研(按需)"步骤,引用路径不抄实文
 - [ ] challenger-orientation §2 加外部调研数据源 + 红线划界,§2.4 更新
-- [ ] recommended-tools 加 deep-research(标可选不硬依赖)
+- [ ] research-scout §4 + README + CLAUDE 角色表注明 deep-research 是 Claude Code 自带(不进 recommended-tools)
 - [ ] CLAUDE.md M3+M4 角色表加 research-scout 行
 - [ ] README 原理段更新
 - [ ] §7.3 未来工作记"重视模型的输入"
@@ -256,7 +256,7 @@ batch_name: solution-research-scout
 
 ### 7.3 已知边界 / 未来工作
 - **未来工作 — "重视模型的输入"**(用户 2026-05-29 明确推迟):独立诉求,含义候选(输入充分性 / 一手性 / 质量核查 / 跨模型差异),待用户启动时澄清。
-- **KG — deep-research 下游可得性未确认**:本地无源文件,可能 CLI 内嵌或插件;claude-code-guide 说官方清单未列。可插拔设计绕过(fallback WebSearch),但"装了 deep-research 才有最强档"这点下游需自配。
+- **deep-research = Claude Code 自带工作流**(用户 2026-05-29 确认 + 本会话实测 `Workflow({name:"deep-research"})` 可调)。诚实标注:调度者核查时本地未找到其定义文件(可能 CLI 内嵌),按"自带默认可用"落地;WebSearch fork 仅工程兜底,非因怀疑可得性。
 - **KG — 触发阈值未定量**:论文公式未过对抗核验,实战调。
 - **KG — 方案设计领域知识边界难量化**:非事实型 QA,无客观 ground truth;故可逆性为主轴、熟悉度为次轴。
 
@@ -276,7 +276,7 @@ batch_name: solution-research-scout
 ## 9. Commit 策略(2 commits)
 
 - **Commit 1**:新建 research-scout.md + brainstorming-rules 触发步骤(核心机制)
-- **Commit 2**:challenger-orientation §2 + recommended-tools + README + CLAUDE.md M3/M4 角色表(配套 + 红线划界)
+- **Commit 2**:challenger-orientation §2(修正红线误读)+ README + CLAUDE.md M3/M4 角色表(配套)
 
 ---
 
