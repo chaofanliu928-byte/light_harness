@@ -4,7 +4,7 @@
 > 详细设计在 docs/superpowers/specs/,实现计划在 docs/superpowers/plans/。
 > 里程碑历史在 docs/PROGRESS.md。
 
-更新时间:2026-05-29(challenger-orientation-system batch 修订完成,待 push)
+更新时间:2026-05-29(solution-research-scout batch 修订完成,待 push)
 
 ## 目标
 
@@ -27,6 +27,13 @@ P2 可观测性双层落地 + glassbox 角色 reframe(用户级外部工具,推�
 - **KG2/3** — spec §9.1 措辞过严 + 4 agent ~176 行重复(与 fix-2 静态约束冲突);后续 batch 校正
 - **KG4/5/7** — spec_gap_masking 风险(提取源缺失边界 / 双写退化 / 嵌套 3 层无对照);后续 batch 加硬约束
 - **KG10**(dogfooding 实例)— 本次 meta-review fork audit 自身触发了 R4(主线段含"方向「己」"结论引导);process-audit 数据点
+
+**[2026-05-29] solution-research-scout batch 修订完成(待 push)** — 给 harness 加"方案调研员"能力:规划多智能体方案时(需求定了、方案讨论前),**按需** fork 联网调研员搜业界现有方案。核心 = harness **不造调研引擎**(重复造轮子=本 batch 要防的红线),只加薄纪律层(何时调研 + 结果怎么用),引擎**默认编排 Claude Code 自带 deep-research workflow**(调不到则 WebSearch fork 兜底)。触发判据 = 可逆性主轴 × 熟悉度次轴,默认 skip,由调度者(独立方)判断(非待调研 agent 自评 — 做事/判断分离)。6 文件(1 新建 `research-scout.md` + brainstorming-rules + challenger-orientation §2.4 + 根 README + CLAUDE M3/M4)/ 实施 2 commits + spec + plan + audit + 修订 commit。
+- **红线核心(本 batch 主目标)**:调研产出只当**证据/选项**(经自己思考判断是否适用),**不给推荐排名**、不当判断依据("别人这么做不单独构成理由")。**澄清用户红线(误解多次)**:`feedback_judgment_basis` = "不照搬要思考",**不是**"不许看/查";修正上 batch challenger-orientation §2.4 写错的"跨项目→不查"行。memory 已同步钉死。
+- **dogfooding**:三轮调研(缺口核查 Workflow / 业界做法 8 agent 全联网 / 触发判据跑现成 deep-research 102 agent)全程用要做的能力设计它自己;meta-review 是 challenger-orientation 导览体系第二次实战(4 挑战者自取用户原话 + 必填 section 全合规)。
+- **meta-review 修订(A 类 7 项已落地)**:公设 1 overreach → 改"做/判断分离"(3 处)/ 深度档加 ✅❌例 / deep-research 可得性诚实保留同步 reader / EBSE 展开 / spec §6.2 验收口径 / challenger §2.4 角色边界 / 红线禁止例加回"X 公司这么做"。audit `docs/audits/meta-review-2026-05-29-184740-solution-research-scout.md`(verdict=pass-after-revision,4 挑战者 + 1 验证者,0 🔴,15 🟡,A 类 7 修 + B 类 5 KG)。
+- **本 batch new known-gaps**(audit §6):KG-A(消费侧"证据≠判断"无机械校验)/ KG-B(元自警仅产出侧)/ KG-C(WebSearch fork 兜底 SOP 不可操作)/ KG-D(harness/README.md 七层原理与根 README drift,既存不分发)/ KG-E(cosmetic 群)。均推 P1 实战或后续顺手。
+- **推迟项**:"重视模型的输入"(用户 2026-05-29 明确推迟,独立诉求,task #30 记未来,不在本 batch)。
 
 **[2026-05-29] challenger-orientation-system batch 修订完成(待 push)** — 建挑战者侧导览体系 `challenger-orientation.md`(主智能体 CLAUDE.md 对称物,4 块:方法论 / 数据来源向导 / 输入策略 / 常见陷阱)+ 挑战者侧自取用户原话(否决"用户原话提取 skill")+ 输出必填 `### 已对照用户原话` section(synthesis-rules 加事后规则 5 reject)。同 batch 4 agent 文件改 include 模式 = **KG3 闭合**(上 batch KG3 4 agent 176 行重复已解,fix-2 静态约束恢复)。9 文件 / 7 commits(spec + plan + 3 实施 + 1 meta-review audit+修订 + 1 finishing 留痕)。
 - **dogfooding 里程碑**:meta-review 本身是导览体系第一次实战 — 4 挑战者全部成功 Read 导览 + 自取用户原话 + 输出合规 section,自取机制防住 framing(上 batch KG1 本次未触发);**meta-L2 验收通过**。audit `docs/audits/meta-review-2026-05-29-081645-challenger-orientation.md`(verdict=pass-after-revision,4 挑战者 + 2 验证者)。
