@@ -4,7 +4,7 @@
 > 详细设计在 docs/superpowers/specs/,实现计划在 docs/superpowers/plans/。
 > 里程碑历史在 docs/PROGRESS.md。
 
-更新时间:2026-05-30(solution-research-scout 修订完成 + push 前 readme/分发链核查修订,待 push)
+更新时间:2026-05-30(solution-research-scout 修订完成 + push 前 readme/分发链核查修订,**已 push** f8b154e)
 
 ## 目标
 
