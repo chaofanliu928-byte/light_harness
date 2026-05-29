@@ -47,6 +47,8 @@
 
   **实现**:`harness/docs/references/challenger-orientation.md`。fork 挑战者时 prompt 内含"先 Read 此文件";挑战者输出格式末尾必填 `### 已对照用户原话` section,调度者综合时校验(`synthesis-rules.md` 事后规则 5 落地)。**与下游的关系**:本文件属 `references/`,setup.sh 复制下游 — 下游项目的挑战者也用同一份导览。
 
+- **4.6 主动调研 / 重视外部输入** — harness 默认"内向"(搜本仓库 + 问用户);本能力补上"从仓库外获取新信息作决策输入"的链路。规划方案时,需求定了、讨论方案前,**按需**(可逆性主轴 × 熟悉度次轴,默认跳过)fork 联网调研员,默认用 Claude Code 自带的 deep-research 调研业界方案。**Why**:别让 AI 闭门造车;但联网有成本且无差别检索会降质,所以按需触发。**红线**:调研结果只当**证据 / 选项**(经自己思考判断是否适用),不当判断依据——"别人这么做不单独构成理由"。**实现**:`harness/.claude/agents/research-scout.md`(调研编排 + 红线契约)+ `brainstorming-rules.md` 阶段四前触发节。
+
 #### 层 5:反模式警示(用户校准过的硬约束)
 - **5.1 警惕"便利答案掩盖规范缺口"**(`spec_gap_masking`)— 遇缺口要承认,不包装成动作
 - **5.2 选择类可视化要展示选项对比**(`choice_visualization`)— 拒绝直接画推荐,选项必须并排
