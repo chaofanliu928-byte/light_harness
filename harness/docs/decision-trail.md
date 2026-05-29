@@ -33,8 +33,9 @@
 - **触发**:用户 2026-05-29 原诉求"遇到不了解主动搜寻 + 重视模型输入 + 规划方案时分智能体联网搜方案"。缺口核查(Workflow 4 reader)证实三诉求统一为"harness 缺从仓库外拿新信息做输入"的链路。
 - **红线澄清(误解多次)**:用户纠正 `feedback_judgment_basis` 红线 = **"不照搬要思考",不是"不许看/查"**;调研业界技术方案当证据是允许的(尤其为下游用)。修正上 batch challenger-orientation §2.4 写错的"跨项目→不查"。memory 已同步钉死。
 - **走过的弯路**:原想造 research-scout 引擎 → 用户引导"复用现成的" → 发现 deep-research 是 Claude Code 自带 workflow(读源码:5 角度→fetch→3 票对抗验证→带引用)→ 设计简化成"薄纪律层 + 编排现成 deep-research"。三轮调研(缺口核查 / 业界做法 8 agent 全联网 / 触发判据跑现成 deep-research 102 agent)全程 dogfood — 用要做的能力设计它自己。
-- **改动 scope**:meta(research-scout.md 新建 + brainstorming-rules + challenger-orientation §2.4 + README + CLAUDE M3/M4)。"重视模型的输入"用户明确推迟(独立诉求,记未来)。
-- **decision file**:暂无(留痕型,本拐点 + spec `docs/superpowers/specs/2026-05-29-solution-research-scout-design.md` + audit `docs/audits/meta-review-2026-05-29-184740-solution-research-scout.md`(verdict=pass-after-revision,4 挑战者 + 1 验证者,0 🔴,A 类 7 修 + B 类 5 KG)构成完整记录);plan `docs/superpowers/plans/2026-05-29-solution-research-scout.md`。
+- **改动 scope**:meta(research-scout.md 新建 + brainstorming-rules + challenger-orientation §2.4 + README + CLAUDE M3/M4 + setup.sh + harness/README)。"重视模型的输入"用户明确推迟(独立诉求,记未来)。
+- **push 前核查(2026-05-30)**:用户问"是否更新 readme" → fork 5 reader(Workflow)核查覆盖完整性,捞出 **setup.sh 漏发 research-scout.md**(下游断链 — brainstorming-rules/challenger/M4 CLAUDE 引用却没分发;原 audit covers 盲区 = 4 挑战者无人查分发链)+ 两 README drift(双轴表/角色表/目录/"18个"计数)→ 全修 + 独立 verifier 6 条全 PASS。**元教训 KG-F**:meta-review 应显式核查分发链。**澄清固化**:"改动走 meta-review(scope=meta)" ≠ "文件不分发下游"(写入 spec §5)。
+- **decision file**:暂无(留痕型,本拐点 + spec `docs/superpowers/specs/2026-05-29-solution-research-scout-design.md` + audit `docs/audits/meta-review-2026-05-29-184740-solution-research-scout.md`(verdict=pass-after-revision,4 挑战者 + 1 验证者,0 🔴,A 类 7 修 + B 类 5 KG + §7 push 前核查追记)构成完整记录);plan `docs/superpowers/plans/2026-05-29-solution-research-scout.md`。
 
 ## 2026-05-29 — 挑战者导览体系(挑战者侧基础设施)+ KG3 顺手解
 

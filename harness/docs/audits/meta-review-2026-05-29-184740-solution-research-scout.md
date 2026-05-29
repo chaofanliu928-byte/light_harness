@@ -7,6 +7,8 @@ covers:
   - <root>/README.md
   - <root>/CLAUDE.md
   - harness/CLAUDE.md
+  - harness/setup.sh
+  - harness/README.md
 ---
 
 # Meta-Review Audit — solution-research-scout(2026-05-29)
@@ -128,3 +130,24 @@ bootstrap 4 维(核心原则/目的达成/副作用/scope 漂移)全覆盖,无�
 > **dogfood 里程碑**:challenger-orientation 体系第二次实战(4 挑战者自取用户原话 + 必填 section 全合规);research-scout 设计期三轮调研已 dogfood。
 >
 > **后续动作**:A 类 7 项修复 → 重验 → decision-trail + handoff → push origin/main(M1 Step D)。**push 前停等用户确认**。
+
+---
+
+## 7. push 前补充核查(修订追记 — 2026-05-30)
+
+**起因**:M1 Step D 留痕完成、push 前,用户问"是不是要更新一下 readme"。调度者据此 fork 5 个独立 reader(Workflow 编排)核查 research-scout 在面向用户文档 + 分发链的覆盖完整性。dogfood:这正是 research-scout 倡导的"主动核查",且用独立 reader = 公设 1 不自评。
+
+**核查暴露的缺口(本 audit 原 §3 4 挑战者未覆盖 — covers 盲区)**:
+- 🔴 **真断链**:`setup.sh` 用白名单逐个复制 agents,**漏了 research-scout.md**;而分发下游的 brainstorming-rules / challenger-orientation / M4 CLAUDE 都引用它 → 下游 dangling reference。本 audit 原 covers 未列 setup.sh,故 4 挑战者无人核查分发链 → **审查盲区**(已补 covers)。
+- 🟡 **README drift**:根 README 加 4.6 后同篇双轴对照表未同步(列表 6 条、表 4 行自相矛盾);两 README 层4 / 角色表 / agents 目录清单 / "18 个"计数与新能力不同步(部分是 KG-D 既存,本轮 4.6 放大)。
+- ✅ 反向哨兵确认:5 处已落地措辞无"过重"(没把"按需"写成"必须");QUICKREF 不需改(按需子步骤不进极简速查卡);"重视外部输入"标题不言过其实(指 repo 外联网输入,非推迟的"模型输入")。
+
+**处理(用户选"全修,连既存 KG-D 一起清")**:
+- setup.sh 加 research-scout.md 复制行(断链修复)+ 注释厘清"改动 scope ≠ 分发范围"
+- 两 README:双轴表补 4.5/4.6、层4 补(harness/README)、角色表补、agents 目录补、标题去写死计数
+- spec §4/§5/§6.2 补登 setup.sh + "改动 scope ≠ 分发范围"说明
+- **独立 verifier 重验**(general-purpose,非自验):6 条核查全 PASS,无新矛盾,红线合规 → 可提交
+
+**元教训(给未来 meta-review)**:
+- **KG-F(新)**:meta-review 的 covers / 挑战者维度应**显式含分发链**(setup.sh 是否随新工件同步)。本 batch 改了 agent 文件却没在 audit 覆盖 setup.sh,4 挑战者全程无人查"新文件分发了吗",靠 push 前用户一句话 + 临时核查才捞回。建议:涉及新建 `.claude/agents|skills|hooks` 或 `references` 文件的 meta batch,固定加一个"分发完整性"核查点。
+- **澄清固化**:"改动走 meta-review(scope=meta)" ≠ "文件不分发下游" — 已写入 spec §5,锁死此反复被混淆点。

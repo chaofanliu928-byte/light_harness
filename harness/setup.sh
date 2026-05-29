@@ -43,6 +43,10 @@ cp "$SCRIPT_DIR/.claude/agents/designer.md" "$TARGET_DIR/.claude/agents/"
 cp "$SCRIPT_DIR/.claude/agents/design-reviewer.md" "$TARGET_DIR/.claude/agents/"
 cp "$SCRIPT_DIR/.claude/agents/security-reviewer.md" "$TARGET_DIR/.claude/agents/"
 cp "$SCRIPT_DIR/.claude/agents/process-auditor.md" "$TARGET_DIR/.claude/agents/"
+# research-scout 是"方案调研编排说明"(feature 侧,下游规划方案时按需用),非领审员 agent;
+# 与 design-reviewer.md 同类(说明文件而非 custom agent),随 agents 分发下游。
+# 注:本文件改动走 meta-review(scope=meta),但属下游可用工件 — "改动审查路径" ≠ "分发范围"。
+cp "$SCRIPT_DIR/.claude/agents/research-scout.md" "$TARGET_DIR/.claude/agents/"
 
 # .claude/skills
 mkdir -p "$TARGET_DIR/.claude/skills/evaluate"

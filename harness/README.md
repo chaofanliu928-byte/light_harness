@@ -13,7 +13,7 @@ Superpowers 管"怎么写好代码"。AI Dev Harness 管"按什么标准写、�
 - **弱者**(经验少 / 不熟悉 AI 协作 / 没系统化 governance 直觉)— 框架强制走流程,照着做就能超过"自己单干"
 - **强者**(有经验 / 已有 governance 直觉)— 框架给约束和工具,突破自己的内省盲点 + 跨项目复用经验
 
-### 七层 18 个核心原理
+### 七层核心原理
 
 按从认知根基到物理实现 7 层组织:
 
@@ -37,6 +37,8 @@ Superpowers 管"怎么写好代码"。AI Dev Harness 管"按什么标准写、�
 - **4.2 综合阶段中性化** — 调度者构造挑战者 prompt 必须中立(材料/排序/措辞);综合按 RUBRIC 维度评判。**Why**:防 anchoring,多智能体审查的有效性前提。**实现**:`docs/governance/synthesis-rules.md` 完整规范
 - **4.3 改动范围自动识别** — governance 改动 glob 机械触发 meta-review。**Why**:不靠 AI 自觉,机械触发不可被自我说服绕过。**实现**:`CLAUDE.md` §3-§4 + `.claude/hooks/meta-scope.conf` + `check-meta-*.sh` 系列 hook
 - **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:9 个 SKILL.md 统一结构
+- **4.5 挑战者导览体系**(挑战者侧基础设施)— 主智能体(调度者)进项目时读 `CLAUDE.md` 知道项目结构 / Skill 地图 / 文档索引;挑战者(fork 出的子智能体)对称地需要一份"挑战者侧导览" — 知道:怎么找问题(方法论 — 通用自检清单 + 角色专属技巧)/ 去哪找信息(数据来源向导 — 跨平台路径 + 命令模板)/ 怎么看调度者输入(批判看 + 自取用户原话校验主线 framing)/ 哪些陷阱要避(公设 1 / spec_gap_masking / framing / 越权)。**实现**:`docs/references/challenger-orientation.md`。fork 挑战者时 prompt 内含"先 Read 此文件";挑战者输出末尾必填 `### 已对照用户原话` section,调度者综合时校验(`synthesis-rules.md` 事后规则 5)
+- **4.6 主动调研 / 重视外部输入** — harness 默认"内向"(搜本仓库 + 问用户);本能力补上"从仓库外获取新信息作决策输入"的链路。规划方案时,需求定了、讨论方案前,**按需**(可逆性主轴 × 熟悉度次轴,默认跳过)fork 联网调研员,默认用 Claude Code 自带的 deep-research 调研业界方案。**Why**:别让 AI 闭门造车;但联网有成本且无差别检索会降质,所以按需触发。**红线**:调研结果只当**证据 / 选项**(经自己思考判断是否适用),不当判断依据——"别人这么做不单独构成理由"。**实现**:`.claude/agents/research-scout.md`(调研编排 + 红线契约)+ `brainstorming-rules.md` 阶段四前触发节
 
 #### 层 5:反模式警示(用户校准过的硬约束)
 - **5.1 警惕"便利答案掩盖规范缺口"**(`spec_gap_masking`)— 遇缺口要承认,不包装成动作
@@ -74,6 +76,8 @@ Superpowers 管"怎么写好代码"。AI Dev Harness 管"按什么标准写、�
 | 4.2 综合阶段中性化 | 框架强制中立 | 防自己 anchoring |
 | 4.3 改动范围自动识别 | 不靠新手懂 | 防"我懂的不用审" |
 | 4.4 人-智能体协作契约 | scaffolding | 跨项目复用界面 |
+| 4.5 挑战者导览体系 | 挑战者也有上手地图 | 自取用户原话防 framing 盲点 |
+| 4.6 主动调研 | 框架提示按需查,别闭门造车 | 补内向盲点,经思考用证据不照搬 |
 | 5.1-5.5 反模式 5 条 | 框架避坑 | 突破自我合理化 |
 | 6.1 实战测试 | 不在沙盒假训练 | 真实问题更精准 |
 | 7.1 实现载体 | **核心** — 物理基础 | **核心** — 可直接调用 |
@@ -152,6 +156,7 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 | **经验沉淀（skill/参考文档）** | **AI Dev Harness — skill-extract** |
 | **结构化交接 + 归档** | **AI Dev Harness — structured-handoff** |
 | **跨会话知识检索** | **AI Dev Harness — session-search** |
+| **业界方案调研（按需,默认跳过）** | **AI Dev Harness — research-scout（规划方案时按需 fork,联网搜业界方案当选项输入）** |
 | **文档生命周期** | **AI Dev Harness — handoff, PROGRESS, 归档** |
 | **上下文重置** | **AI Dev Harness — handoff + SessionStart hook** |
 | **模块文档维护** | **AI Dev Harness — MODULE_DOC_TEMPLATE** |
@@ -171,7 +176,8 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 │   │   ├── design-reviewer.md           # 设计审查领审员（4 并行子智能体）
 │   │   ├── evaluator.md                 # 方向评估领审员（对抗式，3+1 并行子智能体）
 │   │   ├── security-reviewer.md         # 安全扫描领审员（3 并行子智能体）
-│   │   └── process-auditor.md           # 流程审计领审员（2 并行子智能体）
+│   │   ├── process-auditor.md           # 流程审计领审员（2 并行子智能体）
+│   │   └── research-scout.md            # 方案调研编排说明（按需 fork,默认跳过；非领审员）
 │   ├── skills/
 │   │   ├── project-setup/SKILL.md        # 对话式项目配置向导
 │   │   ├── system-design/SKILL.md       # 系统设计（fork designer）

@@ -207,14 +207,16 @@ deep-research 是 Claude Code **自带**工作流(用户 2026-05-29 确认 + 本
 | `harness/.claude/agents/research-scout.md` | 新建 | 调研编排说明 6 节(角色/触发/framing/底座/红线契约/核查分离) |
 | `harness/docs/governance/brainstorming-rules.md` | 改 | 加"方案调研(按需)"步骤,引用 research-scout 路径 |
 | `harness/docs/references/challenger-orientation.md` | 改 | §2.4 修正红线误读(可调研不照搬)+ 加外部调研数据源 |
-| `README.md` | 改 | 原理段加主动调研能力 |
+| `README.md`(根)+ `harness/README.md` | 改 | 原理段加 4.6 主动调研;**meta-review 后修订补登**:双轴对照表补 4.5/4.6、目录树 agents 清单补 research-scout、标题去掉写死的"18 个"计数(KG-D drift 顺手清) |
 | `CLAUDE.md`(M3)+ `harness/CLAUDE.md`(M4) | 改 | 角色表加 research-scout 行 |
+| `harness/setup.sh` | 改(**meta-review 后修订补登**)| agents 白名单加 `research-scout.md` 复制行 — 下游断链修复(brainstorming-rules / challenger-orientation / M4 CLAUDE 引用它却没分发);属下游可用 feature 工件 |
 
 ---
 
 ## 5. Scope 判定 + finishing 路径
 
-- **scope = meta**(命中 C 组 agent / A 组 governance+CLAUDE.md / D 组 references)。
+- **scope = meta**(命中 C 组 agent / A 组 governance+CLAUDE.md / D 组 references / **F 组 setup.sh** — 后者为 meta-review 后修订补登)。
+- **改动 scope ≠ 工件分发范围**(易混淆,本 batch 一度漏 setup.sh → 下游断链):scope=meta 决定"改动走 M1/M2 meta-review 审查路径",**不**决定"产出文件是否分发下游"。research-scout.md 是下游规划方案要用的 feature 侧工件(同 design-reviewer.md / challenger-orientation.md — 都在 meta 批次被改却照样分发),随 setup.sh 分发;D13"meta 不分发"管的是 M1/M2 治理规则、M3 根 CLAUDE.md、meta-* hook,**不含** C 组 agent 文件。
 - finishing:M1 meta-finishing + M2 meta-review(对抗式 D2,bootstrap 4 维 + 1-2 定制专项)。
 - 定制专项建议:**红线自洽专项**(联网调研 vs feedback_judgment_basis 是否真划清界,会不会反而打开"用别人数据撑判断"的口子)+ **健壮性兜底专项**(deep-research 调不到时 WebSearch fork 兜底是否真 work)。
 
@@ -235,6 +237,8 @@ deep-research 是 Claude Code **自带**工作流(用户 2026-05-29 确认 + 本
 - [ ] research-scout §4 + README 注明 deep-research 是 Claude Code 自带(CLAUDE 角色表只列"方案调研"角色,不重复"自带";不进 recommended-tools)
 - [ ] CLAUDE.md M3+M4 角色表加 research-scout 行
 - [ ] README 原理段更新
+- [ ] **(修订补登)** setup.sh agents 白名单含 research-scout.md — 下游可拿到文件,brainstorming-rules / challenger-orientation / M4 CLAUDE 引用无断链
+- [ ] **(修订补登)** 根 + harness 两 README:双轴对照表含 4.5/4.6、agents 目录清单含 research-scout、标题不写死原理计数
 - [ ] §7.3 未来工作记"重视模型的输入"
 
 ---

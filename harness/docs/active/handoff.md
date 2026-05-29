@@ -4,7 +4,7 @@
 > 详细设计在 docs/superpowers/specs/,实现计划在 docs/superpowers/plans/。
 > 里程碑历史在 docs/PROGRESS.md。
 
-更新时间:2026-05-29(solution-research-scout batch 修订完成,待 push)
+更新时间:2026-05-30(solution-research-scout 修订完成 + push 前 readme/分发链核查修订,待 push)
 
 ## 目标
 
@@ -33,6 +33,7 @@ P2 可观测性双层落地 + glassbox 角色 reframe(用户级外部工具,推�
 - **dogfooding**:三轮调研(缺口核查 Workflow / 业界做法 8 agent 全联网 / 触发判据跑现成 deep-research 102 agent)全程用要做的能力设计它自己;meta-review 是 challenger-orientation 导览体系第二次实战(4 挑战者自取用户原话 + 必填 section 全合规)。
 - **meta-review 修订(A 类 7 项已落地)**:公设 1 overreach → 改"做/判断分离"(3 处)/ 深度档加 ✅❌例 / deep-research 可得性诚实保留同步 reader / EBSE 展开 / spec §6.2 验收口径 / challenger §2.4 角色边界 / 红线禁止例加回"X 公司这么做"。audit `docs/audits/meta-review-2026-05-29-184740-solution-research-scout.md`(verdict=pass-after-revision,4 挑战者 + 1 验证者,0 🔴,15 🟡,A 类 7 修 + B 类 5 KG)。
 - **本 batch new known-gaps**(audit §6):KG-A(消费侧"证据≠判断"无机械校验)/ KG-B(元自警仅产出侧)/ KG-C(WebSearch fork 兜底 SOP 不可操作)/ KG-D(harness/README.md 七层原理与根 README drift,既存不分发)/ KG-E(cosmetic 群)。均推 P1 实战或后续顺手。
+- **push 前核查修订(2026-05-30)**:用户问"是否更新 readme" → fork 5 reader(Workflow)核查覆盖 → 修 **setup.sh 断链**(research-scout.md 漏发下游)+ 两 README drift(双轴表/层4/角色表/agents 目录/去"18个"计数)+ spec §4/§5/§6.2 补登;独立 verifier 6 条全 PASS。audit §7 追记。**新增 KG-F**:meta-review 应显式核查分发链(setup.sh 是否随新工件同步)— 本 batch 靠用户一句话才捞回。
 - **推迟项**:"重视模型的输入"(用户 2026-05-29 明确推迟,独立诉求,task #30 记未来,不在本 batch)。
 
 **[2026-05-29] challenger-orientation-system batch 修订完成(待 push)** — 建挑战者侧导览体系 `challenger-orientation.md`(主智能体 CLAUDE.md 对称物,4 块:方法论 / 数据来源向导 / 输入策略 / 常见陷阱)+ 挑战者侧自取用户原话(否决"用户原话提取 skill")+ 输出必填 `### 已对照用户原话` section(synthesis-rules 加事后规则 5 reject)。同 batch 4 agent 文件改 include 模式 = **KG3 闭合**(上 batch KG3 4 agent 176 行重复已解,fix-2 静态约束恢复)。9 文件 / 7 commits(spec + plan + 3 实施 + 1 meta-review audit+修订 + 1 finishing 留痕)。
