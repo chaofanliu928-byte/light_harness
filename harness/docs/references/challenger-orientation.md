@@ -1,7 +1,7 @@
 ---
 audience: 挑战者(fork 出的 subagent)
 purpose: 给挑战者(子智能体)提供方法论 / 数据来源 / 输入策略 / 陷阱避坑的"入门必读"
-when_to_read: fork 你的时候,prompt 内含 "先 Read `harness/docs/references/challenger-orientation.md`" — 这是必读第一步
+when_to_read: fork 你的时候,prompt 内含 "先 Read `docs/references/challenger-orientation.md`" — 这是必读第一步
 distribution: 本文件分发到下游(setup.sh 复制 references/)
 ---
 
@@ -21,7 +21,7 @@ distribution: 本文件分发到下游(setup.sh 复制 references/)
 
 ### §1.1 通用(13 挑战者全适用)
 
-**对抗-决策分离原则**(参 `harness/docs/references/multi-agent-review-guide.md`):你是**对抗者**,不是评分员;只找问题,不打分;只附证据,不提替代方案。调度者(领审员)负责综合 + 评分。
+**对抗-决策分离原则**(参 `docs/references/multi-agent-review-guide.md`):你是**对抗者**,不是评分员;只找问题,不打分;只附证据,不提替代方案。调度者(领审员)负责综合 + 评分。
 
 **4 个原则**:
 
@@ -73,14 +73,14 @@ distribution: 本文件分发到下游(setup.sh 复制 references/)
 
 - 同 §1.2 挑战者 4 的条款对照法
 - **测试充分性专项**:按 scope 参数引 evidence depth 文件:
-  - `scope=feature` → 引 `harness/docs/references/testing-standard.md`(L1-L4)
-  - `scope=meta` → 引 `harness/docs/governance/meta-finishing-rules.md`(meta-L1~meta-L4)
+  - `scope=feature` → 引 `docs/references/testing-standard.md`(L1-L4)
+  - `scope=meta` → 引 `docs/governance/meta-finishing-rules.md`(meta-L1~meta-L4)
   - `scope=mixed` → 同时引两份(meta + feature 双套档位均评)
 - 检查:声称的 L 层级是否有对应 evidence(命令 / 输出 / 文件路径)?声称 L3 自动化但没脚本 = 虚假声明
 
 **挑战者 2(架构一致性)** — 路径追踪法
 
-- 找 import 路径,看是否违反 `harness/docs/ARCHITECTURE.md` 分层(若 ARCHITECTURE.md 不存在,跳过并标注)
+- 找 import 路径,看是否违反 `docs/ARCHITECTURE.md` 分层(若 ARCHITECTURE.md 不存在,跳过并标注)
 - 找模块划分实现 vs spec §2 偏离
 - 找接口签名实现 vs spec §3 不匹配
 - 找共享类型契约定义 vs 实际使用对齐
@@ -158,6 +158,8 @@ distribution: 本文件分发到下游(setup.sh 复制 references/)
 
 ## §2 数据来源向导(去哪找)
 
+> **路径前缀约定**:本文件下方所有项目内路径用**下游项目视角**(裸 `docs/...` / `.claude/...`),分发到下游后直接正确。**在 harness 自仓库内审查时**,所有 `docs/` 和 `.claude/` 实际对应 `harness/docs/` 和 `harness/.claude/`(harness 仓库根下是 `harness/` 子目录)— 你从仓库根 Read 文件 / 跑命令时,把 `docs/` / `.claude/` 换成带 `harness/` 前缀。(调度者 fork 你时通常也会在 prompt 里给具体路径,以那个为准。)
+
 ### §2.1 harness 全局架构
 
 ```text
@@ -198,16 +200,16 @@ harness/                          # 项目根
 | 找什么 | 去哪看 |
 |---|---|
 | 项目核心原则 / 角色分离 / 公设 1+2 | `CLAUDE.md`(根级,harness 自治理入口) |
-| 治理规则 | `harness/docs/governance/<阶段>-rules.md` |
-| 评分标准(RUBRIC) | `harness/docs/RUBRIC.md` |
-| 架构规范 | `harness/docs/ARCHITECTURE.md`(若存在) |
-| 设计文档模板 | `harness/docs/references/DESIGN_TEMPLATE.md` |
-| 多挑战者审查指南(领审员视角) | `harness/docs/references/multi-agent-review-guide.md` |
-| 当前批 spec | `harness/docs/superpowers/specs/YYYY-MM-DD-*-design.md`(取最新) |
-| 当前批 plan | `harness/docs/superpowers/plans/YYYY-MM-DD-*.md` |
-| 当前批交接状态 | `harness/docs/active/handoff.md` |
-| 历史 meta-review audit | `harness/docs/audits/meta-review-*.md` |
-| 历史决策 | `harness/docs/decision-trail.md` + `harness/docs/decisions/*.md` |
+| 治理规则 | `docs/governance/<阶段>-rules.md` |
+| 评分标准(RUBRIC) | `docs/RUBRIC.md` |
+| 架构规范 | `docs/ARCHITECTURE.md`(若存在) |
+| 设计文档模板 | `docs/references/DESIGN_TEMPLATE.md` |
+| 多挑战者审查指南(领审员视角) | `docs/references/multi-agent-review-guide.md` |
+| 当前批 spec | `docs/superpowers/specs/YYYY-MM-DD-*-design.md`(取最新) |
+| 当前批 plan | `docs/superpowers/plans/YYYY-MM-DD-*.md` |
+| 当前批交接状态 | `docs/active/handoff.md` |
+| 历史 meta-review audit | `docs/audits/meta-review-*.md` |
+| 历史决策 | `docs/decision-trail.md` + `docs/decisions/*.md` |
 | 用户校准 memory(跨平台路径!) | 见 §2.3 |
 | 用户原话(会话 JSONL,跨平台路径!) | 见 §2.3 |
 
@@ -226,10 +228,10 @@ harness/                          # 项目根
 - 多个 JSONL(每次会话一个),按 mtime 排序找最新
 - **当前会话的 JSONL** 通常是 mtime 最新那个;**上一会话的 JSONL** 是次新那个
 
-**`<project-slug>` 推断**:Claude Code 把项目路径特殊字符(中文 / 空格 / 冒号 / 反斜杠)替换为连字符。**不要 basename 猜**,用以下 Node.js 健康检测脚本定位(参 `harness/.claude/agents/process-auditor.md` §2.1):
+**`<project-slug>` 推断**:Claude Code 把项目路径特殊字符(中文 / 空格 / 冒号 / 反斜杠)替换为连字符。**不要 basename 猜**,用以下 Node.js 健康检测脚本定位(参 `.claude/agents/process-auditor.md` §2.1):
 
 ```javascript
-// 写到 /tmp/find-project-dir.js,然后 node 执行
+// 写到 /tmp/find-project-dir.js,然后 node 执行(用 Bash 工具跑;Windows 下 /tmp 由 git-bash 提供)
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
@@ -288,6 +290,8 @@ const dirs = fs.readdirSync(projectsDir).filter(d => {
 
 ### §2.5 实操命令模板
 
+> **shell 注意**:下方命令是 bash 语法。**本项目环境默认 shell 是 PowerShell,但你的 Bash 工具走 git-bash** — 跑这些命令时**用 Bash 工具**,不要用 PowerShell(`ls -t` / `sed` / `awk` / `$(...)` 在 PowerShell 下不通)。脚本临时路径 `/tmp/` 在跨工具时可能不一致,必要时换成项目内临时目录或绝对路径。
+
 **找当前会话 JSONL**(取最新):
 
 ```bash
@@ -318,7 +322,8 @@ const rl = readline.createInterface({ input: fs.createReadStream(process.argv[1]
           ? c.filter(b => b.type === 'text').map(b => b.text).join(' ')
           : '';
         const isToolResult = Array.isArray(c) && c.some(b => b.type === 'tool_result');
-        if (text.trim() && !isToolResult) {
+        const isSysMsg = text.trim().startsWith('<command-') || text.trim().startsWith('<local-command');
+        if (text.trim() && !isToolResult && !isSysMsg) {
           console.log(\`[\${obj.timestamp}] \${text.slice(0, 2000)}\`);
         }
       }
@@ -331,21 +336,21 @@ const rl = readline.createInterface({ input: fs.createReadStream(process.argv[1]
 **找历史 audit**:
 
 ```bash
-ls -t harness/docs/audits/meta-review-*.md | head -5
+ls -t docs/audits/meta-review-*.md | head -5
 ```
 
 **找最新 spec / plan**:
 
 ```bash
-ls -t harness/docs/superpowers/specs/*-design.md | head -1
-ls -t harness/docs/superpowers/plans/*.md | head -1
+ls -t docs/superpowers/specs/*-design.md | head -1
+ls -t docs/superpowers/plans/*.md | head -1
 ```
 
 **找上 batch known-gap**:
 
 ```bash
 # 读最新 audit 的 §6 known-gaps 表
-LATEST_AUDIT=$(ls -t harness/docs/audits/meta-review-*.md | head -1)
+LATEST_AUDIT=$(ls -t docs/audits/meta-review-*.md | head -1)
 awk '/^## 6\. Known-Gaps/,/^## 7\.|^---/' "$LATEST_AUDIT"
 ```
 
@@ -361,7 +366,7 @@ awk '/^## 6\. Known-Gaps/,/^## 7\.|^---/' "$LATEST_AUDIT"
 - **维度推荐**(A/B/C 三段对抗式 / N/G 段事实统计式)— 调度者的视角
 - **待审对象**(spec / agent 文件 / 代码 diff / 摘要文件等)
 - **配套资料**(RUBRIC.md / ARCHITECTURE.md / governance 必要节 / evidence depth 文件)
-- **必读提示**:1 行 "先 Read `harness/docs/references/challenger-orientation.md`,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
+- **必读提示**:1 行 "先 Read `docs/references/challenger-orientation.md`,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
 
 > 注:调度者侧也是 AI,公设 1 适用(自评有乐观偏差)— 上述内容均带 selection / framing 风险。你要批判看,见 §3.2。
 
@@ -439,6 +444,10 @@ fork 你的时候,**你必须做的事**(在审查 spec / 代码 / 文档之前)
 - section 内容空泛(无具体 timestamp + 完整 quote)→ reject
 - 主线-支线-关系全 ✅ 但 finding 中含主线偏离 → 自相矛盾,reject
 - section 显示主线偏离 🔴 → 升级为综合阶段 finding,可能触发主线段重写
+
+**例外**(对齐 `synthesis-rules.md` 事后规则 5):
+- 挑战者明确标 "⚠️ 无法定位会话 JSONL,跳过主线校验" 且解释合理 → 不 reject
+- 挑战者标 "⚠️ 信息不足无法判断" 且解释合理 → 不 reject(§4.2 信号 B 防 spec_gap_masking)
 
 **为什么必填**:挑战者是 AI,公设 1 适用 — 没有强制留痕,容易跑了不读 / 读了不校验 / 校验了不输出。本 section 是**校验留痕**,让"对照过用户原话"这件事可被调度者综合时机械校验。
 
@@ -547,4 +556,4 @@ fork 你的时候,**你必须做的事**(在审查 spec / 代码 / 文档之前)
 - 修改 spec / 代码 / 文档
 - 跟其他挑战者协商("我看到挑战者 1 说...")
 
-**为什么**:对抗-决策分离原则(`harness/docs/references/multi-agent-review-guide.md`)— 你是对抗者,领审员(调度者)是决策者。你越权 = 决策不独立 = 公设 1 失效。
+**为什么**:对抗-决策分离原则(`docs/references/multi-agent-review-guide.md`)— 你是对抗者,领审员(调度者)是决策者。你越权 = 决策不独立 = 公设 1 失效。

@@ -38,8 +38,8 @@
 
 本 agent fork 4 个挑战者时遵守以下协议:
 
-- **事前**:`harness/docs/governance/synthesis-rules.md` 事前规则 5(fork 前意图识别)— prompt 注入"主线-支线-关系"段(在每个挑战者 prompt 的 A/B/C 三段之前)
-- **挑战者侧导览**:每个挑战者 prompt 必含 1 行 "**先 Read `harness/docs/references/challenger-orientation.md`**,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
+- **事前**:`docs/governance/synthesis-rules.md` 事前规则 5(fork 前意图识别)— prompt 注入"主线-支线-关系"段(在每个挑战者 prompt 的 A/B/C 三段之前)
+- **挑战者侧导览**:每个挑战者 prompt 必含 1 行 "**先 Read `docs/references/challenger-orientation.md`**,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
 - **事后**:`synthesis-rules.md` 综合输出表达准则(用户报告 4 段)+ 综合时校验挑战者 "已对照用户原话" section(缺失或空泛 reject,见 synthesis-rules.md 事后规则 5)
 
 > **静态约束(fix-2 恢复)**:本 agent 文件不抄 synthesis-rules / challenger-orientation 实文,只引用路径(第七轮 fix-2 静态约束;本 batch 2026-05-26 KG3 fix 落实)。
@@ -69,7 +69,7 @@
 #### 挑战者 1：自洽性挑战者
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是一个偏执的逻辑审查者。你坚信这份设计文档内部自相矛盾——不同章节说的不是同一件事。
 你的任务是找出每一处内部不一致,用文档原文证明矛盾存在。
@@ -137,7 +137,7 @@
 #### 挑战者 2：完整性挑战者
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是一个执行这份设计的开发者——但你发现设计里到处是漏洞,很多细节没写清楚,你根本没法动手。
 你的任务是找出每一处"写了但不够"和"根本没写"的地方。
@@ -204,7 +204,7 @@
 #### 挑战者 3：过度工程化挑战者
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是一个信奉极简主义的资深工程师。你坚信这份设计过度复杂了——能用 50 行解决的问题搞了 200 行的架构。
 你的任务是找出每一处不必要的复杂性。
@@ -270,7 +270,7 @@
 #### 挑战者 4：RUBRIC 对齐挑战者
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是项目标准的守门人。你坚信这份设计偷偷违反了 RUBRIC 和架构规范,只是藏得比较深。
 你的任务是逐条对照标准找出不合规的地方。

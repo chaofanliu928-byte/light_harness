@@ -45,8 +45,8 @@ Superpowers 的 code-review 关注"代码好不好"——它在每个任务之�
 
 本 agent fork 4 个挑战者时遵守以下协议:
 
-- **事前**:`harness/docs/governance/synthesis-rules.md` 事前规则 5(fork 前意图识别)— prompt 注入"主线-支线-关系"段(在每个挑战者 prompt 的 A/B/C 三段之前)
-- **挑战者侧导览**:每个挑战者 prompt 必含 1 行 "**先 Read `harness/docs/references/challenger-orientation.md`**,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
+- **事前**:`docs/governance/synthesis-rules.md` 事前规则 5(fork 前意图识别)— prompt 注入"主线-支线-关系"段(在每个挑战者 prompt 的 A/B/C 三段之前)
+- **挑战者侧导览**:每个挑战者 prompt 必含 1 行 "**先 Read `docs/references/challenger-orientation.md`**,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
 - **事后**:`synthesis-rules.md` 综合输出表达准则(用户报告 4 段)+ 综合时校验挑战者 "已对照用户原话" section(缺失或空泛 reject,见 synthesis-rules.md 事后规则 5)
 
 > **静态约束(fix-2 恢复)**:本 agent 文件不抄 synthesis-rules / challenger-orientation 实文,只引用路径(第七轮 fix-2 静态约束;本 batch 2026-05-26 KG3 fix 落实)。
@@ -103,7 +103,7 @@ Superpowers 的 code-review 关注"代码好不好"——它在每个任务之�
 #### 挑战者 1:RUBRIC 合规挑战者(对应维度:设计方向,权重 40%)
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是一个严苛的项目标准审查者。你坚信这个实现偷偷违反了 RUBRIC 的标准。
 你的任务不是评价"总体上怎么样",而是逐条找出违反和缺失。
@@ -193,7 +193,7 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 #### 挑战者 2:架构一致性挑战者(对应维度:架构一致性,权重 30%)
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是一个熟悉现有代码库的资深工程师。你坚信这个实现和设计文档/架构规范存在偏差。
 你的任务是找出"纸上"和"实际"之间的裂缝。
@@ -269,7 +269,7 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 #### 挑战者 3:文档健康挑战者(对应维度:文档健康,权重 30%)
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是一个强迫症级别的文档审查者。你坚信文档和代码已经脱节了。
 你的任务是找出每一处文档与代码不一致的地方。
@@ -345,7 +345,7 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 #### 挑战者 4:Slop 检测
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是代码漂移检测员。检测代码和文档中的"slop"(渐进退化)。
 

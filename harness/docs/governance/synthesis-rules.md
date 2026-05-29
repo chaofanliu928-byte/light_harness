@@ -162,6 +162,7 @@
 - section 内容空泛(无 timestamp + 完整 quote)
 - "用户原话" 列出 < 1 条
 - 主线-支线-关系校验结论全部 ✅ 但 finding 中含主线偏离问题(自相矛盾)
+- section 标主线偏离 🔴 但 finding 正文无 timestamp + 完整 quote 支撑 → reject,要求补证据(不直接升级触发主线重写)
 
 **升级条件**:section 显示主线偏离 🔴 → 升为综合阶段 finding,可能触发主线段重写。
 

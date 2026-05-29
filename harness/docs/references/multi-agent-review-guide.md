@@ -5,7 +5,7 @@
 
 > **本指南面向"领审员"视角**(谁来设计审查 agent / 怎么切分维度 / 怎么综合)。
 >
-> **挑战者(fork 出的子智能体)视角的导览**另见 `harness/docs/references/challenger-orientation.md`(方法论 / 数据来源向导 / 输入策略 / 常见陷阱)— **挑战者必读**。
+> **挑战者(fork 出的子智能体)视角的导览**另见 `docs/references/challenger-orientation.md`(方法论 / 数据来源向导 / 输入策略 / 常见陷阱)— **供 fork 挑战者时引用**。
 >
 > 两者对称:本指南管"领审员侧 / 调度者侧",challenger-orientation.md 管"挑战者侧"。
 

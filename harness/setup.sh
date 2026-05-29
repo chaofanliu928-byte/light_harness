@@ -110,6 +110,7 @@ cp "$SCRIPT_DIR/docs/references/MODULE_DOC_TEMPLATE.md" "$TARGET_DIR/docs/refere
 cp "$SCRIPT_DIR/docs/references/DESIGN_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/multi-agent-review-guide.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/testing-standard.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
+cp "$SCRIPT_DIR/docs/references/challenger-orientation.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 # 注意:recommended-tools.md 不分发下游 — 它是 harness 仓库内的"用户级工具推荐清单",
 # 下游目标项目不应混入;用户在 setup.sh 末尾 echo 中获取 URL 即可。
 

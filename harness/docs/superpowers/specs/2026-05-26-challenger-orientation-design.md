@@ -21,7 +21,7 @@ batch_name: challenger-orientation-system
 | **本 batch 名** | challenger-orientation-system |
 | **改动 scope** | meta(references 新文件 + 4 agent 文件 + governance / 引用 + README) |
 | **涉及文件** | 8 个(新建 `challenger-orientation.md` + 4 agent 文件 + `multi-agent-review-guide.md` + `synthesis-rules.md` + README) |
-| **改动数** | ~15 处(1 新文件 + 4 agent 文件各 2-3 处删改 + 3 governance / 引用文件各 1-2 处) |
+| **改动数** | ~18 处(1 新文件 + 4 agent 文件各 2-3 处删改 + 3 governance / 引用文件各 1-2 处 + setup.sh 加 1 行复制 + meta-review 修订裸 docs/ 前缀对齐) |
 | **工程量** | 2-3 天落地 + meta-finishing + meta-review 半天 |
 | **Evidence Depth** | meta-L2(规则文档 + agent 文件 + 实战 fork 1 次验证) |
 | **finishing 路径** | meta-finishing-rules.md(M1)+ meta-review-rules.md(M2 模态:对抗式 D2,4 挑战者 + 1 定制) |
@@ -110,6 +110,8 @@ batch_name: challenger-orientation-system
 - 改 `harness/.claude/agents/security-reviewer.md`(同上)
 - 改 `harness/docs/references/multi-agent-review-guide.md`(加 1 段引用 `challenger-orientation.md` — 区分"领审员视角(本指南)" vs "挑战者视角(challenger-orientation)")
 - 改 `harness/docs/governance/synthesis-rules.md`(事后规则节加 1 条:"综合时校验挑战者输出含 `### 已对照用户原话` section,缺失或空 reject")
+- 改 `harness/setup.sh`(加 1 行复制 challenger-orientation.md 到下游 references/ — meta-review 共识 1 修订:导览要分发下游)
+- challenger-orientation.md + 4 agent + multi-agent-review-guide.md 内项目路径用裸 `docs/` 前缀(下游视角;harness 自仓库内 = harness/docs/,导览 §2 顶部说明)
 - 改 `README.md`(原理段加挑战者导览体系简述,标"不分发下游"语义)
 - decision-trail.md / handoff.md 同步(meta-finishing 必产)
 
@@ -136,7 +138,7 @@ batch_name: challenger-orientation-system
 ---
 audience: 挑战者(fork 出的 subagent)
 purpose: 给挑战者(子智能体)提供方法论 / 数据来源 / 输入策略 / 陷阱避坑的"入门必读"
-when_to_read: fork 你的时候,prompt 内含 "先 Read `harness/docs/references/challenger-orientation.md`" — 这是必读第一步
+when_to_read: fork 你的时候,prompt 内含 "先 Read `docs/references/challenger-orientation.md`" — 这是必读第一步
 distribution: 本文件分发到下游(setup.sh 复制 references/)
 ---
 
@@ -472,7 +474,12 @@ fork 你的时候,你**必须做的事**:
 - 文件顶部加 1 段引用 challenger-orientation.md 的"对称对照"说明
 - 估 +6 行
 
-### 4.8 `README.md`(改动)
+### 4.8 `harness/setup.sh`(改动 — meta-review 修订)
+
+- testing-standard.md 复制行之后加 1 行 `cp .../challenger-orientation.md` 到下游 `references/`
+- 估 +1 行
+
+### 4.9 `README.md`(改动)
 
 - §4(原理)末尾加 §4.X 挑战者导览体系一节
 - 估 +20 行
@@ -488,6 +495,7 @@ fork 你的时候,你**必须做的事**:
 | `security-reviewer.md` | 改 | -50/+15 |
 | `synthesis-rules.md` | 改 | +30 |
 | `multi-agent-review-guide.md` | 改 | +6 |
+| `setup.sh` | 改(meta-review 修订) | +1(复制 challenger-orientation.md 到下游) |
 | `README.md` | 改 | +20 |
 | `decision-trail.md` | 改(meta-finishing) | +5 |
 | `handoff.md` | 改(meta-finishing) | +10 |
@@ -778,3 +786,15 @@ process-auditor 已有"预处理会话 JSONL 提取摘要"的 Node.js 脚本(~12
   - `[[feedback_talk_plainly]]`(2026-05-26 本会话新加;§4 常见陷阱 + 输出格式适用)
   - `[[feedback_iterative_progression]]`(本 spec 不预留第 5 维接口的依据)
   - `[[project_codex_claude_orchestration]]`(§8.3 未来 codex 编排时挑战者侧导览仍适用)
+
+---
+
+## 12. Meta-review 修订记录(2026-05-29)
+
+meta-review(audit `meta-review-2026-05-29-081645-challenger-orientation.md`)verdict=pass-after-revision。修订:
+
+- **共识 1(下游分发,用户决策 A 扩 scope)**:setup.sh 加复制 challenger-orientation.md;全文路径前缀统一裸 `docs/`(下游正确)+ §2 顶部加"路径前缀约定"说明(harness 自仓库 = harness/docs/);4 agent + multi-agent-review-guide 同步
+- **共识 2(跨 shell)**:导览 §2.3/§2.5 加"用 Bash 工具(git-bash)不要 PowerShell"说明
+- **共识 3 + KG-D(reject 不对称)**:§3.4 补例外项 + synthesis-rules 事后规则 5 补"🔴 无证据支撑 → reject 要求补证据"
+- **C2 系统噪声**:§2.5 grep 加 `<command-`/`<local-command` 过滤
+- 接受 known-gap:KG-C(batch 切分锚点)/ KG-D 深层(是否真比对推 P1)/ KG-E(调度者 fork 纪律)

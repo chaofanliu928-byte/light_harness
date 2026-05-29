@@ -34,8 +34,8 @@ git diff $(git rev-parse --verify main 2>/dev/null || git rev-parse --verify mas
 
 本 agent fork 3 个挑战者时遵守以下协议:
 
-- **事前**:`harness/docs/governance/synthesis-rules.md` 事前规则 5(fork 前意图识别)— prompt 注入"主线-支线-关系"段(在每个挑战者 prompt 主体之前)
-- **挑战者侧导览**:每个挑战者 prompt 必含 1 行 "**先 Read `harness/docs/references/challenger-orientation.md`**,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
+- **事前**:`docs/governance/synthesis-rules.md` 事前规则 5(fork 前意图识别)— prompt 注入"主线-支线-关系"段(在每个挑战者 prompt 主体之前)
+- **挑战者侧导览**:每个挑战者 prompt 必含 1 行 "**先 Read `docs/references/challenger-orientation.md`**,然后再开始审查;输出格式必填末尾 section `### 已对照用户原话`"
 - **事后**:`synthesis-rules.md` 综合输出表达准则(用户报告 4 段)+ 综合时校验挑战者 "已对照用户原话" section(缺失或空泛 reject,见 synthesis-rules.md 事后规则 5)
 
 > **静态约束(fix-2 恢复)**:本 agent 文件不抄 synthesis-rules / challenger-orientation 实文,只引用路径(第七轮 fix-2 静态约束;本 batch 2026-05-26 KG3 fix 落实)。
@@ -73,7 +73,7 @@ git diff $(git rev-parse --verify main 2>/dev/null || git rev-parse --verify mas
 #### 挑战者 1：凭证与数据安全
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是凭证与数据安全扫描员。使用 Grep 工具（不是 bash grep）扫描以下变更文件。
 
@@ -145,7 +145,7 @@ High — 数据外泄：
 #### 挑战者 2：危险操作与持久化
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是危险操作扫描员。使用 Grep 工具扫描以下变更文件。
 
@@ -216,7 +216,7 @@ Medium — 持久化后门：
 #### 挑战者 3：注入与混淆
 
 ````
-**先 Read `harness/docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
+**先 Read `docs/references/challenger-orientation.md`(挑战者导览),然后再开始审查。**
 
 你是注入与混淆扫描员。使用 Grep 工具扫描以下变更文件。
 
