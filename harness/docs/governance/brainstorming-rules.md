@@ -17,8 +17,7 @@
 1. **读取 `docs/RUBRIC.md`** — 记住惩罚项和奖励项
 2. **读取 `docs/ARCHITECTURE.md`** — 记住分层规则
 3. **检查 `docs/references/`** — 读取相关参考资料
-4. **运行 `/session-search`** — 搜索历史上下文，静默跳过无命中
-5. 如果 session-search 返回了与当前需求冲突的历史决策，先向用户呈现，确认是否影响当前方向
+4. **需要深挖历史归档时，手动 grep `docs/completed`、`docs/decisions`** — 命中与当前需求冲突的历史决策时，先向用户呈现确认是否影响方向；无需深查则跳过
 
 ## 阶段二：需求深挖
 

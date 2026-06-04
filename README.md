@@ -21,7 +21,7 @@
 
 #### 层 1:认知约束(根基)
 - **1.1 AI 自评乐观偏差公设** — AI 评估自己产出有系统性乐观偏差;做事和判断必须分开。**实现**:所有 fork 机制 + 5 个 agent 文件
-- **1.2 行动公设** — 不确定时执行外部动作(Grep/Read/WebFetch),不内省。**实现**:`session-search` skill + `session-init.sh` hook
+- **1.2 行动公设** — 不确定时执行外部动作(Grep/Read/WebFetch),不内省。**实现**:`session-init.sh` hook(开头注入历史)+ 不确定时调度者直接 Grep/Read(行动公设本体)
 
 #### 层 2:结构原则(实现公设)
 - **2.1 实现-审查分离** — 调度 / 设计 / 实施 / 审查 各不同 agent。**Why**:**上下文隔离 = 独立性前提**(对抗者必须有独立心智模型才能真发现盲区 — 同 context 内分角色,挑战者脑子里还留着设计者的思路,做不出真对抗)+ 避免上下文腐烂 + 突破公设 1 单智能体维护决策的死结。**实现**:5 个 agent(designer / design-reviewer / evaluator / process-auditor / security-reviewer)
@@ -38,7 +38,7 @@
 - **4.1 智能体友好文档系统** — CLAUDE.md 索引 + 5 产物(spec/decision-trail/audit/banner/handoff)各司其职。**Why**:索引让智能体一眼找入口 / 维护良好让 Read 任何文件能拿到 fresh+actionable / 智能体友好 ≠ 人友好(需要 self-contained + structured + cross-referenced)。**实现**:`CLAUDE.md`(索引)+ `docs/superpowers/specs/`(spec)+ `decision-trail.md` + `docs/audits/` + inline banner + `docs/active/handoff.md`
 - **4.2 综合阶段中性化** — 调度者构造挑战者 prompt 必须中立(材料/排序/措辞);综合按 RUBRIC 维度评判。**Why**:防 anchoring,多智能体审查的有效性前提。**实现**:`docs/governance/synthesis-rules.md`(事前 5 条 + 事后 4 条 + 综合输出表达准则)
 - **4.3 改动范围自动识别** — governance 改动 glob 机械触发 meta-review。**Why**:不靠 AI 自觉,机械触发不可被自我说服绕过。**实现**:`CLAUDE.md` §3-§4 + `.claude/hooks/meta-scope.conf` + `check-meta-*.sh` 系列 hook
-- **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:9 个 SKILL.md 统一结构
+- **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:8 个 SKILL.md 统一结构
 - **4.5 挑战者导览体系**(挑战者侧基础设施)— 主智能体(调度者)进项目时读 `CLAUDE.md` 知道项目结构 / Skill 地图 / 文档索引;挑战者(fork 出的子智能体)对称地需要一份"挑战者侧导览" — 知道:
   - **怎么找问题**(方法论 — 通用自检清单 + 角色专属技巧:矛盾追踪 / 场景遍历 / 反向追问 / 条款对照 等)
   - **去哪找信息**(数据来源向导 — 跨平台路径 + 命令模板 + 项目 slug 推断脚本)
@@ -143,7 +143,7 @@ harness/                     ← 框架源码（分发的部分）
 ├── setup.sh                 ← 安装脚本
 ├── .claude/
 │   ├── agents/              ← 5 个领审员 + research-scout(调研编排说明)
-│   ├── skills/              ← 9 个 skill
+│   ├── skills/              ← 8 个 skill
 │   └── hooks/               ← 6 个 hook
 └── docs/
     ├── RUBRIC.md            ← 项目评分标准模板

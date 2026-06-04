@@ -110,4 +110,3 @@
 | **skill-extract** | finishing 阶段，evaluate 通过后 | 提取可复用模式 |
 | **process-audit** | finishing 阶段，evaluate 之后、分流之前 | 审计流程遵从度，记录到 docs/audits/ |
 | **structured-handoff** | finishing 三路都执行；/clear 前 | 结构化交接 + 归档 |
-| **session-search** | brainstorming 阶段开始时 | 搜索历史上下文 |

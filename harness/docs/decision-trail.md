@@ -27,6 +27,15 @@
 
 ---
 
+## 2026-06-04 — 删除 session-search skill(继承靠 session-init,不靠 invoke-skill)
+
+- **抉择**:功能层剪枝第二刀。session-search(跨会话检索)无人手动用、自动触发无 hook 不可靠;用户只要继承①(连续性),而它已由 session-init(SessionStart hook)+ structured-handoff 机械提供 → 删。继承②(自动召回旧经验)用户不要,不做。
+- **触发**:功能剪枝讨论 → 拆"继承①连续性 vs ②自动召回";用户确认"基本没碰"+ 只要①
+- **流程**:decision → 独立 designer 穷尽扫 → 3 挑战者 meta-review(抓到设计者把 harness/README 行号错套到根 README + 漏树计数,pass-after-revision)→ 实现 9 文件 → grep 校验全绿
+- **link**:`decisions/2026-06-04-remove-session-search-skill.md` + `audits/meta-review-2026-06-04-203756-remove-session-search.md`
+
+---
+
 ## 2026-06-04 — 删除 process-audit 效果满意度维度(N2)
 
 - **抉择**:把"满意度"拆成三类后,删事后情绪审计(N2,弱 / 无牙 / record-only / 仅落地 1 次),保留 A=RUBRIC 渐进式校准(有牙、前向)+ C=已对照用户原话(意图对齐)

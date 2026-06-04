@@ -7,7 +7,7 @@
 ```
 调度者           独立 Agent
   │
-  ├→ brainstorming（需求深挖 + session-search）
+  ├→ brainstorming（需求深挖）
   ├→ 需求确认清单锁定
   ├→ fork designer agent ──→ 系统设计（逐节自检）
   ├→ fork design-reviewer ──→ 设计审查
@@ -45,7 +45,6 @@
 | security-scan | finishing — evaluate 之前 |
 | skill-extract | finishing — evaluate 通过后 |
 | structured-handoff | finishing 三路 + /clear 前 |
-| session-search | brainstorming 开始时 |
 
 ## Hook
 
@@ -72,7 +71,7 @@
 | **docs/references/DESIGN_TEMPLATE.md** | 系统设计文档模板 |
 | docs/ARCHITECTURE.md | 分层规则 |
 | docs/active/handoff.md | 交接文档 |
-| docs/completed/ | 归档（供 session-search 检索）|
+| docs/completed/ | 归档（手动 grep 深查历史）|
 | docs/decisions/ | 架构决策 |
 | docs/references/ | 内部知识 + 提取的参考 |
 

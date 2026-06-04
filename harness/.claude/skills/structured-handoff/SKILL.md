@@ -37,7 +37,7 @@ description: "结构化交接。上下文快满或 finishing 阶段触发。按�
 cp docs/active/handoff.md "docs/completed/handoff-$(date +%Y%m%d-%H%M%S).md"
 ```
 
-归档文件存入 `docs/completed/`，供 session-search 技能检索。
+归档文件存入 `docs/completed/`，供后续手动 grep 深查历史。
 
 ### 第二步：收集信息
 
