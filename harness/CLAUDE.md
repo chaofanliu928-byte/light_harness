@@ -108,6 +108,6 @@
 | **evaluate** | finishing 阶段，自动触发 | 调度者并行 fork 4 个挑战者做方向评估 |
 | **security-scan** | finishing 阶段，evaluate 之前 | 扫描代码安全问题 |
 | **skill-extract** | finishing 阶段，evaluate 通过后 | 提取可复用模式 |
-| **process-audit** | finishing 阶段，evaluate 之后、分流之前 | 审计流程遵从度和用户满意度，记录到 docs/audits/ |
+| **process-audit** | finishing 阶段，evaluate 之后、分流之前 | 审计流程遵从度，记录到 docs/audits/ |
 | **structured-handoff** | finishing 三路都执行；/clear 前 | 结构化交接 + 归档 |
 | **session-search** | brainstorming 阶段开始时 | 搜索历史上下文 |

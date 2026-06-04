@@ -19,7 +19,7 @@ distribution: 本文件分发到下游(setup.sh 复制 references/)
 
 ## §1 方法论(怎么找问题)
 
-### §1.1 通用(13 挑战者全适用)
+### §1.1 通用(12 挑战者全适用)
 
 **对抗-决策分离原则**(参 `docs/references/multi-agent-review-guide.md`):你是**对抗者**,不是评分员;只找问题,不打分;只附证据,不提替代方案。调度者(领审员)负责综合 + 评分。
 
@@ -98,23 +98,13 @@ distribution: 本文件分发到下游(setup.sh 复制 references/)
 - 代码漂移:命名一致性(camelCase vs snake_case 混用) / 重复实现 / 僵尸依赖(import 但没用) / 过时模式
 - 文档漂移:模块 README > 80 行(臃肿) / 不同模块 README 格式不统一 / 变更历史 > 20 条(该归档)
 
-### §1.4 process-audit 2 挑战者专属
+### §1.4 process-audit 挑战者专属
 
 **挑战者 1(流程遵从度)** — 治理对照法
 
 - 把 governance 规则列出(`brainstorming-rules.md` / `design-rules.md` / `planning-rules.md` / `implementation-rules.md` / `testing-rules.md` / `review-rules.md` / `finishing-rules.md`)
 - 对照本批 session 摘要,看每阶段是否执行:brainstorming 是否做了 / 需求确认后才进设计 / system-design 是否调用 / design-review 是否调用 / planning 是否基于 spec / 实现是否守行为约束 / 文档先于代码 / RUBRIC 是否参考
 - 标 ✅ 遵守 / ❌ 违反 / ⚠️ 部分遵守 / ➖ 不适用(该阶段未发生)
-
-**挑战者 2(效果满意度)** — 情绪信号识别法 + 关键词语境区分
-
-- 对话摘要中找信号:显式否定("不要这样" / "不对" / "重新来")/ 重复请求(同一件事 ≥ 2 条措辞递进) / 用户接管(用户直接给代码而非描述需求) / 方向推翻 / 精磨轮次
-- **关键区分**:同样的词("好" / "不要") 在不同语境意义不同
-  - "好" 出现在 AI 完整产出后 + 用户切换新话题 → 满意信号
-  - "好" 出现在 AI 提问后 → 仅是确认回答,不是满意信号
-  - "不要" 出现在用户主动描述需求时("不要用 React") → 需求说明,不是否定
-  - "不要" 出现在 AI 刚做完某操作后("不要这样改") → 否定信号
-- **不确定时不标**(宁可漏报不误报)
 
 ### §1.5 security-scan 3 挑战者专属
 

@@ -176,7 +176,7 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 │   │   ├── design-reviewer.md           # 设计审查领审员（4 并行子智能体）
 │   │   ├── evaluator.md                 # 方向评估领审员（对抗式，3+1 并行子智能体）
 │   │   ├── security-reviewer.md         # 安全扫描领审员（3 并行子智能体）
-│   │   ├── process-auditor.md           # 流程审计领审员（2 并行子智能体）
+│   │   ├── process-auditor.md           # 流程审计领审员（1 子智能体）
 │   │   └── research-scout.md            # 方案调研编排说明（按需 fork,默认跳过；非领审员）
 │   ├── skills/
 │   │   ├── project-setup/SKILL.md        # 对话式项目配置向导
@@ -224,7 +224,7 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 4. 功能完成 → finishing-a-development-branch
 5. **security-scan** → 扫描代码安全问题（Critical 阻塞，High/Medium 警告）
 6. **evaluate 自动触发** → 对抗式方向评估（挑战者找问题 → 领审员做决策）
-7. **process-audit 自动触发** → 流程审计（遵从度 + 满意度 → 记录到 docs/audits/）
+7. **process-audit 自动触发** → 流程审计（遵从度 → 记录到 docs/audits/）
 8. 通过 → milestone commit + skill-extract 提取经验 + structured-handoff 归档 → 合并 → 下一个功能
 9. 精磨 → structured-handoff 记录进度 → 返回迭代 → 重新 finishing
 10. 推翻 → structured-handoff 记录状态 → 停下来找用户 → 重新 brainstorming

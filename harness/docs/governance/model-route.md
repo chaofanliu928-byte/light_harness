@@ -47,7 +47,7 @@
 | **security-scan 注入混淆** | ✅ swap | read-only | never | 不加 | gpt-5.4-mini | low | pattern 类 |
 | **security-scan 凭证档** | ❌ 保 Claude | — | — | — | — | — | 降级保护需求(原 audit 决定) |
 | **meta-review N 挑战者** | ❌ 保 Claude | — | — | — | — | — | harness 自治理核心 |
-| **process-audit 2 挑战者** | ❌ 保 Claude | — | — | — | — | — | 闭环独立性 |
+| **process-audit 挑战者** | ❌ 保 Claude | — | — | — | — | — | 闭环独立性 |
 | **综合阶段**(所有 fork 之后,跨角色) | ❌ 保 Claude | — | — | — | — | — | synthesis-rules.md 事后规则 4 条 |
 
 ### 2.1 swap 列表汇总
@@ -57,7 +57,7 @@
 *实现链路*:designer / **planner** / **implementer** / **testing**
 *审查链路*:设计自检挑战者 / design-review 4 挑战者 / **code-reviewer** / evaluate 非关键维度 / silent-failure-hunter / security-scan 危险操作 / security-scan 注入混淆
 
-**不 swap 列表**(6 个角色):调度者 / evaluate 关键评分维度 / security-scan 凭证档 / meta-review N 挑战者 / process-audit 2 挑战者 / 综合阶段
+**不 swap 列表**(6 个角色):调度者 / evaluate 关键评分维度 / security-scan 凭证档 / meta-review N 挑战者 / process-audit 挑战者 / 综合阶段
 
 ---
 
@@ -139,7 +139,7 @@ git tag pre-codex-swap
 - evaluate 关键评分维度
 - security-scan 凭证档
 - meta-review N 挑战者
-- process-audit 2 挑战者
+- process-audit 挑战者
 - 综合阶段(所有 fork 之后)
 
 ---

@@ -27,6 +27,15 @@
 
 ---
 
+## 2026-06-04 — 删除 process-audit 效果满意度维度(N2)
+
+- **抉择**:把"满意度"拆成三类后,删事后情绪审计(N2,弱 / 无牙 / record-only / 仅落地 1 次),保留 A=RUBRIC 渐进式校准(有牙、前向)+ C=已对照用户原话(意图对齐)
+- **触发**:锐评核查 → 满意度全量梳理(6-agent workflow)→ 用户拍板一刀删、feature + meta 两边删
+- **流程**:decision → 独立 designer 穷尽扫描 → 3 挑战者 meta-review(pass-after-revision)→ 实现 9 文件 → grep 校验
+- **link**:`decisions/2026-06-04-remove-process-audit-satisfaction-n2.md` + `audits/meta-review-2026-06-04-140746-remove-process-audit-n2.md`
+
+---
+
 ## 2026-05-29 — 方案调研员(research-scout):主动调研 / 联网调研外部方案
 
 - **抉择**:给 harness 加"方案调研员"能力 — 规划多智能体方案时,需求定了、方案讨论前,**按需** fork 联网调研员搜业界现有方案。核心:harness **不造调研引擎**(重复造轮子=犯本 batch 要防的红线),只加薄纪律层(何时调研 + 结果怎么用),引擎**默认用 Claude Code 自带的 deep-research workflow**(调不到则 WebSearch fork 兜底)。触发判据 = 可逆性主轴 × 熟悉度次轴,默认 skip,由调度者(独立方)判断(非待调研 agent 自评 — 做事/判断分离)。红线核心:调研产出只当**证据/选项**(经自己思考判断是否适用),**不给推荐排名**、不当判断依据("别人这么做不单独构成理由")。

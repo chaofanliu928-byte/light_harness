@@ -15,7 +15,7 @@
 | design-review | 4(自洽 / 完整 / 合理 / RUBRIC) | 调度者(Claude) |
 | evaluate | 4(RUBRIC / 架构 / 文档 / Slop) | 调度者(Claude) |
 | meta-review | N(模态决定) | 调度者(Claude) |
-| process-audit | 2(流程遵从 / 效果满意) | 调度者(Claude) |
+| process-audit | 1(流程遵从) | 调度者(Claude) |
 | security-scan | 3(凭证 / 危险操作 / 注入混淆) | 调度者(Claude) |
 
 **P2 阶段约束(P2 = codex 接入,明确计划阶段)** — **[2026-05-24] codex 接入搁置 — fork 子任务维持全 Claude。本段保留作日后基线,不预设重启时间(`feedback_iterative_progression`)。** 综合阶段全部保 Claude,不 swap codex。理由:Generator(实现)与 Evaluator(综合判断)角色异源是公设 1(Pathological Optimist)的直接推论;综合判断是聚合多挑战者结论的关键节点,需保持模型一致性以稳定基线。**若未来重启 codex 接入,本段约束仍然成立(保 Claude 综合)** — 详见 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点。
@@ -98,7 +98,7 @@
 事前规则 5 适用所有"调度者面对挑战者"的 fork 场景(对齐本文件适用范围表):
 - design-review(4 挑战者)
 - evaluator(4 挑战者)
-- process-audit(2 挑战者)
+- process-audit(1 挑战者)
 - security-scan(3 挑战者)
 - meta-review(N 挑战者,模态决定)
 
