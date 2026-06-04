@@ -36,7 +36,7 @@ Superpowers 管"怎么写好代码"。AI Dev Harness 管"按什么标准写、�
 - **4.1 智能体友好文档系统** — CLAUDE.md 索引 + 5 产物(spec/decision-trail/audit/banner/handoff)各司其职。**Why**:索引让智能体一眼找入口 / 维护良好让 Read 任何文件能拿到 fresh+actionable / 智能体友好 ≠ 人友好(需要 self-contained + structured + cross-referenced)。**实现**:`CLAUDE.md`(索引)+ `docs/superpowers/specs/`(spec)+ `decision-trail.md` + `docs/audits/` + inline banner + `docs/active/handoff.md`
 - **4.2 综合阶段中性化** — 调度者构造挑战者 prompt 必须中立(材料/排序/措辞);综合按 RUBRIC 维度评判。**Why**:防 anchoring,多智能体审查的有效性前提。**实现**:`docs/governance/synthesis-rules.md` 完整规范
 - **4.3 改动范围自动识别** — governance 改动 glob 机械触发 meta-review。**Why**:不靠 AI 自觉,机械触发不可被自我说服绕过。**实现**:`CLAUDE.md` §3-§4 + `.claude/hooks/meta-scope.conf` + `check-meta-*.sh` 系列 hook
-- **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:8 个 SKILL.md 统一结构
+- **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:7 个 SKILL.md 统一结构
 - **4.5 挑战者导览体系**(挑战者侧基础设施)— 主智能体(调度者)进项目时读 `CLAUDE.md` 知道项目结构 / Skill 地图 / 文档索引;挑战者(fork 出的子智能体)对称地需要一份"挑战者侧导览" — 知道:怎么找问题(方法论 — 通用自检清单 + 角色专属技巧)/ 去哪找信息(数据来源向导 — 跨平台路径 + 命令模板)/ 怎么看调度者输入(批判看 + 自取用户原话校验主线 framing)/ 哪些陷阱要避(公设 1 / spec_gap_masking / framing / 越权)。**实现**:`docs/references/challenger-orientation.md`。fork 挑战者时 prompt 内含"先 Read 此文件";挑战者输出末尾必填 `### 已对照用户原话` section,调度者综合时校验(`synthesis-rules.md` 事后规则 5)
 - **4.6 主动调研 / 重视外部输入** — harness 默认"内向"(搜本仓库 + 问用户);本能力补上"从仓库外获取新信息作决策输入"的链路。规划方案时,需求定了、讨论方案前,**按需**(可逆性主轴 × 熟悉度次轴,默认跳过)fork 联网调研员,默认用 Claude Code 自带的 deep-research 调研业界方案。**Why**:别让 AI 闭门造车;但联网有成本且无差别检索会降质,所以按需触发。**红线**:调研结果只当**证据 / 选项**(经自己思考判断是否适用),不当判断依据——"别人这么做不单独构成理由"。**实现**:`.claude/agents/research-scout.md`(调研编排 + 红线契约)+ `brainstorming-rules.md` 阶段四前触发节
 
@@ -130,7 +130,6 @@ AI Dev Harness（项目治理层）
                         ├── /security-scan → 安全扫描
                         ├── /evaluate → 方向评估（对抗式，通过/精磨/推翻）
                         ├── /process-audit → 流程审计（记录到 docs/audits/）
-                        ├── /skill-extract → 经验提取
                         ├── /structured-handoff → 交接归档
                         ├── milestone commit + PROGRESS.md
                         └── 下一个功能 → Superpowers 继续
@@ -153,7 +152,6 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 | **架构约束** | **AI Dev Harness — ARCHITECTURE.md** |
 | **方向评估（精磨/推翻）** | **AI Dev Harness — evaluate（自动触发）** |
 | **提交前安全扫描** | **AI Dev Harness — security-scan** |
-| **经验沉淀（skill/参考文档）** | **AI Dev Harness — skill-extract** |
 | **结构化交接 + 归档** | **AI Dev Harness — structured-handoff** |
 | **业界方案调研（按需,默认跳过）** | **AI Dev Harness — research-scout（规划方案时按需 fork,联网搜业界方案当选项输入）** |
 | **文档生命周期** | **AI Dev Harness — handoff, PROGRESS, 归档** |
@@ -183,15 +181,12 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 │   │   ├── design-review/SKILL.md       # 设计审查（fork reviewer team）
 │   │   ├── evaluate/SKILL.md            # 方向评估（auto fork evaluator team）
 │   │   ├── security-scan/SKILL.md       # 提交前安全扫描
-│   │   ├── skill-extract/SKILL.md       # 经验提取为新 skill
 │   │   ├── structured-handoff/SKILL.md  # 结构化交接 + 归档
 │   │   └── process-audit/SKILL.md       # 流程审计（auto fork auditor）
 │   └── hooks/
 │       ├── check-module-docs.sh         # 代码改了就提醒更新模块 README
 │       ├── session-init.sh              # 新会话注入上下文
-│       ├── check-handoff.sh             # 停止前检查交接时效
-│       ├── check-finishing-skills.sh    # 停止前检查 finishing skill 是否执行
-│       └── notify-done.sh              # 完成通知（可选）
+│       └── check-handoff.sh             # 停止前检查交接时效
 ├── docs/
 │   ├── RUBRIC.md                        # ⭐ 评分标准（方向盘）
 │   ├── ARCHITECTURE.md                  # 分层规则
@@ -223,7 +218,7 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 5. **security-scan** → 扫描代码安全问题（Critical 阻塞，High/Medium 警告）
 6. **evaluate 自动触发** → 对抗式方向评估（挑战者找问题 → 领审员做决策）
 7. **process-audit 自动触发** → 流程审计（遵从度 → 记录到 docs/audits/）
-8. 通过 → milestone commit + skill-extract 提取经验 + structured-handoff 归档 → 合并 → 下一个功能
+8. 通过 → milestone commit + structured-handoff 归档 → 合并 → 下一个功能
 9. 精磨 → structured-handoff 记录进度 → 返回迭代 → 重新 finishing
 10. 推翻 → structured-handoff 记录状态 → 停下来找用户 → 重新 brainstorming
 

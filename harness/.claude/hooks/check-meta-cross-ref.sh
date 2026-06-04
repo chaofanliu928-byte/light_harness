@@ -13,7 +13,7 @@
 # 防死循环:
 #   stop_hook_active == true 时直接 exit 0(参考 M15)
 #
-# 错误处理(graceful degrade,与 M15/M16 范式一致):
+# 错误处理(graceful degrade,与 M15 范式一致):
 #   - 文件不可读 → stderr warning + exit 0
 #   - git diff 失败 → exit 0
 #   - 依赖工具缺失(grep/git)→ stderr warning + exit 0

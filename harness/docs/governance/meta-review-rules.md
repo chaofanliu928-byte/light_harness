@@ -25,7 +25,7 @@
 - **本文件覆盖**:meta-review 流程(何时触发 / 怎么触发 / 挑战者怎么调用 / audit 怎么产 / 失效怎么判 / pattern 怎么嵌入 / handoff 字段怎么配合)
 - **不覆盖**:
   - meta finishing 四步(Step A 判断 / Step B 触发本文件流程 / Step C decision 立档 / Step D ROADMAP 同步) → 见 M1 `meta-finishing-rules.md`(spec §3.1.3)
-  - hook 执法实现 → 见 M15 `check-meta-review.sh` / M16 `check-meta-commit.sh`(spec §3.1.9)
+  - hook 执法实现 → 见 M15 `check-meta-review.sh`(spec §3.1.9)
   - scope 配置数据 → 见 M17 `.claude/hooks/meta-scope.conf`(spec §4.1.2)
   - scope 触发判定的人类对照表 → 见 M3 `/CLAUDE.md`(spec §3.1.1)
 
@@ -120,7 +120,7 @@
 
 #### (b) audit 必产
 
-- 缺 audit = 等价于未走流程,M15 Stop hook + M16 pre-commit hook 检出 git diff 命中 scope 但无 audit covers 的文件 → 引导补 audit/补 skip 理由
+- 缺 audit = 等价于未走流程,M15 Stop hook 检出 git diff 命中 scope 但无 audit covers 的文件 → 引导补 audit/补 skip 理由
 - audit 产物规范见本文件 §7
 
 #### (c) 失败处理
@@ -128,7 +128,7 @@
 - **fork 失败**:调度者按本文件 pattern 节内的角色定义,在单 context 内分角色审查;audit trail 标 `⚠️ 降级执行,独立性未达`
 - **挑战者漏选最低必选维度**:agent prompt B 段静态嵌入(详本文件 §6) + 调度者 Step 1 自检 C 段未禁 minimum;audit trail 中 `dimensions.recommended_enabled` / `minimum_required` 字段空白由 hook 后续检
 - **挑战者 prompt 超 §4 字节软上限**:调度者按 spec §3.1.5 拆分多轮 fork(每轮覆盖维度子集)
-- **audit trail 未产出**:违反 scope 规则,M15 Stop hook 在 session 末检出;M16 pre-commit hook 在 git commit 前检出
+- **audit trail 未产出**:违反 scope 规则,M15 Stop hook 在 session 末检出
 
 ---
 
@@ -329,7 +329,7 @@ covers:
 4. **无去重要求**:数组内允许重复,hook 处理时按集合并集计算
 5. **`<root>/` sentinel 前缀(P0.9.3 第二个 trial 引入)** — 区分 repo 根级文件(M3 = `/CLAUDE.md`)与 harness/ 内部相对路径(M4 = `harness/CLAUDE.md`,在 hook `git diff --relative` 视角输出 `CLAUDE.md`):
    - **写 audit covers 时**:M3 改动写 `<root>/CLAUDE.md`;M4 改动写 `CLAUDE.md`(harness 内部相对,与第 1-4 条规则一致)
-   - **hook §5.5 段输出**:`check-meta-review.sh` / `check-meta-commit.sh` 在 repo 根扫描发现 root 级文件后,push CHANGED_META_FILES 前对该文件加 `<root>/` 前缀
+   - **hook §5.5 段输出**:`check-meta-review.sh` 在 repo 根扫描发现 root 级文件后,push CHANGED_META_FILES 前对该文件加 `<root>/` 前缀
    - **比对语义**:hook 用 `grep -Fxq` 字面比对 covers 与 CHANGED_META_FILES;`<root>/CLAUDE.md` ≠ `CLAUDE.md`(独立项)
    - **历史 audit 兼容**:5/6 现有 audit covers 用 harness 内部相对路径(无前缀),自动命中 M4 语义;唯 P0.9.1 audit covers 用仓库相对(`harness/...`)作为孤例不 backfill
    - **字面独占性**:`<root>/` 7 字节 ASCII 字面与所有现实文件路径不冲突(`<` 字符在 git 实际路径中罕见 + 跨平台兼容性问题保证不出现);若用户真创建以 `<root>/` 字面开头的文件,与本协议冲突(spec 2026-04-30 §9.4 #23 接受边缘 case)
@@ -392,7 +392,7 @@ covers:
   ```
 - `changed_meta_files` = git diff 命中 scope.conf include glob 后过滤的集合
 
-### 8.3 实现细节(供 M15 / M16 参考)
+### 8.3 实现细节(供 M15 参考)
 
 - `git log -1 --format=%ct -- <file>` 取最新 commit time
 - audit 文件 mtime 用 `stat`(GNU 用 `stat -c %Y`,BSD 用 `stat -f %m`,与 `check-handoff.sh` 兼容)
@@ -421,7 +421,7 @@ covers:
 - M1 §3.1.3 Step A 调度者判"不走 meta-review"时,引导调度者在 handoff 写入此字段
 - 每次新 meta 改动开始时,调度者覆盖此字段(不累积旧 skip 记录)
 
-#### hook 读取规则(M15 / M16)
+#### hook 读取规则(M15)
 
 - grep 匹配:`## meta-review: skipped\(理由: ([^)]+)\)`(POSIX ERE)
 - 提取 `\1` 即理由内容
@@ -474,11 +474,11 @@ P0.9.1 落地反审 — 已完成 — audit:`docs/audits/meta-review-YYYY-MM-DD-
 
 #### 失效重审
 
-- 若 P0.9.1 重大改动(commit 进 main)后,§8 covers 失效规则触发反审 audit 失效 → 字段重置为 `未完成` + M20 SessionStart hook 重新注入提醒
+- 若 P0.9.1 重大改动(commit 进 main)后,§8 covers 失效规则触发反审 audit 失效 → 字段重置为 `未完成`(调度者下次读 handoff/covers 判定是否需重审)
 
-#### hook 读取规则(可选 — 与 M20 互补)
+#### 字段读取规则(调度者读;covers 为权威)
 
-- **权威**:audit covers 是反审完成的权威依据(M20 按 covers 判定,见 §7)
+- **权威**:audit covers 是反审完成的权威依据(调度者读 covers 判定,见 §7)
 - **被动留痕**:本字段供调度者读 handoff 见此判断反审是否待办
 - **不强制 hook 解析**(避免双源冲突);若未来扩展 hook 读此字段,需与 covers 检测保持优先级:**covers 是权威**,字段失同步以 covers 为准
 
@@ -486,7 +486,7 @@ P0.9.1 落地反审 — 已完成 — audit:`docs/audits/meta-review-YYYY-MM-DD-
 
 ### 9.3 字段 3:`## meta-cross-ref: skipped`(P0.9.3 第一个 trial 引入)
 
-> P0.9.3 第一个 trial 加 cross-file 互引 anchor 完整性检测 hook(`check-meta-cross-ref.sh` / `check-meta-cross-ref-commit.sh`),引入第三个 hook-driven skip 字段。详细字段规范见 M1 `meta-finishing-rules.md` §5.3;本节列简表配合 M2 流程。
+> P0.9.3 第一个 trial 加 cross-file 互引 anchor 完整性检测 hook(`check-meta-cross-ref.sh`),引入第三个 hook-driven skip 字段。详细字段规范见 M1 `meta-finishing-rules.md` §5.3;本节列简表配合 M2 流程。
 
 #### 精确格式
 
@@ -500,7 +500,7 @@ P0.9.1 落地反审 — 已完成 — audit:`docs/audits/meta-review-YYYY-MM-DD-
 - 用户在 handoff 写 `## meta-review: skipped` **不**让 cross-ref hook 放行;反之亦然
 - 每次新 cross-ref hook 报错时可覆盖,不累积
 
-#### hook 读取规则(check-meta-cross-ref.sh / check-meta-cross-ref-commit.sh)
+#### hook 读取规则(check-meta-cross-ref.sh)
 
 - grep 匹配:`## meta-cross-ref: skipped\(理由: ([^)]+)\)`(POSIX ERE)
 - 提取 `\1` 即理由内容

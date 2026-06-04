@@ -15,7 +15,7 @@
   ├→ fork security-reviewer ──→ 安全扫描
   ├→ fork evaluator ──→ 方向评估
   │                          │
-  │    ├─ 通过 → milestone → skill-extract → structured-handoff → 合并
+  │    ├─ 通过 → milestone → structured-handoff → 合并
   │    ├─ 精磨 → structured-handoff → 返回迭代
   │    └─ 推翻 → structured-handoff → 找用户
 
@@ -42,9 +42,7 @@
 | system-design | 需求锁定后 — fork designer（含自检子智能体） |
 | design-review | 设计完成后 — fork reviewer team（4 并行子智能体） |
 | evaluate | finishing — 自动触发（invocation: auto） |
-| security-scan | finishing — evaluate 之前 |
-| skill-extract | finishing — evaluate 通过后 |
-| structured-handoff | finishing 三路 + /clear 前 |
+| security-scan | finishing — evaluate 之前 || structured-handoff | finishing 三路 + /clear 前 |
 
 ## Hook
 
@@ -54,8 +52,6 @@
 | check-module-docs | 代码改了就提醒更新模块 README |
 | session-init | 注入交接文档 + 治理提醒 |
 | check-handoff | 停止前检查交接文档时效 |
-| check-finishing-skills | 停止前检查 finishing skill 是否执行 |
-
 ## 人必须做的事
 
 1. **填写 docs/RUBRIC.md** — 方向盘

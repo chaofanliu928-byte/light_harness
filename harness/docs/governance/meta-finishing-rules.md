@@ -4,7 +4,7 @@
 >
 > **本文件 ≠ spec**:本文件是 runtime 流程契约;详细论证、决策依据、第七/第八轮 fix 链由 spec `docs/superpowers/specs/2026-04-17-p0-9-self-governance-design.md` 承载。本文件按章节引用 spec,不重复其论证段。
 >
-> **职责分工**:本文件覆盖 meta 改动 finishing 四步(Step A/B/C/D);meta-review 流程本身见 M2 `meta-review-rules.md`;hook 执法见 M15 / M16;scope 配置见 M17。
+> **职责分工**:本文件覆盖 meta 改动 finishing 四步(Step A/B/C/D);meta-review 流程本身见 M2 `meta-review-rules.md`;hook 执法见 M15;scope 配置见 M17。
 
 ---
 
@@ -23,7 +23,7 @@
 - **本文件覆盖**:meta 改动 finishing 四步(Step A scope 判断 / Step B meta-review 流程触发 / Step C decision 立档 / Step D ROADMAP / 进度同步)+ meta evidence depth 定义节(spec §4.1.4 B1 决策合并)+ handoff 字段引导(skip + 反审待办)
 - **不覆盖**:
   - meta-review 流程内部(挑战者怎么 fork / 维度怎么选 / pattern 怎么嵌入 / audit 怎么产) → 见 M2 `meta-review-rules.md`(spec §3.1.4 - §3.1.7)
-  - hook 执法实现(Stop hook / pre-commit hook 怎么扫 covers / 怎么读 skip 字段) → 见 M15 `check-meta-review.sh` / M16 `check-meta-commit.sh`(spec §3.1.9)
+  - hook 执法实现(Stop hook 怎么扫 covers / 怎么读 skip 字段) → 见 M15 `check-meta-review.sh`(spec §3.1.9)
   - scope 配置数据(glob 列表) → 见 M17 `.claude/hooks/meta-scope.conf`(spec §4.1.2)
   - scope 触发判定的人类对照表(用户描述改动 → scope 标签) → 见 M3 `/CLAUDE.md`(spec §3.1.1)
   - finishing 阶段 scope 分流入口(feature / meta / mixed / none 谁走哪个 finishing) → 见 M5 `finishing-rules.md`(spec §3.1.2)
@@ -115,7 +115,7 @@ scope 由调度者按 spec §3.1.1 + M17 `.claude/hooks/meta-scope.conf` + M3 `/
 - **`<reason>`**:string,非空非全空白,至少 1 个非空白字符
 - **括号必须半角**(`(` `)` U+0028/U+0029,不是全角 `(` `)` U+FF08/U+FF09)。中文 IME 默认全角,写入时需切换为半角。hook grep 字面匹配半角,全角不命中。依据:2026-04-28 meta-review C3 Y3
 - **覆盖语义**:每次新 meta 改动开始时,调度者覆盖此字段(不累积旧 skip 记录),字段不归档(handoff 本来就 mutable)
-- **hook 校验**(M15 / M16):grep `## meta-review: skipped\(理由: ([^)]+)\)`(POSIX ERE),提取 `\1` 后用 `\S` 至少匹配 1 个非空白字符 → skip 有效;否则 skip 无效,继续要求 audit
+- **hook 校验**(M15):grep `## meta-review: skipped\(理由: ([^)]+)\)`(POSIX ERE),提取 `\1` 后用 `\S` 至少匹配 1 个非空白字符 → skip 有效;否则 skip 无效,继续要求 audit
 
 详见 contracts-locked.md C3 字段 1 + spec §4.1.3。
 
@@ -226,11 +226,11 @@ P0.9.1 落地反审 — 已完成 — audit:`docs/audits/meta-review-YYYY-MM-DD-
 1. **初始写入**:**P0.9.1 实施阶段最后一次 finishing**(对应 P0.9.1 commit 进 main 前),M1 引导调度者在 handoff 加此字段(初始值 `未完成`)
 2. **更新**:反审走完(M2 §6 pattern 节 + audit 产出 + verdict=pass)后,M1 引导调度者更新字段为 `已完成 — audit:<path>`,其中 `<path>` 为反审 audit 仓库相对路径
 3. **不清理**:反审完成后字段保留(不清理) — 作为 P0.9.1 闭环留痕
-4. **失效重审**:若 P0.9.1 重大改动(commit 进 main)后,M2 §8 covers 失效规则触发反审 audit 失效 → 字段重置为 `未完成` + M20 SessionStart hook 重新注入提醒
+4. **失效重审**:若 P0.9.1 重大改动(commit 进 main)后,M2 §8 covers 失效规则触发反审 audit 失效 → 字段重置为 `未完成`(调度者下次读 handoff/covers 判定是否需重审)
 
-hook 互补关系(M20 + 字段):
+covers 与字段的关系:
 
-- **权威**:audit covers 是反审完成的权威依据(M20 SessionStart hook 按 covers 判定 — covers 含本 spec 路径即视为反审完成)
+- **权威**:audit covers 是反审完成的权威依据(covers 含本 spec 路径即视为反审完成;调度者读 handoff/covers 判定)
 - **被动留痕**:本字段是辅助 — 调度者读 handoff 见此字段判断反审是否待办;不强制 hook 解析
 - **优先级**:**covers 是权威**,若字段失同步则以 covers 为准
 
@@ -340,7 +340,7 @@ feature 层的 L1-L4(单元 / 集成 / 自动化 / 真实场景)对 meta 改动�
 | status 行 | 两态切换:`P0.9.1 落地反审 — 未完成` 或 `P0.9.1 落地反审 — 已完成 — audit:<path>` |
 | audit 路径(完成态) | 仓库相对路径,反引号包裹,符合 C2 命名(`meta-review-YYYY-MM-DD-HHMMSS-p0-9-1-self-review.md`) |
 | 不清理 | 反审完成后字段保留,作为 P0.9.1 闭环留痕 |
-| 失效重审 | covers 失效规则触发字段重置为 `未完成` + M20 SessionStart hook 重新注入提醒 |
+| 失效重审 | covers 失效规则触发字段重置为 `未完成`(调度者读 covers 判定) |
 | hook 解析 | 不强制 — covers 是权威,字段失同步以 covers 为准 |
 | spec 锚点 | §4.1.7 |
 | contract | C3 字段 2 |
@@ -348,11 +348,11 @@ feature 层的 L1-L4(单元 / 集成 / 自动化 / 真实场景)对 meta 改动�
 
 ### 5.3 字段 3:`## meta-cross-ref: skipped`(短期,每次 meta 改动可覆盖 — P0.9.3 第一个 trial 引入)
 
-> P0.9.3 第一个 trial 加 `check-meta-cross-ref.sh` / `check-meta-cross-ref-commit.sh` 双 hook(检 design-rules.md ↔ finishing-rules.md cross-file 互引 anchor 完整性),引入新 skip 字段。**与 `## meta-review: skipped` 字段无关** — 两个独立字段,各自管各自 hook。
+> P0.9.3 第一个 trial 加 `check-meta-cross-ref.sh` hook(检 design-rules.md ↔ finishing-rules.md cross-file 互引 anchor 完整性),引入新 skip 字段。**与 `## meta-review: skipped` 字段无关** — 两个独立字段,各自管各自 hook。
 
 | 维度 | 内容 |
 |---|---|
-| 写入时机 | check-meta-cross-ref.sh / check-meta-cross-ref-commit.sh 报 anchor 缺失时,若用户判定"本次改动 anchor 缺失合理"(如有意重命名 anchor + 同步改 PAIRS),写入 handoff |
+| 写入时机 | check-meta-cross-ref.sh 报 anchor 缺失时,若用户判定"本次改动 anchor 缺失合理"(如有意重命名 anchor + 同步改 PAIRS),写入 handoff |
 | 精确格式 | `## meta-cross-ref: skipped(理由: <非空理由>)` |
 | marker | 固定字符串 `## meta-cross-ref: skipped` |
 | 括号字段 | `(理由: <reason>)` 整体必出现 |
@@ -370,7 +370,7 @@ feature 层的 L1-L4(单元 / 集成 / 自动化 / 真实场景)对 meta 改动�
 - **同一 handoff 文件**:三字段共存,marker 不同(`## meta-review: skipped` / `## 反审待办` / `## meta-cross-ref: skipped`),互不影响
 - **不互覆盖**:字段 1 + 字段 3 短期可覆盖(每次新 hook 报错可覆盖);字段 2 长期保留至反审完成
 - **顺序无要求**:三字段在 handoff 内出现顺序不强制,handoff 模板可固定一种顺序便于阅读
-- **grep 各自识别**:三 marker 字面不冲突,hook(M15 / M16 / M22-cross-ref)各自只解析自己的字段;反审待办由 M20 + 调度者读
+- **grep 各自识别**:三 marker 字面不冲突,hook(M15 / M22-cross-ref)各自只解析自己的字段;反审待办由调度者读
 - **用户混淆风险**(audit D3-F5):新用户可能不知道 `meta-review: skipped` ≠ `meta-cross-ref: skipped`;cross-ref hook stderr 必须显式提示"必须用 `## meta-cross-ref: skipped`(不是 `## meta-review: skipped`)"
 
 ---

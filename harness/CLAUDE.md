@@ -106,7 +106,5 @@
 | **system-design** | brainstorming 后，需求锁定后 | 调度者 fork designer 写草稿 → 调度者再 fork 独立自检挑战者 |
 | **design-review** | 系统设计完成后 | 调度者并行 fork 4 个挑战者审查设计文档 |
 | **evaluate** | finishing 阶段，自动触发 | 调度者并行 fork 4 个挑战者做方向评估 |
-| **security-scan** | finishing 阶段，evaluate 之前 | 扫描代码安全问题 |
-| **skill-extract** | finishing 阶段，evaluate 通过后 | 提取可复用模式 |
-| **process-audit** | finishing 阶段，evaluate 之后、分流之前 | 审计流程遵从度，记录到 docs/audits/ |
+| **security-scan** | finishing 阶段，evaluate 之前 | 扫描代码安全问题 || **process-audit** | finishing 阶段，evaluate 之后、分流之前 | 审计流程遵从度，记录到 docs/audits/ |
 | **structured-handoff** | finishing 三路都执行；/clear 前 | 结构化交接 + 归档 |

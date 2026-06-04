@@ -27,6 +27,15 @@
 
 ---
 
+## 2026-06-04 — 剪枝批次:删 5 死/冗余 hook + skill-extract + 治理诚实化
+
+- **抉择**:删 2 个 pre-commit 孪生(M16,从没装)+ meta-self-review-detect(M20,永空转)+ notify-done(孤儿)+ check-finishing-skills(软冗余)+ skill-extract(0 产出);并把治理文档里 M16/M20 的"现行执法"描述收口(删掉一套描述了但从没运行的执法层)。
+- **抉择 2(删 vs 落地)**:对"从没运行的 pre-commit 执法",选**删 + 文档诚实化**,不落地——问题(mid-turn commit 绕过 Stop 门)两个月没咬过,落地需正经测试+fail-loud,属投机性过度工程;记为候选 feature。
+- **流程**:decision → 独立 designer 穷尽扫 → 3 挑战者 meta-review(抓到 memory 误删 process-audit 风险 + M20 对称盲点 + meta-scope.conf/templates 残留,pass-after-revision)→ 实现 20 文件(净 −1156 行)→ grep+jq 校验全绿
+- **link**:`decisions/2026-06-04-prune-dead-hooks-and-skill-extract.md` + `audits/meta-review-2026-06-04-231235-prune-dead-hooks-and-skill-extract.md`
+
+---
+
 ## 2026-06-04 — 删除 session-search skill(继承靠 session-init,不靠 invoke-skill)
 
 - **抉择**:功能层剪枝第二刀。session-search(跨会话检索)无人手动用、自动触发无 hook 不可靠;用户只要继承①(连续性),而它已由 session-init(SessionStart hook)+ structured-handoff 机械提供 → 删。继承②(自动召回旧经验)用户不要,不做。
