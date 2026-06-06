@@ -30,7 +30,7 @@
 | brainstorming（需求对接） | docs/governance/brainstorming-rules.md |
 | **系统设计** | **docs/governance/design-rules.md** |
 | writing-plans | docs/governance/planning-rules.md |
-| subagent dev | docs/governance/implementation-rules.md |
+| subagent dev | docs/governance/implementation-rules.md + testing-rules.md |
 | code-review | docs/governance/review-rules.md |
 | finishing | docs/governance/finishing-rules.md |
 
@@ -39,10 +39,12 @@
 | Skill | 什么时候 |
 |-------|---------|
 | project-setup | 首次使用 — 对话式引导 |
-| system-design | 需求锁定后 — fork designer（含自检子智能体） |
+| system-design | 需求锁定后 — fork designer（自检由调度者另 fork 挑战者） |
 | design-review | 设计完成后 — fork reviewer team（4 并行子智能体） |
 | evaluate | finishing — 自动触发（invocation: auto） |
-| security-scan | finishing — evaluate 之前 || structured-handoff | finishing 三路 + /clear 前 |
+| security-scan | finishing — evaluate 之前 |
+| process-audit | finishing — evaluate 之后、分流之前 |
+| structured-handoff | finishing 三路 + /clear 前 |
 
 ## Hook
 
@@ -52,6 +54,9 @@
 | check-module-docs | 代码改了就提醒更新模块 README |
 | session-init | 注入交接文档 + 治理提醒 |
 | check-handoff | 停止前检查交接文档时效 |
+| check-evidence-depth | finishing 检查 Evidence Depth/CI 阻断字段 |
+| check-context-chain | docs/context/ 活链软提醒(断链/方向违法,只警告) |
+
 ## 人必须做的事
 
 1. **填写 docs/RUBRIC.md** — 方向盘
@@ -69,6 +74,7 @@
 | docs/active/handoff.md | 交接文档 |
 | docs/completed/ | 归档（手动 grep 深查历史）|
 | docs/decisions/ | 架构决策 |
+| docs/context/ | 分层活上下文链(L1-L6;upstream 编码挂链) |
 | docs/references/ | 内部知识 + 提取的参考 |
 
 ## 上下文重置

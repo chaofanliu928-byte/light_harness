@@ -3,6 +3,13 @@
 # 只在 finishing 阶段(evaluate 结果存在时)检查
 # exit 2 = 阻断,exit 0 = 通过
 
+INPUT=$(cat)
+
+# 关键:如果 stop_hook 已经激活过一次,必须放行,否则死循环
+if [ "$(echo "$INPUT" | jq -r '.stop_hook_active' 2>/dev/null)" = "true" ]; then
+    exit 0
+fi
+
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
 EVAL_FILE="$PROJECT_DIR/docs/active/evaluation-result.md"
 HANDOFF_FILE="$PROJECT_DIR/docs/active/handoff.md"

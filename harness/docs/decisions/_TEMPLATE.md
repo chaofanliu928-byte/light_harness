@@ -72,4 +72,4 @@
 - 坑 1:[现象 + 根因 + 怎么避免]
 - 坑 2:[现象 + 根因 + 怎么避免]
 
-> 用途:future 决策时 grep 本段,**避免重蹈覆辙**。配套 `../experience-index.md` 索引检索(harness 自仓库:`harness/docs/experience-index.md`)。
+> 用途:future 决策时 grep 本段(或 grep `docs/decisions/` 全文),**避免重蹈覆辙**。

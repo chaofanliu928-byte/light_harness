@@ -55,6 +55,7 @@
 | 内部参考 | docs/references/ |
 | **多智能体审查指南** | **docs/references/multi-agent-review-guide.md** |
 | 功能索引 | docs/product-specs/index.md |
+| **分层活上下文链** | **docs/context/(L1-L6;upstream 编码挂链)** |
 
 ## 治理规则（进入对应阶段时读取）
 
@@ -84,6 +85,7 @@
 7. 不确定的架构决策写入 `docs/decisions/`，并请求用户决定
 8. 修改模块代码时同步更新模块 README.md（hook 会提醒）
 9. 对话变长时运行 `/structured-handoff` 更新交接文档，提示用户 `/clear`
+10. **活上下文链(用 docs/context/ 时)**:需求/设计写进 `docs/context/`，编码 + frontmatter `upstream: [编码]` 串成分层链(L1→L6，方向永不反：低层不定义高层）。改上游（推翻/改名）**当场**把下游 repoint 或标 `upstream: [待定]`（待定是章法，静默断链是垃圾）。探索期 `待定` 合法、`check-context-chain.sh` 只软提醒；收口由 finishing「收口硬核链」AI 核 + handoff 声明。frontmatter 只用半角 `[ ] : ,`
 
 ## 回退规则
 
@@ -106,5 +108,6 @@
 | **system-design** | brainstorming 后，需求锁定后 | 调度者 fork designer 写草稿 → 调度者再 fork 独立自检挑战者 |
 | **design-review** | 系统设计完成后 | 调度者并行 fork 4 个挑战者审查设计文档 |
 | **evaluate** | finishing 阶段，自动触发 | 调度者并行 fork 4 个挑战者做方向评估 |
-| **security-scan** | finishing 阶段，evaluate 之前 | 扫描代码安全问题 || **process-audit** | finishing 阶段，evaluate 之后、分流之前 | 审计流程遵从度，记录到 docs/audits/ |
+| **security-scan** | finishing 阶段，evaluate 之前 | 扫描代码安全问题 |
+| **process-audit** | finishing 阶段，evaluate 之后、分流之前 | 审计流程遵从度，记录到 docs/audits/ |
 | **structured-handoff** | finishing 三路都执行；/clear 前 | 结构化交接 + 归档 |

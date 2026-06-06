@@ -56,6 +56,23 @@
    - **hook 会检查字段非空,为空则阻断 finishing**
 6. 对照 `docs/governance/testing-rules.md` 的决策表,自检:本次变更的 Evidence Depth 是否满足最低要求?不满足 → 回到 implementation 补测试,不要带着缺口进 evaluate
 
+## 收口硬核链（方向评估之前 — 仅当 docs/context/ 存在）
+
+> 软收尾(`check-context-chain.sh` Stop hook)平时只早提醒、放行;**这一步是硬收口**。
+> 一个功能算"做完",活上下文链必须通、方向合法、`待定` 该补的补上。
+> **由你(调度者)按本节当场核**,核完在 `docs/active/handoff.md` 写一句声明(hook 机械逼显式声明,不解析对错):
+> `## context-chain: 已核(<一句结论>)` 或 `## context-chain: skipped(理由: <非空>)`。
+> 无声明 → `check-context-chain.sh` 在收口(evaluation-result.md 存在)时 exit 2 阻断。括号必须半角。
+
+若本功能在 `docs/context/` 留了链(整条没用 context 链则写 skipped 跳过):
+
+- **链必通**:从本功能最高层文件顺 `upstream` 编码逐跳上溯,每跳目标编码必须在 `docs/context/` 实际存在(含拆出的 L2-F<n> 文件)。断到不存在的编码 = 静默断链,**当场修**(repoint 或标 `待定`)。
+- **方向合法**:每个 upstream 编码层号严格高于本文件层号(L6→L5→L4→L3→L2→L1)。低层定义高层 = 方向反,**回退到该问题应解决的层修**(见回退规则),不在下层打补丁。
+- **待定补齐**:扫链上所有 `upstream: [待定]`,收口时本就在定稿,该定的定;仍要保留的写一句为什么还待定。
+- **上游改→下游对齐**:本批若改过任一上游(L1-L3)文件,确认挂在其下的所有下游已 repoint 或标待定,不留孤儿。
+
+> 软/硬协同:平时软提醒让你别忘;收口这道是真闸。软 hook 即便降级(jq/awk 缺失)也只丢提醒,真保证在本节 + handoff 声明。
+
 ## 方向评估
 
 7. **确认 `docs/active/security-scan-result.md` 存在且无 Critical** 后，运行 evaluate

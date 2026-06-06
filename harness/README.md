@@ -34,6 +34,7 @@ Superpowers 管"怎么写好代码"。AI Dev Harness 管"按什么标准写、�
 
 #### 层 4:协作机制(智能体友好基础设施)
 - **4.1 智能体友好文档系统** — CLAUDE.md 索引 + 5 产物(spec/decision-trail/audit/banner/handoff)各司其职。**Why**:索引让智能体一眼找入口 / 维护良好让 Read 任何文件能拿到 fresh+actionable / 智能体友好 ≠ 人友好(需要 self-contained + structured + cross-referenced)。**实现**:`CLAUDE.md`(索引)+ `docs/superpowers/specs/`(spec)+ `decision-trail.md` + `docs/audits/` + inline banner + `docs/active/handoff.md`
+- **分层活上下文链(下游)** — `docs/context/` L1-L6 脊柱(对应 brainstorming→testing 阶段;松紧梯度:L1/L2 可探索"待定"合法,L3 对抗审查上场转严,L5/L6 最严)。每节 frontmatter `upstream: [编码]` 机读挂链(指编码不 grep)。**Why**:把跨会话上下文从"散文交叉引用"升级为"机读分层图",改上游可机械追下游,`待定` 是章法、静默断链是垃圾。**实现**:`docs/context/`(L1-vision/L2-INDEX 默认单表,L3-L6 随开发长)+ `check-context-chain.sh`(软早提醒)+ `finishing-rules.md`「收口硬核链」(AI 核 + handoff 声明)。注:这是 4.1 之外的新机制,**不计入上面"5 产物"**;harness 自仓库不建 context/(用 README 当 vision)。
 - **4.2 综合阶段中性化** — 调度者构造挑战者 prompt 必须中立(材料/排序/措辞);综合按 RUBRIC 维度评判。**Why**:防 anchoring,多智能体审查的有效性前提。**实现**:`docs/governance/synthesis-rules.md` 完整规范
 - **4.3 改动范围自动识别** — governance 改动 glob 机械触发 meta-review。**Why**:不靠 AI 自觉,机械触发不可被自我说服绕过。**实现**:`CLAUDE.md` §3-§4 + `.claude/hooks/meta-scope.conf` + `check-meta-*.sh` 系列 hook
 - **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:7 个 SKILL.md 统一结构
@@ -169,7 +170,7 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 ├── .claude/
 │   ├── settings.json                    # Hooks 配置
 │   ├── agents/
-│   │   ├── designer.md                  # 系统设计师（含自检子智能体）
+│   │   ├── designer.md                  # 系统设计师（自检由调度者另 fork 挑战者）
 │   │   ├── design-reviewer.md           # 设计审查领审员（4 并行子智能体）
 │   │   ├── evaluator.md                 # 方向评估领审员（对抗式，3+1 并行子智能体）
 │   │   ├── security-reviewer.md         # 安全扫描领审员（3 并行子智能体）
@@ -186,7 +187,9 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 │   └── hooks/
 │       ├── check-module-docs.sh         # 代码改了就提醒更新模块 README
 │       ├── session-init.sh              # 新会话注入上下文
-│       └── check-handoff.sh             # 停止前检查交接时效
+│       ├── check-handoff.sh             # 停止前检查交接时效
+│       ├── check-evidence-depth.sh      # finishing 检查 Evidence Depth/CI 阻断字段
+│       └── check-context-chain.sh        # docs/context/ 活链软提醒(断链/方向违法,只警告)
 ├── docs/
 │   ├── RUBRIC.md                        # ⭐ 评分标准（方向盘）
 │   ├── ARCHITECTURE.md                  # 分层规则
@@ -196,6 +199,7 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 │   │   ├── design-rules.md              # 系统设计时读
 │   │   ├── planning-rules.md            # writing-plans 时读
 │   │   ├── implementation-rules.md      # 子代理执行时读
+│   │   ├── testing-rules.md             # 子代理执行时读（测试）
 │   │   ├── review-rules.md              # code-review 时读
 │   │   └── finishing-rules.md           # 分支收尾时读
 │   ├── active/

@@ -17,7 +17,7 @@ description: "项目配置向导。首次使用或配置未完成时触发。探
 
 !`grep -q "\[项目名称\]" CLAUDE.md 2>/dev/null && echo "CLAUDE.md: ❌ 未配置" || echo "CLAUDE.md: ✅ 已配置"`
 
-!`grep -q "\[用2-3句话\]" docs/RUBRIC.md 2>/dev/null && echo "RUBRIC.md: ❌ 未配置" || echo "RUBRIC.md: ✅ 已配置"`
+!`grep -q "\[用 2-3 句话" docs/RUBRIC.md 2>/dev/null && echo "RUBRIC.md: ❌ 未配置" || echo "RUBRIC.md: ✅ 已配置"`
 
 !`grep -q "\[待定义\]" docs/ARCHITECTURE.md 2>/dev/null && echo "ARCHITECTURE.md: ❌ 未配置" || echo "ARCHITECTURE.md: ✅ 已配置"`
 
@@ -173,10 +173,19 @@ matcher 设为 `Write|Edit|MultiEdit`（和 prettier hook 同组）。exit 0（�
 
 如果用户不确定用什么 lint 工具，根据技术栈推荐最主流的选择。
 
+#### docs/context/（活上下文链起步 — 只填 L1+L2，克制）
+
+> 剂量轻：起步只落愿景 + 需求单表两个种子（setup.sh 已铺），L3-L6 随真实开发自然长，不预填空壳。
+
+- **docs/context/L1-vision.md**：把阶段二/三确认的项目目标（用户原话）写进正文，status 改 active。
+- **docs/context/L2-INDEX.md**：把已确认的首批功能逐行填入单表（编码 L2-F1、L2-F2…），upstream 都填 `L1-vision`；还没定的功能留一行 `待定`，不强行凑。
+- 用户没有明确功能清单时，L2 表保留一行 `[待填]`/`待定` 即可，开发中再补 —— 与 RUBRIC 渐进式积累同基调，不在配置阶段逼用户填满。
+- frontmatter 与 upstream 只用半角 `[ ] : ,`（全角会被 `check-context-chain.sh` 机读静默漏）。
+
 ### 阶段五：验证
 
 写入后读回每个文件，确认：
-- 没有残留的 `[待定义]`、`[项目名称]`、`[一句话描述]` 等占位符
+- 没有残留的 `[待定义]`、`[项目名称]`、`[一句话描述]` 等占位符（docs/context/ 的 `[待填]`/`待定` 是探索期合法状态，**不算残留**，不阻断配置完成）
 - ARCHITECTURE.md 的分层与实际目录结构一致（如果有代码）
 - CLAUDE.md 的技术栈与实际依赖一致（如果有 package.json）
 

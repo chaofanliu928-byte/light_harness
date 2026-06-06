@@ -1,6 +1,6 @@
 ---
 name: process-audit
-description: "流程审计。finishing 阶段 evaluate 和 structured-handoff 之后触发。扁平 fork 1 个独立挑战者审计 AI 对流程的遵从度,记录到 docs/audits/,不自动优化。"
+description: "流程审计。finishing 阶段 evaluate 之后、分流之前触发。扁平 fork 1 个独立挑战者审计 AI 对流程的遵从度,记录到 docs/audits/,不自动优化。"
 invocation: auto
 allowed-tools: Read, Glob, Grep, Bash, Write, Agent
 ---

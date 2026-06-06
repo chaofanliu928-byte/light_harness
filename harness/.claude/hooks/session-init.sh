@@ -14,7 +14,7 @@ SETUP_NEEDED=false
 if grep -q "\[项目名称\]" "$PROJECT_DIR/CLAUDE.md" 2>/dev/null; then
     SETUP_NEEDED=true
 fi
-if grep -q "\[用2-3句话\]" "$PROJECT_DIR/docs/RUBRIC.md" 2>/dev/null; then
+if grep -q "\[用 2-3 句话" "$PROJECT_DIR/docs/RUBRIC.md" 2>/dev/null; then
     SETUP_NEEDED=true
 fi
 if grep -q "\[待定义\]" "$PROJECT_DIR/docs/ARCHITECTURE.md" 2>/dev/null; then
@@ -52,6 +52,15 @@ if [ -n "$LATEST_DESIGN" ] && ! head -3 "$LATEST_DESIGN" | grep -q "ARCHIVED\|CA
     head -30 "$LATEST_DESIGN"
     echo "..."
     echo "(完整设计: $LATEST_DESIGN)"
+    echo ""
+fi
+
+# 降级 / 待修订 banner 提醒（design-rules.md「Fork 失败降级」承诺的消费方）
+if [ -n "$LATEST_DESIGN" ] && head -3 "$LATEST_DESIGN" 2>/dev/null | grep -q "降级执行\|待修订"; then
+    echo ""
+    echo "⚠️ 最近设计文档带「降级执行 / 待修订」标注 —— 未经独立 agent 验证。"
+    echo "   建议:重新 fork 对应 agent(如 design-review)补审,或先修订再继续。"
+    echo "   (来源: $LATEST_DESIGN)"
     echo ""
 fi
 

@@ -267,6 +267,9 @@ feature 层的 L1-L4(单元 / 集成 / 自动化 / 真实场景)对 meta 改动�
 - L2: ✅ scripts/integration-test.sh 集成测试输出
 - L3: ✅ scripts/api-smoke.sh 自动化 API 验证
 - L4: ✅ docs/decisions/2026-04-25-foo-bar.md 真实场景验证记录
+
+## CI 阻断
+✅ feature CI(lint/类型/测试)exit 非 0 阻断 merge
 ```
 
 #### scope=meta(纯 meta,典型 4 行)
@@ -277,6 +280,9 @@ feature 层的 L1-L4(单元 / 集成 / 自动化 / 真实场景)对 meta 改动�
 - meta-L2: ✅ design-rules 10 项全局自洽通过(详见 §9 自检)
 - meta-L3: ✅ docs/audits/meta-review-2026-04-25-143022-M0.md verdict=pass
 - meta-L4: ⏳ 待观察(下一次 meta 改动 audit 是否引用本规则)
+
+## CI 阻断
+❌ 无 CI 阻断(纯 meta 规则文本改动,无可运行测试;阻断由 check-meta-* Stop hook 承担)
 ```
 
 #### scope=mixed(典型 8 行 — meta + feature 各 4 行,**spec §4.1.4 fix-4 必给示例**)
@@ -291,6 +297,9 @@ feature 层的 L1-L4(单元 / 集成 / 自动化 / 真实场景)对 meta 改动�
 - L2: ✅ scripts/feature-foo-integration.sh 集成测试输出
 - L3: ✅ scripts/feature-foo-smoke.sh 自动化 API 验证
 - L4: ✅ docs/decisions/2026-05-12-feature-foo.md 真实场景验证
+
+## CI 阻断
+✅ feature 侧 CI 阻断 merge(meta 侧无 CI,由 check-meta-* Stop hook 承担)
 ```
 
 ### 4.3 格式规则(spec §4.1.4)
@@ -303,7 +312,7 @@ feature 层的 L1-L4(单元 / 集成 / 自动化 / 真实场景)对 meta 改动�
 
 ### 4.4 hook 行为(B7 决策)
 
-- **现有 hook 字段名 `## Evidence Depth` 不变**:`check-evidence-depth.sh` 仅检字段非空 + 非 `[待填]`,不解析档位值
+- **现有 hook 字段名 `## Evidence Depth` + `## CI 阻断` 两字段不变**:`check-evidence-depth.sh` 仅检两字段非空 + 非 `[待填]`,不解析档位值
 - **新增 meta-L1~meta-L4 档位值不破坏现有 hook 行为**:同字段名,新档位值;mixed 8 行同样通过(字段非空)
 - 不选 (b) 不同字段名(`## Evidence Depth (Meta)`):需改 hook 检测字段名,与"光谱 B+ 最小硬 hook"原则冲突
 

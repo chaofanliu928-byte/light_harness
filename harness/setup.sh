@@ -71,8 +71,8 @@ for hook in "$SCRIPT_DIR/.claude/hooks/"*.sh; do
     [ -e "$hook" ] || continue
     name=$(basename "$hook")
     case "$name" in
-        meta-*) continue ;;       # M20 反审检测段拆分文件 / 未来 meta-* hook
-        check-meta-*) continue ;; # M15 / M16 治理 hook
+        meta-*) continue ;;       # meta-* hook 不分发下游(meta 治理仅 harness 自仓库用)
+        check-meta-*) continue ;; # check-meta 治理 hook(check-meta-review / check-meta-cross-ref)
     esac
     cp "$hook" "$TARGET_DIR/.claude/hooks/"
 done
@@ -90,10 +90,10 @@ mkdir -p "$TARGET_DIR/docs/references"
 mkdir -p "$TARGET_DIR/docs/audits"
 mkdir -p "$TARGET_DIR/docs/superpowers/specs"
 mkdir -p "$TARGET_DIR/docs/superpowers/plans"
+mkdir -p "$TARGET_DIR/docs/context"
 cp "$SCRIPT_DIR/docs/RUBRIC.md" "$TARGET_DIR/docs/"
 cp "$SCRIPT_DIR/docs/ARCHITECTURE.md" "$TARGET_DIR/docs/"
-cp "$SCRIPT_DIR/docs/PROGRESS.md" "$TARGET_DIR/docs/"
-cp "$SCRIPT_DIR/docs/experience-index.md" "$TARGET_DIR/docs/" 2>/dev/null || true
+cp "$SCRIPT_DIR/templates/PROGRESS.md" "$TARGET_DIR/docs/"
 # governance:命名前缀过滤(D12),跳过 meta-* 治理文件(M1 / M2 不分发下游)
 for gov in "$SCRIPT_DIR/docs/governance/"*.md; do
     [ -e "$gov" ] || continue
@@ -103,8 +103,11 @@ for gov in "$SCRIPT_DIR/docs/governance/"*.md; do
     esac
     cp "$gov" "$TARGET_DIR/docs/governance/"
 done
-cp "$SCRIPT_DIR/docs/active/handoff.md" "$TARGET_DIR/docs/active/" 2>/dev/null || true
-cp "$SCRIPT_DIR/docs/product-specs/index.md" "$TARGET_DIR/docs/product-specs/" 2>/dev/null || true
+cp "$SCRIPT_DIR/templates/handoff.md" "$TARGET_DIR/docs/active/" 2>/dev/null || true
+cp "$SCRIPT_DIR/templates/product-specs-index.md" "$TARGET_DIR/docs/product-specs/index.md" 2>/dev/null || true
+cp "$SCRIPT_DIR/templates/context/README.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
+cp "$SCRIPT_DIR/templates/context/L1-vision.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
+cp "$SCRIPT_DIR/templates/context/L2-INDEX.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/decisions/_TEMPLATE.md" "$TARGET_DIR/docs/decisions/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/MODULE_DOC_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/DESIGN_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true

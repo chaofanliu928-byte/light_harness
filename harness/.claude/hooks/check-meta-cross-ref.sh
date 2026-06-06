@@ -23,8 +23,8 @@
 # anchor 字符串经 grep 验证在对应文件内字面存在(self-review 阶段验证):
 #   - design-rules.md L38 `## spec §0 偏离规则`
 #   - design-rules.md L45 `另见 \`finishing-rules.md\``
-#   - finishing-rules.md L39 `跨阶段同步约束`
-#   - finishing-rules.md L39 `见 \`design-rules.md\``
+#   - finishing-rules.md L41 `跨阶段同步约束`
+#   - finishing-rules.md L41 `见 \`design-rules.md\``
 #
 # 命名约定:
 #   前缀 check-meta- 触发 setup.sh 命名前缀过滤(D12),不分发下游。

@@ -112,6 +112,17 @@ cp docs/active/handoff.md "docs/completed/handoff-$(date +%Y%m%d-%H%M%S).md"
 ## 已知问题
 
 {当前存在的问题，如果没有写"无"}
+
+## Evidence Depth
+- L1 单元测试: [待填]
+- L2 冒烟测试: [待填]
+- L3 自动化 API 测试: [待填]
+- L4 用户行为模拟: [待填]
+
+## CI 阻断
+[待填]
+
+## context-chain: 待填(仅当项目用 docs/context/ 链;收口核完改 "已核(结论)" 或 "skipped(理由: ...)")
 ```
 
 ### 写入规则

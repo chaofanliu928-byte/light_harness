@@ -1,195 +1,68 @@
 # 工作交接文档
 
-> 只保留当前状态,给"下一个 AI"看。SessionStart hook 自动注入。
-> 详细设计在 docs/superpowers/specs/,实现计划在 docs/superpowers/plans/。
+> 只保留当前状态，给"下一个 AI"看。SessionStart hook 自动注入。
 > 里程碑历史在 docs/PROGRESS.md。
 
-更新时间:2026-05-30(solution-research-scout 修订完成 + push 前 readme/分发链核查修订,**已 push** f8b154e)
+更新时间：2026-06-05 21:00
 
 ## 目标
 
-P0.9.1 self-governance 已完成 + meta-review pass(audit `meta-review-2026-04-28-102359-p0-9-1-self-review.md`);
-P2 可观测性双层落地 + glassbox 角色 reframe(用户级外部工具,推荐不分发);decision-trail harness 自带。
-
-**P0.9.1.5 整体闭合**(2026-04-29):
-- 🟢 M0 删 block-dangerous(2026-04-28 完成,audit `meta-review-2026-04-28-215638-m0-delete-block-dangerous.md`,第一个 trial)
-- 🟢 M1+M2+M4 治理改动 batch(2026-04-29 完成,audit `meta-review-2026-04-29-095821-m1-m2-m4-governance-batch.md`,第二个 trial,verdict=pass after revision)
-- ⚪ M3 drop(报告 #1 已解决,#2 超 scope 推 P0.9.2 实战观察)
-
-**P0.9.3 第一个 trial 闭合**(2026-04-29):governance 漂移检测兜底 batch — (vii-a) M3 hook 不可见 + (互引-a) cross-file 互引 hook 检测;7 commits;5 文件改动(2 改 + 2 新建 + 1 settings)。
-
-下一步:边做边提升,无预设阶段;P0.9.2 候选累积(harness self-trial 局限 / cross-file 互引脆弱 / 反模式段膨胀 / 挑战者有效性元疑问 等 spec §9.4 #5-#9 推后续);P0.9.4 候选(本 trial 新发现 M3/M4 路径混淆)。
-
-**[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。详见 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点;11 处文件改动已落地(5 governance + ROADMAP + self-check + decision-trail + handoff + 2 README);不预设重启时间(`feedback_iterative_progression`)。
-
-**[2026-05-26] fork-intent-and-report-clarity batch 闭合** — synthesis-rules 加事前规则 5(fork 前现场意图识别)+ 综合输出表达准则节;4 agent 文件应用规则。**方向「己」**(fork 事件触发点,不实现 GateGuard 全套三层 hook)。9 文件 / +337 行 / 5 commits + 1 audit + 1 fix(process-auditor 通俗化精度)。verdict=pass-after-revision,10 known-gaps 入清单(详 `docs/audits/meta-review-2026-05-26-094034-fork-intent.md` §6):
-- **KG1**(🔴 共识 1)— 事前规则 5 ↔ 中性化 1-3 结构性张力,兜底不够硬。3 挑战者共识(规则 5 推 framing,规则 1-3 反 framing,目标方向反)。spec §7.2 R4 风险预声明但兜底只在措辞 + ✅/❌ 例。**修复路径**:后续 batch 决定硬约束(主线逐字引用 / 不可改写)
-- **KG2/3** — spec §9.1 措辞过严 + 4 agent ~176 行重复(与 fix-2 静态约束冲突);后续 batch 校正
-- **KG4/5/7** — spec_gap_masking 风险(提取源缺失边界 / 双写退化 / 嵌套 3 层无对照);后续 batch 加硬约束
-- **KG10**(dogfooding 实例)— 本次 meta-review fork audit 自身触发了 R4(主线段含"方向「己」"结论引导);process-audit 数据点
-
-**[2026-05-29] solution-research-scout batch 修订完成(待 push)** — 给 harness 加"方案调研员"能力:规划多智能体方案时(需求定了、方案讨论前),**按需** fork 联网调研员搜业界现有方案。核心 = harness **不造调研引擎**(重复造轮子=本 batch 要防的红线),只加薄纪律层(何时调研 + 结果怎么用),引擎**默认编排 Claude Code 自带 deep-research workflow**(调不到则 WebSearch fork 兜底)。触发判据 = 可逆性主轴 × 熟悉度次轴,默认 skip,由调度者(独立方)判断(非待调研 agent 自评 — 做事/判断分离)。6 文件(1 新建 `research-scout.md` + brainstorming-rules + challenger-orientation §2.4 + 根 README + CLAUDE M3/M4)/ 实施 2 commits + spec + plan + audit + 修订 commit。
-- **红线核心(本 batch 主目标)**:调研产出只当**证据/选项**(经自己思考判断是否适用),**不给推荐排名**、不当判断依据("别人这么做不单独构成理由")。**澄清用户红线(误解多次)**:`feedback_judgment_basis` = "不照搬要思考",**不是**"不许看/查";修正上 batch challenger-orientation §2.4 写错的"跨项目→不查"行。memory 已同步钉死。
-- **dogfooding**:三轮调研(缺口核查 Workflow / 业界做法 8 agent 全联网 / 触发判据跑现成 deep-research 102 agent)全程用要做的能力设计它自己;meta-review 是 challenger-orientation 导览体系第二次实战(4 挑战者自取用户原话 + 必填 section 全合规)。
-- **meta-review 修订(A 类 7 项已落地)**:公设 1 overreach → 改"做/判断分离"(3 处)/ 深度档加 ✅❌例 / deep-research 可得性诚实保留同步 reader / EBSE 展开 / spec §6.2 验收口径 / challenger §2.4 角色边界 / 红线禁止例加回"X 公司这么做"。audit `docs/audits/meta-review-2026-05-29-184740-solution-research-scout.md`(verdict=pass-after-revision,4 挑战者 + 1 验证者,0 🔴,15 🟡,A 类 7 修 + B 类 5 KG)。
-- **本 batch new known-gaps**(audit §6):KG-A(消费侧"证据≠判断"无机械校验)/ KG-B(元自警仅产出侧)/ KG-C(WebSearch fork 兜底 SOP 不可操作)/ KG-D(harness/README.md 七层原理与根 README drift,既存不分发)/ KG-E(cosmetic 群)。均推 P1 实战或后续顺手。
-- **push 前核查修订(2026-05-30)**:用户问"是否更新 readme" → fork 5 reader(Workflow)核查覆盖 → 修 **setup.sh 断链**(research-scout.md 漏发下游)+ 两 README drift(双轴表/层4/角色表/agents 目录/去"18个"计数)+ spec §4/§5/§6.2 补登;独立 verifier 6 条全 PASS。audit §7 追记。**新增 KG-F**:meta-review 应显式核查分发链(setup.sh 是否随新工件同步)— 本 batch 靠用户一句话才捞回。
-- **推迟项**:"重视模型的输入"(用户 2026-05-29 明确推迟,独立诉求,task #30 记未来,不在本 batch)。
-
-**[2026-05-29] challenger-orientation-system batch 修订完成(待 push)** — 建挑战者侧导览体系 `challenger-orientation.md`(主智能体 CLAUDE.md 对称物,4 块:方法论 / 数据来源向导 / 输入策略 / 常见陷阱)+ 挑战者侧自取用户原话(否决"用户原话提取 skill")+ 输出必填 `### 已对照用户原话` section(synthesis-rules 加事后规则 5 reject)。同 batch 4 agent 文件改 include 模式 = **KG3 闭合**(上 batch KG3 4 agent 176 行重复已解,fix-2 静态约束恢复)。9 文件 / 7 commits(spec + plan + 3 实施 + 1 meta-review audit+修订 + 1 finishing 留痕)。
-- **dogfooding 里程碑**:meta-review 本身是导览体系第一次实战 — 4 挑战者全部成功 Read 导览 + 自取用户原话 + 输出合规 section,自取机制防住 framing(上 batch KG1 本次未触发);**meta-L2 验收通过**。audit `docs/audits/meta-review-2026-05-29-081645-challenger-orientation.md`(verdict=pass-after-revision,4 挑战者 + 2 验证者)。
-- **meta-review 修订(用户决策共识 1 选 A 扩 scope)**:导览声明分发下游但 setup.sh 没复制 + 22 处 `harness/docs/` 前缀下游断链 → setup.sh 加复制 + 路径统一裸 `docs/` + §2 加路径前缀约定;共识 2(命令 bash-only vs PowerShell)+ 共识 3/KG-D(reject 不对称)低成本修。
-- **本 batch new known-gaps**(audit §6):KG-C(batch 切分锚点挑战者拿不到,只能语义切分)/ KG-D 深层(挑战者贴 quote ≠ 真比对,推 P1 实战)/ KG-E(调度者并行 fork 纪律 — 本次漏 fork C4 串行补发,同构 2026-04-28 P-3)。
-- **上 batch KG 状态更新**:KG3 ✅ 已闭合(本 batch);KG1(主线 framing 兜底)— 本次 dogfooding 实战未触发(自取机制给了客观锚点),但硬约束仍未加,留观察。
+本会话三批 meta 改动**已实现 + 自验 + audit + 本次提交**:(1) audit-bugfix(修审查发现的确认 bug);(2) 分层活上下文链 L1-L6 脊柱(新机制,含半接线补全);(3) prune-orphans(删 2 孤悬)。
 
 ## 进度
 
-### 已完成(本会话最新 — P0.9.3 第一个 trial,governance 漂移检测兜底 batch)
+### 已完成(本会话,本次提交)
+- **audit-bugfix 批**:两轮审查(全仓 + 令牌契约)→ designer → 4 挑战者 meta-review → 18 文件 → audit `meta-review-2026-06-05-184052-*`。
+- **活上下文链脊柱批**:decision(脊柱版)→ designer + 4 挑战者 meta-review → 实现(check-context-chain 软+硬 hook / 2 种子 + L3-L6 层指南 README / 治理收口硬核链 + 触点完整性维 / 文档)→ **hook 9 场景 fixture + POSIX awk 实测全过** → audit `meta-review-2026-06-05-204125-*`(§7 含半接线补全)。
+  - 半接线补全:handoff 加 context-chain 字段、L3-L6 层指南 README + 分发、session-init 降级 banner 提醒。
+- **prune-orphans 批**:孤悬审计(11 agent 对抗证伪)→ 删 experience-index + retrospective-guide → decision `2026-06-05-prune-orphans`。LIVE 区零残留断引。
 
-- **P0.9.3 第一个 trial:M3 hook 不可见 + cross-file 互引 hook 检测(2026-04-29 完成)**:
-  - **范围决策**(brainstorming Q1):4 项候选(B 方案漂移 / 现有 fix-9 (i)(ii) / 现有 fix-9 (iv)(vi) / (vii) M3 hook 不可见 + 互引)经反向追问筛 2 项**真做**(后两项),其余推后或关闭(详见 decision file §不做)
-  - **形态决策**(Q2):**(vii-a)**(repo 根扫描段加 check-meta-review.sh + check-meta-commit.sh)+ **(互引-a)**(独立新建 check-meta-cross-ref.sh + check-meta-cross-ref-commit.sh)— 推荐组合,YAGNI vs DRY 中等 trade-off
-  - **5 文件改动**:
-    - 改 `harness/.claude/hooks/check-meta-review.sh`(M16,Stop hook;§5.5 repo 根扫描;commit `e1691c3`+`54190d6`+`0e2bc0c`)
-    - 改 `harness/.claude/hooks/check-meta-commit.sh`(M14,pre-commit hook;§5.5 repo 根扫描;commit `65bcf9b` 含 R1 + early-exit fix 内嵌)
-    - 新建 `harness/.claude/hooks/check-meta-cross-ref.sh`(Stop hook,P0.9.3 trial 内部产出 — 不取 module 编号 audit D4-F4;PAIRS 4 行 file|anchor 数据 + grep -F 检查;commit `d91546c`,159 行)
-    - 新建 `harness/.claude/hooks/check-meta-cross-ref-commit.sh`(pre-commit hook,同样不取 module 编号;镜像上一个 hook 但用 --diff-filter=ACMR;commit `6330d60`,134 行)
-    - 改 `harness/.claude/settings.json`(M21;Stop 段加 check-meta-cross-ref.sh 注册,Stop hook 数 5;commit `8a08676`)
-  - **实施过程修补 2 项**(spec/plan 缺陷 in-flight 暴露并修):
-    - **R1 stderr warning fix**(commit `54190d6`):spec §5 R1 写"git -C 失败时静默 fallback",但漏要求 stderr warning;debug 困难场景未覆盖 — 加 `git rev-parse --is-inside-work-tree` 健康检查 + `>&2` 警告输出
-    - **§5 early-exit guard 删**(commit `0e2bc0c`):check-meta-review.sh 原 §5 末尾有 `if [ -z "$DIFF_FILES" ]; then exit 0; fi` 早退,导致即使 §5.5 repo 根扫描有命中也 skip — Task 4 implementer 自己发现 latent bug,修两 hook(check-meta-commit.sh 同结构,Task 4 内嵌已正确版本)
-  - **Task 6 整合验证 5 场景全 pass**(meta-L1):
-    - 场景 1:M3 改动(touch repo 根 CLAUDE.md)→ check-meta-review.sh §5.5 命中 + scope=A 触发(预期 ✅)
-    - 场景 2:M3 + 互引断裂 → 双 hook 同时报错,顺序无关(预期 ✅)
-    - 场景 3:互引完整改 governance → 仅 check-meta-review.sh 触发,check-meta-cross-ref.sh 静默 pass(预期 ✅)
-    - 场景 4:repo 根 git 损坏(模拟 .git 临时改名)→ R1 stderr warning + 主扫继续(预期 ✅)
-    - 场景 5:无任何 governance 改动 → 双 hook 均 exit 0(预期 ✅)
-  - **decision file**:`docs/decisions/2026-04-29-p0-9-3-governance-drift-detection-batch.md`(D9 范式 — 范围决策 + 形态决策 + D1-D6 brainstorming 反向追问 + 实施过程修补 + 反向追问 Q1-Q4 + 不做 + 已知缺口 10 条 + meta-L1 验证 5 场景 + 关联)
-  - **meta-review audit**:`docs/audits/meta-review-2026-04-29-150902-p0-9-3-governance-drift-batch.md`(verdict=pass-after-revision,4+2 挑战者扁平 fork,第 1 轮 26 finding → 第 2 轮 D4 pass + D2 部分 → 第 3 轮调度者补完 F1+F6)
-  - **trial 价值**:**P0.9.3 第一个 trial** — 验证 governance 漂移检测兜底机制可行性;实施过程暴露 spec/plan 缺陷(R1+early-exit)证明 P0.9.1 治理流程对 hook 实现 trial 仍能在审查前自我矫正;**新发现 M3/M4 路径混淆**次生 bug(hook cwd=harness/ 时 root CLAUDE.md 与 harness/CLAUDE.md 都呈 `CLAUDE.md`,影响 audit covers 比对精度)→ 推 P0.9.4 / 后续 trial
+### 进行中 / 挂起
+无。脊柱闭环、孤悬清完、bug 修完。
 
-### 已完成(本会话先前批 — M1+M2+M4 batch trial,P0.9.1.5 闭合)
+### 阻塞
+无。
 
-- **M1+M2+M4:治理改动 batch(P0.9.1.5 第二个 trial,2026-04-29 完成)**:
-  - **M1** finishing-rules.md `## 反模式约束` 段加 1 条:封死"agent 主动提'A 严格/B 简化'二元方案" + fork-fail-degradation vs rule-bypass 区分 + **防滑条款**(meta-review D2-F1:agent 不得在未实际发起 fork 调用前就声称 fork 失败)
-  - **M2** finishing-rules.md `## 反模式约束` 段加 1 条:RUBRIC 维度不得作跳过治理 step 的依据 + evaluator agent 评分语境澄清 + **跨阶段同步约束**(meta-review D2-F3:design 阶段 spec §0 写法同步遵守)
-  - **M4-1** design-rules.md 规模判断表加第 4 列(4 条前置硬条件:改动行数 < 100 行 / 不涉 RUBRIC 红线 / 不涉多模块共用接口 / spec §0 偏离不引 RUBRIC 维度免审 — 与 finishing-rules.md M2 同步约束)+ **默认升级原则**(meta-review D2-F4:对条件 (2)(3) 任何疑义时默认升至标准级)
-  - **M4-2** design-rules.md 加新段 `## spec §0 偏离规则`:偏离不能用来免 design-review + 4 条 bullet + emergency 路径定义 + harness 自身仓库语境注 + M2 同步约束互引
-  - **DESIGN_TEMPLATE.md L14 同步**(meta-review D4-F1):轻量级判定加 4 条前置硬条件引用
-  - **M3 drop**:报告 #1 已解决(security-scan-result.md 在 §方向评估第 7 项检查 + §通过 Step 9 删除,职责不同无冲突)+ #2 超 scope(structured-handoff skill 分工属 C 组,推 P0.9.2)
-  - **decision file**:`docs/decisions/2026-04-28-m1-m2-m4-governance-batch.md`(方案选择型 + batch vs separate 对比 + M3 drop 理由 + Q1-Q5 反向追问 + 9 条已知缺口 + GPG 授权链 + L49+L84 行号悬空修复)
-  - **meta-review audit**:`docs/audits/meta-review-2026-04-29-095821-m1-m2-m4-governance-batch.md`(4 挑战者扁平 fork 第 1 轮 needs-revision → 13 处修订(spec 7 + finishing 3 + design 2 + DESIGN_TEMPLATE 1) → 第 2 轮 N=2(D2+D4)双 pass → final verdict=pass after revision)
-  - **trial 价值**:**P0.9.1.5 第二个 meta-L4 数据点** — P0.9.1 治理流程对 batch trial 仍有效;识别 5 条新已知缺口推 P0.9.2/3(spec §9.4 #5-#9)
+## 关键决策
 
-### 已完成(本会话先前批 — M0 trial)
+- 活链:软收尾(Stop 警告)+ 硬收口(finishing 逼 handoff 写 `## context-chain: 已核/skipped`,无则 exit2;真核 AI 做)。软 hook 瘦身=断链+编码冲突+全角,方向移硬核。
+- 做审分离按松紧梯度:探索段(L1/L2/方法)用户审、L3 起独立挑战者审(对抗审查=松转严分界),按规模裁剪——非每步都套。
+- park 不动:#2 security-reviewer look-ahead、#3/#5 check-meta-review gawk+bash3.2;decision-trail 下游从简、触点完整性维守软(观察)。
 
-- **M0:删 block-dangerous hook(P0.9.1.5 第一个 trial)**:
-  - 删 `.claude/hooks/block-dangerous.sh` worktree 文件(注:`.gitignore .claude/` 让该 hook 从未在 git history,删除事件无 git audit trail — 已识别推 P0.9.2/3)
-  - 改 `.claude/settings.json`(M18)+ `templates/settings.json`(M19)取消 PreToolUse Bash 注册
-  - stale 清理:`README.md` / `QUICKREF.md` / `templates/README.md`(scope=none)+ `meta-review-rules.md` L82 主题示例(scope=meta 顺手清)
-  - decision file:`docs/decisions/2026-04-28-m0-delete-block-dangerous.md`(方案选择型 + 完整 hook 源码备份 — git 不留 history 唯一位置)
-  - meta-review audit:`docs/audits/meta-review-2026-04-28-215638-m0-delete-block-dangerous.md`(4 挑战者扁平 fork,共识发现 git tracking 全局缺陷 + 措辞偏移 + 缺口未承认;initial needs-revision → P0+P1 修补 → pass)
-  - **trial 价值**:首次跑通 P0.9.1 治理流程(brainstorming → meta-review → finishing),产出 meta-L4 第一条真实数据点
+## 涉及文件
 
-### 已完成(本会话先前最后一批 — glassbox reframe)
+见两 audit covers + prune decision。三批合一提交(文件跨批重叠,无法干净拆 commit)。
 
-- **glassbox 角色 reframe — 用户级工具,harness 推荐不分发**:
-  - 新建 `docs/references/recommended-tools.md`(harness 仓库内 SSoT,**不分发下游**;含 URL + 简介 + 维护规则 4 处同步点)
-  - 新建 `docs/decisions/2026-04-28-glassbox-recommendation-not-integration.md`(方案选择型 — A submodule(harness)/ B submodule(目标项目)/ C 自动 clone / D 纯推荐;选 D)
-  - 改 `setup.sh`:末尾加 echo 推荐段(纯功能描述,去 P 阶段名);不 cp recommended-tools.md(避免下游污染)
-  - 改 ROADMAP P2 空间维度描述:从"集成依赖"reframe 为"用户级外部工具,harness 推荐不分发"
-  - 改 decision-trail.md append 1 条新抉择"glassbox 角色 reframe"
-  - meta-review audit:`docs/audits/meta-review-2026-04-28-182335-glassbox-recommendation-reframe.md`(4 挑战者扁平 fork 共识发现 setup.sh cp recommended-tools.md 与"不归项目管"自相矛盾 + echo 暴露 P2 阶段名;initial needs-revision → P0+P1 修补 → pass)
+## 下一步
 
-### 已完成(本会话最后一批 — decision-trail 引入)
+1. 活链推下游真实项目验证(harness 自仓库 dogfood 边界不建 context/,符合 realworld_testing 红线)。
+2. 观察:触点完整性维是否真被选用、降级 banner 提醒是否触发。
 
-- **decision-trail 双层引入**:
-  - 新建 `docs/decision-trail.md`(11 条历史抉择回填,含已知缺口段 + 维护规则)
-  - 新建 `docs/decisions/2026-04-28-decision-trail-introduction.md`(方案选择型 — A 决策图谱;§自动化 双路径触发 M1+M5)
-  - 改 M5 `docs/governance/finishing-rules.md` "通过"路径 step 2 加 append decision-trail + 与 step 9 区别澄清(scope=meta)
-  - 改 M1 `docs/governance/meta-finishing-rules.md` Step D 通用同步项加 append decision-trail(meta 拐点主要供给源,scope=meta)
-  - 改 ROADMAP P2 可观测性重写为双层结构 + 删除"重复工作 skill 化持久化"段(用户 2026-04-28 否决)
-  - meta-review audit:`docs/audits/meta-review-2026-04-28-174615-decision-trail-introduction.md`(4 挑战者扁平 fork 共识发现 M1 同步缺失,initial needs-revision → P0+P1+P2 修补 → pass)
+## 关键上下文
 
-- **用户原则确立**(本日,memory):
-  - `feedback_skill_no_cross_project.md`:skill-extract 产出仅 project-local,禁止持久化 user-global / 跨项目 registry
-  - `feedback_realworld_testing_in_other_projects.md`:实战留痕 / meta-L4 / mixed 成本观察推 P1 真实项目,不阻塞 harness 开发
+- check-context-chain 占位 `## context-chain: 待填` 不误满足收口闸(grep 锚 已核|skipped 紧跟冒号),真填才放行。
+- check-meta-review covers = hook `git diff --relative`(cwd=harness/)相对路径 + 根级 `<root>/` 前缀。
+- 新 hook/settings 改动下个 SessionStart 才加载;本批 mid-turn commit 绕过 Stop,不被自己拦。
 
-### 已完成(本会话先前批 — P0.9.1 自身)
+## 当前阶段
 
-详见 PROGRESS.md 首行 milestone + audit `meta-review-2026-04-28-102359-p0-9-1-self-review.md`。要点:
-- 8 个 implementation batch(29 commits `6e8bda1..34129ae`)
-- C-2a:6 条用户 feedback 反模式硬编码到 4 governance 文件(brainstorming/design/planning/finishing-rules.md)
-- B-1~B-7:meta-review-rules / meta-finishing-rules / designer / plan §3.6 改进
-- T 系列:T10 / T4 / T8 自动化通过;T1-T3 / T5-T9 / T11 spec §6.3 授权延迟
-- meta-review revision decision:`docs/decisions/2026-04-28-p0-9-1-meta-review-revision.md`(D9 范式,5 子项)
+finishing(三批,本次提交)
 
-### 进行中
+## 当前分支
 
-无(decision-trail 引入闭环)
+main(三批本次直接提交 main,沿剪枝三批惯例)
 
-### 推后续阶段(已 documented 留痕)
+## 已知问题
 
-**P0.9.1.5**:**整体闭合**(2026-04-29)
-- 🟢 M0:删 block-dangerous(2026-04-28 完成,见上方"已完成"段)
-- 🟢 M1+M2+M4:治理改动 batch(2026-04-29 完成,见上方"已完成"段)
-- ⚪ M3 drop:报告 #1 已解决(L49+L84 时序逻辑无冲突)+ #2 超 scope(structured-handoff skill 改动属 C 组,推 P0.9.2)
-
-**P0.9.2 诊断流程**:
-- 反审字段重置 enforcement(C2 P-4)
-- D5 / D.2 字节软上限 enforcement(C2 P-3)
-- mixed scope 双 finishing 成本量化(C3 Y4,实战 1-2 月观察)
-- **decision-trail meta-L4 验证**:append 频率 / 提取质量 / 调度者忽略率(2026-04-28 审 P1 共识)
-- **harness self-trial 验证局限**(2026-04-29 audit §9.4 #5):下游真实项目首次使用 finishing-rules.md 时采集第一手数据
-- **反模式段膨胀分类治理**(2026-04-29 audit §9.4 #8):2→4 条扩张后是否需要数量门槛
-- **挑战者有效性元疑问 D5 场景频率**(2026-04-29 audit §9.4 #9):first-pass 全 pass 无 finding 时是否需 D5 元验证
-- **M3 #2 若重现** — structured-handoff skill 分工(scope=C 组,走自己的 meta-finishing + meta-review M2 流程)
-
-**P0.9.3 governance 漂移检测兜底**:
-- 🟢 **第一个 trial 闭合**(2026-04-29):(vii-a) M3 hook 不可见 + (互引-a) cross-file 互引 hook 检测(见上方"已完成")
-- ⏸ 现有 fix-9 (i)(ii) 占位 — 等 P0.9.2 实战数据(`feedback_judgment_basis`)
-- ❌ ~~现有 fix-9 (iv)(vi)~~:已 accept 关闭(spec §5 B18 + decision `2026-04-26-bypass-paths-handling.md`),ROADMAP 误登已修
-- **decision-trail hook 校验**(若 P0.9.2 诊断显示调度者频繁忽略 append)
-- 🟡 **主仓库↔下游版本漂移检测**(B 方案):用户接受现状,主动需求弱;留候选不做
-- 🟡 **M3/M4 路径混淆**(本 trial 新发现):root CLAUDE.md(M3)与 harness/CLAUDE.md(M4)在 hook cwd=harness/ 时 git diff --relative 输出都是 `CLAUDE.md`,无法区分,影响 audit covers 比对精度;推 P0.9.4 / 后续 trial
-
-> P0.9.1 audit 中已 documented 的小修 / 延后项不再在 handoff 列出 — 边做边提升原则:具体动作真出现需求时再做,不预设 future work 清单。历史延后项可在 audit 文件 + decision-trail 检索。
-
-## 下一步建议
-
-> 边做边提升原则(`feedback_iterative_progression.md`):不预设未来阶段;只列已识别的具体下一步动作。
-
-1. **结束本会话**(轻):本批次工作闭环,push 收尾;P0.9.1.5 整体闭合
-2. **抽取 skill**(中):/skill-extract 分析本会话流程模式(brainstorming → spec → plan → subagent-driven → meta-review fork → revision → 第 2 轮验证 → 同步)— **仅 project-local**(不跨项目,符 `feedback_skill_no_cross_project.md`)
-3. **P0.9.2 / P0.9.3 候选项**(重):见上方"推后续阶段"段;选哪条由用户决定
-
-## 反审待办
-
-P0.9.1 落地反审 — 已完成 — audit:`docs/audits/meta-review-2026-04-28-102359-p0-9-1-self-review.md`
-P0.9.1.5 第二个 trial(M1+M2+M4)反审 — 已完成 — audit:`docs/audits/meta-review-2026-04-29-095821-m1-m2-m4-governance-batch.md`
-P0.9.3 第一个 trial(governance 漂移检测兜底)反审 — 已完成 — audit:`docs/audits/meta-review-2026-04-29-150902-p0-9-3-governance-drift-batch.md`
-P0.9.3 第二个 trial(D 类技术债 batch — D1+D4)反审 — 已完成 — audit:`docs/audits/meta-review-2026-05-06-143426-d-class-tech-debt-batch.md`
+- check-meta-review.sh gawk 三参数 match 在 mawk/BSD awk 死锁(自仓库,本机 gawk 不咬)——独立待办,非本批。
 
 ## Evidence Depth
+- meta-L1: ✅ 逐文件 Edit + 真 grep/fixture 自验(活链 hook 9 场景 + POSIX awk;占位不误满足收口闸;端到端重跑 setup)
+- meta-L2: ✅ 全局自检 — in-scope covers 经 hook 同款 grep -Fxq 全覆盖;cross-ref 6 anchor 完整;两 settings jq 合法;孤悬剪枝 LIVE 零残留
+- meta-L3: ✅ 三批审查留痕(audit-bugfix 4🔴 / spine 3🔴+4🟡 全修 / 孤悬 11-agent 对抗证伪);两 audit pass-after-revision
+- meta-L4: ⏳ 待观察(提交后下次 finishing 放行;活链推下游真实项目)
 
-> 本次 P0.9.3 是 meta scope 改动(B 组 hooks + settings + D 组 governance docs metadata)。evidence depth 用 meta-L1~meta-L4。
+## CI 阻断
+❌ 无 CI 阻断(三批均 meta-scope 文档/hook 改动,无可运行 CI;阻断由 check-meta-review / check-meta-cross-ref Stop hook 承担)
 
-### 当前批 — P0.9.3 第二个 trial(D 类技术债 batch — D1+D4)
-
-- meta-L1: ✅ decision file `2026-04-30-d-class-tech-debt-batch.md` 内 §范围决策 / §形态决策(D1+D4) / §不做 / §实施清单 13 commits / §已知缺口(继承 22 + 新增 4) / §教训留痕 6 错+5 教训 / §关联 — 自检通过;spec §6.1 8 测试场景中 7 实跑(场景 8 走 R2 替代,继承 P0.9.3 §9.4 #13 dead path);scenario 4-7 受 handoff skip 干扰已 documented(spec §9.4 #26)
-- meta-L2: ✅ 全局自检 — scope=meta covers 范围正确(4 hooks + governance §7.3 + root CLAUDE.md + spec/decision 措辞);sentinel 协议三层语义闭环(hook §5.5 push / audit covers 字段 / grep -Fxq 比对);PAIRS 6 条 anchor 全部实存(grep 验证)
-- meta-L3: ✅ `docs/audits/meta-review-2026-05-06-143426-d-class-tech-debt-batch.md` verdict=pass-after-revision;**4 挑战者扁平 fork**(C1 技术正确性 / C2 inline 验证 / C3 spec_gap_masking 元过程 / C4 整体合规);3 Important + 9 Minor → 7 修 + 5 接受
-- meta-L4: 🟢 **P0.9.3 第二条数据点**:trial 完整跑通 brainstorming → spec(标准级 + DD1-DD6)→ plan(bite-sized TDD 5 task)→ subagent-driven(implementer + spec review + code quality review × 5)→ implementer Step 2.4 暴露 spec 写错(第 4 错)→ correction commit `0189599` → final code reviewer 暴露 sweep 不全(第 5 错)→ commit `785f6a7` 扫除 → meta-review fork(challenger 3 暴露第 6 错 sweep scope 仍过窄 + F3.4 spec 测试预期分歧)→ revision commit `1ded935`+`f5b8c40` → audit pass-after-revision → finishing 闭合;**hook 实现 trial 高 finding 密度的内在原因**:同模型 family 视觉跳过 / 字面未验证 / sweep scope 局限模式 — 5 错链 + 6 错累积成元过程留痕(spec §9.4 #25 + decision file §教训留痕);跨模型对抗(claude+codex 编排)被识别为潜在 mitigation(memory `project_codex_claude_orchestration.md`)
-
-### 历史批
-
-- P0.9.3 第一个 trial(commit `c0810e8`):`meta-review-2026-04-29-150902-p0-9-3-governance-drift-batch.md` verdict=pass-after-revision(4+2 挑战者,3 轮 revision)
-- M1+M2+M4 batch(commit `656ea28`):`meta-review-2026-04-29-095821-m1-m2-m4-governance-batch.md` verdict=pass after revision(P0.9.1.5 第二个 meta-L4 数据点)
-- M0 删 block-dangerous(commit `bace585`):`meta-review-2026-04-28-215638-m0-delete-block-dangerous.md` verdict=pass after revision(P0.9.1.5 第一个 meta-L4 数据点)
-
-## 历史 Evidence Depth(更早批)
-
-- glassbox reframe(commit `3c64bf5`):`meta-review-2026-04-28-182335-glassbox-recommendation-reframe.md` verdict=pass after revision
-- decision-trail 引入(commit `1144f6a`):`meta-review-2026-04-28-174615-decision-trail-introduction.md` verdict=pass after revision
-- P0.9.1 自身(commits `6e8bda1..34129ae`):`meta-review-2026-04-28-102359-p0-9-1-self-review.md` verdict=pass after revision
-
+## context-chain: skipped(理由: harness 自仓库按 dogfood 边界不建 docs/context/,本仓无活链可核)

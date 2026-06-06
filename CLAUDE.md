@@ -54,6 +54,8 @@
 
 > **路径前缀注**:meta 路径治理文件在 harness 自身仓库内,完整路径含 `harness/` 前缀;feature 路径治理文件分发下游后无前缀(下游为单层结构,setup.sh 复制 `harness/docs/governance/*.md` 到目标项目 `docs/governance/`)。
 
+> **跨阶段治理规则**(不绑定单一阶段):`harness/docs/governance/synthesis-rules.md`(调度者综合多挑战者结论时必读;涉及 design-review / evaluate / process-audit / security-scan)。`harness/docs/governance/model-route.md`(模型路由,[2026-05-24] P2 codex 接入搁置、当前全 Claude)。两者均命中 A 组 glob `docs/governance/*.md`,属 meta scope。
+
 ## 3. scope 触发判定(人类可读对照 — 与 M17 scope.conf 同步)
 
 | 组 | 文件类别 | glob(M17 `harness/.claude/hooks/meta-scope.conf`) |
@@ -86,9 +88,11 @@
 - `harness/docs/governance/meta-{review,finishing}-rules.md`(meta 路径治理 — M1/M2)
 - `/CLAUDE.md`(M3,本文件;**不分发下游**;**hook §5.5 可见**(P0.9.3 第一个 trial 引入 repo 根扫描段;P0.9.3 第二个 trial 加 `<root>/` sentinel 前缀)— 改动 audit covers 字段写 `<root>/CLAUDE.md`;详见 `harness/docs/governance/meta-review-rules.md` §7.3 第 5 条;**残留缺口**:全新建未 git add 的根级文件走 untracked 漏检,详 `harness/docs/superpowers/specs/2026-04-29-p0-9-3-governance-drift-detection-batch-design.md` §9.4 #11)
 - `harness/CLAUDE.md`(M4 分发模板)— 由 A 组 `CLAUDE.md` glob 匹配(从 hook cwd=harness/ 视角,git diff --relative 输出 `CLAUDE.md`)
+- `harness/docs/governance/synthesis-rules.md`(跨阶段综合规则 — 命中 A 组 glob,属 meta scope)
+- `harness/docs/governance/model-route.md`(模型路由 — P2 codex 接入搁置,命中 A 组 glob)
 
 **B 组**(hooks + settings):
-- `harness/.claude/hooks/*`(check-* / block-* / notify-* / session-init / **meta-scope.conf 自身**)
+- `harness/.claude/hooks/*`(check-* / session-init / **meta-scope.conf 自身**)
 - `harness/.claude/settings.json` / `harness/.claude/settings.local.json`
 
 **C 组**(skills + agents):
@@ -109,6 +113,10 @@
 - `docs/audits/archive/**`(归档审查,不再入 scope)
 
 ---
+
+## 活上下文链 dogfood 边界
+
+> 分层活上下文链(`docs/context/` L1-L6 + 编码 + 机读 `upstream` + `check-context-chain.sh` 软 + finishing 硬核)是**分发下游**的工件。harness 自仓库**不建** `docs/context/`(现有 product-specs / ARCHITECTURE / specs / decisions 不动不迁移;自仓库用 README 当 vision,不重复)。`check-context-chain.sh` 在自仓库无 `docs/context/` 即 exit 0 静默。自仓库 meta 图的"漏改"靠 meta-review「触点完整性」维(`harness/docs/governance/meta-review-rules.md` §6)兜,不套这条产品式纵向链。详见 `harness/docs/decisions/2026-06-05-living-context-chain.md`。
 
 ## 仓库结构 + 快速开始(导航)
 
