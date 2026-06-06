@@ -27,6 +27,16 @@
 
 ---
 
+## 2026-06-05 — 活上下文链 L1-L6 脊柱 + 审查 bug 修复 + 孤悬剪枝(三批)
+
+- **抉择(立机制 + 立原则)**:建分发下游的 **L1-L6 分层活上下文链**(`docs/context/` 编码 + 机读 `upstream` + `check-context-chain.sh` 软/硬 hook),把跨会话上下文从散文交叉引用升级为机读分层图;同时锁定定位原则 **"探索工程并重 / 上松下严梯度"**(方向可探索、实现严谨,对抗审查=松转严分界;层=既有 workflow 阶段)。
+- **抉择 2(软收尾硬收口)**:hook 平时只软警告(不拦发散),收口逼 handoff 写 `## context-chain: 已核/skipped` 机械牙齿(真核 AI 做)——meta-review 指出"软+硬都不机械拦=违立身原则"后加。
+- **配套两批**:audit-bugfix(两轮多智能体审查逮的确认 bug:RUBRIC 令牌/防死循环守卫/字段契约/分发污染/~12 drift + `.gitattributes`);prune-orphans(11-agent 孤悬审计证伪后删 experience-index + retrospective-guide)。
+- **流程**:每批 decision → 独立 designer → 4 挑战者 meta-review(grep 窗口坑/gawk 死锁/全角静默漏/孤悬空壳全由独立挑战者揪出,非领审员)→ 实现 + fixture/grep 自验 → audit。
+- **link**:decisions `2026-06-05-{living-context-chain,audit-bugfix-batch,prune-orphans}.md` + audits `meta-review-2026-06-05-{184052-audit-bugfix-batch,204125-living-context-chain-spine}.md`;commit `80c018e`
+
+---
+
 ## 2026-06-04 — 剪枝批次:删 5 死/冗余 hook + skill-extract + 治理诚实化
 
 - **抉择**:删 2 个 pre-commit 孪生(M16,从没装)+ meta-self-review-detect(M20,永空转)+ notify-done(孤儿)+ check-finishing-skills(软冗余)+ skill-extract(0 产出);并把治理文档里 M16/M20 的"现行执法"描述收口(删掉一套描述了但从没运行的执法层)。

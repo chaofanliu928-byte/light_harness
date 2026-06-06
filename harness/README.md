@@ -206,6 +206,7 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 │   │   ├── handoff.md                   # 交接文档
 │   │   └── evaluation-result.md         # 方向评估结果
 │   ├── product-specs/index.md           # 功能索引
+│   ├── context/                        # 分层活上下文链（L1-L6，编码 + upstream，下游）
 │   ├── decisions/                       # 架构决策
 │   ├── references/                      # 内部知识（含多智能体审查指南）
 │   ├── audits/                          # 流程审计报告（自动积累）

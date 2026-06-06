@@ -15,6 +15,7 @@
 - **P0**:测试覆盖纳入 harness(L1 + L2 + L3 串行;L4 不做 — 见 `decisions/2026-04-15-testing-scope-expansion.md`)
 - **P0.5**:fork 嵌套扁平化改造(P1 验证暴露的应急前置 — 见 `decisions/2026-04-16-fork-flat-refactor.md`)
 - **P0.9.1**:meta-review 流程 + scope 识别 + hook 执法(2026-04-28 — 见 `PROGRESS.md` + `meta-review-2026-04-28-102359-p0-9-1-self-review.md`)
+- **活上下文链(L1-L6 脊柱)**:分发下游的分层活上下文文档系统 + 同会话质量批(审查 bug 修复 + 孤悬剪枝)(2026-06-05 — 见 `decision-trail.md` 顶部 + audit `meta-review-2026-06-05-204125-living-context-chain-spine.md`)
 
 ---
 

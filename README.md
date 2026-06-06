@@ -149,6 +149,7 @@ harness/                     ← 框架源码（分发的部分）
 └── docs/
     ├── RUBRIC.md            ← 项目评分标准模板
     ├── governance/          ← 7 个阶段治理规则
+    ├── context/             ← 分层活上下文链(L1-L6,下游)
     └── references/          ← 参考文档（含多智能体审查指南）
 ```
 
