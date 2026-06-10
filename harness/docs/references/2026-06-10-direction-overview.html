@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Dev Harness 方向梳理 · 2026-06-10</title>
+<style>
+  :root{
+    --ink:#1a1a2e; --muted:#5b6472; --bg:#fafaf8; --card:#ffffff;
+    --accent:#2563eb; --keep:#059669; --cut:#d97706; --risk:#dc2626;
+    --line:#e5e3dd; --soft:#f1f0ec;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+    line-height:1.75;font-size:16px}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px 96px}
+  header.hero{padding:56px 0 28px;border-bottom:3px solid var(--ink)}
+  .hero h1{font-size:30px;margin:0 0 8px;letter-spacing:.5px}
+  .hero p{color:var(--muted);margin:4px 0;font-size:15px}
+  nav.toc{display:flex;flex-wrap:wrap;gap:8px;padding:16px 0;border-bottom:1px solid var(--line);
+    position:sticky;top:0;background:var(--bg);z-index:9}
+  nav.toc a{font-size:13px;color:var(--accent);text-decoration:none;border:1px solid var(--line);
+    border-radius:999px;padding:3px 12px;background:var(--card)}
+  nav.toc a:hover{background:var(--accent);color:#fff}
+  h2{font-size:22px;margin:56px 0 6px;padding-top:12px}
+  h2 .no{color:var(--accent);font-family:Georgia,serif;margin-right:8px}
+  h3{font-size:17px;margin:28px 0 8px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:18px 22px;margin:14px 0}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14.5px;background:var(--card)}
+  th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:13.5px}
+  .badge{display:inline-block;font-size:12px;border-radius:4px;padding:1px 7px;margin-right:6px;
+    font-weight:600;vertical-align:1px}
+  .b-keep{background:#e7f6ef;color:var(--keep)}
+  .b-cut{background:#fdf0e0;color:var(--cut)}
+  .b-risk{background:#fdeaea;color:var(--risk)}
+  .b-info{background:#e8effd;color:var(--accent)}
+  .flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin:18px 0}
+  .flow .step{flex:1 1 150px;background:var(--card);border:1.5px solid var(--ink);
+    border-radius:10px;padding:10px 12px;font-size:13.5px;text-align:center;min-width:130px}
+  .flow .step b{display:block;font-size:14.5px;margin-bottom:3px}
+  .flow .arr{align-self:center;padding:0 7px;color:var(--accent);font-size:20px;font-weight:700}
+  .tl{border-left:3px solid var(--accent);margin:16px 0 16px 8px;padding-left:22px}
+  .tl .ev{margin:0 0 16px;position:relative}
+  .tl .ev::before{content:"";position:absolute;left:-29px;top:7px;width:11px;height:11px;
+    border-radius:50%;background:var(--accent)}
+  .tl .d{font-weight:700;color:var(--accent);font-size:14px}
+  .tl p{margin:2px 0;font-size:14.5px}
+  blockquote{margin:10px 0;padding:8px 16px;border-left:4px solid var(--accent);
+    background:var(--soft);font-size:14.5px;border-radius:0 8px 8px 0}
+  blockquote .en{color:var(--muted);font-style:italic;display:block;font-size:13px}
+  code{background:var(--soft);border-radius:4px;padding:1px 6px;font-size:13.5px;
+    font-family:Consolas,"Courier New",monospace}
+  pre{background:#14141f;color:#e8e8f0;border-radius:10px;padding:16px 18px;overflow-x:auto;
+    font-size:13px;line-height:1.6;font-family:Consolas,"Courier New",monospace}
+  ul,ol{padding-left:24px}
+  li{margin:5px 0}
+  .warn{border-left:4px solid var(--risk);background:#fdf6f6}
+  .good{border-left:4px solid var(--keep)}
+  .links a{color:var(--accent)}
+  footer{margin-top:72px;border-top:1px solid var(--line);padding-top:18px;
+    color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>AI Dev Harness 方向梳理</h1>
+  <p>随模型变强减脚手架 · 任务定义—上下文供给—验证闭环 · 知识组织</p>
+  <p>2026-06-10 · 综合三份文献地图(核验口径见各原文档)、脚手架对照(60 组件)、业务模块地图与本周方向讨论 · <b>性质:梳理视图,judgment 留给人</b></p>
+</header>
+
+<nav class="toc">
+  <a href="#s0">0 一页总览</a>
+  <a href="#s1">1 方向主张与证据</a>
+  <a href="#s2">2 内部对照</a>
+  <a href="#s3">3 业界时间线</a>
+  <a href="#s4">4 知识组织五模式</a>
+  <a href="#s5">5 业务模块地图</a>
+  <a href="#s6">6 三件事与闭环</a>
+  <a href="#s7">7 任务的出生</a>
+  <a href="#s8">8 割裂诊断</a>
+  <a href="#s9">9 待决清单</a>
+</nav>
+
+<!-- ============ 0 ============ -->
+<h2 id="s0"><span class="no">0</span>一页总览</h2>
+<p class="sub">整条故事线,五句话。</p>
+<div class="card">
+<ol>
+  <li><b>方向主张(用户)</b>:随模型变强减脚手架——ultracode 已能实现部分脚手架功能,但更凸显逻辑和流程的重要性。</li>
+  <li><b>内部证据</b>:60 个脚手架组件逐项对照,<b>无一被 ultracode 完全覆盖</b>;可让渡的是"扇出/并行/格式强制"等执行机器,留下的承重墙是流程知识、触发保障、跨会话状态、下游分发。</li>
+  <li><b>外部证据</b>:Anthropic 实测拆掉 context resets 和 sprint 分块(执行结构),留下 planner 和 evaluator(判断角色);OpenAI 把文档治理做得更机械化而非更少——业界与主张同向。</li>
+  <li><b>因此重心移到三件事(用户判断,证据支持)</b>:怎么定义任务(出生即带验收标准)、怎么调度工作流/loops、怎么验证任务——三者连成闭环,载体是知识组织(llm-wiki 方向)。</li>
+  <li><b>当前最大缺口</b>:handoff 与上下文库割裂、调研产物入库不挂链、"每一步参考哪些上下文"散在三种机制里没有统一形态——闭环机制是下一个 feature,入口是 brainstorming 需求对接。</li>
+</ol>
+</div>
+
+<!-- ============ 1 ============ -->
+<h2 id="s1"><span class="no">1</span>方向主张与证据结构</h2>
+<p class="sub">主张是用户提出的;下面是它两侧的证据(内部 + 外部),以及一个最关键的概念区分。</p>
+
+<div class="grid">
+<div class="card good">
+  <h3 style="margin-top:0">✂️ 可让渡:执行机器</h3>
+  <ul>
+    <li>并行 fork N 个隔离挑战者的扇出指令</li>
+    <li>"材料完整嵌入 prompt"类旧运行时补丁</li>
+    <li>"格式不符重试一次"的人工结构强制</li>
+    <li>单 turn 并行约束(防串行下发的补丁)</li>
+  </ul>
+  <p style="font-size:13.5px;color:var(--muted)">ultracode 的确定性脚本编排原生覆盖且更可靠。仓库已有让渡样本:research-scout 把执行交给 deep-research,只留判断层。</p>
+</div>
+<div class="card warn">
+  <h3 style="margin-top:0">🧱 承重墙:逻辑与流程(四类 + 一)</h3>
+  <ul>
+    <li><b>流程知识</b>:审什么维度/什么算 critical/评分标尺/回退表</li>
+    <li><b>触发保障</b>:hook 事件必跑 + 阻断 vs 运行时逐回合 opt-in</li>
+    <li><b>跨会话状态</b>:handoff/audit 台账/分数趋势/决策留痕</li>
+    <li><b>下游分发</b>:不开 ultracode 的环境也要拿到约束</li>
+    <li><b>防绕过条款</b>:约束对象恰是即兴编排者自身,即兴在结构上不可能自带"约束即兴"的东西</li>
+  </ul>
+</div>
+</div>
+
+<div class="card warn">
+  <b>一处方向性冲突,做让渡时必须显式带上:</b>ultracode 原生的"多数票裁决"恰是 synthesis-rules 事后规则 3 明文禁止的从众判法("多数挑战者都说 X → 默认 X 对"不允许)。删治理只留运行时,部分默认机器行为与现有治理标准<b>相反</b>。
+</div>
+
+<!-- ============ 2 ============ -->
+<h2 id="s2"><span class="no">2</span>内部对照:脚手架 × ultracode(60 组件)</h2>
+<p class="sub">25 个 agent 逐项分析 + 每组 3 个视角反驳者对抗 + 完整性查漏。详表见 <a class="links" href="2026-06-10-scaffold-vs-ultracode-map.md">脚手架对照地图</a>。</p>
+
+<table>
+<tr><th>组件组</th><th>判定概况</th><th>一句话结论</th></tr>
+<tr><td>hooks(9 件)</td><td><span class="badge b-keep">全部 none</span></td><td>与 ultracode 零交集——事件触发/阻断/零成本常驻 vs opt-in/即兴/高成本,是<b>互补不是替代</b></td></tr>
+<tr><td>skills + agents(13 件)</td><td><span class="badge b-cut">多为 partial</span></td><td>SKILL 薄壳的扇出机器可让渡;agent 文件里的维度清单/pattern 库/评分标尺(知识面)全部保留</td></tr>
+<tr><td>feature 治理(7 文件)</td><td><span class="badge b-cut">partial/none</span></td><td>约九成内容是流程知识;被覆盖的只有三处 fork 团描述</td></tr>
+<tr><td>meta 治理 + CLAUDE.md(21 条)</td><td><span class="badge b-keep">16 none / 5 partial</span></td><td>几乎纯流程知识与契约;机器段落本是"没有确定性编排器时打的补丁"</td></tr>
+<tr><td>分发与标准件(17 件)</td><td><span class="badge b-keep">绝大多数 none</span></td><td>RUBRIC/模板/setup.sh 承载的是内容与下游可用性,不是机器</td></tr>
+</table>
+
+<div class="card">
+<b>已知分析缺口(挑刺员结论)</b>:缺"Superpowers 提供 / harness 自建 / 运行时原生"三分归因轴;缺逐组件"自用/分发"双语境标记;缺组件间同步契约维度。顺带查出 3 处文档漂移(templates/README hook 计数过期、self-check 悬空引用、M3 声明的 settings.local.json 不存在)——已记录未修。
+</div>
+
+<!-- ============ 3 ============ -->
+<h2 id="s3"><span class="no">3</span>业界时间线:脚手架观的演变</h2>
+<p class="sub">一手文章经 3 票对抗核验。横切观察:<b>被拆的均为执行结构,存留/加强的是判断角色与文档治理</b>。详见 <a class="links" href="2026-06-10-literature-map-context-loops-docs-harness.md">文献地图一</a>。</p>
+
+<div class="tl">
+  <div class="ev"><span class="d">2024-12</span><p>Anthropic《Building effective agents》:简单可组合优先,可论证改善时才加复杂度(理由=可调试性);命名 evaluator-optimizer 模式。</p></div>
+  <div class="ev"><span class="d">2025-06</span><p>Cognition《Don't Build Multi-Agents》:反对多 agent(写入冲突);Anthropic 多 agent research 系统:成本 4×/15× token。</p></div>
+  <div class="ev"><span class="d">2025-09</span><p>Anthropic:"smarter models require less prescriptive engineering"——时间性论证首次出现;agent loop = 收集上下文→行动→<b>验证</b>→重复。</p></div>
+  <div class="ev"><span class="d">2025-11</span><p>Anthropic:"compaction isn't sufficient"——只给高层 prompt,Opus 4.5 也造不出生产级应用,harness 结构必要(注意时点限定)。</p></div>
+  <div class="ev"><span class="d">2026-02</span><p>OpenAI《Harness engineering》:约 100 行 AGENTS.md 当地图、docs/ 当 system of record、linter/CI/doc-gardening agent 机械化治理文档腐烂——文档治理<b>更机械化而非更少</b>。</p></div>
+  <div class="ev"><span class="d">2026-03</span><p>Anthropic 实测拆脚手架:context resets 因 Opus 4.5 移除、sprint 分块因 Opus 4.6 移除;<b>planner/evaluator 保留</b>("Without the planner, the generator under-scoped");方法论:"when a new model lands…re-examine a harness, stripping away pieces that are no longer load-bearing";结论:"the space of interesting harness combinations doesn't shrink…Instead, it moves"。</p></div>
+  <div class="ev"><span class="d">2026-04</span><p>Anthropic《Managed Agents》:"Harnesses encode assumptions that go stale as models improve"(context anxiety→resets→dead weight 实例);Cognition 立场收窄:写入单线程的多 agent 可行,<b>审查 agent 与编码 agent 不共享上下文效果最好</b>(每 PR 抓 2 bug、58% 严重)——反方阵营给"做与判分开"的独立佐证。</p></div>
+</div>
+
+<div class="card warn">
+<b>转引警告</b>:三条流行说法被 0-3 否决——"多 agent 比单 agent 高 90.2%"、"context rot"那套表述、"orchestrator-workers 模式定义";Zep 论文 DMR 对比数字同样被否。引用前回源。
+</div>
+
+<!-- ============ 4 ============ -->
+<h2 id="s4"><span class="no">4</span>知识组织五模式(llm-wiki 调研)</h2>
+<p class="sub">用户点名的重点方向。详见 <a class="links" href="2026-06-10-literature-map-llm-wiki-knowledge-org.md">文献地图三</a>。</p>
+
+<table>
+<tr><th>模式</th><th>业界样本</th><th>与 harness 的对应</th></tr>
+<tr><td><b>① 根路径机读配置声明知识组织</b>(已收敛为通行约定)</td><td>llms.txt(站点根)、AGENTS.md(6万+项目、LF 托管)、.devin/wiki.json、context7.json(自比 robots.txt)、四个 PKM 实践者全用 vault 根 CLAUDE.md</td><td>frontmatter 机读 upstream 编码同构,且粒度更细(<b>文件级</b> vs 仓库级)</td></tr>
+<tr><td><b>② 渐进披露/分层供给</b></td><td>llms.txt Optional 节(按预算跳)、DeepWiki 结构→内容→问答三工具、Mintlify 地图/全量双形态、Agent Skills 元数据→全文→捆绑文件三级</td><td>CLAUDE.md 地图 + L1-L6 分层是同一思路的不同切法</td></tr>
+<tr><td><b>③ agent 记忆载体三路线</b></td><td>Anthropic 纯文件+目录(无向量库)/ MemGPT OS 式换页 / Zep 时序知识图谱;A-MEM 把 Zettelkasten(原子笔记+链接+<b>记忆演化</b>)做进机制</td><td>Anthropic 文件路线 + Claude Code agentic search(Boris Cherny:"agentic search generally works better",弃 RAG)与"docs/ 分文件 + agent 自己找"最近</td></tr>
+<tr><td><b>④ 反腐烂机制谱系</b>(轻→重)</td><td>Google freshness 元数据+3 个月未碰邮件提醒 owner → fiberplane AST anchor linter+CI 门禁 → Medusa agent 检测变更自动开 PR 人审 → Karpathy wiki lint(矛盾/孤儿页/过期断言)→ Context7 拉最新源</td><td>前提是 Google 的教训:<b>无 owner 的 wiki 必然腐烂</b>(GooWiki);harness 现靠 meta-review 触点完整性维人审兜底</td></tr>
+<tr><td><b>⑤ 知识供给方式光谱</b></td><td>静态策展文件 — 实时 MCP 查询 — 文件式记忆 — 分层换页 — 时序图谱;量化边界:<b>≤200K token 直接塞窗不用 RAG</b>(Anthropic 官方);1M 满窗有精度代价(第三方测 17 点下降)</td><td>对"上下文管理系统怎么设计"提供锚点选择</td></tr>
+</table>
+
+<blockquote>"The tedious part of maintaining a knowledge base is not the reading or the thinking — it's the bookkeeping."<span class="en">— Karpathy LLM Wiki:人弃坑 wiki 的原因恰是 LLM 擅长的簿记;他的三层(不可变原料 / LLM 所有的 wiki / 类 CLAUDE.md 的 schema)+ 三操作(ingest / query / lint)是"agent 维护知识库"的最完整模式样本。</span></blockquote>
+
+<!-- ============ 5 ============ -->
+<h2 id="s5"><span class="no">5</span>业务模块地图(按业务切,不按材料切)</h2>
+<p class="sub">用户纠正:切法必须是业务能力,材料属性(机器/知识/触发/状态)降级为模块内部的"面"。详见 <a class="links" href="2026-06-10-business-module-map.md">业务模块地图</a>(草案,组件本体不动)。</p>
+
+<pre>主线:  需求对接 ──→ 系统设计 ──→ 计划 ──→ 实现/测试 ──→ 审查 ──→ 收口裁决
+模块:  [需求与调研]  [设计]      [─── 实现(含计划/测试) ───]      [收口裁决]
+公共:  [对抗审查(被设计/收口/自治理调用)] [知识与上下文(全程)] [入口地图]
+自身:  [自治理(改 harness 自己)] [分发(交付下游)] [运行环境(基础设施)]</pre>
+
+<table>
+<tr><th>模块</th><th>业务职责</th><th>ultracode 对照一句话</th></tr>
+<tr><td>需求与调研</td><td>模糊意图 → 确认的需求清单;联网调研产证据</td><td>调研执行已让渡运行时(目标形态样本)</td></tr>
+<tr><td>设计</td><td>产出过审设计文档(含设计审查质量环)</td><td>fork 扇出可让渡;10 条自洽清单/4 维定义/防绕过保留</td></tr>
+<tr><td>实现</td><td>设计 → 符合契约的代码+同步文档(Superpowers 驱动)</td><td>"文档先行"与模型默认相反,必须文件承载</td></tr>
+<tr><td>收口裁决</td><td>安全扫描→方向评估→流程审计→三路分流</td><td>3+4+1 fork 团可让渡;分级政策/反模式约束保留</td></tr>
+<tr><td>对抗审查(公共)</td><td>多挑战者独立审查的公共规程</td><td>机器被覆盖最彻底;中性化/防锚定纪律保留(含多数票冲突)</td></tr>
+<tr><td>知识与上下文</td><td>跨会话连续性 + 知识不腐</td><td><b>覆盖为零</b>(无跨会话状态)——用户重点方向落点</td></tr>
+<tr><td>自治理</td><td>改 harness 自身的更严审查路径</td><td>21 条组件 16 条零覆盖</td></tr>
+<tr><td>分发</td><td>一键安装下游 + 守边界</td><td>零覆盖(安装发生在会话之外)</td></tr>
+</table>
+
+<p style="font-size:14px;color:var(--muted)">用法:新技术 X 到来 → 逐模块两问:① X 替代本模块<b>机器面</b>的哪部分?② 知识/触发/状态面是否被触碰?改动落点=单个模块内,动手前核对该模块"对外契约"行(handoff 字段被三个 hook 逐字解析、M3 表↔scope.conf 双写等暗线)。</p>
+
+<!-- ============ 6 ============ -->
+<h2 id="s6"><span class="no">6</span>三件事与闭环(用户判断 + 证据映射)</h2>
+<p class="sub">用户判断:现在重要的是 ①怎么定义任务 ②怎么调度工作流/loops ③怎么验证任务;且 agent 智力足够,缺的是上下文、规范流程、每步参考什么。</p>
+
+<table>
+<tr><th>用户判断</th><th>业界证据落点</th></tr>
+<tr><td>定义任务(模糊理念→确定问题)</td><td>Anthropic 留 planner:"Without the planner, the generator under-scoped"</td></tr>
+<tr><td>调度 workflow/loops</td><td>agent loop 官方骨架(收集→行动→验证→重复);拆掉的是 sprint 分块,留下编排逻辑</td></tr>
+<tr><td>验证任务</td><td>留 evaluator("worth the cost when the task sits beyond what the current model does reliably solo");Cognition:审查不共享上下文最好</td></tr>
+<tr><td>智力足够,缺上下文与流程</td><td>"compaction isn't sufficient…if it's only given a high-level prompt"(能力不是瓶颈);"anything it can't access in-context…effectively doesn't exist"(OpenAI);限定:evaluator 边界仍在,验证环节不能省</td></tr>
+</table>
+
+<div class="card good">
+<b>收紧:定义和验证是同一件事的两端。</b>验证标准应该在任务定义时产出("怎么算完成"是需求清单的一部分)——evaluator-optimizer 的适用条件原话就是"有清晰评估标准",标准从定义来。
+</div>
+
+<h3>闭环(通用机制的形态——一半零件已存在)</h3>
+<div class="flow">
+  <div class="step"><b>任务定义契约</b>含出生时的验收标准</div>
+  <div class="arr">→</div>
+  <div class="step"><b>每阶段上下文清单</b>这一步读什么/写什么/怎么算完成</div>
+  <div class="arr">→</div>
+  <div class="step"><b>执行</b>运行时机器(扇出/loops)</div>
+  <div class="arr">→</div>
+  <div class="step"><b>验证</b>按出生时的标准验</div>
+  <div class="arr">→</div>
+  <div class="step"><b>回灌</b>结论写回知识库,下个任务的上下文变厚</div>
+</div>
+<p style="font-size:14px"><b>已有零件</b>:治理表(阶段→规则)、session-init(起点注入)、L1-L6(知识挂链)、RUBRIC + Evidence Depth(验证标尺)、brainstorming 必产需求清单。<b>缺的接线</b>:"每一步读什么"散在三处(治理表靠拉/session-init 硬编码推/skill 注入)没有统一机读形态;验证结果不回灌;调研产物不挂链。业界形态参照:plans-as-first-class(OpenAI)+ 渐进披露三级(Skills)+ schema 层(Karpathy)。</p>
+
+<!-- ============ 7 ============ -->
+<h2 id="s7"><span class="no">7</span>任务的出生:怎么带着上下文和行业认知出生</h2>
+<p class="sub">用户追问:任务出生带验收标准 → 出生就需要上下文和行业认知,怎么做到?答案:把"出生"做成一个有供给清单的流程节点,三路输入在需求对接时汇聚。</p>
+
+<div class="grid">
+<div class="card">
+  <h3 style="margin-top:0">路 1:项目上下文(推 + 拉)</h3>
+  <ul>
+    <li><b>推(已有)</b>:session-init 在会话起点注入 handoff/最新评估/活跃设计——任务出生时的"现状包"</li>
+    <li><b>拉(已有但散)</b>:brainstorming 深挖探查 + 知识库 agentic search(文件组织好,agent 自己 grep——Boris Cherny 路线)</li>
+    <li><b>缺</b>:出生节点的机读清单("定义任务必读:L1 vision、L2 index、相关模块 README、相关 decisions")</li>
+  </ul>
+</div>
+<div class="card">
+  <h3 style="margin-top:0">路 2:行业认知(调研作为出生的标准环节)</h3>
+  <ul>
+    <li><b>已有</b>:research-scout 触发判据(可逆性×熟悉度)定义在 brainstorming 阶段四;deep-research 执行——本周三份文献地图就是手动跑了一遍这个环节</li>
+    <li><b>缺两个契约</b>:① 调研产物落库必须挂链(否则下个会话找不到——今天的现行实例);② 需求清单的验收标准字段必须引用调研结论作依据(行业认知不是读完就完,要变成验收条款,如"反腐烂机制对齐 freshness+owner 模式")</li>
+  </ul>
+</div>
+<div class="card">
+  <h3 style="margin-top:0">路 3:标尺库(验收标准的词汇表)</h3>
+  <ul>
+    <li>验收标准不是每次凭空写 = <b>任务专属条件 + 可复用标尺引用</b>(RUBRIC 维度、Evidence Depth 档位、治理标准)</li>
+    <li>业界最小实现样本:Anthropic initializer agent 把产品 spec 分解成 JSON feature 清单——每个 feature 出生就是可勾选的</li>
+  </ul>
+</div>
+<div class="card good">
+  <h3 style="margin-top:0">汇聚与角色边界</h3>
+  <p style="font-size:14.5px">AI 结合三路输入<b>起草</b>需求清单 + 验收标准 → <b>人确认</b>(对应现有硬规则"需求清单必须用户确认"+"AI 列选项人拍板")。</p>
+  <p style="font-size:14.5px"><b>结论:不需要发明新东西,需要把三路输入在出生节点契约化</b>——出生清单(读什么)、调研挂链(行业认知怎么进来并留下)、标尺引用(验收标准怎么落字段)。</p>
+</div>
+</div>
+
+<!-- ============ 8 ============ -->
+<h2 id="s8"><span class="no">8</span>割裂诊断:handoff × 上下文库</h2>
+<p class="sub">用户观察"handoff 和上下文库有点割裂,没有很好使用"——已对到仓库实际状态,<b>确认成立</b>,三条现行证据(2026-06-10 实测)。</p>
+
+<div class="card warn">
+<ol>
+  <li><b>handoff 停在 2026-06-05</b>,本周 5 个 commit(三份文献地图+模块地图+本页)它全不知道,"下一步"里没有本周任何一条线。</li>
+  <li>handoff(状态快照,80 行模板)与上下文库(知识结构)之间<b>只有一根线</b>:收口时的 <code>context-chain: 已核/skipped</code> 声明字段——是检查点不是信息链,且自仓库还是 skipped。</li>
+  <li>三份文献地图进了 references/ 但<b>没有任何入口指向它们</b>(references/README 未列、handoff 未提)——知识入了库,没有线接到下一个会话的起点。<i>(README 索引已于本页生成同日补上,机制性缺口仍待设计)</i></li>
+</ol>
+<p style="font-size:14px">结构原因:handoff 与活上下文链是不同时期为不同目的设计的(会话连续 vs 知识分层),session-init 推送的内容(handoff/评估/设计头)与靠"拉"的知识区(references/decisions)是两套供给方式,没有统一机制——这正是第 6 节"每阶段上下文清单"要解决的。</p>
+</div>
+
+<!-- ============ 9 ============ -->
+<h2 id="s9"><span class="no">9</span>待决清单(judgment 留给人)</h2>
+<table>
+<tr><th>#</th><th>待决事项</th><th>背景</th></tr>
+<tr><td>1</td><td><b>闭环机制先对哪个口子</b>(建议:上下文供给——handoff 挂链 + 每阶段清单,它是另两个口子的地基)</td><td>进 brainstorming 需求对接,按"边做边提升"不三口齐开</td></tr>
+<tr><td>2</td><td>RUBRIC 归收口裁决还是升公共标准件</td><td>被设计/实现/收口三模块引用</td></tr>
+<tr><td>3</td><td>模块地图确认后是否升常驻导航 + 谁当 owner</td><td>升级新增一处双写同步点;"无 owner 的 wiki 必然腐烂"</td></tr>
+<tr><td>4</td><td>调研留痕的挂链方式(进 L 链?进 references 索引?二者皆?)</td><td>对应第 7 节"路 2"的契约 ①</td></tr>
+<tr><td>5</td><td>3 处文档漂移要不要修(命中 meta scope,需走 meta 流程)</td><td>templates/README 计数、self-check 悬空引用、M3 声明文件不存在</td></tr>
+</table>
+
+<footer>
+  <p><b>本页文档系</b>(同日落盘,互链):
+    <a href="2026-06-10-literature-map-context-loops-docs-harness.md">文献地图一(上下文/loops/文档治理/harness)</a> ·
+    <a href="2026-06-10-literature-map-llm-wiki-knowledge-org.md">文献地图三(llm-wiki/知识组织)</a> ·
+    <a href="2026-06-10-scaffold-vs-ultracode-map.md">脚手架对照地图</a> ·
+    <a href="2026-06-10-business-module-map.md">业务模块地图</a></p>
+  <p><b>核验口径</b>:文献条目的【3-0 核验】/【补读】等级、完整引文与来源链接均在上述 markdown 原文档;本页为梳理视图,引用请回原文档核对。生成:2026-06-10,Claude(调度者),综合本会话与三个 deep-research 工作流(共 300+ subagent)产出。</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -28,6 +28,15 @@ references/
 └── [主题].md                 # 按主题自由添加
 ```
 
+## 当前留痕索引(新增留痕文件时同步本节)
+
+- `2026-06-10-direction-overview.html` — **方向梳理总览**(入口,串起下面四份)
+- `2026-06-10-literature-map-context-loops-docs-harness.md` — 文献地图:上下文管理/loops/文档治理/harness 设计
+- `2026-06-10-literature-map-llm-wiki-knowledge-org.md` — 文献地图:llm-wiki/知识管理/资料组织(用户重点方向)
+- `2026-06-10-scaffold-vs-ultracode-map.md` — 脚手架 60 组件 × ultracode 覆盖度对照
+- `2026-06-10-business-module-map.md` — 业务模块地图(草案视图:主线+八模块)
+- `2026-05-22-p0-9-4-self-check.md` — P0.9.4 trial 自查清单
+
 ## 维护
 
 这里的文件不会自动过期。如果某份参考资料已经过时，请手动删除或标注。
