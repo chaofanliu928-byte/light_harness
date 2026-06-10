@@ -53,6 +53,24 @@
   - ❌ ~~M3/M4 路径混淆~~ 已闭合(第二个 trial,2026-04-30)
   - 🟡 **D 类残留**(D2 untracked / D3 anchor 写死 / D6 case 子串包含):YAGNI 接受不修(详 decision `2026-04-30-d-class-tech-debt-batch.md` §不做)
 
+### 上下文层重构(2026-06-10 brainstorming 进行中,需求清单待用户确认)
+
+**背景**:方向讨论(随模型变强减脚手架)→ 文献地图×3 + 脚手架对照 + handoff×知识库三案对抗分析(见 `docs/references/2026-06-10-*` 系列)。用户已定:模型无关(跨运行时)、档位二(工作台/书架两层+晋升门禁)、防遗忘靠机制不靠纪律、落库当场登记通用规矩、建 AGENTS.md、偏好层入仓。
+
+**本轮重审范围**(系统已变 → 逐件三问裁决:问题还在吗/新机制承载吗/什么形态;不预设"修复上岗"):
+- 8 个 hook + settings 接线(对抗审查实证:自仓库根启动会话从未加载 hook——"天然无 hook 实验"数据见 `references/2026-06-10-handoff-kb-integration-analysis.md` 地基事实 1)
+- structured-handoff SKILL(新设计重写对象)、project-setup SKILL
+- 治理文件中交接/收口相关节(finishing-rules 收口硬核链、meta-finishing Step D 等)
+- 纯 bugfix 不待裁决照修:setup.sh 覆盖活 handoff、SKILL `[待更新]` 死条件、模板双写分叉
+
+**未触及组件备忘(本轮不动,后续可能重审)**:
+- skills/agents:design-review、evaluate、security-scan、process-audit、system-design/designer、research-scout
+- 治理:brainstorming/design/planning/implementation/testing/review-rules、meta-review/meta-finishing(除交接触点)、synthesis-rules
+- 标准件:RUBRIC、DESIGN_TEMPLATE、testing-standard;分发:setup.sh 清单机制(除 bugfix)、M4 模板、QUICKREF/README 导航
+- 重审触发候选:ultracode 让渡决策(材料已备:`references/2026-06-10-scaffold-vs-ultracode-map.md`)、下次模型/运行时大变化、上下文层落地后的连带触点
+
+**外部参考输入**:用户提供的 16 步交付技能(外部项目 `_参考规则/skills/sixteen-step-delivery`)的机制库——读取凭证(证据锚点,"只写已阅读不算证据")/ 状态初值制度(空白=not-started 不得当通过)/ 三态准入(proceed/blocked/assumption-ready)/ 分流留痕(UGR/SCP/DCR+传播记录)/ 过程记录同步门禁。借机制模式不借官僚密度,逐个过简洁性反问。
+
 ### 已识别但搁置
 
 > **[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。本段保留作日后基线,不预设重启时间(`feedback_iterative_progression`)。详见 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点。
