@@ -3,7 +3,7 @@
 > **性质**:调研留痕(证据,非判断依据 — 参 research-scout 产出整形红线)。
 > **产出方式**:deep-research 工作流(105 agent:5 检索角度并行 → 抓取 23 源 → 提取 115 条主张 → 25 条做 3 票对抗核验,22 存活 3 否决)+ 2 个补充全文精读(Anthropic 2026-03 续篇、Cognition 反方两篇)。
 > **读法**:每条"核心主张"均经逐字引文核对;"与 harness 关联点"是结构类比标注,不是采纳建议 — 采纳与否的判断留给人。
-> **姊妹文档**:[2026-06-10-scaffold-vs-ultracode-map.md](2026-06-10-scaffold-vs-ultracode-map.md)(仓库内部脚手架对照地图,与本图交叉印证)。
+> **姊妹文档**:[2026-06-10-scaffold-vs-ultracode-map.md](2026-06-10-scaffold-vs-ultracode-map.md)(仓库内部脚手架对照地图,与本图交叉印证)/ [2026-06-10-literature-map-llm-wiki-knowledge-org.md](2026-06-10-literature-map-llm-wiki-knowledge-org.md)(llm-wiki/知识组织文献地图)。
 
 ---
 

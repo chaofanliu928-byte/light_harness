@@ -3,7 +3,7 @@
 > **性质**:事实地图(证据,非决定)。背景:用户提出方向"随模型变强减脚手架 — ultracode 已可实现部分脚手架功能,但更凸显逻辑和流程的重要性",本图为该方向决策提供逐组件事实基础。
 > **产出方式**:25 agent 工作流 — 5 个分析员各读一组脚手架文件逐组件判覆盖度,每组 3 个视角反驳者(触发确定性/下游分发/流程知识)对抗审查,完整性挑刺员查漏后补充 1 轮(6 个遗漏组件)。反驳者修正已采纳并在表中标注。
 > **判定口径**:"如果删掉该组件,只靠 ultracode 运行时(Workflow 工具:agent()/parallel()/pipeline()/JSON Schema 强制/对抗验证/评审团/loop-until-dry/worktree 隔离)+ 主 AI 即兴编排,功能是否还在" → full / partial / none。
-> **姊妹文档**:[2026-06-10-literature-map-context-loops-docs-harness.md](2026-06-10-literature-map-context-loops-docs-harness.md)(外部文献地图,时间线张力与本图交叉印证)。
+> **姊妹文档**:[2026-06-10-literature-map-context-loops-docs-harness.md](2026-06-10-literature-map-context-loops-docs-harness.md)(外部文献地图,时间线张力与本图交叉印证)/ [2026-06-10-literature-map-llm-wiki-knowledge-org.md](2026-06-10-literature-map-llm-wiki-knowledge-org.md)(llm-wiki/知识组织文献地图)。
 
 ---
 
