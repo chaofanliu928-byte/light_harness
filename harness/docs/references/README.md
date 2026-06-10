@@ -35,6 +35,8 @@ references/
 - `2026-06-10-literature-map-llm-wiki-knowledge-org.md` — 文献地图:llm-wiki/知识管理/资料组织(用户重点方向)
 - `2026-06-10-scaffold-vs-ultracode-map.md` — 脚手架 60 组件 × ultracode 覆盖度对照
 - `2026-06-10-business-module-map.md` — 业务模块地图(草案视图:主线+八模块)
+- `2026-06-10-handoff-kb-integration-analysis.md` — handoff×知识库三案深度分析(钢人+对抗审查综合;四个地基事实)
+- `2026-06-10-opensource-memory-solutions-map.md` — 开源「工作记忆×知识库」方案分档对照(档位二/三决策参照)
 - `2026-05-22-p0-9-4-self-check.md` — P0.9.4 trial 自查清单
 
 ## 维护
