@@ -30,7 +30,7 @@ description: "结构化交接。上下文快满或 finishing 阶段触发。按�
 
 ### 第一步：归档旧版本
 
-如果 `docs/active/handoff.md` 内容不是初始模板（包含"[待更新]"则视为初始模板），将其归档：
+如果 `docs/active/handoff.md` 内容不是初始模板（包含"[待填]"则视为初始模板），将其归档：
 
 ```bash
 # 生成时间戳文件名
@@ -122,7 +122,7 @@ cp docs/active/handoff.md "docs/completed/handoff-$(date +%Y%m%d-%H%M%S).md"
 ## CI 阻断
 [待填]
 
-## context-chain: 待填(仅当项目用 docs/context/ 链;收口核完改 "已核(结论)" 或 "skipped(理由: ...)")
+## context-chain: 待填(仅当项目用 docs/context/ 链;收口核完改 "已核(结论)" 或 "skipped(理由: ...)",见 finishing-rules 收口硬核链)
 ```
 
 ### 写入规则
