@@ -132,7 +132,7 @@
 
 1. **装载**:读 `harness/docs/active/handoff.md`(台账:状态+指针),按需顺指针补读本体
 2. **对账**(核上次收口的凭证——只读账本不读流水;欠账先补再开新工作):
-   - `echo '{}' | bash harness/.claude/hooks/check-handoff.sh`(promotion 文法/锚点/登记交叉核)
+   - `bash harness/.claude/hooks/check-handoff.sh --reconcile`(全时核台账凭证:文法/锚点/登记/状态判据)
    - `echo '{}' | bash harness/.claude/hooks/check-shelf-registry.sh`(落库登记)
    - `bash harness/.claude/hooks/check-meta-review.sh --reconcile`(已提交 scope 改动的 audit 覆盖)
    - 欠账处置:缺 audit → 按 M2 补 meta-review;漏登记 → 补目录卡行;promotion 不合形 → 走 /structured-handoff 重新清账

@@ -38,7 +38,7 @@
 
 ## 手工校验(无 hook 运行时 / 纯人工)
 
-- echo '{}' | bash harness/.claude/hooks/check-handoff.sh
+- bash harness/.claude/hooks/check-handoff.sh --reconcile
 - echo '{}' | bash harness/.claude/hooks/check-shelf-registry.sh
 
 (hook 是 Claude Code 增强层;换运行时丢自动触发,不丢可校验性)
