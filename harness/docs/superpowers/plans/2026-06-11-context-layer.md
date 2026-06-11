@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 落地模型无关的上下文/知识/交接层——工作台(handoff v2 + 晋升门禁)与书架(目录卡登记)两层分开、覆写前必清账,按 spec §8.4 批 0 / 1a-1d / hook 上岗逐批实施。
+**Goal:** 落地模型无关的上下文/知识/交接层——工作台(handoff v2 + 晋升门禁)与书架(目录卡登记)两层分开、覆写前必清账,按 spec §8.4 批 0 / 1a-1d / 会话链自执法批(原 hook 上岗批,2026-06-11 C 案取代)逐批实施。
 
-**Architecture:** 两层结构:工作台台账(`docs/active/handoff.md`,路径不动)只放状态+指针,知识住书架九格(逻辑映射现有住址,零搬家)。覆写台账唯一正路是 structured-handoff SKILL v2 固定序(归档→清账→覆写→自查);check-handoff.sh v2 在覆写信号(最新归档件 mtime 60 分钟窗)硬核 promotion 凭证+锚点抽查+登记交叉核;check-shelf-registry.sh 每 Stop 软扫落库登记。批次:批 0(3 件 bugfix)→ 批 1a 工作台与门禁 → 1b 书架登记 → 1c 入口与偏好 → 1d 分发与 scope → hook 上岗 A/B 实测分支;每批收尾 meta finishing(M1 四步 + meta-review)。
+**Architecture:** 两层结构:工作台台账(`docs/active/handoff.md`,路径不动)只放状态+指针,知识住书架九格(逻辑映射现有住址,零搬家)。覆写台账唯一正路是 structured-handoff SKILL v2 固定序(归档→清账→覆写→自查);check-handoff.sh v2 在覆写信号(最新归档件 mtime 60 分钟窗)硬核 promotion 凭证+锚点抽查+登记交叉核;check-shelf-registry.sh 每 Stop 软扫落库登记。批次:批 0(3 件 bugfix)→ 批 1a 工作台与门禁 → 1b 书架登记 → 1c 入口与偏好 → 1d 分发与 scope → 会话链自执法批(开场对账;原 hook 上岗 A/B 分支被 C 案取代,见 `docs/decisions/2026-06-11-session-chain-reconciliation.md`);每批收尾 meta finishing(M1 四步 + meta-review)。
 
 **Tech Stack:** bash(POSIX,禁 gawk 扩展)+ markdown 纯文件约定 + Claude Code hooks/skills(增强层;地基纯文件+可手工跑脚本+git)
 
@@ -19,11 +19,11 @@
 
 1. **已回设计修正(2026-06-11):SETUP_NEEDED 改提示不中断,见 spec 头部微修正留痕与 §8.0 #1。**
    - 发现过程留痕(planner 实测 grep 核对):自仓库 `harness/docs/RUBRIC.md:64` / `harness/docs/ARCHITECTURE.md:69-73` 含模板占位符(spec §1.6 已声明事实),`session-init.sh:13-29` 的 SETUP_NEEDED 检测命中任一即打印提示后 `exit 0`,台账段永不注入——自仓库剖面恒命中(场景 1 P0 失效),下游未配置期同病;spec §8.0 #1 原「其余注入行为不动」未枚举此交互。
-   - 落地:任务 8 约束与 fixture 已同步(改"提示不中断");任务 20 的该项硬停点已移除(其 A/B 用户拍板停点不动)。
+   - 落地:任务 8 约束与 fixture 已同步(改"提示不中断");任务 20 的该项硬停点已移除(其 A/B 用户拍板停点于 2026-06-11 随 C 案取消,见 decisions/2026-06-11-session-chain-reconciliation.md)。
 
 ## 计划内裁量(非偏离,留痕备审)
 
-1. **SKILL v2 的 `!cat` 模板注入行带双层 fallback**(`cat A 2>/dev/null || cat harness/A`):spec D9 定「全部相关脚本双层探测」,SKILL preamble 命令与 hook 同处运行时路径问题,同理适用;不加则 A 案(根启动)下模板注入失效。
+1. **SKILL v2 的 `!cat` 模板注入行带双层 fallback**(`cat A 2>/dev/null || cat harness/A`):spec D9 定「全部相关脚本双层探测」,SKILL preamble 命令与 hook 同处运行时路径问题,同理适用;不加则根启动(手工/工具箱模式,C 案常态)下模板注入失效。
 2. **references/README.md「当前留痕索引」节并入目录卡条目表后删除该节**:同文件同信息两份 = 双写,违反 SSoT(spec §4.4 规则 3);目录卡是登记的唯一载体(§4.1.7)。「维护」节措辞同步对齐 immutable 规则(过时加横幅不删改,§4.3.3/§4.4 规则 1)。
 3. **M3(根 CLAUDE.md)无既有「文档索引」表**:spec §8.1「文档索引加 AGENTS.md/preferences 地图行」的落点定为 M3 新增一个两行小节(任务 15 给精确内容),不新建大表。
 4. **session-init.sh + check-evidence-depth.sh 的小改归入批 1a 任务分组**:spec §8.4 批 1 内序未逐件分配这两件,按"hook 类聚合、双层 fixture 同款"归 1a。
@@ -39,7 +39,7 @@
 | 批 1b 书架登记 | 任务 9-11 | B(新 hook)+ C(agents)+ 文档(references/README) | meta(任一命中即 meta) | 并入任务 19 |
 | 批 1c 入口与偏好 | 任务 12-15 | A(AGENTS.md / preferences / CLAUDE.md ×2) | meta | 并入任务 19 |
 | 批 1d 分发与 scope | 任务 16-18 | B(conf/settings)+ F(setup.sh/templates)+ A(M3 同步) | meta | 任务 19 checkpoint(M1 四步 + meta-review) |
-| hook 上岗 A/B | 任务 20-22 | B(settings 接线;A 案另触根级件,机器扫不可见——显式声明) | meta | 任务 23 checkpoint(M1 四步 + meta-review) |
+| 会话链自执法批(C 案,取代原 hook 上岗 A/B) | 任务 20-22 | A(CLAUDE.md×2 + AGENTS.md)+ B(check-meta-review.sh)+ F(templates/AGENTS.md) | meta | 任务 23 checkpoint(M1 四步 + meta-review) |
 
 > 批 2(口子 B 任务出生证)/ 批 3(口子 C)**不在本计划**(另案;spec §8.4 行仅声明依赖关系)。
 
@@ -54,7 +54,7 @@
 | `harness/templates/AGENTS.md` | 12 | 下游入口地图模板(I7 分发) |
 | `AGENTS.md`(仓库根) | 13 | 自仓库剖面入口地图(§4.1.5 根版差异 ①-⑤) |
 | `harness/docs/preferences.md` | 14 | 偏好层(D11:不分发下游;用户逐条拍板) |
-| `.claude/settings.json`(仓库根,**A 案条件件**) | 21 | hook 根级接线(D9 A 案) |
+| ~~`.claude/settings.json`(仓库根,A 案条件件)~~ | ~~21~~ | **已取消**(2026-06-11 C 案取代 A/B,不做根级接线) |
 
 **Modify:**
 
@@ -69,14 +69,16 @@
 | `harness/.claude/hooks/check-evidence-depth.sh` | 8 | 仅补双层探测(§8.0 #3) |
 | `harness/docs/references/README.md` | 9 | 升级目录卡:规矩头 + 条目表 + 存量回填 8 件(§4.1.7) |
 | `harness/.claude/agents/research-scout.md` | 11 | 产出整形红线追加同批登记行(I6 层①) |
-| `harness/templates/AGENTS.md` 与根 `AGENTS.md` 双写核 | 12,13 | 共享核(接手顺序/硬规矩引用/九格表结构)同批改义务(§4.1.5) |
-| `CLAUDE.md`(仓库根 M3) | 15, 16 | 批 1c:地图行小节;批 1d:§3/§5 scope 表随 conf 同步(M3↔M17) |
-| `harness/CLAUDE.md`(M4) | 15 | 文档索引加 AGENTS.md 行;交接行注门禁(preferences 行**不加**,D11) |
+| `harness/templates/AGENTS.md` 与根 `AGENTS.md` 双写核 | 12,13,21 | 共享核(接手顺序/硬规矩引用/九格表结构)同批改义务(§4.1.5);任务 21 加开场对账行 |
+| `CLAUDE.md`(仓库根 M3) | 15, 16, 21 | 批 1c:地图行小节;批 1d:§3/§5 scope 表随 conf 同步(M3↔M17);任务 21:会话开场规程小节 |
+| `harness/CLAUDE.md`(M4) | 15, 21 | 文档索引加 AGENTS.md 行;交接行注门禁(preferences 行**不加**,D11);任务 21:核心规则第 11 条 |
 | `harness/.claude/hooks/meta-scope.conf` | 16 | 补 glob 四处(§8.0 #8) |
 | `harness/.claude/settings.json` | 17 | Stop 数组 + check-shelf-registry.sh |
 | `harness/templates/settings.json` | 17 | 同上(M19 下游双轨同批) |
-| `harness/docs/ROADMAP.md` | 3, 19, 23 | checkpoint 内 M1 Step D 义务 |
-| `.gitignore`(仓库根,**A 案条件件**) | 21 | `/.claude/` 精确化,允许 track 根 settings.json |
+| `harness/docs/ROADMAP.md` | 3, 19, 22, 23 | checkpoint 内 M1 Step D 义务;任务 22 方向变更留痕 |
+| ~~`.gitignore`(仓库根,A 案条件件)~~ | ~~21~~ | **已取消**(2026-06-11 C 案,同上) |
+| `harness/.claude/hooks/check-meta-review.sh` | 20 | 对账模式 `--reconcile`(C 案,审计覆盖核可执行化) |
+| `harness/docs/superpowers/specs/2026-06-10-context-layer-design.md`(仅状态头) | 22 | 方向变更注记(C 案取代 §8.4 接线行与 D9 分叉) |
 
 **Delete:**
 
@@ -84,7 +86,7 @@
 |---|---|---|
 | `harness/templates/handoff.md` | 18 | D3 单源化;setup.sh 同批改引用(消费方已清点:setup.sh:106 + SKILL:33,前者本任务改、后者批 1a 已重写) |
 
-**不动但验证兼容(spec §8.2,验证步分布在任务 4/5/6/19):** `check-context-chain.sh` / `check-meta-review.sh` / `check-meta-cross-ref.sh` / `check-module-docs.sh`、`docs/active/handoff.md` 的 95 处引用(2026-06-11 grep 实数;spec 写 85 处为当时计数)、`docs/completed/` 归档文件名惯例、evaluate / process-audit / security-scan skills。
+**不动但验证兼容(spec §8.2,验证步分布在任务 4/5/6/19):** `check-context-chain.sh` / `check-meta-cross-ref.sh` / `check-module-docs.sh`(`check-meta-review.sh` 原列此处,2026-06-11 改为任务 20 Modify 对象——对账模式)、`docs/active/handoff.md` 的 95 处引用(2026-06-11 grep 实数;spec 写 85 处为当时计数)、`docs/completed/` 归档文件名惯例、evaluate / process-audit / security-scan skills。
 
 ## 全局契约(C1-C7,后续任务逐字引用,不得变体)
 
@@ -1422,174 +1424,133 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 
 ---
 
-# hook 上岗 A/B 实测分支(spec §8.4 第三行;与批 1 末尾衔接)
+# 会话链自执法批(2026-06-11 方向变更:取代原「hook 上岗 A/B 实测分支」)
 
-## 任务 20:实测判定(用户配合)
+> 变更依据:`docs/decisions/2026-06-11-session-chain-reconciliation.md`(用户第一性重审,拍板 C 案)。原任务 20-23 文本见 git 历史(258b96e 版本),本节整体重写。
+> 核心:开场两步(读台账+对账上次收口)写进入口文件;hook 降级为工具箱(手工模式=正身,自动触发=从 harness/ 启动时的增强);A/B 接线题消解,条件任务取消。
 
-**类型:** 流程任务(判定 + 用户拍板)
-**模块:** M-H(接线位置 = D9 唯一分叉点;脚本层无分支,批 1 双层探测已保证两案皆可)
+## 任务 20:check-meta-review 对账模式(--reconcile,audit 覆盖核可执行化)
+
+**类型:** 实现任务(问题式)
+**模块:** M-H(工具箱)
 **Files:**
-- Create: `harness/docs/decisions/2026-06-<日>-hook-onboarding-route.md`
+- Modify: `harness/.claude/hooks/check-meta-review.sh`
 
-**步骤:**
+**问题:** 现 hook 只扫未提交 diff(执法时点错位 C6)——"已提交历史中命中 scope 的文件有没有有效 audit 覆盖"目前只能人肉考古。开场对账需要一条可执行命令回答它。
 
-- [ ] 前置确认:批 1 已全部 commit(含任务 8 的 SETUP_NEEDED 提示不中断微修正,原待回设计 #1 已回设计解决,见计划头部);手工预演全绿:`cd /d/个人/harness && for h in check-handoff check-shelf-registry check-evidence-depth check-context-chain; do echo "== $h"; echo '{}' | bash "harness/.claude/hooks/$h.sh"; echo "exit=$?"; done` → 全部 exit=0
-- [ ] 用户配合实测(需重启会话,AI 无法自测):请用户从仓库根 `D:/个人/harness` 启动新 Claude Code 会话,观察是否出现 session-init 注入(地基事实 1:根启动从不加载 harness/.claude)。向用户并排呈现两案(选择类展示选项对比,不直接推荐):
-  - **A 案(根级接线)**:仓库根新建 `.claude/settings.json` 引 `harness/.claude/hooks/*` + `.gitignore` 精确化 → 根启动全自动;代价:根多两个治理文件
-  - **B 案(从 harness/ 启动)**:零新文件,启动约定写进根 AGENTS.md → `cd harness` 启动即在场;代价:从根启动时 hook 不在场,靠手工校验兜底
-- [ ] 用户拍板后立档 `harness/docs/decisions/2026-06-<日>-hook-onboarding-route.md`(两案并排 + 实测观察记录 + 拍板原话 + 不做的那案为何不做)
-- [ ] 按拍板走:A 案 → 任务 21(任务 22 跳过);B 案 → 任务 22(任务 21 跳过)
+**约束:**
 
-## 任务 21:A 案执行 —— 根级 settings 接线 + .gitignore 精确化(条件任务)
+- 新增手工对账模式:`bash check-meta-review.sh --reconcile [天数]`。参数即模式开关,不读 stdin;**参数判定必须插在脚本现有 `INPUT=$(cat)`(约 :37)之前**,`set -u` 下用 `${1:-}` 取参——否则交互终端跑 `--reconcile` 会在 cat 上挂死(M3 开场规程那条命令就是调用方)。**无参数时既有 Stop 行为逐字不变**(回归必证)
+- 对账逻辑:`git log --since=<起点> --name-only --relative` 收集已提交改动文件清单——**必须 `--relative`**(cwd=harness/ 与既有 `git diff --relative` 同基准;不加则输出仓库根相对路径,所有 glob 永不命中=永远假"账齐");root 级文件段用 `git -C "$ROOT_DIR" log`(根级路径天然根相对,复用 §5.5 sentinel 前缀逻辑)→ 复用既有 conf 解析(:109-126)与 `match_glob`/`is_in_scope`(:141-186)过滤 scope 文件 → 对照有效 audit covers 并集 → stderr 输出;**exit 0**(对账输出给 AI 读,处置由开场规程引导,不阻断)
+- **失效锚点(对账模式专用,区别于既有 Stop 规则)**:audit 新鲜度用 **audit 文件自身的最后 commit time**(`git log -1 --format=%ct -- <audit>`;未提交的 audit 才用 mtime 兜底)。理由:finishing 惯例 audit 与同批修订**同 commit 打包**(实例:258b96e 同含批 1 audit 与 M4 修订),covered 文件 commit time = audit commit time,`≤` 判有效;若沿用纯 mtime 锚,每批收口都假欠账(covered commit time > audit 写盘 mtime)且 fresh clone 后 mtime 全刷新普遍偏松——**不得为让验证变绿而改松判定**
+- **窗口语义**:无天数参数时,窗口起点 = 仓库最新 audit 文件的最后 commit time(无任何 audit → 30 天前);显式传天数则按天数。低频项目(隔 8+ 天再开会话)不滑窗漏账
+- 「账齐」输出**带计数**:`账齐:近窗 <N> 件 scope 改动,有效 audit <M> 份`——空转(N=0)与实核可区分,防"glob 全不命中假账齐"
+- 对账模式**忽略 handoff 的 `## meta-review: skipped` 字段**(skip 是 Stop 执法的豁免,不豁免已提交欠账;报原始欠账,处置权给 AI/用户)
+- 头注释身份更新:本脚本两种模式(Stop 执法=增强层 / --reconcile=对账工具箱);LC_ALL 纪律、依赖缺失降级协议沿既有;`extract_covers` 的 gawk 三参数 match 已知问题(mawk/BSD 死锁)维持独立待办,本任务不修不扩散
+- fixture(临时不入仓,先红后绿):①近窗 scope commit 无 audit → 点名;②有有效 audit 覆盖(audit 与修订同 commit)→ 账齐且计数非零;③audit 失效(covered 文件在 audit 提交**之后**又有新提交)→ 点名;④无参数模式回归(改前改后行为一致);⑤非 git 仓库 → 降级 exit 0;⑥**双层结构例**(fixture 仓库含 harness/ 子层,验证 --relative 基准与 root 段)
 
-**类型:** 契约任务(指令式)
-**模块:** M-H
-**Files:**
-- Create: `.claude/settings.json`(仓库根)
-- Modify: `.gitignore`(仓库根)
+**验证:** fixture 六例全绿 + 真仓库 `--reconcile` 实跑——预期推导:批 1 audit 与其 covers 修订同 commit(258b96e),commit time 锚下全部有效 → 期望 `账齐:近窗 N 件 scope 改动,有效 audit M 份`(N、M 非零)+ 无参数回归证据。
 
-**操作:**
-
-- [ ] 根 `.gitignore` 头两行(「本地配置」段):
-
-原:
+**commit:**
 
 ```
-/.claude/
-harness/.claude/settings.local.json
-```
-
-改为(目录整排除改通配排除+负向放行——gitignore 规则:被忽略**目录**的子文件无法负向放行,必须用 `/*`;D5 精确化先例):
-
-```
-/.claude/*
-!/.claude/settings.json
-harness/.claude/settings.local.json
-```
-
-- [ ] 创建根 `.claude/settings.json`(镜像 harness/.claude/settings.json 全部条目,hook 路径加 `harness/` 前缀;批 1 双层探测保证脚本从根 cwd 正确定位 harness/docs):
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "FILEPATH=$(echo \"$(cat)\" | jq -r '.tool_input.file_path // empty'); if [ -n \"$FILEPATH\" ] && [ -f \"$FILEPATH\" ]; then npx prettier --write \"$FILEPATH\" 2>/dev/null; fi; exit 0"
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/harness/.claude/hooks/check-module-docs.sh"
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/harness/.claude/hooks/session-init.sh"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/harness/.claude/hooks/check-handoff.sh"
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/harness/.claude/hooks/check-shelf-registry.sh"
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/harness/.claude/hooks/check-evidence-depth.sh"
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/harness/.claude/hooks/check-context-chain.sh"
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/harness/.claude/hooks/check-meta-review.sh"
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/harness/.claude/hooks/check-meta-cross-ref.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-- [ ] 验证:`cd /d/个人/harness && jq . .claude/settings.json > /dev/null && echo OK-json`;`git check-ignore .claude/settings.json; echo "exit=$?"` → `exit=1`(不再被忽略);`git check-ignore -q .claude/settings.local.json && echo OK-local仍忽略`;`git check-ignore -q .claude/agent-memory && echo OK-memory仍忽略`
-- [ ] `git add .claude/settings.json .gitignore`
-- [ ] 用户重启会话实测:根启动出现 session-init 注入(台账 + 入口地图行);一次 Stop 触发 I4/I5 不误拦(观察记录回填任务 20 的 decision 文件)
-- [ ] commit:
-
-```
-feat(root): hook 上岗 A 案 — 根级 settings 接线 harness hooks + .gitignore 精确化(D9)
+feat(hooks): check-meta-review 对账模式 --reconcile — 已提交历史 audit 覆盖核(会话链自执法批)
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 ```
 
-## 任务 22:B 案执行 —— 启动约定写进根 AGENTS.md(条件任务)
+## 任务 21:契约 —— 入口指令「开场两步」落四处(M3/根 AGENTS/M4/templates AGENTS,共享核同批)
 
 **类型:** 契约任务(指令式)
-**模块:** M-H / M-E
+**模块:** M-E(入口地图)
 **Files:**
-- Modify: `AGENTS.md`(仓库根;根版独有差异,不属两份共享核,无 templates 同步义务)
+- Modify: `CLAUDE.md`(仓库根 M3)、`AGENTS.md`(仓库根)、`harness/CLAUDE.md`(M4)、`harness/templates/AGENTS.md`
 
-**操作:**
+**操作(四处同 commit):**
 
-- [ ] 根 AGENTS.md「手工校验」节之前插入(逐字):
+1. M3:「上下文层地图行」节之后、「仓库结构 + 快速开始(导航)」之前插入小节(逐字):
 
 ```markdown
-## 运行约定(hook 上岗 B 案,D9 拍板)
+## 会话开场规程(会话链自执法 — 下一会话是上一会话的验收者)
 
-- Claude Code 会话从 harness/ 目录启动(`cd harness` 后启动)—— hook 接线(harness/.claude/settings.json)即自动在场。
-- 从仓库根启动时 hook 不加载(已知且接受):机器闸缺位由下方手工校验命令兜底,收口由 meta finishing 流程兜底。
+1. **装载**:读 `harness/docs/active/handoff.md`(台账:状态+指针),按需顺指针补读本体
+2. **对账**(核上次收口的凭证——只读账本不读流水;欠账先补再开新工作):
+   - `echo '{}' | bash harness/.claude/hooks/check-handoff.sh`(promotion 文法/锚点/登记交叉核)
+   - `echo '{}' | bash harness/.claude/hooks/check-shelf-registry.sh`(落库登记)
+   - `bash harness/.claude/hooks/check-meta-review.sh --reconcile`(已提交 scope 改动的 audit 覆盖)
+   - 欠账处置:缺 audit → 按 M2 补 meta-review;漏登记 → 补目录卡行;promotion 不合形 → 走 /structured-handoff 重新清账
+
+依据:`harness/docs/decisions/2026-06-11-session-chain-reconciliation.md`(C 案;hook=工具箱,手工模式为正身)
 ```
 
-- [ ] 用户从 harness/ 启动新会话实测:session-init 注入出现;一次 Stop 触发 I4/I5 不误拦(观察记录回填任务 20 的 decision 文件)
-- [ ] commit:
+2. 根 AGENTS.md:「接手顺序」块末尾(`- meta 治理(自仓库专属)...` 行之后)追加一行(逐字):
 
 ```
-docs(map): hook 上岗 B 案 — 启动约定入根 AGENTS.md(D9)
+- 开场对账(步 1 读完台账后):跑下方「手工校验」两命令 + `bash harness/.claude/hooks/check-meta-review.sh --reconcile`;欠账先补再干活(会话链自执法,详 harness/docs/decisions/2026-06-11-session-chain-reconciliation.md)
+```
+
+3. templates/AGENTS.md:「接手顺序」块末尾(`→ 4. ...` 行之后)追加一行(下游版,共享核结构同批改;逐字):
+
+```
+- 开场对账(步 1 读完台账后):跑下方「手工校验」两命令;欠账先补再干活(下一会话是上一会话的验收者)
+```
+
+4. M4(harness/CLAUDE.md):「核心规则」编号清单末尾追加一条(逐字):
+
+```
+11. **会话开场先装载再对账**:读 docs/active/handoff.md(台账)→ 跑 AGENTS.md「手工校验」命令核上次收口凭证;欠账先补再开新工作(会话链自执法)
+```
+
+**验证:** `grep -c "会话开场规程" CLAUDE.md` → 1;`grep -c "开场对账" AGENTS.md harness/templates/AGENTS.md` 各 → 1;`grep -c "先装载再对账" harness/CLAUDE.md` → 1;AGENTS 双写共享核结构核(两文件接手顺序均含对账行,九格/硬规矩不动)。
+
+**commit:**
+
+```
+feat(map): 会话开场规程(装载+对账)落 M3/AGENTS×2/M4 — 会话链自执法(C 案)
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 ```
 
-## 任务 23:hook 上岗收尾 checkpoint —— M1 四步 + meta-review
+## 任务 22:留痕同步(ROADMAP + spec 状态头)
+
+**类型:** 契约任务(指令式)
+**模块:** 治理留痕
+**Files:**
+- Modify: `harness/docs/ROADMAP.md`、`harness/docs/superpowers/specs/2026-06-10-context-layer-design.md`(仅状态头)
+
+**操作:**
+
+- ROADMAP「上下文层重构」节:标题括注与进展行推进(批 1 完成 → 会话链自执法批);「批 1 留痕待办」中 F1 条改为 decision「不做」节口径(自动触发不在场;手工对账会跑到 check-handoff,误触发=误报不阻断;加固候选保留,若未来接电先修);SETUP_NEEDED 条的"任务 20 观察"挂锚改"会话链自执法批后真实使用观察;候选自仓库剖面豁免"(原锚随 A/B 实测取消而悬空);hook 上岗段表述改 C 案
+- spec 状态头追加一行(不动正文,锁定后注记有先例):`2026-06-11 方向变更:§8.4「hook 上岗接线」行与 §7.1 D9 接线分叉由 docs/decisions/2026-06-11-session-chain-reconciliation.md(C 案 会话链自执法)取代/消解;D9 的双层探测交付物保留(它是手工模式从根 cwd 跑通的前提)`
+
+**commit:**
+
+```
+docs(roadmap+spec): 会话链自执法方向变更留痕 — F1 降级 + spec 状态头注记(C 案)
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+```
+
+## 任务 23:收尾 checkpoint —— M1 四步 + meta-review + 兑现「挨个审查」提醒
 
 **类型:** 流程 checkpoint(由调度者执行)
 **模块:** 治理流程(M1/M2)
 **Files:**
 - Modify: `harness/docs/ROADMAP.md`、`harness/docs/decision-trail.md`、`harness/docs/active/handoff.md`
-- Create: `harness/docs/audits/meta-review-<timestamp>-context-layer-hook-onboarding.md`
+- Create: `harness/docs/audits/meta-review-<timestamp>-session-chain-reconciliation.md`
 
 **步骤:**
 
-- [ ] Step A(scope 判断):B 组(接线)→ **meta**(spec §8.4 行声明)。**机器盲区显式声明**:A 案的根 `.claude/settings.json` 含路径分隔符、非根级文件,M15 §5.5 root 扫描扫不到(仅扫无 `/` 的根级文件);`.gitignore` 根级但不命中任何 scope glob。两件均不会被 hook 索取 covers——audit 中**自愿列出**并注明机器盲区(诚实声明,不包装成已覆盖)
-- [ ] Step B(meta-review):按 M2 fork 审查本批(接线 JSON / .gitignore 或 AGENTS.md 约定 / decision 文件);audit covers:B 案 = `<root>/AGENTS.md`;A 案 = 自愿列 `<root>/.claude/settings.json` 与 `<root>/.gitignore`(机器盲区注明)
-- [ ] Step C:任务 20 的 decision 文件已立档,标注关联 commit hash(M5/M1 既有义务)
-- [ ] Step D:ROADMAP「上下文层重构」节收口(批 0 + 批 1 + hook 上岗全部完成;批 2 口子 B 另案);decision-trail append(拐点:hook 上岗路线拍板);场景 1 实战留痕起点声明(meta-L4 推真实使用,不造 artificial trial)
+- [ ] Step A(scope 判断):A 组(CLAUDE.md×2、AGENTS.md)+ B 组(check-meta-review.sh)+ F 组(templates/AGENTS.md 经 `templates/*.md`)→ meta
+- [ ] Step B(meta-review):按 M2 fork 审查本批;audit covers:`<root>/CLAUDE.md`、`CLAUDE.md`、`<root>/AGENTS.md`、`templates/AGENTS.md`、`.claude/hooks/check-meta-review.sh`
+- [ ] Step C:decision 已立档(本批起点),audit 内回填关联 commit hash
+- [ ] Step D:decision-trail append(拐点:常驻守门人→会话链自执法,hook 降级工具箱);ROADMAP 收口(上下文层重构全批完成;场景留痕起点=真实使用,不造 artificial trial)
 - [ ] 运行 `/structured-handoff`(走 v2 门禁)
+- [ ] **兑现用户义务(2026-06-11 原话"全部完成之后提醒我挨个审查")**:向用户提出挨个审查清单——preferences.md(4 正式条目+6 待补原话,含条 4 例外补回与无日期升格路径两 Minor)+ 批 0/批 1/会话链自执法批全部产出索引
 - [ ] commit:
 
 ```
-docs(meta): hook 上岗收尾 — 接线路线拍板留痕 + meta-review + ROADMAP 收口
+docs(meta): 会话链自执法批收尾 — meta-review 留痕 + ROADMAP 收口 + 挨个审查提醒兑现
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 ```
@@ -1604,10 +1565,7 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 批 1b:  任务 9(契约,回填先于接线 B10) → 10 → 11
 批 1c:  任务 12(契约) → 13(契约) → 14(用户拍板门) → 15
 批 1d:  任务 16(契约) → 17 → 18 → 19(checkpoint,批 1 整批)
-hook 上岗: 任务 20(用户实测拍板) → 21 或 22(条件) → 23(checkpoint)
+会话链自执法批: 任务 20(工具) → 21(契约,入口四处) → 22(留痕) → 23(checkpoint,含挨个审查提醒)
 ```
 
-任务总数 23(契约 9 / 实现 8 / 流程 checkpoint 与判定 6);批分布:批 0 ×3、批 1a ×5、批 1b ×3、批 1c ×4、批 1d ×4(含批 1 checkpoint)、hook 上岗 ×4。条件任务 21/22 二选一。
-
-
-
+任务总数 23(原任务 20-23 于 2026-06-11 被 C 案整体重写,原 A/B 条件任务取消;原文见 git 历史 258b96e 版本)。
