@@ -15,7 +15,7 @@
 # 协议(Claude Code Stop hook):
 #   stdin JSON(stop_hook_active 安全带);exit 0=放行 / exit 2=阻断 + stderr 引导(哪条不合+怎么修)
 #   手工模式契约:stdin 为 {} 或解析失败 → 不得静默 exit 0,全部检查照跑(echo '{}' | bash 本脚本)
-#   降级协议(exit 0 + stderr 一行痕迹)仅限环境工具缺失,沿用 check-context-chain.sh:5-10
+#   降级协议(exit 0 + stderr 一行痕迹)仅限环境工具缺失,沿 check-context-chain.sh 工具缺失降级协议(同 hook 族同协议)
 #
 # 设计硬前提:
 #   - POSIX awk(禁 gawk 三参数 match);LF 行尾(.gitattributes *.sh eol=lf)
@@ -115,6 +115,11 @@ if [ "$SIGNAL" = 1 ]; then
 
     PROMO=$(grep -m1 -E '^promotion:' "$HANDOFF" 2>/dev/null | tr -d '\r')
 
+    # 多条 promotion 行诊断(现实失败模式:AI 追加新行而未编辑原行)— 只补诊断,阻断方向不变
+    if [ "$(grep -c -E '^promotion:' "$HANDOFF" 2>/dev/null)" -gt 1 ]; then
+        echo "检测到多条 promotion 行,以首行为准——请删除多余行(常见成因:追加了新行而未编辑原行)。" >&2
+    fi
+
     if [ -z "$PROMO" ]; then
         {
             echo "覆写信号在场(最新归档件 $LATEST_ARCHIVE 在 60 分钟内)但台账缺 promotion 行 — Stop 已阻断。"
@@ -200,7 +205,7 @@ if [ "$SIGNAL" = 1 ]; then
                 # 归档件无 "## 待晋升暂存" 节(旧格式,B9)视同 "- 无";弃置 ≥1 = 全弃置,合法
                 if [ "$DISCARD" -eq 0 ] 2>/dev/null; then
                     if awk '
-                        { sub(/\r$/, "") }
+                        { sub(/\r$/, ""); sub(/[[:space:]]+$/, "") }
                         /^## 待晋升暂存/ { f=1; next }
                         /^## / { f=0 }
                         f && /^- / && $0 != "- 无" { found=1; exit }
