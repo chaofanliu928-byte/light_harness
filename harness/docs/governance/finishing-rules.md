@@ -104,7 +104,7 @@
     - **依据**:`docs/decisions/2026-04-28-decision-trail-introduction.md`(meta scope 改动同步走 M1 `meta-finishing-rules.md` Step D 的对应项)
 3. 更新 `docs/PROGRESS.md` 里程碑表格
 4. 更新 `docs/product-specs/index.md` 状态为 🟢 已完成
-5. 运行 `/structured-handoff`（归档旧版本到 `docs/completed/`）
+5. 运行 `/structured-handoff`（归档旧版本到 `docs/completed/`;覆写前晋升门禁——待晋升暂存清账——见 structured-handoff SKILL）
 6. Superpowers 继续合并/PR/清理
 7. 合并后归档：
     - `docs/active/evaluation-result.md` → `docs/completed/eval-[功能名]-[日期].md`
@@ -114,7 +114,7 @@
 
 ### 精磨
 
-1. 运行 `/structured-handoff`（记录进度和评估器指出的问题）
+1. 运行 `/structured-handoff`（记录进度和评估器指出的问题;覆写前晋升门禁——待晋升暂存清账——见 structured-handoff SKILL）
 2. 阅读 `docs/active/evaluation-result.md` 中"需要修复的问题"
 3. **检查设计文档是否仍与代码一致**：对比设计文档第 2 节（模块划分）和第 3 节（接口定义）与当前代码。如果已偏离，先更新设计文档再继续迭代
 4. 返回 subagent-driven-development 阶段迭代
@@ -122,7 +122,7 @@
 
 ### 推翻
 
-1. 运行 `/structured-handoff`（记录状态和推翻原因）
+1. 运行 `/structured-handoff`（记录状态和推翻原因;覆写前晋升门禁——待晋升暂存清账——见 structured-handoff SKILL）
 2. **停下来和用户讨论**，不自行决定
 3. 如果用户决定**调整方向**：重新从 brainstorming 开始
 4. 如果用户决定**取消功能**：
