@@ -58,6 +58,7 @@ mkdir -p "$TARGET_DIR/.claude/skills/project-setup"
 mkdir -p "$TARGET_DIR/.claude/skills/process-audit"
 cp "$SCRIPT_DIR/.claude/skills/evaluate/SKILL.md" "$TARGET_DIR/.claude/skills/evaluate/"
 cp "$SCRIPT_DIR/.claude/skills/structured-handoff/SKILL.md" "$TARGET_DIR/.claude/skills/structured-handoff/"
+cp "$SCRIPT_DIR/.claude/skills/structured-handoff/handoff-template.md" "$TARGET_DIR/.claude/skills/structured-handoff/"
 cp "$SCRIPT_DIR/.claude/skills/security-scan/SKILL.md" "$TARGET_DIR/.claude/skills/security-scan/"
 cp "$SCRIPT_DIR/.claude/skills/system-design/SKILL.md" "$TARGET_DIR/.claude/skills/system-design/"
 cp "$SCRIPT_DIR/.claude/skills/design-review/SKILL.md" "$TARGET_DIR/.claude/skills/design-review/"
@@ -103,14 +104,23 @@ for gov in "$SCRIPT_DIR/docs/governance/"*.md; do
     esac
     cp "$gov" "$TARGET_DIR/docs/governance/"
 done
-# 活文件守卫(I7):已有交接文档不覆盖 — 重跑安装不得覆灭活 handoff
+# 初始台账:从模板单源(skill 捆绑资源)复制;活文件守卫(I7)— 已存在不覆盖
 if [ ! -f "$TARGET_DIR/docs/active/handoff.md" ]; then
-    cp "$SCRIPT_DIR/templates/handoff.md" "$TARGET_DIR/docs/active/handoff.md" 2>/dev/null || true
+    cp "$SCRIPT_DIR/.claude/skills/structured-handoff/handoff-template.md" "$TARGET_DIR/docs/active/handoff.md" 2>/dev/null || true
 fi
-cp "$SCRIPT_DIR/templates/product-specs-index.md" "$TARGET_DIR/docs/product-specs/index.md" 2>/dev/null || true
-cp "$SCRIPT_DIR/templates/context/README.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
-cp "$SCRIPT_DIR/templates/context/L1-vision.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
-cp "$SCRIPT_DIR/templates/context/L2-INDEX.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
+# 活文件守卫扩展(批 0 audit F1):下游会改写这些文件,重跑安装不得覆盖
+if [ ! -f "$TARGET_DIR/docs/product-specs/index.md" ]; then
+    cp "$SCRIPT_DIR/templates/product-specs-index.md" "$TARGET_DIR/docs/product-specs/index.md" 2>/dev/null || true
+fi
+if [ ! -f "$TARGET_DIR/docs/context/README.md" ]; then
+    cp "$SCRIPT_DIR/templates/context/README.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
+fi
+if [ ! -f "$TARGET_DIR/docs/context/L1-vision.md" ]; then
+    cp "$SCRIPT_DIR/templates/context/L1-vision.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
+fi
+if [ ! -f "$TARGET_DIR/docs/context/L2-INDEX.md" ]; then
+    cp "$SCRIPT_DIR/templates/context/L2-INDEX.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
+fi
 cp "$SCRIPT_DIR/docs/decisions/_TEMPLATE.md" "$TARGET_DIR/docs/decisions/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/MODULE_DOC_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/references/DESIGN_TEMPLATE.md" "$TARGET_DIR/docs/references/" 2>/dev/null || true
@@ -122,6 +132,11 @@ cp "$SCRIPT_DIR/docs/references/challenger-orientation.md" "$TARGET_DIR/docs/ref
 
 # CLAUDE.md
 cp "$SCRIPT_DIR/CLAUDE.md" "$TARGET_DIR/"
+
+# AGENTS.md(入口地图;活文件守卫 — 已存在不覆盖,I7)
+if [ ! -f "$TARGET_DIR/AGENTS.md" ]; then
+    cp "$SCRIPT_DIR/templates/AGENTS.md" "$TARGET_DIR/AGENTS.md"
+fi
 
 echo ""
 echo "✅ 安装完成！共 $(find "$TARGET_DIR/.claude" "$TARGET_DIR/docs" "$TARGET_DIR/CLAUDE.md" -type f 2>/dev/null | wc -l | tr -d ' ') 个文件"

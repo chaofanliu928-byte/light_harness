@@ -64,7 +64,7 @@
 | **B 组** | hooks + settings | `.claude/hooks/*` / `.claude/settings.json` / `.claude/settings.local.json` |
 | **C 组** | skills + agents | `.claude/skills/*/*.md`(D15:SKILL.md + 捆绑资源)/ `.claude/agents/*.md` |
 | **D 组** | RUBRIC + DESIGN_TEMPLATE | `docs/RUBRIC.md` / `docs/references/DESIGN_TEMPLATE.md` |
-| **F 组** | setup.sh + 分发模板 | `setup.sh` / `templates/*.json` / `templates/*.md`(实际匹配 `harness/setup.sh` / `harness/templates/*.json`;M4 `harness/CLAUDE.md` 由 A 组 `CLAUDE.md` glob 覆盖) |
+| **F 组** | setup.sh + 分发模板 | `setup.sh` / `templates/*.json` / `templates/*.md`(实际匹配 `harness/setup.sh` / `harness/templates/*.json` / `harness/templates/*.md`;M4 `harness/CLAUDE.md` 由 A 组 `CLAUDE.md` glob 覆盖) |
 | **排除** | 流程产出物(避免自循环) | `!docs/audits/meta-review-*.md` / `!docs/audits/archive/**` |
 | **E + G 组** | scope 外 | 不命中 include glob 即 scope 外(无需显式列) |
 
@@ -110,6 +110,7 @@
 - `harness/CLAUDE.md`(M4 分发模板)— 实际匹配走 A 组 `CLAUDE.md` glob,本组保留概念归属
 - `harness/templates/*.json`(若有模板文件)
 - `harness/templates/AGENTS.md`(下游入口地图模板,经 F 组 `templates/*.md` glob)
+- 注:`templates/handoff.md` 已删(D3 单源化,住址迁移至 skill 捆绑资源 `harness/.claude/skills/structured-handoff/handoff-template.md`)
 
 **排除**(scope.conf `!` 前缀):
 - `docs/audits/meta-review-*.md`(meta-review 自身产出物,避免自循环)
