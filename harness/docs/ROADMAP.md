@@ -60,7 +60,7 @@
 **进展**:设计锁定(2026-06-11,`specs/2026-06-10-context-layer-design.md`,四轮审查;锁定后微修正 ×2)→ 实现计划入库(`plans/2026-06-11-context-layer.md`,23 任务/6 批组)→ 🟢 **批 0 完成**(2026-06-11:bugfix 三件,commits a34290e/8333e39,audit `meta-review-2026-06-11-135802-context-layer-batch0.md` verdict=pass-after-revision;known-gap F1 由计划任务 18 接住)→ 🟢 **批 1 完成**(2026-06-11:任务 4-18,工作台门禁(模板单源/SKILL v2/check-handoff v2)+书架登记(目录卡回填 8 件/check-shelf-registry/research-scout 红线)+入口与偏好(AGENTS.md×2/preferences.md 用户拍板 4 条+6 待补/CLAUDE.md 地图行)+分发与 scope(conf 四 glob/settings 双轨/setup 分发清单+删 templates/handoff.md);每任务两段审查,批级 audit `meta-review-2026-06-11-182559-context-layer-batch1.md` verdict=pass-after-revision,3 挑战者)。当前:会话链自执法批(任务 20-23,C 案——2026-06-11 用户第一性重审取代 hook 上岗 A/B,详 docs/decisions/2026-06-11-session-chain-reconciliation.md;任务 20/21 已落:--reconcile 对账模式 54996f8+e7fe564、开场规程四处 6f5f0a6)。
 
 **批 1 留痕待办(会话链自执法批与后续,来源=批 0/1 audit 与任务级审查):**
-- F1 假点燃已降级(C 案):自动触发不在场;手工对账会跑到 check-handoff,误触发=误报不阻断;加固候选保留,若未来接电先修(decision「不做」节口径)
+- F1 假点燃已降级(C 案):自动触发不在场;手工对账会跑到 check-handoff,误触发=误报不阻断;加固候选保留(候选形态:归档件 mtime 早于台账即不算信号 / 信号判定参考 git 时间戳——同 --reconcile 的 commit time 锚思路),若未来接电先修(decision「不做」节口径)
 - SETUP_NEEDED 自仓库恒命中且建议有害(照跑 /project-setup 会污染分发源占位符)+ 提示走 stderr 的可见性未实证——会话链自执法批后真实使用观察;候选自仓库剖面豁免
 - check-context-chain 把 `templates/context/README.md` 内 code-fence 示例 upstream 当真节点 → 下游日 0 假断链告警(前置问题,任务18 审查发现)
 - M4「架构」段指向 `docs/decisions/2026-04-16-fork-flat-refactor.md` 未分发 → 下游悬空引用(前置问题)
