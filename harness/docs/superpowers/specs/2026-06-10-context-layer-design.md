@@ -1,6 +1,6 @@
 # 模型无关的上下文/知识/交接层 系统设计
 
-> 状态:**已锁定**(2026-06-11)。流程:design-review 第 1 轮(4 挑战者)不通过 → 修订轮(R1-R8+建议项)→ 聚焦重审(2 核查员)不通过 → 微补丁轮(9 项,消费点枚举纪律)→ 最终合并复核**通过**。审查留痕:docs/active/design-review-result.md。非阻塞备忘:§6.1 实现批补 skipped 正例 fixture。
+> 状态:**已锁定**(2026-06-11)。流程:design-review 第 1 轮(4 挑战者)不通过 → 修订轮(R1-R8+建议项)→ 聚焦重审(2 核查员)不通过 → 微补丁轮(9 项,消费点枚举纪律)→ 最终合并复核**通过**。审查留痕:docs/active/design-review-result.md。非阻塞备忘:§6.1 实现批补 skipped 正例 fixture。锁定后微修正 ×1(2026-06-11,planner 停点:SETUP_NEEDED×注入交互,提示不中断;本文件本节留痕,详 §8.0 #1)。
 > 规模:重量级(完整设计文档,所有节必填)。
 > 需求源:调度者嵌入的需求确认清单(已锁定);证据地基:references/2026-06-10-* 四份文献(引用带 文件:行;"analysis" = 2026-06-10-handoff-kb-integration-analysis.md,"literature-map" = 2026-06-10-literature-map-llm-wiki-knowledge-org.md,"opensource-map" = 2026-06-10-opensource-memory-solutions-map.md)。
 > 待用户决策:无(D11 已决 ✅ 2026-06-11 用户拍板选 A,详 docs/decisions/2026-06-10-preferences-scope-membership.md;含两条执行精确化:忠实性审查口径 + 升格管道/偏好文件不分发下游)。
@@ -149,7 +149,8 @@ session-init.sh → stdout(被加入 Claude 上下文)
   1. 状态头 + "入口地图: AGENTS.md(跨运行时约定) / CLAUDE.md(治理路由)"一行
   2. 台账全文(docs/active/handoff.md,≤80 行;超限台账照注全文 + stderr 提示超限,B8)
   3. (既有,不动)evaluation-result / 最新 spec 头 / 最新 plan 头 / git 状态 / 治理提醒
-错误处理:handoff 缺失 → 跳过该段照常注入其余(既有行为);脚本任何失败 exit 0 不阻断会话
+错误处理:handoff 缺失 → 跳过该段照常注入其余(既有行为);配置未完成检测命中(SETUP_NEEDED):
+        打印提醒,不中断注入(8.0 #1 微修正);脚本任何失败 exit 0 不阻断会话
 ```
 
 **I2:M-B 晋升门禁 → 书架**(覆写前清账的上架动作)
@@ -677,6 +678,7 @@ hook 自身故障/依赖缺失 → 降级 exit 0 + stderr 一行 → 不阻断�
 | 场景 2 + I5 | references/ 放未登记的日期前缀留痕件(md 与 html 各一)→ stderr 列出;登记后 → 静默;无前缀标准件 → 静默(豁免,4.1.7) | 脚本级 | fixture 目录卡 |
 | I4 交叉核 | promotion 锚点指向 references/ 未登记文件 → exit 2 | 脚本级 | 同上 |
 | 双层探测 | 同一 fixture 分别放 `docs/` 与 `harness/docs/` 两层,hook 都能找到 | 脚本级 | 两套目录树 |
+| §8.0 #1 微修正 | 占位符在场(SETUP_NEEDED 命中)→ 仍注入台账 + stderr 提醒(提示不中断) | 脚本级 | fixture 含模板占位串文件 |
 | I7 / B9 | setup.sh 重跑:已有活 handoff/AGENTS.md 不被覆盖;新装齐全(preferences 不在分发清单,D11) | 集成(临时目标目录) | mktemp 目录 |
 | I3 幂等 | SKILL 步骤重跑:双归档无害、台账不损 | 人工演练(下次真实覆写) | — |
 | 场景 1 | 新会话注入 ≤80 行台账+入口行(hook 上岗后) | 实战留痕(meta-L4) | — |
@@ -759,7 +761,7 @@ hook 自身故障/依赖缺失 → 降级 exit 0 + stderr 一行 → 不阻断�
 
 | # | 件 | ①问题还在? | ②新机制承载? | ③裁决 |
 |---|---|---|---|---|
-| 1 | session-init.sh | 在(冷启动注入是场景 1 P0);但单层路径从根启动看不到 harness/docs(事实 1) | 注入端就是新机制的 I1 | **留+小改**:补双层探测(M15 范式);注入头加"入口地图: AGENTS.md / CLAUDE.md"一行;其余注入行为不动 |
+| 1 | session-init.sh | 在(冷启动注入是场景 1 P0);但单层路径从根启动看不到 harness/docs(事实 1) | 注入端就是新机制的 I1 | **留+小改**:补双层探测(M15 范式);注入头加"入口地图: AGENTS.md / CLAUDE.md"一行;SETUP_NEEDED 检测改"提示不中断"——命中打印提醒后继续注入,不再短路退出(原 exit 0 在自仓库剖面恒吞台账注入,RUBRIC/ARCHITECTURE 未填为 §1.6 已声明事实;下游未配置期同病;planner 实测发现,2026-06-11 锁定后微修正);其余注入行为不动 |
 | 2 | check-handoff.sh | 存在性检查在;**10min 新鲜度闸从未运行过**(事实 1),上岗后将高频误扰 | 工作台闸(I4)是它的新职责 | **职责挪+重写**:存在性保留;10min 硬闸 → 24h 软提醒(D8);新增覆写信号 promotion 硬核+锚点抽查+登记交叉核;补双层探测 |
 | 3 | check-evidence-depth.sh | 在(Evidence Depth 空白即未做,feature finishing 闸) | 否——它本来就只服务 feature 收口;meta 路 evidence 由 M1 流程引导+M15 audit 硬核承载(既有) | **留+小改**:仅补双层探测。其 evaluation-result 触发条件**不违反** D6 约束(该约束管"新机制",此件是 feature 路既有闸,职责声明清楚即可) |
 | 4 | check-context-chain.sh | 在(下游活链校验) | 不触碰(禁用清单:路径 upstream 不挂进它;台账指针在正文区不在 frontmatter,不经过它) | **留原样** |
@@ -778,7 +780,7 @@ hook 自身故障/依赖缺失 → 降级 exit 0 + stderr 一行 → 不阻断�
 |------|-------|--------|---------|
 | `.claude/skills/structured-handoff/SKILL.md` | 重写:删内嵌模板(:60-126),改为 `!cat` 单源注入;执行流程改为 归档→清账(I2,四裁决:终态三态+阻塞)→覆写→自查;修 `[待更新]` 死条件(:33,bugfix 批先行) | M-B 晋升门禁本体;事实 3 双写拔根 | finishing-rules 三路调用、/clear 前手动调用 |
 | `.claude/hooks/check-handoff.sh` | 重写(8.0 #2) | M-C 工作台闸 | settings.json Stop 注册(位置不变) |
-| `.claude/hooks/session-init.sh` | 双层探测+入口行(8.0 #1) | M-G | SessionStart 注册 |
+| `.claude/hooks/session-init.sh` | 双层探测+入口行+SETUP_NEEDED 提示不中断(8.0 #1) | M-G | SessionStart 注册 |
 | `.claude/hooks/check-evidence-depth.sh` | 双层探测(8.0 #3) | 在场性修复 | Stop 注册 |
 | `.claude/hooks/meta-scope.conf` | 补 glob 四处(8.0 #8) | scope 治理洞 | check-meta-review.sh 读取 |
 | `.claude/settings.json` + `templates/settings.json` | Stop 数组 +1(8.0 #9) | I5 接线 | Claude Code hook 加载 |
