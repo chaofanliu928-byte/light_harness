@@ -14,8 +14,9 @@
 #   - 失效锚点(对账专用):audit 自身最后 commit time(未提交/未跟踪才 mtime 兜底);
 #     covered 文件最新 commit time ≤ audit commit time → 有效
 #     (finishing 惯例:audit 与同批修订同 commit 打包,commit time 相等,≤ 判有效)
-#   - 窗口:显式天数 → --since="N days ago";缺省 → 仓库最新 audit 的最后
-#     commit time(无任何 audit → 30 天前)
+#   - 窗口:显式天数(正整数)→ --since="N days ago";缺省 → 仓库最新**已提交**
+#     audit 的最后 commit time(untracked/未提交 audit 不参与窗口锚竞选,
+#     防 mtime=当下掩蔽已提交欠账 — 审查 I1;无已提交 audit → 30 天前)
 #   - 忽略 handoff 的 `## meta-review: skipped`(skip 只豁免 Stop 执法,不豁免已提交欠账)
 #   详见 docs/decisions/2026-06-11-session-chain-reconciliation.md(C 案)。
 #
@@ -65,8 +66,8 @@ if [ "${1:-}" = "--reconcile" ]; then
     RECONCILE_DAYS="${2:-}"
     if [ -n "$RECONCILE_DAYS" ]; then
         case "$RECONCILE_DAYS" in
-            *[!0-9]*)
-                echo "⚠️ --reconcile 天数参数无效(需纯数字天数): $RECONCILE_DAYS" >&2
+            *[!0-9]*|0*)
+                echo "⚠️ --reconcile 天数参数无效(需正整数天数): $RECONCILE_DAYS" >&2
                 exit 0
                 ;;
         esac
@@ -368,12 +369,14 @@ if [ "$RECONCILE" -eq 1 ]; then
         SINCE_DESC="近 ${RECONCILE_DAYS} 天(显式参数)"
     else
         # 仓库最新 audit(docs/audits/meta-review-*.md 主目录)的最后 commit time
+        # 审查 I1 修:窗口锚竞选只认**已提交** audit — untracked/未提交 audit 的
+        # mtime 是"现在",若参选会把窗口起点拉到当下,掩蔽已提交欠账;
+        # mtime 兜底仅保留在失效判定(约束 3 的正当用途),不外溢到窗口锚
         LATEST_AUDIT_CT=""
         LATEST_AUDIT_FILE=""
         while IFS= read -r audit; do
             [ -z "$audit" ] && continue
             a_ct=$(git log -1 --format=%ct -- "$audit" 2>/dev/null)
-            [ -z "$a_ct" ] && a_ct=$(stat_mtime "$audit")
             [ -z "$a_ct" ] && continue
             if [ -z "$LATEST_AUDIT_CT" ] || [ "$a_ct" -gt "$LATEST_AUDIT_CT" ] 2>/dev/null; then
                 LATEST_AUDIT_CT="$a_ct"
@@ -386,7 +389,7 @@ if [ "$RECONCILE" -eq 1 ]; then
             SINCE_DESC="最新 audit 的 commit time(${LATEST_AUDIT_FILE} @ ${LATEST_AUDIT_CT})"
         else
             SINCE_ARG="30 days ago"
-            SINCE_DESC="近 30 天(无任何 audit,默认窗口)"
+            SINCE_DESC="近 30 天(无已提交 audit,默认窗口)"
         fi
     fi
 
