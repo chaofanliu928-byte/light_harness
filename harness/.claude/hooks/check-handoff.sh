@@ -18,8 +18,11 @@
 #   纯状态判据,无任何时间推断(不看 mtime/时钟/窗口)— 全时核台账凭证:
 #   promotion 行同一 GRAMMAR 文法核 → 按状态分流:
 #     未核 × 归档件存在 → 状态告警"上次覆写可能未走门禁";未核 × 无归档件 → 新台账合法
+#     已核 × 无归档件 → 状态告警"凭证不自洽"(已核蕴含归档已发生 — 上一条的对偶判据)
 #     已核 → 锚点抽查 + 登记交叉核 + 空账判定(B9 兼容)全时执行,不看窗口
 #     skipped → 回收点 test -f;阻塞 → 提示先解除再开新工作
+#   归档件选取按文件名字典序取最大(名内含时间戳,真·零时钟;fresh clone 后 mtime
+#   同刻,ls -t 不确定);Stop 分支仍用 mtime 选取(窗口限噪器领地,不动)
 #   恒输出一行状态结论(防空转不可见)+ 恒 exit 0(输出给 AI 读,处置靠 AI,不阻断)。
 #   依据:docs/decisions/2026-06-11-session-chain-reconciliation.md 追记③
 #   ("覆写未走门禁"的直接状态判据 = promotion=未核 × 归档件存在,不依赖时钟)。
@@ -141,7 +144,10 @@ if [ "$RECONCILE" -eq 1 ]; then
         exit 0
     fi
 
-    LATEST_ARCHIVE=$(ls -t docs/completed/handoff-*.md 2>/dev/null | head -1)
+    # 归档件选取按文件名字典序取最大(审查 Minor-2):归档名 handoff-YYYYmmdd-HHMMSS.md
+    # 自带时间戳,名序即时序 — 真·零时钟;fresh clone 后所有 mtime 同刻,ls -t 选择不确定。
+    # (Stop 分支仍用 ls -t:那是 60 分钟窗限噪器的领地,行为不动)
+    LATEST_ARCHIVE=$(ls docs/completed/handoff-*.md 2>/dev/null | sort | tail -1)
     PROMO=$(grep -m1 -E '^promotion:' "$HANDOFF" 2>/dev/null | tr -d '\r')
 
     if [ "$(grep -c -E '^promotion:' "$HANDOFF" 2>/dev/null)" -gt 1 ]; then
@@ -211,6 +217,13 @@ if [ "$RECONCILE" -eq 1 ]; then
             ;;
 
         "promotion: 已核("*)
+            # 对偶状态判据(审查 Minor-3,与「未核×归档存在」对偶):已核蕴含固定序①归档已发生,
+            # 无归档件 = 凭证不自洽(可能绕过 skill 手写声明,或归档件被删)
+            if [ -z "$LATEST_ARCHIVE" ]; then
+                echo "台账对账:状态告警 — 凭证不自洽(promotion=已核但 docs/completed/ 无归档件)——可能绕过 skill 手写声明或归档被删;按 /structured-handoff 重新走门禁。" >&2
+                exit 0
+            fi
+
             body="${PROMO#promotion: 已核(上架: }"
             SHELF=$(trim "${body%%;*}")
             rest="${body#*弃置: }"
