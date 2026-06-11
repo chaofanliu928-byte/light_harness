@@ -12,6 +12,7 @@
 0. 本文件 → 1. 读 docs/active/handoff.md(台账:状态+指针)→ 2. 顺指针 Read 本体
 → 3. 找没有指针的东西: docs/references/README.md(目录卡)/ ls docs/decisions/(文件名即卡)
 → 4. 治理与角色规则: CLAUDE.md(Claude Code 自动加载;其他运行时手动读)
+- 开场对账(步 1 读完台账后):跑下方「手工校验」两命令;欠账先补再干活(下一会话是上一会话的验收者)
 
 ## 九格住址表(+ 各格生命周期型)
 

@@ -127,6 +127,17 @@
 - **agent 第 0 步地图(跨运行时)**:`/AGENTS.md`(仓库根;下游分发版 `harness/templates/AGENTS.md`——两份共享核(接手顺序/硬规矩引用/九格表结构)**同批改**,spec §4.1.5 双写同步义务,与 M3↔M17 双写约束同款)
 - **用户偏好(协作方式)**:`harness/docs/preferences.md`(仓内权威住址,memory 为缓存镜像;改动命中 A 组 → meta-review,审查口径 = 忠实性对照用户原话锚点 — D11)
 
+## 会话开场规程(会话链自执法 — 下一会话是上一会话的验收者)
+
+1. **装载**:读 `harness/docs/active/handoff.md`(台账:状态+指针),按需顺指针补读本体
+2. **对账**(核上次收口的凭证——只读账本不读流水;欠账先补再开新工作):
+   - `echo '{}' | bash harness/.claude/hooks/check-handoff.sh`(promotion 文法/锚点/登记交叉核)
+   - `echo '{}' | bash harness/.claude/hooks/check-shelf-registry.sh`(落库登记)
+   - `bash harness/.claude/hooks/check-meta-review.sh --reconcile`(已提交 scope 改动的 audit 覆盖)
+   - 欠账处置:缺 audit → 按 M2 补 meta-review;漏登记 → 补目录卡行;promotion 不合形 → 走 /structured-handoff 重新清账
+
+依据:`harness/docs/decisions/2026-06-11-session-chain-reconciliation.md`(C 案;hook=工具箱,手工模式为正身)
+
 ## 仓库结构 + 快速开始(导航)
 
 > 本节保留原 M3 的子目录导航语义,便于路过的人定位 harness/ 子目录。

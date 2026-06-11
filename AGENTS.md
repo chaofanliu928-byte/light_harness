@@ -14,6 +14,7 @@
 → 3. 找没有指针的东西: harness/docs/references/README.md(目录卡)/ ls harness/docs/decisions/(文件名即卡)
 → 4. 治理与角色规则: 根 CLAUDE.md(Claude Code 自动加载;其他运行时手动读)
 - meta 治理(自仓库专属): 根 CLAUDE.md(M3)scope 分流
+- 开场对账(步 1 读完台账后):跑下方「手工校验」两命令 + `bash harness/.claude/hooks/check-meta-review.sh --reconcile`;欠账先补再干活(会话链自执法,详 harness/docs/decisions/2026-06-11-session-chain-reconciliation.md)
 
 ## 九格住址表(+ 各格生命周期型)
 
