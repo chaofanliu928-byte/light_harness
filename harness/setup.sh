@@ -103,7 +103,10 @@ for gov in "$SCRIPT_DIR/docs/governance/"*.md; do
     esac
     cp "$gov" "$TARGET_DIR/docs/governance/"
 done
-cp "$SCRIPT_DIR/templates/handoff.md" "$TARGET_DIR/docs/active/" 2>/dev/null || true
+# 活文件守卫(I7):已有交接文档不覆盖 — 重跑安装不得覆灭活 handoff
+if [ ! -f "$TARGET_DIR/docs/active/handoff.md" ]; then
+    cp "$SCRIPT_DIR/templates/handoff.md" "$TARGET_DIR/docs/active/handoff.md" 2>/dev/null || true
+fi
 cp "$SCRIPT_DIR/templates/product-specs-index.md" "$TARGET_DIR/docs/product-specs/index.md" 2>/dev/null || true
 cp "$SCRIPT_DIR/templates/context/README.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
 cp "$SCRIPT_DIR/templates/context/L1-vision.md" "$TARGET_DIR/docs/context/" 2>/dev/null || true
