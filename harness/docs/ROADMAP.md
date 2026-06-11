@@ -53,11 +53,20 @@
   - ❌ ~~M3/M4 路径混淆~~ 已闭合(第二个 trial,2026-04-30)
   - 🟡 **D 类残留**(D2 untracked / D3 anchor 写死 / D6 case 子串包含):YAGNI 接受不修(详 decision `2026-04-30-d-class-tech-debt-batch.md` §不做)
 
-### 上下文层重构(2026-06-10 brainstorming 进行中,需求清单待用户确认)
+### 上下文层重构(2026-06-11 批 1 完成,当前 hook 上岗批 任务 20-23)
 
 **背景**:方向讨论(随模型变强减脚手架)→ 文献地图×3 + 脚手架对照 + handoff×知识库三案对抗分析(见 `docs/references/2026-06-10-*` 系列)。用户已定:模型无关(跨运行时)、档位二(工作台/书架两层+晋升门禁)、防遗忘靠机制不靠纪律、落库当场登记通用规矩、建 AGENTS.md、偏好层入仓。
 
-**进展**:设计锁定(2026-06-11,`specs/2026-06-10-context-layer-design.md`,四轮审查;锁定后微修正 ×1)→ 实现计划入库(`plans/2026-06-11-context-layer.md`,23 任务/6 批组)→ 🟢 **批 0 完成**(2026-06-11:bugfix 三件,commits a34290e/8333e39,audit `meta-review-2026-06-11-135802-context-layer-batch0.md` verdict=pass-after-revision;known-gap F1 由计划任务 18 接住)。当前:批 1a(任务 4-8)。
+**进展**:设计锁定(2026-06-11,`specs/2026-06-10-context-layer-design.md`,四轮审查;锁定后微修正 ×2)→ 实现计划入库(`plans/2026-06-11-context-layer.md`,23 任务/6 批组)→ 🟢 **批 0 完成**(2026-06-11:bugfix 三件,commits a34290e/8333e39,audit `meta-review-2026-06-11-135802-context-layer-batch0.md` verdict=pass-after-revision;known-gap F1 由计划任务 18 接住)→ 🟢 **批 1 完成**(2026-06-11:任务 4-18,工作台门禁(模板单源/SKILL v2/check-handoff v2)+书架登记(目录卡回填 8 件/check-shelf-registry/research-scout 红线)+入口与偏好(AGENTS.md×2/preferences.md 用户拍板 4 条+6 待补/CLAUDE.md 地图行)+分发与 scope(conf 四 glob/settings 双轨/setup 分发清单+删 templates/handoff.md);每任务两段审查,批级 audit `meta-review-2026-06-11-182559-context-layer-batch1.md` verdict=pass-after-revision,3 挑战者)。当前:hook 上岗批(任务 20-23,**用户停点:A/B 案实测拍板**)。
+
+**批 1 留痕待办(hook 上岗批与后续,来源=批 0/1 audit 与任务级审查):**
+- **F1 假点燃**:git clone/worktree/checkout 刷新归档件 mtime → check-handoff 60 分钟覆写信号误触发(批1 audit 实测复现;不在 spec 残留缺口清单)——任务 20 实测正撞 worktree 场景,届时裁决加固形态(候选:归档件 mtime 早于台账即不算信号/参考 git 时间戳)
+- SETUP_NEEDED 自仓库恒命中且建议有害(照跑 /project-setup 会污染分发源占位符)+ 提示走 stderr 的可见性未实证——任务 20 观察,候选自仓库剖面豁免
+- check-context-chain 把 `templates/context/README.md` 内 code-fence 示例 upstream 当真节点 → 下游日 0 假断链告警(前置问题,任务18 审查发现)
+- M4「架构」段指向 `docs/decisions/2026-04-16-fork-flat-refactor.md` 未分发 → 下游悬空引用(前置问题)
+- check-handoff 锚点核 `-f`→`-e` 收紧候选(批0 audit 观察①,维持 Minor);I5 软扫 maxdepth 1 vs I4 case 含子目录的深度不对称(references/ 现无子目录,硬严于软方向安全)
+- preferences.md:条 4 压缩掉「除非他明确要我挑错」例外待补;「有原话无日期」升格路径未定义——**用户挨个审查偏好条目时一并处理**(批1 任务14 审查 Minor)
+- QUICKREF/README 导航缓刑部分解除:hook 行/skill 行/关键文件行已随批 1 finishing 同批修正(事实性错误部分);全树/导航重构仍按未触及备忘缓刑
 
 **本轮重审范围**(系统已变 → 逐件三问裁决:问题还在吗/新机制承载吗/什么形态;不预设"修复上岗"):
 - 8 个 hook + settings 接线(对抗审查实证:自仓库根启动会话从未加载 hook——"天然无 hook 实验"数据见 `references/2026-06-10-handoff-kb-integration-analysis.md` 地基事实 1)

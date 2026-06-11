@@ -182,12 +182,14 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 │   │   ├── design-review/SKILL.md       # 设计审查（fork reviewer team）
 │   │   ├── evaluate/SKILL.md            # 方向评估（auto fork evaluator team）
 │   │   ├── security-scan/SKILL.md       # 提交前安全扫描
-│   │   ├── structured-handoff/SKILL.md  # 结构化交接 + 归档
+│   │   ├── structured-handoff/SKILL.md  # 结构化交接 + 归档(覆写经晋升门禁:归档→清账→覆写→自查)
+│   │   ├── structured-handoff/handoff-template.md  # 台账模板(单源:skill 注入/分发/初始台账同源)
 │   │   └── process-audit/SKILL.md       # 流程审计（auto fork auditor）
 │   └── hooks/
 │       ├── check-module-docs.sh         # 代码改了就提醒更新模块 README
 │       ├── session-init.sh              # 新会话注入上下文
-│       ├── check-handoff.sh             # 停止前检查交接时效
+│       ├── check-handoff.sh             # Stop 硬核晋升门禁(promotion 文法/锚点/登记交叉核)
+│       ├── check-shelf-registry.sh      # 落库登记软扫(未登记点名,永不阻断)
 │       ├── check-evidence-depth.sh      # finishing 检查 Evidence Depth/CI 阻断字段
 │       └── check-context-chain.sh        # docs/context/ 活链软提醒(断链/方向违法,只警告)
 ├── docs/

@@ -111,4 +111,4 @@
 | **evaluate** | finishing 阶段，自动触发 | 调度者并行 fork 4 个挑战者做方向评估 |
 | **security-scan** | finishing 阶段，evaluate 之前 | 扫描代码安全问题 |
 | **process-audit** | finishing 阶段，evaluate 之后、分流之前 | 审计流程遵从度，记录到 docs/audits/ |
-| **structured-handoff** | finishing 三路都执行；/clear 前 | 结构化交接 + 归档 |
+| **structured-handoff** | finishing 三路都执行；/clear 前 | 结构化交接 + 归档(覆写经晋升门禁:归档→清账→覆写→自查) |

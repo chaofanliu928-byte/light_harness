@@ -53,7 +53,8 @@
 | prettier | 自动格式化 |
 | check-module-docs | 代码改了就提醒更新模块 README |
 | session-init | 注入交接文档 + 治理提醒 |
-| check-handoff | 停止前检查交接文档时效 |
+| check-handoff | Stop 硬核晋升门禁(promotion 文法/锚点/登记交叉核) |
+| check-shelf-registry | 落库登记软扫(未登记点名,永不阻断) |
 | check-evidence-depth | finishing 检查 Evidence Depth/CI 阻断字段 |
 | check-context-chain | docs/context/ 活链软提醒(断链/方向违法,只警告) |
 
@@ -71,7 +72,8 @@
 | **docs/RUBRIC.md** | 评分标准（方向盘）|
 | **docs/references/DESIGN_TEMPLATE.md** | 系统设计文档模板 |
 | docs/ARCHITECTURE.md | 分层规则 |
-| docs/active/handoff.md | 交接文档 |
+| docs/active/handoff.md | 交接台账(覆写经晋升门禁 /structured-handoff) |
+| AGENTS.md | agent 第 0 步地图(跨运行时) |
 | docs/completed/ | 归档（手动 grep 深查历史）|
 | docs/decisions/ | 架构决策 |
 | docs/context/ | 分层活上下文链(L1-L6;upstream 编码挂链) |

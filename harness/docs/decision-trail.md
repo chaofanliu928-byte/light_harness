@@ -27,6 +27,12 @@
 
 ---
 
+## 2026-06-11 — 上下文层批 1:晋升门禁上线(防遗忘从纪律转机制)
+
+- **抉择(立机制)**:工作台(handoff 台账)与书架(九格)之间立**晋升门禁**(`/structured-handoff` 固定序:归档→清账四裁决→覆写→自查)+ 两道机器闸(check-handoff 硬核 promotion 文法/锚点/登记交叉核;check-shelf-registry 落库登记软扫)——"防遗忘"从对话纪律转为机器可核机制(四层谱:同批耦合>机器闸>凭证制度>版本兜底;两闸:空白即未做/没讨论清楚不放行)。
+- **连带确立**:偏好=项目规范入 A 组审查(D11,忠实性口径不评判内容,不分发下游);AGENTS.md 入口地图×2(跨运行时第 0 步,共享核同批改);台账模板单源化(D3,双写面 4→2)。
+- **link**:`docs/superpowers/specs/2026-06-10-context-layer-design.md`(D1-D17)+ `docs/decisions/2026-06-10-preferences-scope-membership.md` + audit `docs/audits/meta-review-2026-06-11-182559-context-layer-batch1.md`
+
 ## 2026-06-05 — 活上下文链 L1-L6 脊柱 + 审查 bug 修复 + 孤悬剪枝(三批)
 
 - **抉择(立机制 + 立原则)**:建分发下游的 **L1-L6 分层活上下文链**(`docs/context/` 编码 + 机读 `upstream` + `check-context-chain.sh` 软/硬 hook),把跨会话上下文从散文交叉引用升级为机读分层图;同时锁定定位原则 **"探索工程并重 / 上松下严梯度"**(方向可探索、实现严谨,对抗审查=松转严分界;层=既有 workflow 阶段)。
