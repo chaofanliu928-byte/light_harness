@@ -67,3 +67,5 @@ promotion: 已核(上架: 无; 弃置: 0 条)
 ❌ 无 CI 阻断(meta 规则文本+bash hook,无可运行 CI;C 案:会话链对账+工具箱手工模式,详 decisions/2026-06-11-session-chain-reconciliation.md)
 
 ## context-chain: skipped(理由: harness 自仓库按 dogfood 边界不建 docs/context/,本仓无活链可核)
+
+## meta-review: skipped(理由: 偏好条目忠实性微修两行——条4补回用户既有例外+文法注加[日期不详]升格规则,2026-06-11 用户挨个审查当场拍板,原话直录轻路径(SKILL 路由表偏好行))
