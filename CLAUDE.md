@@ -95,7 +95,8 @@
 
 **B 组**(hooks + settings):
 - `harness/.claude/hooks/*`(check-* / session-init / **meta-scope.conf 自身**)
-- `harness/.claude/settings.json` / `harness/.claude/settings.local.json`
+- ~~harness/.claude/settings.json~~(已撤,2026-06-12 — C 案追记①:自仓库单一工具箱体制;glob 保留备未来)
+- `harness/.claude/settings.local.json`:该路径文件不存在(实存的是仓库根 `.claude/settings.local.json`,本地未跟踪不入 git diff);glob 保留备未来
 
 **C 组**(skills + agents):
 - `harness/.claude/skills/*/*.md`(SKILL.md + 捆绑资源,如 structured-handoff/handoff-template.md — D15;brainstorming / design-review / evaluate / process-audit / 等)
