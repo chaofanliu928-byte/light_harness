@@ -110,7 +110,7 @@ fi
 # 4. 信号在场 → 机械核 promotion 凭证(文法 + 锚点 + 登记交叉核)
 # ============================================================================
 if [ "$SIGNAL" = 1 ]; then
-    # C1 整行校验 ERE(契约源: .claude/skills/structured-handoff/SKILL.md C1 块,三处同文法)
+    # 整行校验 ERE(文法契约: .claude/skills/structured-handoff/SKILL.md「promotion 声明文法」节,三处同文法)
     GRAMMAR='^promotion: (未核|已核\(上架: [^;]+; 弃置: [0-9]+ 条\)|skipped\(理由: [^;]+; 回收: [^)]+\)|阻塞\(理由: [^)]+\))$'
 
     PROMO=$(grep -m1 -E '^promotion:' "$HANDOFF" 2>/dev/null | tr -d '\r')
@@ -170,7 +170,7 @@ if [ "$SIGNAL" = 1 ]; then
         "promotion: skipped("*)
             body="${PROMO#promotion: skipped(理由: }"
             reason=$(trim "${body%%;*}")
-            reclaim="${body#*回收: }"
+            reclaim="${body#*; 回收: }"   # 完整分隔符 "; 回收: ":理由段按文法不含分号,该分隔符不会出现在理由内
             reclaim=$(trim "${reclaim%)}")
             if [ -z "$reason" ]; then
                 {
@@ -237,8 +237,9 @@ if [ "$SIGNAL" = 1 ]; then
                     exit 2
                 fi
                 # references/ 登记交叉核:带日期前缀的留痕件必须在目录卡有行;无前缀标准件豁免(4.1.7)
+                # 精确前缀 docs/references/*(锚点已统一 docs/... 相对路径;子串 *references/* 会误伤 docs/preferences/)
                 case "$p" in
-                    *references/*)
+                    docs/references/*)
                         fn="${p##*/}"
                         if printf '%s' "$fn" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}-'; then
                             if ! grep -Fq -- "$fn" docs/references/README.md 2>/dev/null; then
@@ -266,9 +267,10 @@ fi
 # ============================================================================
 HANDOFF_MTIME=$(file_mtime "$HANDOFF")
 if [ -n "$HANDOFF_MTIME" ] && [ $((NOW - HANDOFF_MTIME)) -gt 86400 ]; then
-    if command -v git >/dev/null 2>&1 \
-       && [ -n "$(git log -1 --since="@$HANDOFF_MTIME" --format=%H 2>/dev/null)" ] \
-       && [ -n "$(find docs/superpowers/plans -name '*.md' -mtime -7 2>/dev/null | head -1)" ]; then
+    if ! command -v git >/dev/null 2>&1; then
+        echo "⚠️ git 缺失,check-handoff.sh 24h 软提醒降级跳过" >&2
+    elif [ -n "$(git log -1 --since="@$HANDOFF_MTIME" --format=%H 2>/dev/null)" ] \
+         && [ -n "$(find docs/superpowers/plans -name '*.md' -mtime -7 2>/dev/null | head -1)" ]; then
         echo "软提醒(不阻断):docs/active/handoff.md 已超过 24 小时未更新,其后有新 commit 且近 7 天有活跃 plan — 适时运行 /structured-handoff 更新交接。" >&2
     fi
 fi
