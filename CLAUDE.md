@@ -118,6 +118,11 @@
 
 > 分层活上下文链(`docs/context/` L1-L6 + 编码 + 机读 `upstream` + `check-context-chain.sh` 软 + finishing 硬核)是**分发下游**的工件。harness 自仓库**不建** `docs/context/`(现有 product-specs / ARCHITECTURE / specs / decisions 不动不迁移;自仓库用 README 当 vision,不重复)。`check-context-chain.sh` 在自仓库无 `docs/context/` 即 exit 0 静默。自仓库 meta 图的"漏改"靠 meta-review「触点完整性」维(`harness/docs/governance/meta-review-rules.md` §6)兜,不套这条产品式纵向链。详见 `harness/docs/decisions/2026-06-05-living-context-chain.md`。
 
+## 上下文层地图行
+
+- **agent 第 0 步地图(跨运行时)**:`/AGENTS.md`(仓库根;下游分发版 `harness/templates/AGENTS.md`——两份共享核(接手顺序/硬规矩引用/九格表结构)**同批改**,spec §4.1.5 双写同步义务,与 M3↔M17 双写约束同款)
+- **用户偏好(协作方式)**:`harness/docs/preferences.md`(仓内权威住址,memory 为缓存镜像;改动命中 A 组 → meta-review,审查口径 = 忠实性对照用户原话锚点 — D11)
+
 ## 仓库结构 + 快速开始(导航)
 
 > 本节保留原 M3 的子目录导航语义,便于路过的人定位 harness/ 子目录。

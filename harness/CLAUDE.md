@@ -50,7 +50,8 @@
 | 架构规范 | docs/ARCHITECTURE.md |
 | **系统设计模板** | **docs/references/DESIGN_TEMPLATE.md** |
 | 项目进度 | docs/PROGRESS.md |
-| 交接状态 | docs/active/handoff.md |
+| 交接状态 | docs/active/handoff.md(覆写经晋升门禁 /structured-handoff) |
+| **agent 第 0 步地图(跨运行时)** | **AGENTS.md(仓库根)** |
 | 架构决策 | docs/decisions/ |
 | 内部参考 | docs/references/ |
 | **多智能体审查指南** | **docs/references/multi-agent-review-guide.md** |
