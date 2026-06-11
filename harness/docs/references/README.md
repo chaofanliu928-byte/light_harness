@@ -18,27 +18,29 @@
 - ❌ 项目决策记录（放 docs/decisions/）
 - ❌ 产品需求（放 docs/product-specs/）
 
-## 命名建议
+## 命名约定(文件名约定即类型声明,spec §4.1.7)
 
-```
-references/
-├── internal-api.md           # 内部 API 说明
-├── design-system.md          # 设计系统规范
-├── third-party-setup.md      # 第三方服务配置
-└── [主题].md                 # 按主题自由添加
-```
+- `YYYY-MM-DD-<slug>.md` / `.html` = **调研留痕**(immutable:只追加;过时加横幅不删改;**须登记目录卡**)
+- 无日期前缀(如 `DESIGN_TEMPLATE.md`)= **标准件**(evolving:owner 保鲜;**豁免登记**,发现链走地图行)
 
-## 当前留痕索引(新增留痕文件时同步本节)
+## 目录卡(落库即登记:写入本目录的同一批动作里在下表加一行)
 
-- `2026-06-10-direction-overview.html` — **方向梳理总览**(入口,串起下面四份)
-- `2026-06-10-literature-map-context-loops-docs-harness.md` — 文献地图:上下文管理/loops/文档治理/harness 设计
-- `2026-06-10-literature-map-llm-wiki-knowledge-org.md` — 文献地图:llm-wiki/知识管理/资料组织(用户重点方向)
-- `2026-06-10-scaffold-vs-ultracode-map.md` — 脚手架 60 组件 × ultracode 覆盖度对照
-- `2026-06-10-business-module-map.md` — 业务模块地图(草案视图:主线+八模块)
-- `2026-06-10-handoff-kb-integration-analysis.md` — handoff×知识库三案深度分析(钢人+对抗审查综合;四个地基事实)
-- `2026-06-10-opensource-memory-solutions-map.md` — 开源「工作记忆×知识库」方案分档对照(档位二/三决策参照)
-- `2026-05-22-p0-9-4-self-check.md` — P0.9.4 trial 自查清单
+> 规矩(I6 权威全文):凡向本目录写入新的**带日期前缀**留痕件,**同一批动作**(同一回复/同一 commit)内在下表加一行;漏登会被 Stop hook 软提醒、覆写台账时被硬交叉核。
+> 行文法: `| <日期 YYYY-MM-DD> | <文件> | <一句话> | <核验等级或"—"> |`(token 全半角)
+> 过时横幅文法: `> ⚠️ 过时(YYYY-MM-DD): 原因,替代 -> 路径`(加在留痕件头部,不删改正文)
+
+| 日期 | 文件 | 一句话 | 核验等级 |
+|---|---|---|---|
+| 2026-05-22 | 2026-05-22-p0-9-4-self-check.md | P0.9.4 trial 自查清单 | — |
+| 2026-06-10 | 2026-06-10-business-module-map.md | 业务模块地图(草案视图:主线+八模块) | — |
+| 2026-06-10 | 2026-06-10-direction-overview.html | 方向梳理总览(入口,串起同批四份地图) | — |
+| 2026-06-10 | 2026-06-10-handoff-kb-integration-analysis.md | handoff×知识库三案深度分析(钢人+对抗审查综合;四个地基事实) | — |
+| 2026-06-10 | 2026-06-10-literature-map-context-loops-docs-harness.md | 文献地图:上下文管理/loops/文档治理/harness 设计 | — |
+| 2026-06-10 | 2026-06-10-literature-map-llm-wiki-knowledge-org.md | llm-wiki/知识组织文献地图 | 3-0/补读 混合 |
+| 2026-06-10 | 2026-06-10-opensource-memory-solutions-map.md | 开源「工作记忆×知识库」方案分档对照(档位二/三决策参照) | — |
+| 2026-06-10 | 2026-06-10-scaffold-vs-ultracode-map.md | 脚手架 60 组件 × ultracode 覆盖度对照 | — |
 
 ## 维护
 
-这里的文件不会自动过期。如果某份参考资料已经过时，请手动删除或标注。
+- 留痕件(带日期前缀)immutable:过时**加横幅标注,不删改**(横幅文法见上)。
+- 标准件(无日期前缀)evolving:owner 保鲜,过时原地修订。
