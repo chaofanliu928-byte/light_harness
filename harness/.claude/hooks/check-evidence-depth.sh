@@ -10,9 +10,15 @@ if [ "$(echo "$INPUT" | jq -r '.stop_hook_active' 2>/dev/null)" = "true" ]; then
     exit 0
 fi
 
-PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
-EVAL_FILE="$PROJECT_DIR/docs/active/evaluation-result.md"
-HANDOFF_FILE="$PROJECT_DIR/docs/active/handoff.md"
+# 双层探测(M15 范式,批1a):docs/ 或 harness/docs/;两者都无 → WORK_DIR=PROJECT_DIR
+# (下方 EVAL_FILE 不存在即 exit 0,行为不变)
+PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+if   [ -d "$PROJECT_DIR/harness/docs" ]; then WORK_DIR="$PROJECT_DIR/harness"
+elif [ -d "$PROJECT_DIR/docs" ];         then WORK_DIR="$PROJECT_DIR"
+else WORK_DIR="$PROJECT_DIR"; fi
+
+EVAL_FILE="$WORK_DIR/docs/active/evaluation-result.md"
+HANDOFF_FILE="$WORK_DIR/docs/active/handoff.md"
 
 # 没有评估结果(不在 finishing 阶段),不检查
 if [ ! -f "$EVAL_FILE" ]; then
