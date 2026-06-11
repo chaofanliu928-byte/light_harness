@@ -58,10 +58,10 @@
 
 **背景**:方向讨论(随模型变强减脚手架)→ 文献地图×3 + 脚手架对照 + handoff×知识库三案对抗分析(见 `docs/references/2026-06-10-*` 系列)。用户已定:模型无关(跨运行时)、档位二(工作台/书架两层+晋升门禁)、防遗忘靠机制不靠纪律、落库当场登记通用规矩、建 AGENTS.md、偏好层入仓。
 
-**进展**:设计锁定(2026-06-11,`specs/2026-06-10-context-layer-design.md`,四轮审查;锁定后微修正 ×2)→ 实现计划入库(`plans/2026-06-11-context-layer.md`,23 任务/6 批组)→ 🟢 **批 0 完成**(2026-06-11:bugfix 三件,commits a34290e/8333e39,audit `meta-review-2026-06-11-135802-context-layer-batch0.md` verdict=pass-after-revision;known-gap F1 由计划任务 18 接住)→ 🟢 **批 1 完成**(2026-06-11:任务 4-18,工作台门禁(模板单源/SKILL v2/check-handoff v2)+书架登记(目录卡回填 8 件/check-shelf-registry/research-scout 红线)+入口与偏好(AGENTS.md×2/preferences.md 用户拍板 4 条+6 待补/CLAUDE.md 地图行)+分发与 scope(conf 四 glob/settings 双轨/setup 分发清单+删 templates/handoff.md);每任务两段审查,批级 audit `meta-review-2026-06-11-182559-context-layer-batch1.md` verdict=pass-after-revision,3 挑战者)。→ 🟢 **会话链自执法批完成**(2026-06-11:C 案——用户第一性重审取代 hook 上岗 A/B,详 docs/decisions/2026-06-11-session-chain-reconciliation.md;--reconcile 对账模式 54996f8+e7fe564、开场规程四处 6f5f0a6、留痕 86cca24+4385330;批级 audit `meta-review-2026-06-11-222130-session-chain-reconciliation.md` verdict=pass)。**后续观察期**:开场对账真实使用留痕(meta-L4)、上表留痕待办按触发器逐件处置。
+**进展**:设计锁定(2026-06-11,`specs/2026-06-10-context-layer-design.md`,四轮审查;锁定后微修正 ×2)→ 实现计划入库(`plans/2026-06-11-context-layer.md`,23 任务/6 批组)→ 🟢 **批 0 完成**(2026-06-11:bugfix 三件,commits a34290e/8333e39,audit `meta-review-2026-06-11-135802-context-layer-batch0.md` verdict=pass-after-revision;known-gap F1 由计划任务 18 接住)→ 🟢 **批 1 完成**(2026-06-11:任务 4-18,工作台门禁(模板单源/SKILL v2/check-handoff v2)+书架登记(目录卡回填 8 件/check-shelf-registry/research-scout 红线)+入口与偏好(AGENTS.md×2/preferences.md 用户拍板 4 条+6 待补/CLAUDE.md 地图行)+分发与 scope(conf 四 glob/settings 双轨(双轨后撤,2026-06-12 追记①)/setup 分发清单+删 templates/handoff.md);每任务两段审查,批级 audit `meta-review-2026-06-11-182559-context-layer-batch1.md` verdict=pass-after-revision,3 挑战者)。→ 🟢 **会话链自执法批完成**(2026-06-11:C 案——用户第一性重审取代 hook 上岗 A/B,详 docs/decisions/2026-06-11-session-chain-reconciliation.md;--reconcile 对账模式 54996f8+e7fe564、开场规程四处 6f5f0a6、留痕 86cca24+4385330;批级 audit `meta-review-2026-06-11-222130-session-chain-reconciliation.md` verdict=pass)。**后续观察期**:开场对账真实使用留痕(meta-L4)、上表留痕待办按触发器逐件处置。
 
 **批 1 留痕待办(会话链自执法批与后续,来源=批 0/1 audit 与任务级审查):**
-- F1 假点燃已降级(C 案):自动触发不在场;手工对账会跑到 check-handoff,误触发=误报不阻断;加固候选保留(候选形态:归档件 mtime 早于台账即不算信号 / 信号判定参考 git 时间戳——同 --reconcile 的 commit time 锚思路),若未来接电先修(decision「不做」节口径)
+- F1 假点燃重定性(2026-06-12,decision 追记③):台账 v2 后误燃为**良性**(clone 拿到的必是已提交状态,必带合法 promotion,检查空转通过);60 分钟窗仅作自动 Stop 模式限噪器保留;时间锚修法**撤案**(用户判定:与 mtime 一个性质,不上不下);手工对账已走纯状态判据(check-handoff --reconcile,未核×归档件=覆写未走门禁/已核×无归档件=凭证不自洽);若实战观察到反例再议
 - SETUP_NEEDED 自仓库恒命中且建议有害(照跑 /project-setup 会污染分发源占位符)+ 提示走 stderr 的可见性未实证——会话链自执法批后真实使用观察;候选自仓库剖面豁免
 - check-context-chain 把 `templates/context/README.md` 内 code-fence 示例 upstream 当真节点 → 下游日 0 假断链告警(前置问题,任务18 审查发现)
 - M4「架构」段指向 `docs/decisions/2026-04-16-fork-flat-refactor.md` 未分发 → 下游悬空引用(前置问题)
@@ -71,7 +71,8 @@
 - --reconcile 后续优化候选(任务 20 审查 I2/I3/N2):「有效 audit M 份」计数是全史口径与近窗 N 并列易误读;性能 O(audit×covers) 随 audit 数线性涨(现 ~35s/次,可合并为单次 git log 遍历);窗口起点输出裸 epoch 人读不友好
 - M3「会话开场规程」内联的两条手工校验命令与根 AGENTS.md「手工校验」节构成第三份拷贝,无声明的同步义务(任务 21 审查 Minor)——改 hook 路径/调用形态时记得三处同改;后续可补显式双写声明
 - 开场对账无机器可判的"干净/欠账"信号(--reconcile 恒 exit 0,by design:hook=工具箱,处置靠 AI 读输出)——若实践中出现"读了不补"再议升级
-- M1/M2 内「缺 audit 由 Stop hook 检出/阻断由 check-meta-* hook 承担」表述未注 C 案条件性(根启动常态下兜底=下一会话 --reconcile 对账)——后续 touch M1/M2 时顺带补注(本批 audit Minor#2)
+- M1/M2 内「缺 audit 由 Stop hook 检出/阻断由 check-meta-* hook 承担」表述未注 C 案条件性(撤接线后自仓库无自动 Stop,兜底=下一会话 --reconcile 对账)——后续 touch M1/M2 时顺带补注(批 audit Minor#2)
+- check-handoff --reconcile 观察项(补完批件 4 审查):对账与 Stop 分支的 body 解析约 130 行近重复(文法 ERE/空账判定已单源,字段抽取未)——将来改抽取逻辑记得两处;拼错参数(如 --reconcil)落 Stop 模式会挂 stdin(与 check-meta-review 同族继承,交互场景注意)
 
 **本轮重审范围**(系统已变 → 逐件三问裁决:问题还在吗/新机制承载吗/什么形态;不预设"修复上岗"):
 - 8 个 hook + settings 接线(对抗审查实证:自仓库根启动会话从未加载 hook——"天然无 hook 实验"数据见 `references/2026-06-10-handoff-kb-integration-analysis.md` 地基事实 1)

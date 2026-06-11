@@ -78,7 +78,7 @@ for hook in "$SCRIPT_DIR/.claude/hooks/"*.sh; do
     cp "$hook" "$TARGET_DIR/.claude/hooks/"
 done
 chmod +x "$TARGET_DIR/.claude/hooks/"*.sh 2>/dev/null || true
-# settings.json 走 M19 双轨模板(D19 a 方案):下游零 meta hook 注册痕迹
+# settings.json 用 templates/settings.json(下游唯一来源;自仓库无接线——C 案追记①):下游零 meta hook 注册痕迹
 cp "$SCRIPT_DIR/templates/settings.json" "$TARGET_DIR/.claude/"
 
 # docs
