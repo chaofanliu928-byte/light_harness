@@ -3,22 +3,20 @@
 > 只保留当前状态，给"下一个 AI"看。SessionStart hook 自动注入。
 > 里程碑历史在 docs/PROGRESS.md。
 
-更新时间：2026-06-11 15:30
+更新时间：2026-06-11 14:05
 
 ## 目标
 
-「模型无关的上下文/知识/交接层」:brainstorming(需求清单用户锁定)→ 系统设计 → 四轮审查迭代 → **设计已锁定**(2026-06-10-context-layer-design.md),待用户审阅 spec 后进 writing-plans。
+「模型无关的上下文/知识/交接层」实现执行中(子代理驱动):计划 23 任务/6 批组(plans/2026-06-11-context-layer.md)。**批 0 已闭合**,当前批 1a(任务 4-8,工作台与门禁)。
 
 ## 进度
 
 ### 已完成
-- 调研留痕 5 份(references/2026-06-10-*:文献地图×2、脚手架对照、开源方案分档、三案对抗分析)+ 业务模块地图 + 方向总览 HTML
-- 需求确认清单(12 条已确认决策,含档位二/防遗忘四层/两闸命名/双向契约/借门禁不借多层)
-- 设计 819→872 行全节;D11(偏好 scope)用户拍板选 A 含两条精确化
-- 审查链:独立自检(3 修)→ design-review 4 挑战者(不通过,7 共识)→ 修订轮 → 聚焦重审 2 核查员(不通过,9 项)→ 微补丁轮(消费点枚举纪律)→ 最终合并复核**通过锁定**
+- 调研留痕+设计+计划全链(详 ROADMAP「上下文层重构」节与 git log;设计四轮审查锁定+微修正,计划 23 任务)
+- **批 0**(2026-06-11):setup.sh 活 handoff 守卫(a34290e)+ SKILL 死条件/分叉对齐(8333e39);每任务两段审查+批 meta-review(audit `meta-review-2026-06-11-135802-context-layer-batch0.md`,pass-after-revision;F1 活文件守卫缺口→计划任务 18 接住,F2 证据表述修正)
 
 ### 进行中
-无(设计锁定,等用户审阅 spec → writing-plans)。
+批 1a(任务 4-8):台账模板 v2 单源 → SKILL v2 晋升门禁 → check-handoff v2(27 fixture)→ 治理触点行 → session-init/check-evidence-depth 在场性小改。
 
 ### 阻塞
 无。
@@ -39,8 +37,9 @@
 
 ## 下一步
 
-1. 用户审阅 spec → writing-plans(批 0 bugfix → 批 1a-1d → hook 上岗实测分支)
-2. 实现批备忘:§6.1 补 skipped 正例 fixture(复核非阻塞备忘)
+1. 批 1a 任务 4(契约:台账模板 v2 单源 handoff-template.md)起逐任务执行(实现者+两段审查)
+2. 批内备忘:任务 5 注意 [待填] 归档歧义(批 0 audit F3)与 skipped 正例 fixture;任务 18 含 F1 守卫扩展(已写进计划 2.5)
+3. 用户停点:任务 13(偏好内容逐条拍板)、任务 20(hook 上岗 A/B)
 
 ## 关键上下文
 
@@ -50,7 +49,7 @@
 
 ## 当前阶段
 
-系统设计完成(锁定),待进入 writing-plans
+subagent-driven-development(批 1a)
 
 ## 当前分支
 

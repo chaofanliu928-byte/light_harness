@@ -1345,6 +1345,8 @@ if [ ! -f "$TARGET_DIR/docs/active/handoff.md" ]; then
 fi
 ```
 
+2.5. **活文件守卫扩展(批 0 audit F1,2026-06-11)**:`docs/product-specs/index.md` 与 `docs/context/{README,L1-vision,L2-INDEX}.md` 的 cp 行同样加存在性守卫(形态同 handoff 守卫:`if [ ! -f ... ]`)——spec I7 原则"活文件杜绝重跑覆盖"的完整枚举;fixture 补一例:改写下游 L1-vision 后重跑安装,内容不被覆盖。
+
 3. CLAUDE.md 复制段旁新增 AGENTS.md 段:
 
 ```bash
