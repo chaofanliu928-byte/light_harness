@@ -4,6 +4,7 @@
 > 规模:重量级(完整设计文档,所有节必填)。
 > 需求源:调度者嵌入的需求确认清单(已锁定);证据地基:references/2026-06-10-* 四份文献(引用带 文件:行;"analysis" = 2026-06-10-handoff-kb-integration-analysis.md,"literature-map" = 2026-06-10-literature-map-llm-wiki-knowledge-org.md,"opensource-map" = 2026-06-10-opensource-memory-solutions-map.md)。
 > 待用户决策:无(D11 已决 ✅ 2026-06-11 用户拍板选 A,详 docs/decisions/2026-06-10-preferences-scope-membership.md;含两条执行精确化:忠实性审查口径 + 升格管道/偏好文件不分发下游)。
+> 2026-06-11 方向变更:§8.4「hook 上岗接线」行与 §7.1 D9 接线分叉由 docs/decisions/2026-06-11-session-chain-reconciliation.md(C 案 会话链自执法)取代/消解;D9 的双层探测交付物保留(它是手工模式从根 cwd 跑通的前提)。正文不改(immutable 取向)。
 
 ## §0 偏离说明
 
