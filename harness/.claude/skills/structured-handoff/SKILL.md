@@ -74,13 +74,13 @@ mkdir -p docs/completed && cp docs/active/handoff.md "docs/completed/handoff-$(d
 
 **晋升路由表**(上架到哪):
 
-| 条目类型 | 上架住址 | 同批登记动作 |
-|---|---|---|
-| 决策 | `docs/decisions/YYYY-MM-DD-<slug>.md` | 文件名即卡;判断拐点另 append decision-trail(既有义务) |
-| 调研 / 参考 | `docs/references/YYYY-MM-DD-<slug>.md` | 目录卡(references/README.md)加行 |
-| 经验(干活规矩级) | 对应 `docs/governance/*.md` | **命中 A 组 → 走 meta-review,不得收口顺手直插**;此类条目允许"顺延"跨覆写保留 |
-| 经验(项目事实) | ARCHITECTURE.md / 模块 README | 文档随码既有规矩 |
-| 偏好 | `docs/preferences.md` | 条目带日期+用户原话引录;命中 A 组 → 走 meta-review,用户原话直录可走 skip 字段轻路径 |
+| 条目类型 | 书架格 | 上架住址 | 同批登记动作 |
+|---|---|---|---|
+| 决策 | 决策史 | `docs/decisions/YYYY-MM-DD-<slug>.md` | 文件名即卡;判断拐点另 append decision-trail(既有义务) |
+| 调研 / 参考 | 行业认知 | `docs/references/YYYY-MM-DD-<slug>.md` | 目录卡(references/README.md)加行 |
+| 经验(干活规矩级) | 干活规矩 | 对应 `docs/governance/*.md` | **命中 A 组 → 走 meta-review,不得收口顺手直插**;此类条目允许"顺延"跨覆写保留 |
+| 经验(项目事实) | 系统真相 | ARCHITECTURE.md / 模块 README | 文档随码既有规矩 |
+| 偏好 | 用户偏好 | `docs/preferences.md` | 条目带日期+用户原话引录;命中 A 组 → 走 meta-review,用户原话直录可走 skip 字段轻路径 |
 
 类型不在表(如 `[疑问]`)→ 按实质闸归并到最近的格,或问用户。
 
