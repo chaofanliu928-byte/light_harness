@@ -37,7 +37,8 @@
 ## 指针
 
 <!-- 接手要读的书;只指不抄。文法: - -> 路径 — 为什么读 -->
-- -> docs/decisions/2026-06-11-session-chain-reconciliation.md — C 案:会话链自执法,hook=工具箱(三案并排+用户原话锚点)
+- -> docs/superpowers/specs/2026-06-12-context-layer-design.md — 上下文层**现行版 spec**(整体取代 2026-06-10 版;现状权威)
+- -> docs/decisions/2026-06-11-session-chain-reconciliation.md — C 案:会话链自执法,hook=工具箱(三案并排+用户原话锚点+追记①-④)
 - -> docs/audits/meta-review-2026-06-11-222130-session-chain-reconciliation.md — 最终批 audit(销 --reconcile 五件欠账)
 - -> docs/ROADMAP.md — 上下文层节:全批进展 +「留痕待办」清单(后续处置的总索引)
 - -> docs/preferences.md — 用户偏好(4 正式+6 待补),用户挨个审查对象

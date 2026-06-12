@@ -32,7 +32,7 @@
 - **抉择(立原则 + 消解)**:用户第一性重审("不要被之前的hook影响……用第一性原理开始思考")后拍板 **C 案会话链自执法**——下一会话开场对账上一会话的收口凭证(只读账本不读流水),取代"hook 接线上岗"的 A/B 之争;hook 降级为工具箱(手工模式=正身,自动触发=从 harness/ 启动时的增强)。原则:凡只靠"怕模型不听话"撑着的机制都在贬值,凡靠结构性事实(会话必死/自评乐观/内省无效)撑着的不贬值。
 - **机制落点**:入口指令「开场两步」(M3 会话开场规程/M4 核心规则 11/AGENTS×2 对账行)+ check-meta-review `--reconcile`(已提交历史 audit 覆盖核,commit time 锚)——执法时点错位(C6)被对账吸收。
 - **link**:`docs/decisions/2026-06-11-session-chain-reconciliation.md` + audit `docs/audits/meta-review-2026-06-11-222130-session-chain-reconciliation.md`
-- **追注(2026-06-12)**:自仓库接线已撤(decision 追记①),上行"自动触发=从 harness/ 启动时的增强"路径不再存在,hook=纯工具箱;F1 时间锚修法撤案,对账全面改纯状态判据(追记③)。
+- **追注(2026-06-12)**:自仓库接线已撤(decision 追记①),上行"自动触发=从 harness/ 启动时的增强"路径不再存在,hook=纯工具箱;F1 时间锚修法撤案,台账对账(check-handoff --reconcile)改纯状态判据、audit 覆盖对账(check-meta-review)持 commit time 锚(追记③)。
 
 ## 2026-06-11 — 上下文层批 1:晋升门禁上线(防遗忘从纪律转机制)
 

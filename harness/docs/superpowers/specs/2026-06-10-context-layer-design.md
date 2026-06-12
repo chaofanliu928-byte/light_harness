@@ -1,5 +1,7 @@
 # 模型无关的上下文/知识/交接层 系统设计
 
+> ⚠️ **已被 `docs/superpowers/specs/2026-06-12-context-layer-design.md` 整体取代**(2026-06-12,用户拍板"新 spec 整体取代",见 `docs/decisions/2026-06-11-session-chain-reconciliation.md` 追记④)。本文件转**考古层**:设计论证、D1-D17 完整推理、批次史、残留缺口原始定义住此;**现状以新版为准**。正文不删改(immutable)。
+
 > 状态:**已锁定**(2026-06-11)。流程:design-review 第 1 轮(4 挑战者)不通过 → 修订轮(R1-R8+建议项)→ 聚焦重审(2 核查员)不通过 → 微补丁轮(9 项,消费点枚举纪律)→ 最终合并复核**通过**。审查留痕:docs/active/design-review-result.md。非阻塞备忘:§6.1 实现批补 skipped 正例 fixture。锁定后微修正 ×2(2026-06-11,planner 停点:SETUP_NEEDED×注入交互,提示不中断;本文件本节留痕,详 §8.0 #1;×2 2026-06-11:C1 文法块去"弃置=0 即"误导前缀+空格修复,SKILL/spec 双块三处归一,详任务 5 质量审查)。
 > 规模:重量级(完整设计文档,所有节必填)。
 > 需求源:调度者嵌入的需求确认清单(已锁定);证据地基:references/2026-06-10-* 四份文献(引用带 文件:行;"analysis" = 2026-06-10-handoff-kb-integration-analysis.md,"literature-map" = 2026-06-10-literature-map-llm-wiki-knowledge-org.md,"opensource-map" = 2026-06-10-opensource-memory-solutions-map.md)。

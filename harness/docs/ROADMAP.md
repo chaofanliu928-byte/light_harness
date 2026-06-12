@@ -66,7 +66,7 @@
 - check-context-chain 把 `templates/context/README.md` 内 code-fence 示例 upstream 当真节点 → 下游日 0 假断链告警(前置问题,任务18 审查发现)
 - M4「架构」段指向 `docs/decisions/2026-04-16-fork-flat-refactor.md` 未分发 → 下游悬空引用(前置问题)
 - check-handoff 锚点核 `-f`→`-e` 收紧候选(批0 audit 观察①,维持 Minor);I5 软扫 maxdepth 1 vs I4 case 含子目录的深度不对称(references/ 现无子目录,硬严于软方向安全)
-- preferences.md:条 4 压缩掉「除非他明确要我挑错」例外待补;「有原话无日期」升格路径未定义——**用户挨个审查偏好条目时一并处理**(批1 任务14 审查 Minor)
+- preferences.md:✅ 两 Minor 已处理(2026-06-12 用户挨个审查拍板:条 4 例外补回 + [日期不详] 升格规则入文法注,commit af45787);余 6 条待补原话(用户随时口述即升格)
 - QUICKREF/README 导航缓刑部分解除:hook 行/skill 行/关键文件行已随批 1 finishing 同批修正(事实性错误部分);全树/导航重构仍按未触及备忘缓刑
 - --reconcile 后续优化候选(任务 20 审查 I2/I3/N2):「有效 audit M 份」计数是全史口径与近窗 N 并列易误读;性能 O(audit×covers) 随 audit 数线性涨(现 ~35s/次,可合并为单次 git log 遍历);窗口起点输出裸 epoch 人读不友好
 - M3「会话开场规程」内联的两条手工校验命令与根 AGENTS.md「手工校验」节构成第三份拷贝,无声明的同步义务(任务 21 审查 Minor)——改 hook 路径/调用形态时记得三处同改;后续可补显式双写声明

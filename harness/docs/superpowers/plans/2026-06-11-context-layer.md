@@ -8,7 +8,7 @@
 
 **Tech Stack:** bash(POSIX,禁 gawk 扩展)+ markdown 纯文件约定 + Claude Code hooks/skills(增强层;地基纯文件+可手工跑脚本+git)
 
-**锁定 spec(唯一权威源):** `harness/docs/superpowers/specs/2026-06-10-context-layer-design.md`(872 行,已锁定 2026-06-11)
+**锁定 spec(唯一权威源):** `harness/docs/superpowers/specs/2026-06-10-context-layer-design.md`(872 行,已锁定 2026-06-11;**2026-06-12 已被现行版 `2026-06-12-context-layer-design.md` 整体取代**——本行保留为计划执行期间的权威源留痕)
 **审查留痕:** `harness/docs/active/design-review-result.md`(R1-R7 全修复;计划中对曾出问题的点给对应验证,见各任务「审查回归点」)
 
 ---
