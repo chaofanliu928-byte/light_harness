@@ -4,6 +4,7 @@
 > **取代关系**:整体取代 `docs/superpowers/specs/2026-06-10-context-layer-design.md`(874 行设计稿;用户拍板「新 spec 整体取代」,decision 追记④,原话: "这个更好")。旧 spec 顶部加 ⚠️ 取代横幅后转**考古层**(设计论证/接口伪码/边界 B1-B20/测试策略/专项 A-K 的完整推理住那里,本文件不复述)。
 > **考古指针**:旧 spec + `docs/decisions/2026-06-10-preferences-scope-membership.md`(D11)+ `docs/decisions/2026-06-11-session-chain-reconciliation.md`(C 案,含追记①-④——现行执法哲学权威)+ 三份批级 audit `docs/audits/meta-review-2026-06-11-{135802,182559,222130}-*.md` + plan `docs/superpowers/plans/2026-06-11-context-layer.md`(23 任务)。
 > **锁定性质**:沿既有 spec 惯例**单件 immutable**(与九格表格 2「spec 单件 immutable」一致)——笔误级微修正走本状态头留痕;再有方向级变化 → 新 decision + 新版 spec 整体取代本文件(与本文件取代 2026-06-10 版同一模式)。
+> 微修正 ×1(2026-06-12,批审 P1/P4):§10 表 row3 去已撤案的"先修 F1"旧语改指 §7;§7 追记③引录改逐字(AI 释义移出引号)。
 > **路径约定**:文内 `docs/...`、`.claude/...` 以 `harness/` 为基准(与台账锚点写法同形);仓库根文件写「根 CLAUDE.md」「根 AGENTS.md」。
 
 ## §1 目标与第一性事实
@@ -102,7 +103,7 @@
 
 **下游经接线自动触发**(增强层):`templates/settings.json` 是下游 settings 唯一来源——SessionStart=session-init.sh(注入入口地图行+台账全文,≤80 行超限照注+stderr 提示;SETUP_NEEDED 提示不中断;其余既有注入段不变);Stop=check-handoff.sh / check-shelf-registry.sh / check-evidence-depth.sh / check-context-chain.sh;PostToolUse=prettier+check-module-docs.sh。
 
-**60 分钟窗 = 自动 Stop 模式限噪器**(仅此定位,追记③):Stop 每会话末必触发,无窗会对历史归档反复索债;窗内 = 覆写信号在场 → 硬核 promotion(exit 2 带修法引导);超窗不硬核——由 --reconcile 开场对账(全时核)兜。**F1 假点燃重定性为良性**(追记③):git clone/worktree 刷新归档件 mtime 误燃覆写信号,但台账 v2 后 clone 拿到的必是已提交状态、必带合法 promotion,检查空转通过;"git 时间锚"修法撤案(用户判定:与 mtime "一个性质(时间邻近代理),不上不下")。
+**60 分钟窗 = 自动 Stop 模式限噪器**(仅此定位,追记③):Stop 每会话末必触发,无窗会对历史归档反复索债;窗内 = 覆写信号在场 → 硬核 promotion(exit 2 带修法引导);超窗不硬核——由 --reconcile 开场对账(全时核)兜。**F1 假点燃重定性为良性**(追记③):git clone/worktree 刷新归档件 mtime 误燃覆写信号,但台账 v2 后 clone 拿到的必是已提交状态、必带合法 promotion,检查空转通过;"git 时间锚"修法撤案(用户判定与 mtime 同为时间邻近代理,原话: "其实一个性质,有点不上不下")。
 
 其余工具箱成员现状:check-evidence-depth(feature 收口闸,双层探测已补)/ check-context-chain(下游活链校验,自仓库无 docs/context/ 即静默——dogfood 边界不动)/ check-module-docs / session-init(双层探测+例外形不退出)/ check-meta-review、check-meta-cross-ref(meta 件,前缀过滤不分发)。所有脚本自含双层探测样板不抽公共件(D17:单文件可独跑是跨运行时硬前提)。
 
@@ -139,7 +140,7 @@
 |---|------|------------|
 | 1 | 无痕跳过(什么都不写不归档)任何检查测不出 | 归档前置 + git 兜底(接受的边界) |
 | 2 | 连入口文件都不加载的运行时,指令层失效 | 该环境 hook 同样不存在;文件本身可考古 |
-| 3 | 对账本身是指令,依赖下一会话遵从 | 多级兜底:finishing 也核、meta-review 也核、git 永远在;C 案不烧接电的桥(接电随时可补,先修 F1) |
+| 3 | 对账本身是指令,依赖下一会话遵从 | 多级兜底:finishing 也核、meta-review 也核、git 永远在;C 案不烧接电的桥(接电随时可补;F1 已重定性良性,详 §7) |
 | 4 | audit 对账窗口是 C6 时间窗变体:欠账滑出窗且连续多会话不对账 → 机器不再点名 | finishing/meta-review/git 考古兜(注:台账侧对账已是纯状态判据无窗口,追记③;本条余 check-meta-review 侧) |
 
 **机器测不到的覆写/登记缺口**(旧 spec B1/B2/B6/B18/B19/B20,显式声明非已解决):漏记(没写的东西测不出,SKILL 兜底一问+归档考古兜)/ 锚点非空但低质(hook 不判内容,对抗审查兜)/ 不归档直接覆写(git 兜)/ stale-已核(照抄上轮声明,审查抽查 git log 兜)/ 留痕件漏日期前缀(research-scout 红线+目录卡盘点兜)。B19(超窗静默)改形:Stop 模式仍超窗不硬核,但 --reconcile 全时核接住"下一会话有对账"的链路;残余 = 既不触发 Stop 也不跑对账的窗口。

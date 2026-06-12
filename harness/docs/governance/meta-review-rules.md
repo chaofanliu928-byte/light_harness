@@ -120,7 +120,7 @@
 
 #### (b) audit 必产
 
-- 缺 audit = 等价于未走流程,M15 Stop hook 检出 git diff 命中 scope 但无 audit covers 的文件 → 引导补 audit/补 skip 理由
+- 缺 audit = 等价于未走流程,M15 Stop hook 检出 git diff 命中 scope 但无 audit covers 的文件 → 引导补 audit/补 skip 理由(Stop 自动检出仅限接线环境;自仓库 C 案撤接线后由下一会话 `check-meta-review.sh --reconcile` 开场对账承载——2026-06-12 注,详 decisions/2026-06-11-session-chain-reconciliation.md)
 - audit 产物规范见本文件 §7
 
 #### (c) 失败处理
@@ -128,7 +128,7 @@
 - **fork 失败**:调度者按本文件 pattern 节内的角色定义,在单 context 内分角色审查;audit trail 标 `⚠️ 降级执行,独立性未达`
 - **挑战者漏选最低必选维度**:agent prompt B 段静态嵌入(详本文件 §6) + 调度者 Step 1 自检 C 段未禁 minimum;audit trail 中 `dimensions.recommended_enabled` / `minimum_required` 字段空白由 hook 后续检
 - **挑战者 prompt 超 §4 字节软上限**:调度者按 spec §3.1.5 拆分多轮 fork(每轮覆盖维度子集)
-- **audit trail 未产出**:违反 scope 规则,M15 Stop hook 在 session 末检出
+- **audit trail 未产出**:违反 scope 规则,M15 Stop hook 在 session 末检出(自仓库:由下一会话 --reconcile 对账检出,同上 2026-06-12 注)
 
 ---
 
