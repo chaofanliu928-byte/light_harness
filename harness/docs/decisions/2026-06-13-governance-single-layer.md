@@ -59,3 +59,8 @@ meta 治理比正常治理多一层:两套 finishing(M1/M5)、两套审查规则
 ## 后续
 
 spec(designer 落稿)→ 自检 → design-review → writing-plans → 分批实施;收尾 checkpoint 用改名后的对账工具核出本批自己的凭证(制度自证)。
+
+## 追记(2026-06-13 spec 审阅轮,用户拍板二项 — 原文不删改,以本节为准)
+
+- **凭证字段名全换**:`meta-review: true` → **`audit: true`**,含 21 份历史凭证**同批格式迁移**(仅 frontmatter 一行替换,covers 与正文零碰,git 历史保留原貌)。依据 = 用户立的解释:**immutable 保护的是内容,纯格式迁移不算改**(原话:"换,并且全换,我们不改内容,这个应该是格式问题,这样也不会出现两个章。")。工具回归单一解析路径,原"保留字段名"默认读法作废。边界:**文件名不换**(meta-review-*.md 留名,收集 glob 双前缀)——文件名被 decisions/ROADMAP/decision-trail/归档台账大量引用,改名即迫改 immutable 内容或制造死链,恰违"不改内容";字段是文件内部水管,无外部引用。防护:迁移前后各跑一次全窗对账留对照,欠账集合不得因迁移缩小(迁移刷新凭证 commit time,防掩蔽 stale 覆盖)。
+- **check-meta-cross-ref.sh 删除**(原话:"删除"):不改名不保留,git rm(git 史可捞回)。互引守法全归审查「触点完整性维」+ 同批耦合纪律;`## meta-cross-ref: skipped` 字段随之彻底消亡;setup.sh 无需任何点名排除;原"改名保留+PAIRS 扩边"方案(第一性重推 4 的工具箱形态)作废。依据 = 第一性"机器值得存在=形式可判×高频/高损",两条均不满足。
