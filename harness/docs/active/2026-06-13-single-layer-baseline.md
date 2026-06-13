@@ -4,7 +4,7 @@
 
 ## 基线 commit
 - 基线 HEAD: 671717763041e41d2f3e449190a58f51975a155c(= plan 入库 commit 6717177)
-- 批 1 首个实施 commit: <任务 2 commit 后回填——V8 covers 汇编起点>
+- 批 1 首个实施 commit: 本 commit(credentials-rules.md 新件,与本登记簿回填同 commit)——V8 covers 汇编起点
 
 ## 基线全窗对账输出(旧工具 check-meta-review.sh --reconcile 99999,逐字粘贴)
 
