@@ -18,7 +18,8 @@
 
 ### 进行中
 - **治理同层化批 1+2 完成**(2026-06-13):批1=基线(4805a4c)+credentials-rules.md(1a60329)。批2=机器面原子换轨(745c03c:工具改名+conf改名+21件字段迁移audit:true+cross-ref删+命令行三处,V1 fixture 红1→绿10 过审)+setup分发改造(fc85321,V3六断言绿)+L48术语补(c9b7d9c)。G2 迁移对照:缩小集合7件全归因洗活、无abort、有效凭证16→20(归因留痕在基线登记簿)。
-- 批 3 待开(文本合并):finishing-rules/review-rules 改造+四 SKILL 模板下放+contracts-locked 注记;M1/M2 本体保留(git rm 挪批4末)。
+- **批 3 完成**(文本合并):finishing-rules 唯一收口(b820547)+review-rules 唯一审查(41210ce)+四 SKILL 模板下放(8fe440a)+contracts-locked 退役注记(f7f0967)。两段审查 Approved;V9 逐字迁移保真核过(M1 StepC/M2 触点维+三段 pattern 字节级保真,实证段不摘);三件套互引 6 条 OK。M1/M2 本体仍在盘(批 4 末 git rm)。
+- 批 4 待开(地图清扫+退役件删除):M3 三节删除+单表化/M4/QUICKREF/README×2/AGENTS 硬规矩/agents×5/references×3/上下文层 spec 注记 → **末位 git rm M1/M2**(先改全部指针后删本体)+V3 复跑+V5+V6。
 
 ### 阻塞
 无。
