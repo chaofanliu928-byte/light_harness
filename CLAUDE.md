@@ -62,8 +62,8 @@
 
 ## 上下文层地图行
 
-- **agent 第 0 步地图(跨运行时)**:`/AGENTS.md`(仓库根;下游分发版 `harness/templates/AGENTS.md`——两份共享核(接手顺序/硬规矩引用/九格表结构)**同批改**,spec §4.1.5 双写同步义务,与 M3↔M17 双写约束同款)
-- **用户偏好(协作方式)**:`harness/docs/preferences.md`(仓内权威住址,memory 为缓存镜像;改动命中 A 组 → meta-review,审查口径 = 忠实性对照用户原话锚点 — D11)
+- **agent 第 0 步地图(跨运行时)**:`/AGENTS.md`(仓库根;下游分发版 `harness/templates/AGENTS.md`——两份共享核(接手顺序/硬规矩引用/九格表结构)**同批改**,spec §4.1.5 双写同步义务;同类双写对见 credentials-rules §8)
+- **用户偏好(协作方式)**:`harness/docs/preferences.md`(仓内权威住址,memory 为缓存镜像;改动命中 credentials.conf → 须 audit 凭证(治理审查),审查口径 = 忠实性对照用户原话锚点 — D11)
 
 ## 会话开场规程(会话链自执法 — 下一会话是上一会话的验收者)
 
