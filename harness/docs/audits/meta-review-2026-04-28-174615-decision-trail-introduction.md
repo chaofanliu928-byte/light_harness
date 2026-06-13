@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - docs/governance/finishing-rules.md
   - docs/governance/meta-finishing-rules.md

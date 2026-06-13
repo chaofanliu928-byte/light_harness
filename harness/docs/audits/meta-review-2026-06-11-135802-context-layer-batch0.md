@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - setup.sh
   - .claude/skills/structured-handoff/SKILL.md

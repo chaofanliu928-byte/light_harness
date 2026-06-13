@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - harness/.claude/skills/session-search/SKILL.md
   - harness/.claude/skills/structured-handoff/SKILL.md

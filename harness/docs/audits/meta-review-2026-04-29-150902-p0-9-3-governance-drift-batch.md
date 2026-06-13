@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - .claude/hooks/check-meta-cross-ref.sh
   - .claude/hooks/check-meta-cross-ref-commit.sh

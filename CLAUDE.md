@@ -134,8 +134,8 @@
 2. **对账**(核上次收口的凭证——只读账本不读流水;欠账先补再开新工作):
    - `bash harness/.claude/hooks/check-handoff.sh --reconcile`(全时核台账凭证:文法/锚点/登记/状态判据)
    - `echo '{}' | bash harness/.claude/hooks/check-shelf-registry.sh`(落库登记)
-   - `bash harness/.claude/hooks/check-meta-review.sh --reconcile`(已提交 scope 改动的 audit 覆盖)
-   - 欠账处置:缺 audit → 按 M2 补 meta-review;漏登记 → 补目录卡行;promotion 不合形 → 走 /structured-handoff 重新清账
+   - `bash harness/.claude/hooks/check-audit-coverage.sh --reconcile`(已提交凭证义务改动的 audit 覆盖)
+   - 欠账处置:缺凭证 → 按 review-rules 维度选择表治理行补审产 audit,或(豁免边界内)exempt 微 audit;漏登记 → 补目录卡行;promotion 不合形 → 走 /structured-handoff 重新清账
 
 依据:`harness/docs/decisions/2026-06-11-session-chain-reconciliation.md`(C 案;hook=工具箱,手工模式为正身)
 

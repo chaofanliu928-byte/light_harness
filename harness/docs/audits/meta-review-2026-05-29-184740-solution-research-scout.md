@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - harness/.claude/agents/research-scout.md
   - harness/docs/governance/brainstorming-rules.md

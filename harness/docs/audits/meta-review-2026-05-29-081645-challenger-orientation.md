@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - harness/docs/references/challenger-orientation.md
   - harness/.claude/agents/design-reviewer.md

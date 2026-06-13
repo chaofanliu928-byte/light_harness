@@ -13,8 +13,8 @@
 0. 本文件(实物在 harness/ 下)→ 1. 读 harness/docs/active/handoff.md(台账:状态+指针;台账内指针写 docs/... 相对路径,基准 = harness/)→ 2. 顺指针 Read 本体
 → 3. 找没有指针的东西: harness/docs/references/README.md(目录卡)/ ls harness/docs/decisions/(文件名即卡)
 → 4. 治理与角色规则: 根 CLAUDE.md(Claude Code 自动加载;其他运行时手动读)
-- meta 治理(自仓库专属): 根 CLAUDE.md(M3)scope 分流
-- 开场对账(步 1 读完台账后):跑下方「手工校验」两命令 + `bash harness/.claude/hooks/check-meta-review.sh --reconcile`;欠账先补再干活(会话链自执法,详 harness/docs/decisions/2026-06-11-session-chain-reconciliation.md)
+- 凭证义务(治理面改动须 audit 凭证): 权威单入口 harness/docs/governance/credentials-rules.md(机器版 harness/.claude/hooks/credentials.conf)
+- 开场对账(步 1 读完台账后):跑下方「手工校验」三命令;欠账先补再干活(会话链自执法,详 harness/docs/decisions/2026-06-11-session-chain-reconciliation.md + 2026-06-13-governance-single-layer.md)
 
 ## 九格住址表(+ 各格生命周期型)
 
@@ -40,5 +40,6 @@
 
 - bash harness/.claude/hooks/check-handoff.sh --reconcile
 - echo '{}' | bash harness/.claude/hooks/check-shelf-registry.sh
+- bash harness/.claude/hooks/check-audit-coverage.sh --reconcile
 
 (hook 是 Claude Code 增强层;换运行时丢自动触发,不丢可校验性)

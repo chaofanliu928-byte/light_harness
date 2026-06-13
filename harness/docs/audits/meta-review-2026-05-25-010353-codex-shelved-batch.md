@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - docs/governance/model-route.md
   - docs/governance/synthesis-rules.md

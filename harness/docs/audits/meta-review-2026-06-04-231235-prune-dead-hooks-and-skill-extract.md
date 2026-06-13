@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - harness/.claude/hooks/check-finishing-skills.sh
   - harness/.claude/hooks/check-meta-commit.sh

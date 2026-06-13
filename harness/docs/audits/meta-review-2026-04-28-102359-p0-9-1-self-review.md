@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - CLAUDE.md
   - harness/.claude/agents/design-reviewer.md

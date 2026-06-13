@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - harness/docs/governance/synthesis-rules.md
   - harness/docs/governance/meta-review-rules.md

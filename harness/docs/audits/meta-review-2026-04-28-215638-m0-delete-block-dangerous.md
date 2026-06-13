@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - .claude/settings.json
   - templates/settings.json

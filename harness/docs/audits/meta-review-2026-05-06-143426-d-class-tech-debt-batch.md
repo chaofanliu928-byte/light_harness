@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 trial: P0.9.3 第二个 trial — D 类技术债 batch(D1+D4)
 date: 2026-05-06
 spec: docs/superpowers/specs/2026-04-30-d-class-tech-debt-batch-design.md

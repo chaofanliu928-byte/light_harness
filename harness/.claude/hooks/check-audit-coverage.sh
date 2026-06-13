@@ -1,24 +1,25 @@
 #!/bin/bash
-# check-meta-review.sh
-# M15 — 双模式(C 案会话链自执法,2026-06-11 起):
+# check-audit-coverage.sh
+# 凭证覆盖核对(audit coverage)— 双模式:Stop 执法(增强层,当前无任何仓库接线)
+#   + `--reconcile` 开场对账(工具箱,主用形态)。治理同层化(2026-06-13)起,工具
+#   从"meta scope 分流执法"降格为"凭证覆盖核对":读 credentials.conf 两字段行格式、
+#   双前缀收集审查凭证、单一 frontmatter 文法(audit: true)、认 exempt 微 audit。
 #
 # 模式 1(无参数)— Stop 执法(增强层):
-#   每次 session 末扫 git diff(未提交),若改动命中 .claude/hooks/meta-scope.conf
-#   内 glob 但无对应 meta-review audit 覆盖、且 handoff 内无非空 skip 理由,
-#   则阻断 stop 并 stderr 引导补 audit 或写 skip 理由。
+#   每次 session 末扫 git diff(未提交),若改动命中 .claude/hooks/credentials.conf
+#   内 glob(凭证类型 audit)但无对应审查凭证覆盖,则阻断 stop 并 stderr 引导补 audit。
 #
 # 模式 2(--reconcile [天数])— 手工对账(工具箱,开场对账用):
-#   bash check-meta-review.sh --reconcile [天数]
-#   扫已提交历史(git log)中命中 scope 的文件,对照有效 audit covers 并集,
+#   bash check-audit-coverage.sh --reconcile [天数]
+#   扫已提交历史(git log)中命中凭证义务的文件,对照有效 audit covers 并集,
 #   stderr 输出账齐(带计数)/欠账(逐文件点名);恒 exit 0(输出给 AI 读,不阻断)。
 #   - 失效锚点(对账专用):audit 自身最后 commit time(未提交/未跟踪才 mtime 兜底);
 #     covered 文件最新 commit time ≤ audit commit time → 有效
 #     (finishing 惯例:audit 与同批修订同 commit 打包,commit time 相等,≤ 判有效)
 #   - 窗口:显式天数(正整数)→ --since="N days ago";缺省 → 仓库最新**已提交**
-#     audit 的最后 commit time(untracked/未提交 audit 不参与窗口锚竞选,
-#     防 mtime=当下掩蔽已提交欠账 — 审查 I1;无已提交 audit → 30 天前)
-#   - 忽略 handoff 的 `## meta-review: skipped`(skip 只豁免 Stop 执法,不豁免已提交欠账)
-#   详见 docs/decisions/2026-06-11-session-chain-reconciliation.md(C 案)。
+#     正式 audit 的最后 commit time(untracked/未提交 audit、process-audit 报告、
+#     verdict: exempt 凭证均不参与窗口锚竞选,防 mtime=当下/窄豁免掩蔽已提交欠账
+#     — 审查 I1;无已提交正式 audit → 30 天前)
 #
 # 协议(Claude Code Stop hook,模式 1):
 #   - 输入:stdin JSON,字段 stop_hook_active(bool)等
@@ -28,28 +29,27 @@
 #   stop_hook_active == true 时直接 exit 0(参考 check-handoff.sh 范式)。
 #
 # 错误处理(graceful degrade,与 check-handoff.sh / check-evidence-depth.sh 范式一致):
-#   - meta-scope.conf 缺失/损坏 → stderr warning + exit 0
+#   - credentials.conf 缺失/损坏 → stderr warning + exit 0
 #   - audit YAML 解析失败 → stderr warning + 视该 audit 不存在,继续处理其他
 #   - 非 git 仓库 / git diff 调用失败 → exit 0(--reconcile 下另加 stderr 一行提示)
 #   - 依赖工具缺失(jq/awk/grep/sed/git/stat)→ stderr warning + exit 0
-#   - 唯一 exit 2 路径(仅模式 1):逻辑确认 uncovered 非空 + 无有效 skip 理由
+#   - 唯一 exit 2 路径(仅模式 1):逻辑确认 uncovered 非空
 #   - --reconcile 分支恒 exit 0,无任何 exit 2 路径
 #
 # 已知问题(独立待办,本文件不修不扩散):extract_covers 用 gawk 三参数 match
 # 扩展语法,非 gawk 环境(mawk / busybox awk)解析失败 → 该 audit 视为不贡献
 # covers;--reconcile 分支仅复用该函数,不新增 gawk 扩展语法。
 #
-# spec 锚点:§3.1.9(hook 执法契约)+ §4.1.5(audit covers 失效规则)
+# spec 锚点:docs/superpowers/specs/2026-06-13-governance-single-layer-design.md
+#   + decisions/2026-06-13-governance-single-layer.md(治理同层化:工具降格 + 凭证覆盖)
 #   + decisions/2026-06-11-session-chain-reconciliation.md(对账模式)
-# 第七轮 fix-9:
-#   (iii) covered_files = ⋃ {audit covers 实际列出的文件}(不是"主题相关即覆盖")
-#   (v)   只排除流程产出物(audit / archive),不排除治理文件(meta-* / scope.conf)
+# covers 并集语义:covered_files = ⋃ {audit covers 实际列出的文件}(不是"主题相关即覆盖");
+#   排除流程产出物(audit / archive)避免自循环。
 #
 # 依赖:
 #   bash, jq, awk, grep, sed, git, stat(GNU 或 BSD,自动适配)
 #
-# 命名约定:
-#   前缀 check-meta- 触发 setup.sh 命名前缀过滤(D12),不分发下游。
+# 分发:无前缀,随 setup.sh hooks 循环分发下游(A 彻底同层;原 D12 命名前缀过滤已退役)。
 
 set -u
 
@@ -86,7 +86,7 @@ if [ "$RECONCILE" -eq 0 ]; then
             exit 0
         fi
     else
-        echo "⚠️ jq 缺失,check-meta-review.sh 降级跳过" >&2
+        echo "⚠️ jq 缺失,check-audit-coverage.sh 降级跳过" >&2
         exit 0
     fi
 fi
@@ -115,7 +115,7 @@ cd "$WORK_DIR" 2>/dev/null || exit 0
 
 for tool in awk grep sed git; do
     if ! command -v "$tool" >/dev/null 2>&1; then
-        echo "⚠️ $tool 缺失,check-meta-review.sh 降级跳过" >&2
+        echo "⚠️ $tool 缺失,check-audit-coverage.sh 降级跳过" >&2
         exit 0
     fi
 done
@@ -137,17 +137,22 @@ if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 fi
 
 # ============================================================================
-# 3. 解析 M17 meta-scope.conf
+# 3. 解析 credentials.conf(两字段行格式:<glob> <凭证类型>;! 前缀为排除无类型)
 # ============================================================================
 
-SCOPE_CONF=".claude/hooks/meta-scope.conf"
+CRED_CONF=".claude/hooks/credentials.conf"
 
-if [ ! -r "$SCOPE_CONF" ]; then
-    echo "⚠️ meta-scope.conf 不可读" >&2
+if [ ! -r "$CRED_CONF" ]; then
+    echo "⚠️ credentials.conf 不可读" >&2
     exit 0
 fi
 
-# 分离 include glob 与 exclude glob(! 前缀);跳过 # 注释 + 空行
+# 分离 include glob(凭证类型 audit)与 exclude glob(! 前缀);跳过 # 注释 + 空行
+# 行格式:非排除行按第一个空白切 glob + type:
+#   type=audit         → 入 INCLUDE_GLOBS(本工具消费)
+#   type ∈ {design-review, test} → 跳过(参数位预留,本工具不消费)
+#   type 为空(单字段行)→ warning + 按 audit 处理(fail-closed)
+#   type 为其他未知值  → warning + 按 audit 处理(fail-closed,与缺类型同路径)
 INCLUDE_GLOBS=()
 EXCLUDE_GLOBS=()
 
@@ -162,17 +167,38 @@ while IFS= read -r line || [ -n "$line" ]; do
     case "$line" in
         \#*) continue ;;
     esac
-    # 分类
+    # 排除行:! 前缀,无类型字段(解析不变)
     if [ "${line:0:1}" = "!" ]; then
         EXCLUDE_GLOBS+=("${line:1}")
-    else
-        INCLUDE_GLOBS+=("$line")
+        continue
     fi
-done < "$SCOPE_CONF"
+    # 非排除行:按第一个空白切 glob + type
+    glob="${line%%[[:space:]]*}"
+    rest="${line#"$glob"}"
+    # trim type 段前导空白
+    ctype="${rest#"${rest%%[![:space:]]*}"}"
+    ctype="${ctype%"${ctype##*[![:space:]]}"}"
+    case "$ctype" in
+        audit)
+            INCLUDE_GLOBS+=("$glob")
+            ;;
+        design-review|test)
+            # 参数位预留,本工具不消费,跳过
+            ;;
+        "")
+            echo "⚠️ credentials.conf 行缺凭证类型字段,按 audit 处理: $line" >&2
+            INCLUDE_GLOBS+=("$glob")
+            ;;
+        *)
+            echo "⚠️ credentials.conf 行凭证类型未知($ctype),按 audit 处理(fail-closed): $line" >&2
+            INCLUDE_GLOBS+=("$glob")
+            ;;
+    esac
+done < "$CRED_CONF"
 
 # 若 conf 解析后无任何 include glob,视为损坏 / 空配置
 if [ "${#INCLUDE_GLOBS[@]}" -eq 0 ]; then
-    echo "⚠️ meta-scope.conf 无任何 include glob,降级跳过" >&2
+    echo "⚠️ credentials.conf 无任何 audit include glob,降级跳过" >&2
     exit 0
 fi
 
@@ -231,10 +257,11 @@ is_in_scope() {
 }
 
 # ============================================================================
-# 4.5. audit 解析辅助(extract_covers / is_meta_review_audit / collect_audit_files)
+# 4.5. audit 解析辅助(extract_covers / is_audit_credential / extract_verdict
+#       / collect_audit_files)
 # ============================================================================
 # 原 §6 内联定义/内联收集,为 --reconcile 分支可复用而前移为函数;
-# Stop 路径(§6 调用)行为不变。
+# Stop 路径(§6 调用)行为不变。frontmatter 单一文法:audit: true(无双字段兼容)。
 
 # 提取单 audit 的 covers 数组(YAML frontmatter)
 # 输出每行一个 covers 路径
@@ -244,7 +271,7 @@ extract_covers() {
         return
     fi
     awk '
-        BEGIN { in_fm=0; in_covers=0; meta_review=0; have_fm=0 }
+        BEGIN { in_fm=0; in_covers=0; audit_cred=0; have_fm=0 }
         # frontmatter 边界:首行 --- 起,第二个 --- 止
         /^---[[:space:]]*$/ {
             if (in_fm == 0 && have_fm == 0) {
@@ -254,9 +281,9 @@ extract_covers() {
             }
         }
         in_fm == 1 {
-            # meta-review: true 检
-            if (match($0, /^[[:space:]]*meta-review[[:space:]]*:[[:space:]]*true[[:space:]]*$/)) {
-                meta_review = 1; next
+            # audit: true 检
+            if (match($0, /^[[:space:]]*audit[[:space:]]*:[[:space:]]*true[[:space:]]*$/)) {
+                audit_cred = 1; next
             }
             # covers: 起
             if (match($0, /^[[:space:]]*covers[[:space:]]*:[[:space:]]*$/)) {
@@ -281,14 +308,14 @@ extract_covers() {
             }
         }
         END {
-            # 若 meta-review 不为 true,清空(但 awk 已 print,无法回退;
-            # 由调用方再次校验更稳妥 — 此处我们靠下游 grep meta-review: true)
+            # 若 audit 不为 true,清空(但 awk 已 print,无法回退;
+            # 由调用方再次校验更稳妥 — 此处靠下游 is_audit_credential 校验)
         }
     ' "$audit_file" 2>/dev/null
 }
 
-# 校验 audit 是否有 meta-review: true
-is_meta_review_audit() {
+# 校验 audit 是否有 audit: true(单一文法,无双字段兼容)
+is_audit_credential() {
     local audit_file="$1"
     awk '
         BEGIN { in_fm=0; have_fm=0; ok=0 }
@@ -296,7 +323,7 @@ is_meta_review_audit() {
             if (in_fm == 0 && have_fm == 0) { in_fm = 1; have_fm = 1; next }
             else if (in_fm == 1) { in_fm = 0; exit }
         }
-        in_fm == 1 && /^[[:space:]]*meta-review[[:space:]]*:[[:space:]]*true[[:space:]]*$/ {
+        in_fm == 1 && /^[[:space:]]*audit[[:space:]]*:[[:space:]]*true[[:space:]]*$/ {
             ok = 1
         }
         END { exit (ok == 1 ? 0 : 1) }
@@ -304,15 +331,32 @@ is_meta_review_audit() {
     return $?
 }
 
+# 提取单 audit 的 verdict(仅识别 exempt;frontmatter 内 verdict: exempt → 输出 exempt,
+# 否则空)。供窗口锚竞选排除 exempt(point 11)与对账 exempt 计数(point 6)用。
+extract_verdict() {
+    local audit_file="$1"
+    [ -r "$audit_file" ] || return
+    awk '
+        BEGIN { in_fm=0; have_fm=0 }
+        /^---[[:space:]]*$/ {
+            if (in_fm == 0 && have_fm == 0) { in_fm = 1; have_fm = 1; next }
+            else if (in_fm == 1) { in_fm = 0; exit }
+        }
+        in_fm == 1 && /^[[:space:]]*verdict[[:space:]]*:[[:space:]]*exempt[[:space:]]*$/ {
+            print "exempt"; exit
+        }
+    ' "$audit_file" 2>/dev/null
+}
+
 # 收集所有 audit 文件:主目录 + archive INDEX.md(若存在)→ 全局数组 AUDIT_FILES
 collect_audit_files() {
     AUDIT_FILES=()
 
-    # 主目录
+    # 主目录(双前缀:新名 audit-*.md + 历史名 meta-review-*.md)
     if [ -d "docs/audits" ]; then
         while IFS= read -r f; do
             [ -n "$f" ] && AUDIT_FILES+=("$f")
-        done < <(find "docs/audits" -maxdepth 1 -type f -name "meta-review-*.md" 2>/dev/null)
+        done < <(find "docs/audits" -maxdepth 1 -type f \( -name "audit-*.md" -o -name "meta-review-*.md" \) 2>/dev/null)
     fi
 
     # archive INDEX.md(若存在,解析其中表格行第 1 列 audit 路径)
@@ -321,9 +365,9 @@ collect_audit_files() {
         # 简易表格解析:行格式 `| path | ... |`,跳过 header / separator
         while IFS= read -r path; do
             [ -z "$path" ] && continue
-            # 仅当文件存在且为 meta-review-*.md
+            # 仅当文件存在且为 audit-*.md(新名)或 meta-review-*.md(历史名)
             case "$path" in
-                *meta-review-*.md)
+                *audit-*.md|*meta-review-*.md)
                     if [ -r "$path" ]; then
                         AUDIT_FILES+=("$path")
                     fi
@@ -352,8 +396,7 @@ collect_audit_files() {
 #       加 <root>/ sentinel(复用 §5.5 逻辑形态)
 #   (2) 失效锚点 = audit 自身最后 commit time(未提交/未跟踪 audit 才 mtime 兜底);
 #       covered 文件最新 commit time ≤ audit commit time → 有效
-#   (3) 恒 exit 0;忽略 handoff 的 meta-review: skipped(skip 只豁免 Stop 执法,
-#       不豁免已提交欠账)
+#   (3) 恒 exit 0(skip 字段制度已消亡 — 豁免走 exempt 微 audit,对账天然认)
 # 已删除文件处置:git log 清单不剔除删除件 — 与 Stop 模式 git diff 同口径,
 #   covers 列了即覆盖(其"最新 commit"= 删除 commit,照常参与失效判定)。
 
@@ -368,28 +411,36 @@ if [ "$RECONCILE" -eq 1 ]; then
         SINCE_ARG="${RECONCILE_DAYS} days ago"
         SINCE_DESC="近 ${RECONCILE_DAYS} 天(显式参数)"
     else
-        # 仓库最新 audit(docs/audits/meta-review-*.md 主目录)的最后 commit time
+        # 仓库最新**正式** audit(双前缀 audit-*.md + meta-review-*.md 主目录)的最后
+        # commit time。
         # 审查 I1 修:窗口锚竞选只认**已提交** audit — untracked/未提交 audit 的
         # mtime 是"现在",若参选会把窗口起点拉到当下,掩蔽已提交欠账;
-        # mtime 兜底仅保留在失效判定(约束 3 的正当用途),不外溢到窗口锚
+        # mtime 兜底仅保留在失效判定(约束 3 的正当用途),不外溢到窗口锚。
+        # 必修真缺口补:竞选段加 is_audit_credential 过滤 — process-audit 报告(无
+        # frontmatter)的 commit time 不得错当窗口锚;point 11:verdict=exempt 凭证亦
+        # 不参选(窄豁免高频,会把默认窗锚拉到当下遮蔽窗外漏账;正式 audit 才有资格定窗)。
         LATEST_AUDIT_CT=""
         LATEST_AUDIT_FILE=""
         while IFS= read -r audit; do
             [ -z "$audit" ] && continue
+            # 仅正式 audit 凭证参选(过滤 process-audit 报告 / 非凭证件)
+            is_audit_credential "$audit" || continue
+            # 排除 exempt 凭证参选
+            [ "$(extract_verdict "$audit")" = exempt ] && continue
             a_ct=$(git log -1 --format=%ct -- "$audit" 2>/dev/null)
             [ -z "$a_ct" ] && continue
             if [ -z "$LATEST_AUDIT_CT" ] || [ "$a_ct" -gt "$LATEST_AUDIT_CT" ] 2>/dev/null; then
                 LATEST_AUDIT_CT="$a_ct"
                 LATEST_AUDIT_FILE="$audit"
             fi
-        done < <(find "docs/audits" -maxdepth 1 -type f -name "meta-review-*.md" 2>/dev/null)
+        done < <(find "docs/audits" -maxdepth 1 -type f \( -name "audit-*.md" -o -name "meta-review-*.md" \) 2>/dev/null)
 
         if [ -n "$LATEST_AUDIT_CT" ]; then
             SINCE_ARG="@${LATEST_AUDIT_CT}"
-            SINCE_DESC="最新 audit 的 commit time(${LATEST_AUDIT_FILE} @ ${LATEST_AUDIT_CT})"
+            SINCE_DESC="最新正式 audit 的 commit time(${LATEST_AUDIT_FILE} @ ${LATEST_AUDIT_CT})"
         else
             SINCE_ARG="30 days ago"
-            SINCE_DESC="近 30 天(无已提交 audit,默认窗口)"
+            SINCE_DESC="近 30 天(无已提交正式 audit,默认窗口)"
         fi
     fi
 
@@ -430,7 +481,7 @@ if [ "$RECONCILE" -eq 1 ]; then
     # else: ROOT_DIR 无 .git(单层下游)→ 跳过段,主扫已含全部
 
     # --- 有效 covers 并集(commit time 锚)---
-    R_COVERED_TMP=$(mktemp 2>/dev/null) || R_COVERED_TMP="/tmp/check-meta-review-reconcile-$$"
+    R_COVERED_TMP=$(mktemp 2>/dev/null) || R_COVERED_TMP="/tmp/check-audit-coverage-reconcile-$$"
     : > "$R_COVERED_TMP" 2>/dev/null
 
     cleanup_reconcile_tmp() {
@@ -439,12 +490,16 @@ if [ "$RECONCILE" -eq 1 ]; then
     trap cleanup_reconcile_tmp EXIT
 
     VALID_AUDIT_COUNT=0
+    EXEMPT_COUNT=0
     for audit in "${AUDIT_FILES[@]}"; do
         [ -r "$audit" ] || continue
 
-        if ! is_meta_review_audit "$audit"; then
+        if ! is_audit_credential "$audit"; then
             continue
         fi
+
+        # exempt 与正式 audit 同算有效覆盖(verdict 不参与覆盖判定;仅用于计数 + 窗锚排除)
+        audit_verdict=$(extract_verdict "$audit")
 
         # 失效锚点(对账专用):audit 自身最后 commit time;未提交/未跟踪才 mtime 兜底
         audit_ct=$(git log -1 --format=%ct -- "$audit" 2>/dev/null)
@@ -495,6 +550,9 @@ if [ "$RECONCILE" -eq 1 ]; then
 
         if [ "$audit_contributed" -eq 1 ]; then
             VALID_AUDIT_COUNT=$((VALID_AUDIT_COUNT + 1))
+            if [ "$audit_verdict" = exempt ]; then
+                EXEMPT_COUNT=$((EXEMPT_COUNT + 1))
+            fi
         fi
     done
 
@@ -510,20 +568,19 @@ if [ "$RECONCILE" -eq 1 ]; then
     # --- 输出(stderr,恒 exit 0)---
     SCOPE_N=${#SCOPE_FILES[@]}
     {
-        echo "—— meta-review 对账(--reconcile)——"
+        echo "—— 凭证覆盖对账(--reconcile)——"
         echo "窗口起点: ${SINCE_DESC}"
         if [ "${#R_UNCOVERED[@]}" -eq 0 ]; then
-            echo "账齐:近窗 ${SCOPE_N} 件 scope 改动,有效 audit ${VALID_AUDIT_COUNT} 份"
+            echo "账齐:近窗 ${SCOPE_N} 件凭证义务改动,有效凭证 ${VALID_AUDIT_COUNT} 份(其中 exempt ${EXEMPT_COUNT} 份)"
         else
-            echo "欠账:近窗 ${SCOPE_N} 件 scope 改动,有效 audit ${VALID_AUDIT_COUNT} 份,未覆盖 ${#R_UNCOVERED[@]} 件:"
+            echo "欠账:近窗 ${SCOPE_N} 件凭证义务改动,有效凭证 ${VALID_AUDIT_COUNT} 份(其中 exempt ${EXEMPT_COUNT} 份),未覆盖 ${#R_UNCOVERED[@]} 件:"
             for f in "${R_UNCOVERED[@]}"; do
                 echo "  - $f"
             done
             echo ""
-            echo "处理:对上述文件补 meta-review,产出"
-            echo "  docs/audits/meta-review-YYYY-MM-DD-HHMMSS-[主题].md"
-            echo "  (YAML frontmatter:meta-review: true + covers 逐项列出;root 级文件写 <root>/<path>)"
-            echo "注:对账不认 handoff 的 meta-review: skipped 字段(skip 只豁免 Stop 执法,不豁免已提交欠账)"
+            echo "处理:对上述文件补审查凭证(二选一),文法住 docs/governance/credentials-rules.md:"
+            echo "  1. 对抗审查 audit:docs/audits/audit-YYYY-MM-DD-HHMMSS-[主题].md(frontmatter audit: true + covers 逐项列出;root 级文件写 <root>/<path>)"
+            echo "  2. exempt 微 audit(仅 typo/链接/注释等无语义变更):同 frontmatter + verdict: exempt + 一行理由(credentials-rules §4)"
         fi
     } >&2
     exit 0
@@ -590,13 +647,13 @@ fi
 # ============================================================================
 # 6. 扫所有 audit (主目录 + archive/INDEX.md)→ covered_files(失效后)
 # ============================================================================
-# (extract_covers / is_meta_review_audit / collect_audit_files 定义见 §4.5)
+# (extract_covers / is_audit_credential / collect_audit_files 定义见 §4.5)
 
 collect_audit_files
 
 # 计算 covered_files(应用失效规则)
 # 用临时文件替代关联数组(POSIX bash 兼容)
-COVERED_TMP=$(mktemp 2>/dev/null) || COVERED_TMP="/tmp/check-meta-review-covered-$$"
+COVERED_TMP=$(mktemp 2>/dev/null) || COVERED_TMP="/tmp/check-audit-coverage-covered-$$"
 : > "$COVERED_TMP" 2>/dev/null
 
 cleanup_tmp() {
@@ -607,9 +664,9 @@ trap cleanup_tmp EXIT
 for audit in "${AUDIT_FILES[@]}"; do
     [ -r "$audit" ] || continue
 
-    # 校验 meta-review: true
-    if ! is_meta_review_audit "$audit"; then
-        # 不是 meta-review audit,跳过(不警告 — 可能是其他类型 audit)
+    # 校验 audit: true
+    if ! is_audit_credential "$audit"; then
+        # 不是审查凭证,跳过(不警告 — 可能是 process-audit 报告等其他类型文件)
         continue
     fi
 
@@ -666,36 +723,15 @@ if [ "${#UNCOVERED[@]}" -eq 0 ]; then
 fi
 
 # ============================================================================
-# 8. 检 handoff `## meta-review: skipped(理由: <非空>)` 字段
+# 8. 阻断 stop + stderr 引导消息
 # ============================================================================
-
-HANDOFF="docs/active/handoff.md"
-
-if [ -r "$HANDOFF" ]; then
-    # POSIX ERE:匹配整行,提取理由
-    # grep -E 提取行,sed/awk 提取理由内容
-    SKIP_LINE=$(grep -E '^[[:space:]]*##[[:space:]]+meta-review:[[:space:]]+skipped\(理由:[[:space:]]*[^)]*\)' "$HANDOFF" 2>/dev/null | head -1)
-
-    if [ -n "$SKIP_LINE" ]; then
-        # 提取括号内"理由: <reason>"中的 reason 部分
-        REASON=$(echo "$SKIP_LINE" | sed -E 's/^.*\(理由:[[:space:]]*([^)]*)\).*$/\1/')
-        # trim
-        REASON_TRIMMED=$(echo "$REASON" | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')
-        if [ -n "$REASON_TRIMMED" ]; then
-            # skip 有效
-            exit 0
-        fi
-    fi
-fi
-
-# ============================================================================
-# 9. 阻断 stop + stderr 引导消息
-# ============================================================================
+# skip 字段制度已消亡(豁免走 exempt 微 audit,对账天然认):原 handoff
+# `## meta-review: skipped` 解析整段已删除,无 skip 豁免路径。
 
 {
-    echo "检测到 meta scope 改动但无对应 audit 或跳过理由。"
+    echo "检测到凭证义务改动但无对应审查凭证覆盖。"
     echo ""
-    echo "改动的 meta 文件:"
+    echo "改动的凭证义务文件:"
     for f in "${CHANGED_META_FILES[@]}"; do
         echo "  - $f"
     done
@@ -705,17 +741,16 @@ fi
         echo "  - $f"
     done
     echo ""
-    echo "处理方式(任选其一):"
-    echo "  1. 触发 /design-review meta-mode(或对应的 meta-review 流程),产出"
-    echo "     docs/audits/meta-review-YYYY-MM-DD-HHMMSS-[主题].md(YAML covers 列出上述文件)"
-    echo "  2. 在 docs/active/handoff.md 写入(必须含非空理由):"
-    echo "     ## meta-review: skipped(理由: <非空理由>)"
+    echo "处理方式(任选其一;文法住 docs/governance/credentials-rules.md):"
+    echo "  1. 按 review-rules 维度选择表治理行 fork 审查,产出"
+    echo "     docs/audits/audit-YYYY-MM-DD-HHMMSS-[主题].md(frontmatter audit: true + covers 列出上述文件)"
+    echo "  2. exempt 微 audit(仅 typo/链接/注释等无语义变更):同 frontmatter + verdict: exempt + 一行理由"
     echo ""
     echo "注意:本 hook 只扫 modified + staged 文件,**不扫 untracked**(git diff 不输出 untracked)"
     echo "  - 若是新建未 git add 的根级文件(如 root CLAUDE.md 全新增加),需先 git add 才会触发后续检测"
-    echo "  - 非 scope 改动(ROADMAP / handoff / decision-trail)无需 covers 覆盖"
+    echo "  - 非凭证义务改动(ROADMAP / handoff / decision-trail)无需 covers 覆盖"
     echo ""
-    echo "路径前缀约定(P0.9.3 第二个 trial 引入 — sentinel 协议):"
+    echo "路径前缀约定(sentinel 协议):"
     echo "  - <root>/<path> 表示 repo 根级文件(M3 = repo 根 CLAUDE.md / .gitignore 等)"
     echo "  - 无前缀路径表示 harness/ 内部相对(M4 / 治理 / hook 等)"
     echo "  - 写 audit covers 字段:M3 改动用 <root>/CLAUDE.md,M4 改动用 CLAUDE.md"

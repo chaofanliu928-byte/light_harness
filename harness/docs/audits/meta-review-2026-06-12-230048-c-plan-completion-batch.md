@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - .claude/hooks/check-handoff.sh
   - .claude/settings.json

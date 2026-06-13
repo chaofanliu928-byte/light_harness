@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - harness/.claude/agents/process-auditor.md
   - harness/.claude/skills/process-audit/SKILL.md

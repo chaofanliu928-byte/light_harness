@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - .claude/hooks/session-init.sh
   - .claude/hooks/check-evidence-depth.sh

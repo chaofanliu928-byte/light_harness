@@ -1,5 +1,5 @@
 ---
-meta-review: true
+audit: true
 covers:
   - CLAUDE.md
   - <root>/CLAUDE.md
