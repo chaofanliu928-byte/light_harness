@@ -43,26 +43,30 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Agent
 
 不使用 `context: fork` 启动领审员——本 skill 在主对话执行,主对话就是领审员。
 
-> **scope 参数传递引导(spec 第七轮 fix-6 — 永远生效)**:
+> **evidence depth 档位引导**:挑战者按改动类别引相应 evidence depth 文件:
+> - 代码改动 → `docs/references/testing-standard.md`(L1-L4)
+> - 治理改动 → `docs/governance/credentials-rules.md` §7 证据档位表(治理列)
+> - 混合改动 → 双引(代码列 + 治理列 各列出)
+
+## 对抗式挑战者 prompt 模板(治理面改动审查时嵌入)
+
+> 维度选择权威 = docs/governance/review-rules.md「审查维度选择表」;治理面改动审查产 audit 凭证(credentials-rules)
 >
-> 调度者在第二步 fork 挑战者**之前**,按 spec §3.1.1 识别本次改动的 scope(`feature` / `meta` / `mixed`),并把 `scope` 参数传给每个挑战者 prompt(配合 I5.2 evaluator.md 内 4 挑战者 prompt 的 scope 分流字段)。
->
-> 挑战者按 scope 引相应 evidence depth 文件:
-> - `scope=feature` → `docs/references/testing-standard.md`(L1-L4)
-> - `scope=meta` → `docs/governance/meta-finishing-rules.md`(meta-L1~meta-L4)
-> - `scope=mixed` → 双引(meta-L + L 各列出)
->
-> 下游项目大多数情况 scope=feature(下游无 meta-* 文件)。
->
-> **scope=meta 时的 §3.1.7 runtime 嵌入引导**(仅在 harness 自身仓库,且调度者按 spec §3.1.1 识别本次改动 scope=meta 或 mixed 的 meta 部分时触发):
->
-> 调度者在第二步 fork 挑战者**之前**,按 spec §3.1.7 runtime 嵌入契约**手工** Read 下列治理文件必要节,把内容嵌入每个挑战者 prompt 的 A/B/C 三段(对抗式模板):
->
-> - **M2** `harness/docs/governance/meta-review-rules.md` 第 6 节"对抗式 agent prompt 模板"子节(A 推荐维度 / B 最低必选 bootstrap 4 维基线 / C 定制理由)
-> - **M1** `harness/docs/governance/meta-finishing-rules.md` 必要节(包含 evidence depth meta-L1~meta-L4,scope=meta 路径下嵌入)
->
-> 不新增 `!` 注入读取 M2(B5 / D3 决策):`!` 注入在下游 skill 执行时也会运行,M2 在下游不存在(M14 命名前缀过滤),会返回空且语义模糊。**调度者手工 Read + 嵌入**更清晰。
->
-> **下游兼容性**:scope=meta 是 harness 自身仓库的 bootstrap 场景;下游项目执行 `/evaluate` 时,调度者识别 scope=feature(下游无 meta-* 文件,自然不会进入 meta 路径),本节 meta 嵌入引导**条件化跳过**,行为完全不变(spec §3.1.4 兼容性声明 B6)。
->
-> 详见 spec §3.1.7 runtime 嵌入契约 + spec §3.1.6 agent 文件静态约束节(第七轮 fix-2 防下游污染)+ 第七轮 fix-6 scope 分流。
+> 治理面改动(命中 credentials.conf include glob)的审查走本模板:调度者在第二步 fork 挑战者**之前**,把下列 A/B/C 三段嵌入每个挑战者 prompt。
+
+A. 推荐维度清单(按 agent 默认填,markdown 列表)
+   格式:`- [维度名]: [关注焦点] [默认启用: 是/否]`
+
+B. 最低必选维度(禁止删减,markdown 列表)
+   格式:`- [维度名]: [不可省略理由]`
+   bootstrap 4 维基线(任何治理面改动必须包含;权威 = review-rules 维度选择表):
+     - 核心原则合规
+     - 目的达成度
+     - 副作用
+     - scope 漂移
+
+C. 定制理由字段(结构化)
+   ### 本次定制
+   - 启用的推荐维度: [列表]
+   - 禁用的推荐维度 + 理由: [列表](禁用 minimum 项需用户确认)
+   - 新增的定制维度 + 理由: [列表]
