@@ -50,5 +50,8 @@
 - docs/governance/credentials-rules.md(批 1 任务 2,批内新增欠账——预登记)
 <执行中新增的治理面提交随手 append;批 2 提交集合由任务 9 在对照前 append>
 
+## spec 漏列留痕(批 2 审查发现)
+- setup.sh L48 注释残留 `meta-review(scope=meta)` 旧术语,不在 spec §4.3 四点也不在任务 17 件号清单(spec 枚举漏列)。批 2 任务 8 审查识别+给 G1 改法,顺手补于 fc85321 后小 commit;批 5 V4 断链核复验(setup.sh 属活层,九术语零命中即闭)。
+
 ## 洗活欠账归因(批 2 任务 9 填写)
 <缩小集合逐件:文件 | 覆盖它的凭证 | 失效时点证据(git log -1 --format=%ci)| 归因结论>
