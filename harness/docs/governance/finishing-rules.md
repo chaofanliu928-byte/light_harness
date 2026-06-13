@@ -1,27 +1,11 @@
-## scope 分流入口（进入 finishing 时第一步）
-
-> **harness 自身仓库**：本段触发分流；改动若 scope=meta 或 mixed，**不**走本文件，改读 `meta-finishing-rules.md`（M1）。
->
-> **下游目标项目**：本段保留但 meta 分支不会触达（下游无 meta scope 改动 / meta-finishing-rules.md 由分发过滤自然不存在），feature 路径继续走本文件流程。
-
-### 步骤
-
-1. 识别本次改动 scope（参考仓库根 `/CLAUDE.md`（M3）的 scope 触发判定段落 + `.claude/hooks/meta-scope.conf` 配置）
-   - 命中 A/B/C/D/F 任一组 glob → scope=meta
-   - 部分命中 + 部分未命中 → scope=mixed
-   - 完全未命中 → scope=feature 或 none
-2. 按 scope 分流：
-   - **scope=meta 或 mixed** → 走 `docs/governance/meta-finishing-rules.md`（M1）— **本文件后续内容不适用**
-   - **scope=feature 或 none** → 继续本文件后续内容（feature 侧 finishing 流程）
-
----
-
 # Finishing 阶段治理规则
 
-> 当 Superpowers 的 finishing-a-development-branch skill 激活时，读取本文件。
+> 当 Superpowers 的 finishing-a-development-branch skill 激活时,读取本文件。
 > 以下步骤在 Superpowers 的合并/PR/清理**之前**执行。
+> **治理同层**(2026-06-13):本文件是唯一收口流程,不分流不分轨(原 meta-finishing-rules(M1)已并入)。
+> 改动命中凭证义务(`.claude/hooks/credentials.conf` glob)时多走一节「凭证义务核对」,其余步骤(含「方向评估」,治理批照走)全员同一条路。
 
-> **调度者面对挑战者时遵守 `synthesis-rules.md` 事前/事后规则**(2026-05-13 加入) — 涉及阶段:evaluate / process-audit / security-scan。
+> **调度者面对挑战者时遵守 `synthesis-rules.md` 事前/事后规则**(2026-05-13 加入) — 涉及阶段:evaluate / process-audit / security-scan / 治理审查。
 
 ## 反模式约束(用户 feedback 硬编码 — 必读)
 
@@ -30,7 +14,7 @@
 - **实战验证不阻塞 harness 开发**(`feedback_realworld_testing_in_other_projects.md`):finishing 阶段评估"是否完成"时,**不**把"等实战数据"当 blocking 条件。涉及实战留痕 / 真实场景验证 / meta-L4 项推 P1 真实项目阶段;handoff 中明确 documented 推后,本阶段不为补 artificial 数据停留。
 - **handoff 写入断言前必须 verification-before-completion**(2026-04-28 process-audit P-2 + N2 事件 5 实证):若 handoff 含"下次 SessionStart hook 自动注入 X"/"下次 session 会自动 Y"等断言,**必须先用 superpowers:verification-before-completion skill 验证**(实际 hook 是否注册 / 文件是否就位等),不得先写断言再口头说"应该会"。
 - **不得主动提"简化收尾"二元方案**(2026-04-17 retrospective P0 报告 §"规则摩擦点"#1):agent 读本文件后,**不得**框出"A 严格 / B 简化"让用户选,**不得**给倾向性推荐"简化收尾"。
-  - 唯一允许的降级路径:**fork-fail-degradation** — security-scan / evaluate / process-audit 任一 fork 失败 → 调度者按对应 agent.md 自审,标 `⚠️ 降级执行,未经独立 agent 验证`(本文件 §安全扫描 第 4 项 / §方向评估 第 9 项 / §流程审计 第 14 项 已有此约定)
+  - 唯一允许的降级路径:**fork-fail-degradation** — security-scan / evaluate / process-audit / 凭证义务核对 任一 fork 失败 → 调度者按对应 agent.md 自审,标 `⚠️ 降级执行,未经独立 agent 验证`(本文件 §安全扫描 第 4 项 / §方向评估 第 9 项 / §流程审计 第 14 项 / §凭证义务核对 step 18 已有此约定)
   - 不允许的:**rule-bypass** — agent 觉得"重"主动跳过完整流程。若用户明确指示跳过,需写 `docs/decisions/<date>-skip-finishing-<reason>.md` 立档
   - 区分依据:fork-fail 是技术阻碍(下游可观测 — fork 调用返回错误 / agent 不可用),rule-bypass 是判断决策(需 decision 留痕)
   - **防滑条款**(2026-04-29 meta-review D2-F1):agent **不得在未实际发起 fork 调用前**就声称 fork 失败。若 fork 调用未发出,跳过理由须在 decision 中写明"未尝试 + 原因",不适用 fork-fail 降级路径
@@ -41,6 +25,8 @@
   - **跨阶段同步约束**(2026-04-29 meta-review D2-F3):本条款也适用于 **design 阶段** spec §0 写法;designer agent 在写 spec §0 偏离说明时同步遵守(见 `design-rules.md` `## spec §0 偏离规则`)。M2 是 finishing 阶段的**反向回顾性**约束,M4(design-rules.md spec §0 偏离规则段)是 design 阶段的**正向阻断性**约束,两者协同
 
 ## 安全扫描
+
+>(治理批暂不纳入,见「凭证义务核对」节治理批收口工序适用——decision 2026-06-13 追记三)
 
 1. 运行 `/security-scan`（fork security-reviewer agent team）
 2. **等待安全扫描结果出来后再继续**
@@ -81,11 +67,58 @@
 
 ## 流程审计
 
+>(治理批暂不纳入,见「凭证义务核对」节治理批收口工序适用——decision 2026-06-13 追记三)
+
 10. **确认 evaluate 已完成后**，运行 `/process-audit`（structured-handoff 在分流路径中执行，不作为前置条件）
 11. process-audit skill 自动触发（`invocation: auto`），fork process-auditor agent
 12. 审计结果写入 `docs/audits/audit-YYYY-MM-DD-HHMMSS.md`
 13. **审计结果不影响分流判断**——无论审计发现什么，都按 evaluate 结果分流
 14. 如果 process-auditor fork 失败 → 调度者标注 `⚠️ 降级执行，未经独立 agent 验证`，继续分流，不阻断
+
+## 凭证义务核对(改动命中 credentials.conf 时)
+
+> 凭证制度全文(audit 文法 / exempt 豁免 / 失效规则 / 对账)住 `docs/governance/credentials-rules.md`,本节只给收口时刻的动作序,不重复文法。
+
+15. 对照 `.claude/hooks/credentials.conf`(凭证要求表机器版)核对本批改动:任一文件命中 include glob → 本批负有 audit 凭证义务
+16. 凭证义务的履行(二选一,均产凭证文件,无第三条路):
+    - **对抗审查 audit**:按 `docs/governance/review-rules.md`「审查维度选择表」治理行 fork N 个挑战者审查本批改动 → 产 `docs/audits/audit-YYYY-MM-DD-HHMMSS-[主题].md`(文法见 credentials-rules §3;covers 列出本批全部命中文件)
+    - **exempt 微 audit**(仅限 typo / 链接 / 注释等无语义变更):按 credentials-rules §4 文法产微 audit(`verdict: exempt` + 一行理由)
+17. verdict 处置:`needs-revision` → 按 audit 所列问题修改后重审(可产新 audit);`overturn` → 撤回本批改动,记录到 ROADMAP / handoff,不进分流
+18. fork 失败降级:沿「反模式约束」fork-fail-degradation 条款 — 调度者按 review-rules 维度自审,audit 标 `⚠️ 降级执行,独立性未达`
+
+**治理批收口工序适用**(2026-06-13 decision 追记三,用户拍板):
+- 凭证审查:按本节 step 15-18(命中 credentials.conf 即负义务)。
+- **方向评估 = 全批适用,含治理批**(用户原话:"方向评估重要")。分工:治理审查核"这批合规达标"(以 decision/spec 为前提),方向评估问"方向本身对不对/该不该推翻"(连前提一起审)——verdict 三路同构但站位不同,非重复。
+- **安全扫描与流程审计 = 维持 feature 侧,治理批暂不纳入**(用户原话:"其他的我觉得可以暂时不用担心了";连带风险登记 ROADMAP 观察项)。
+
+### decision 立档(若有架构决策)
+
+**调度者动作**:
+
+- 治理面改动若涉及架构决策(如新增 / 修改一条 governance 规则 / 改 spec 边界 / 引入新 hook 等),**必做** decision 立档
+- 若治理面改动仅是工程调整(如 hook 文件内重构、注释润色)且无架构决策,可不立档,但需在 handoff 或 PROGRESS 内简记
+- decision 文件位置:`docs/decisions/<YYYY-MM-DD>-<主题>.md`
+
+**模板范式选择**:
+
+| 决策类型 | 范式 | 模板使用 |
+|---|---|---|
+| 普通方案选择型(A/B/C 比较) | `docs/references/decision-template.md`(若有) | 标准 "问题 / 方案 A/B / 决定 / 后续" 节 |
+| **根源承认型** | **`docs/decisions/2026-04-17-harness-self-governance-gap.md` 范式**(D9) | 加 **"Bootstrap 声明"** 节 + **"不做"** 节防 scope 扩散 |
+
+**D9 范式应用规则**(spec §7.1 D9):
+
+- 当治理面改动是"承认存在性问题 / 系统缺口 / bootstrap 限制"等无 A/B 可选的单选择型 decision → 采用 D9 范式
+- 文件头部加 **"Bootstrap 声明"** 节:声明本 decision 是 ad-hoc bootstrap 动作,后续治理规范不应追溯性要求其通过流程
+- 文件头部加类型标记:**"根源承认型"**(替代标准的"方案选择型"标记)
+- 加 **"不做(防 scope 扩散)"** 节:明示本 decision 不解决 / 不推翻 / 不定义的内容
+- 加 **"突破模板骨架的说明"** 节:说明为何本次不沿用标准模板
+
+**范式参考文件**:`docs/decisions/2026-04-17-harness-self-governance-gap.md`
+
+**错误处理**:
+
+- decision 立档完成后发现本次改动破坏了现有 decision → 新建 superseding decision(覆盖型),旧 decision 标 🔴 已废弃 + 在新 decision 头部 "关联" 节链回旧 decision
 
 ---
 
@@ -101,7 +134,7 @@
     - **跳过**:本次 commit 无架构 / 原则级抉择 → 跳过 append,commit message 简记即可
     - **触发不限于 milestone commit**:用户原则确立 / 缺口承认 等关键时点不在 milestone 时,调度者也应即时 append(不必等到下次 finishing)
     - **与 step 8 区别**:step 8 是 decisions/ 文件标 commit hash(反向链);本步是 commit 提取抉择 append(前向链)。两者不冲突
-    - **依据**:`docs/decisions/2026-04-28-decision-trail-introduction.md`(meta scope 改动同步走 M1 `meta-finishing-rules.md` Step D 的对应项)
+    - **依据**:`docs/decisions/2026-04-28-decision-trail-introduction.md`
 3. 更新 `docs/PROGRESS.md` 里程碑表格
 4. 更新 `docs/product-specs/index.md` 状态为 🟢 已完成
 5. 运行 `/structured-handoff`（归档旧版本到 `docs/completed/`;覆写前晋升门禁——待晋升暂存清账——见 structured-handoff SKILL）
@@ -111,6 +144,8 @@
     - 设计文档 → 在顶部标注 `> ARCHIVED [日期] — 功能已合并，本文档仅供历史参考`
     - `docs/active/security-scan-result.md` → 删除（一次性结果）
 8. 检查 `docs/decisions/` 中与本功能相关的决策文件，已决定的标注关联 commit hash
+9. 更新 `docs/ROADMAP.md`:本批状态/进展行推进(原 M1 Step D 独有义务并入)
+10. 结构性变化(角色/流程/凭证制度类)同步 `memory/project_harness_overview.md`(原 M1 Step D 独有义务并入)
 
 ### 精磨
 
