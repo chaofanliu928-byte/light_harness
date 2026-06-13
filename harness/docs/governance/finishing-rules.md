@@ -11,7 +11,7 @@
 
 > 依据:`memory/MEMORY.md` 索引下的 feedback 条目。
 
-- **实战验证不阻塞 harness 开发**(`feedback_realworld_testing_in_other_projects.md`):finishing 阶段评估"是否完成"时,**不**把"等实战数据"当 blocking 条件。涉及实战留痕 / 真实场景验证 / meta-L4 项推 P1 真实项目阶段;handoff 中明确 documented 推后,本阶段不为补 artificial 数据停留。
+- **实战验证不阻塞 harness 开发**(`feedback_realworld_testing_in_other_projects.md`):finishing 阶段评估"是否完成"时,**不**把"等实战数据"当 blocking 条件。涉及实战留痕 / 真实场景验证 / 治理改动 L4(credentials-rules §7)项推 P1 真实项目阶段;handoff 中明确 documented 推后,本阶段不为补 artificial 数据停留。
 - **handoff 写入断言前必须 verification-before-completion**(2026-04-28 process-audit P-2 + N2 事件 5 实证):若 handoff 含"下次 SessionStart hook 自动注入 X"/"下次 session 会自动 Y"等断言,**必须先用 superpowers:verification-before-completion skill 验证**(实际 hook 是否注册 / 文件是否就位等),不得先写断言再口头说"应该会"。
 - **不得主动提"简化收尾"二元方案**(2026-04-17 retrospective P0 报告 §"规则摩擦点"#1):agent 读本文件后,**不得**框出"A 严格 / B 简化"让用户选,**不得**给倾向性推荐"简化收尾"。
   - 唯一允许的降级路径:**fork-fail-degradation** — security-scan / evaluate / process-audit / 凭证义务核对 任一 fork 失败 → 调度者按对应 agent.md 自审,标 `⚠️ 降级执行,未经独立 agent 验证`(本文件 §安全扫描 第 4 项 / §方向评估 第 9 项 / §流程审计 第 14 项 / §凭证义务核对 step 18 已有此约定)
