@@ -21,7 +21,7 @@
 
 做事的和判断的分开，设计的和审查的分开。每个角色只看到自己需要的输入，不受其他角色的上下文影响。
 
-> 注：本表是分发到下游项目的角色清单。harness 自身仓库的 CLAUDE.md(M3,自治理入口)还含 `meta-review` 角色行(scope=meta 改动审查),本模板按 D13 不分发下游 — 下游项目不需要 meta-review 流程。
+> 注:治理同层(2026-06-13)——上下游同一套治理与凭证义务,无另册。
 
 **架构**: 扁平 fork(2026-04-16 改造)。调度者(主对话)直接 fork N 个独立挑战者,不做两级嵌套 fork。详见 `docs/decisions/2026-04-16-fork-flat-refactor.md`。
 
@@ -66,7 +66,8 @@
 | **系统设计** | **docs/governance/design-rules.md** |
 | writing-plans | docs/governance/planning-rules.md |
 | subagent-driven-development | docs/governance/implementation-rules.md + **docs/governance/testing-rules.md** |
-| requesting-code-review | docs/governance/review-rules.md |
+| 审查(代码/设计/治理) | docs/governance/review-rules.md(维度选择表) |
+| **凭证与对账(跨阶段)** | **docs/governance/credentials-rules.md(单入口)+ .claude/hooks/credentials.conf(机器版,双写同步)** |
 | finishing-a-development-branch | docs/governance/finishing-rules.md |
 | process-audit（finishing 内自动触发） | docs/governance/finishing-rules.md |
 
