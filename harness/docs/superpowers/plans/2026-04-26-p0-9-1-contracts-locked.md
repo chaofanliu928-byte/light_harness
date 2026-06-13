@@ -1,5 +1,10 @@
 # P0.9.1 契约 lock — 批次 1 输出(C1-C5)
 
+> ⚠️ **已退役(2026-06-13,治理同层化)** — 本文件转考古层。
+> 契约锁防的是"批次实施期多 agent 拷贝漂移";单源 + 引用体制已消灭拷贝,锁无对象(decision `docs/decisions/2026-06-13-governance-single-layer.md` 第一性重推 1:退役非"迁锁")。
+> C1(scope.conf)→ 后继 `.claude/hooks/credentials.conf` + `docs/governance/credentials-rules.md` §2;C2(audit 文法)→ credentials-rules §3(文法语义逐字沿用;标识字段名按 R13 统一为 `audit: true`,21 份历史件同批格式迁移;文件名不换);C3(handoff skip/反审字段)→ skip 制度消亡(豁免=exempt 微 audit,credentials-rules §4),反审字段为已闭环历史;C4(三段 pattern)→ 各审查 skill SKILL.md 自带;C5(settings 双轨)→ 自仓库 settings 已撤(2026-06-12 追记①),templates/settings.json 为下游唯一来源。
+> 残余真双端(规则文本 ↔ hook 正则)清单与守法住 spec `docs/superpowers/specs/2026-06-13-governance-single-layer-design.md` §6.2。
+
 **关联 spec**:`docs/superpowers/specs/2026-04-17-p0-9-self-governance-design.md`
 **关联 plan**:`docs/superpowers/plans/2026-04-26-p0-9-1-self-governance-plan.md` §3
 **关联 decisions**:D1-D22(spec §7.1)+ 三独立 decision 文件
