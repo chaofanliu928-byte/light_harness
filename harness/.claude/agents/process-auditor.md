@@ -209,9 +209,7 @@ const files = fs.readdirSync(jsonlDir).filter(f => f.endsWith('.jsonl'));
 > - 维度细化: [每维度内的子项,如"流程遵从度只看 brainstorming 转 design 路径"]
 > ```
 >
-> **静态约束(第七轮 fix-2 — 防下游污染)**:本 agent 文件的 prompt 段落**只放结构占位 + 引用 M2 路径**,**禁止抄 M2 实文**(详见 spec §3.1.6 agent 文件静态约束节)。粒度细化时若需引用 meta 治理规则,只引路径不抄实文。
->
-> **在 harness 自身仓库时,调度者按 spec §3.1.7 runtime 嵌入契约 Read M2 (`harness/docs/governance/meta-review-rules.md`) / M1 必要节并嵌入挑战者 prompt**。下游项目使用 `/process-audit` 时无 meta 治理语境,N1 维度结构不变,G 段由调度者按当次主题填充(可空 — 默认全 session 全维度)。
+> 维度选择权威 = docs/governance/review-rules.md 维度选择表;治理面改动审查产 audit 凭证(credentials-rules)。N1 维度结构不变,G 段由调度者按当次主题填充(可空 — 默认全 session 全维度)。
 
 #### 挑战者 1：流程遵从度审计(N1 维度)
 
@@ -228,9 +226,8 @@ const files = fs.readdirSync(jsonlDir).filter(f => f.endsWith('.jsonl'));
 - 范围: [全 session / 本批次 / 时间窗口](领审员填,默认"全 session")
 - 维度细化: [N1 维度内的子项,如"只看 brainstorming 转 design 路径"](领审员填,默认空 = 全维度)
 
-> 若 G 段细化引用 meta 治理规则路径(如 `harness/docs/governance/meta-finishing-rules.md`),
-> 只引路径不抄实文(第七轮 fix-2 静态约束)。
-> 在 harness 自身仓库审 meta 改动时,调度者按 spec §3.1.7 runtime 嵌入 M2 / M1 必要节。
+> 若 G 段细化引用治理规则路径(如 `harness/docs/governance/credentials-rules.md`),
+> 只引路径不抄实文(权威全文住各自住址)。
 
 输入（领审员填入实际路径）：
 - 对话摘要文件：/tmp/process-audit-summaries/ 下所有 -summary.json

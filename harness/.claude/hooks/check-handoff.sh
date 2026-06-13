@@ -36,7 +36,7 @@
 #   - POSIX awk(禁 gawk 三参数 match);LF 行尾(.gitattributes *.sh eol=lf)
 #   - 中文 grep:统一 LC_ALL=C.UTF-8(无则 C),防字节级误匹配
 #   - 双层探测(M15 范式):docs/ 或 harness/docs/,cd 进 WORK_DIR 后锚点按 docs/... 相对解析
-#   - 全角 token → 文法不命中 exit 2 + stderr 提示「全角」(meta-finishing-rules.md:116 同教训)
+#   - 全角 token → 文法不命中 exit 2 + stderr 提示「全角」(半角纪律,权威住 structured-handoff SKILL;沿 2026-04-28 C3 Y3 教训)
 
 set -u
 
@@ -49,7 +49,7 @@ if [ -n "$_loc" ]; then export LC_ALL="$_loc"; else export LC_ALL=C; fi
 # ============================================================================
 # 必须在 INPUT=$(cat) 之前:对账是手工命令,不读 stdin;若先 cat,
 # 交互终端跑 --reconcile 会在 cat 上挂死。set -u 下用 ${1:-} 取参。
-# (与 check-meta-review.sh §0a 同款范式)
+# (与 check-audit-coverage.sh §0a 同款范式)
 
 RECONCILE=0
 if [ "${1:-}" = "--reconcile" ]; then
@@ -135,7 +135,7 @@ archive_staging_has_entries() {
 # ============================================================================
 # 纯状态判据,无任何时间推断(不看 mtime/时钟/60 分钟窗);
 # 复用 Stop 执法的同一 GRAMMAR / trim / 空账判定 / 锚点抽查与登记交叉核口径;
-# 恒输出一行状态结论(防空转不可见,与 check-meta-review --reconcile"账齐带计数"同理)
+# 恒输出一行状态结论(防空转不可见,与 check-audit-coverage --reconcile"账齐带计数"同理)
 # + 恒 exit 0(工具箱:输出给 AI 读,处置靠 AI;本分支不得有任何 exit 2)。
 
 if [ "$RECONCILE" -eq 1 ]; then

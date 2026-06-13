@@ -62,9 +62,7 @@
 >   - 新增的定制维度 + 理由: [列表]
 >   ```
 >
-> **静态约束(第七轮 fix-2 — 防下游污染)**:本 agent 文件的 prompt 段落**只放结构占位 + 引用 M2 路径**,**禁止抄 M2 实文**(详见 spec §3.1.6 agent 文件静态约束节)。
->
-> **在 harness 自身仓库时,调度者按 spec §3.1.7 runtime 嵌入契约 Read M2 (`harness/docs/governance/meta-review-rules.md`) / M1 必要节并嵌入挑战者 prompt**。下游项目使用 `/design-review` 时无 meta 治理语境,B 段最低必选维度按下面静态列出,A/C 段由调度者按当次主题填充。
+> 维度选择权威 = docs/governance/review-rules.md 维度选择表;治理面改动审查产 audit 凭证(credentials-rules)
 
 #### 挑战者 1：自洽性挑战者
 
@@ -92,10 +90,7 @@
 - 副作用: 不可省略(meta 改动审查基线)
 - scope 漂移: 不可省略(meta 改动审查基线)
 
-> 上述 B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> 在 harness 自身仓库审查 meta 改动时,调度者按 spec §3.1.7 runtime 嵌入契约
-> 读取 M2 必要节并嵌入本 prompt(实文不在本 agent 文件内)。
-> 下游项目走 feature scope 审查时,B 段维度由领审员按场景缩减或替换为空。
+> 上述 B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ## C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制
@@ -161,8 +156,7 @@
 - 副作用: 不可省略
 - scope 漂移: 不可省略
 
-> B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> harness 自身仓库 meta 改动时调度者按 spec §3.1.7 runtime 嵌入 M2 必要节。
+> B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ## C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制
@@ -227,8 +221,7 @@
 - 副作用: 不可省略
 - scope 漂移: 不可省略
 
-> B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> harness 自身仓库 meta 改动时调度者按 spec §3.1.7 runtime 嵌入 M2 必要节。
+> B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ## C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制
@@ -290,8 +283,7 @@
 - 副作用: 不可省略
 - scope 漂移: 不可省略
 
-> B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> harness 自身仓库 meta 改动时调度者按 spec §3.1.7 runtime 嵌入 M2 必要节。
+> B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ## C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制

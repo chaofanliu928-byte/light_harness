@@ -26,7 +26,7 @@
 - **Swap 角色**(11 个,2026-05-22 修订):
   - 实现链路:designer / **planner** / **implementer** / **testing**
   - 审查链路:silent-failure-hunter / 设计自检 / design-review 4 挑战者 / **code-reviewer** / evaluate 非关键 / security-scan 危险+注入
-- **不 Swap**:调度者 / evaluate 关键 / security-scan 凭证 / meta-review / process-audit / 综合阶段
+- **不 Swap**:调度者 / evaluate 关键 / security-scan 凭证 / 治理审查 / process-audit / 综合阶段
 
 ## glassbox — AI 工作可观测层
 
@@ -60,5 +60,5 @@
   2. `setup.sh` 末尾 echo 段
   3. `docs/ROADMAP.md` P2 段
   4. `docs/decisions/2026-04-28-glassbox-recommendation-not-integration.md` 顶部"关联"+§"问题"段
-- 新增推荐工具:append 到本文件即可(无需 meta-review,scope=none);若要在 setup.sh 末尾提示,改 setup.sh 走 scope=meta
+- 新增推荐工具:append 即可(不命中凭证义务);若要改 setup.sh 提示,setup.sh 命中 credentials.conf → 须 audit 凭证
 - 工具如何使用 / 配置细节归各工具自身文档,本文件不抄

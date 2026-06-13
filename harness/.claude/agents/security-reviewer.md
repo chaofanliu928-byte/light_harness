@@ -66,9 +66,7 @@ git diff $(git rev-parse --verify main 2>/dev/null || git rev-parse --verify mas
 >      - 新增的定制维度 + 理由: [列表]
 >      ```
 >
-> **静态约束(第七轮 fix-2 — 防下游污染)**:本 agent 文件的 prompt 段落**只放结构占位 + 引用 M2 路径**,**禁止抄 M2 实文**(详见 spec §3.1.6 agent 文件静态约束节)。
->
-> **在 harness 自身仓库时,调度者按 spec §3.1.7 runtime 嵌入契约 Read M2 (`harness/docs/governance/meta-review-rules.md`) / M1 必要节并嵌入挑战者 prompt**。下游项目使用 `/security-scan` 时无 meta 治理语境,X 段硬编码 pattern 不变,A/C 段由调度者按当次主题填充,B 段最低必选凭证泄露场景判定恒不可绕。
+> 维度选择权威 = docs/governance/review-rules.md 维度选择表;治理面改动审查产 audit 凭证(credentials-rules)。X 段硬编码 pattern 不变,B 段最低必选凭证泄露场景判定恒不可绕。
 
 #### 挑战者 1：凭证与数据安全
 
@@ -112,9 +110,7 @@ High — 数据外泄：
 ### B. 最低必选对抗维度(禁止删减,凭证扫描不可绕)
 - 凭证泄露场景判定: 不可省略(M8 永远不可绕,重要安全保证;禁用此项不被允许)
 
-> B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> 在 harness 自身仓库审查 meta 改动时,调度者按 spec §3.1.7 runtime 嵌入契约
-> 读取 M2 必要节并嵌入本 prompt(实文不在本 agent 文件内)。
+> B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ### C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制
@@ -184,8 +180,7 @@ Medium — 持久化后门：
 ### B. 最低必选对抗维度(禁止删减,凭证扫描不可绕)
 - 凭证泄露场景判定: 不可省略(M8 永远不可绕)
 
-> B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> harness 自身仓库 meta 改动时调度者按 spec §3.1.7 runtime 嵌入 M2 必要节。
+> B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ### C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制
@@ -253,8 +248,7 @@ Medium — 混淆执行：
 ### B. 最低必选对抗维度(禁止删减,凭证扫描不可绕)
 - 凭证泄露场景判定: 不可省略(M8 永远不可绕 — 即使本挑战者主营注入扫描,凭证场景判定仍是 minimum)
 
-> B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> harness 自身仓库 meta 改动时调度者按 spec §3.1.7 runtime 嵌入 M2 必要节。
+> B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ### C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制

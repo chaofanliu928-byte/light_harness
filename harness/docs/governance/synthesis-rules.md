@@ -1,6 +1,6 @@
 # 综合阶段治理规则
 
-> **何时读本文件**:调度者在 design-review / evaluate / meta-review / process-audit / security-scan 等 fork 出多个挑战者**前**(事前 — 构造 prompt)或**后**(事后 — 综合结论)时必读。
+> **何时读本文件**:调度者在 design-review / evaluate / 治理审查 / process-audit / security-scan 等 fork 出多个挑战者**前**(事前 — 构造 prompt)或**后**(事后 — 综合结论)时必读。
 >
 > **2026-05-13 引入** — 合并原 design-rules.md "挑战者 prompt 构造中性化规则" + 综合阶段规则,作为 harness 扁平 fork 架构下"调度者面对挑战者的完整行为规则集"。
 
@@ -14,7 +14,7 @@
 |---|---|---|
 | design-review | 4(自洽 / 完整 / 合理 / RUBRIC) | 调度者(Claude) |
 | evaluate | 4(RUBRIC / 架构 / 文档 / Slop) | 调度者(Claude) |
-| meta-review | N(模态决定) | 调度者(Claude) |
+| 治理审查 | N(模态决定) | 调度者(Claude) |
 | process-audit | 1(流程遵从) | 调度者(Claude) |
 | security-scan | 3(凭证 / 危险操作 / 注入混淆) | 调度者(Claude) |
 
@@ -31,7 +31,7 @@
 1. **材料 selection 中性** — 不主动塞支持自己结论的证据(例如不要附"另一个项目用类似方法成功"的引用)
 2. **材料 ordering 中性** — 按客观顺序(文件路径 / 时间戳 / RUBRIC 维度)排,不按"调度者认为重要的"排
 3. **措辞中性** — 不用"显然 / 实际上 / 重点是 / 关键是"这类引导词;不写"调度者认为 X 关键,要严查"
-4. **调度者自检 + 抽检兜底**(2026-05-13 降级) — 调度者自检前 3 条;落地审查时由 meta-review / process-audit 抽检 prompt 中性度。**不引入"prompt 独立审核 fork"**(原方案会引入嵌套 fork,违反扁平架构;成本翻倍)
+4. **调度者自检 + 抽检兜底**(2026-05-13 降级) — 调度者自检前 3 条;落地审查时由治理审查 / process-audit 抽检 prompt 中性度。**不引入"prompt 独立审核 fork"**(原方案会引入嵌套 fork,违反扁平架构;成本翻倍)
 
 ### 事前规则 5 — fork 前必做意图识别
 
@@ -100,7 +100,7 @@
 - evaluator(4 挑战者)
 - process-audit(1 挑战者)
 - security-scan(3 挑战者)
-- meta-review(N 挑战者,模态决定)
+- 治理审查(N 挑战者,模态决定)
 
 **不适用**:
 - designer fork(designer 是产生设计文档,不属综合阶段)
@@ -166,7 +166,7 @@
 
 **升级条件**:section 显示主线偏离 🔴 → 升为综合阶段 finding,可能触发主线段重写。
 
-**适用范围**:design-review / evaluate / process-audit / security-scan / meta-review 所有 fork 场景 — 与事前规则 5 同步生效。
+**适用范围**:design-review / evaluate / process-audit / security-scan / 治理审查 所有 fork 场景 — 与事前规则 5 同步生效。
 
 **与挑战者侧导览的关系**:本规则的挑战者侧动作落入 `harness/docs/references/challenger-orientation.md` §3.3(自取用户原话)+ §3.4(输出必填 section)。本规则是调度者综合阶段的校验落地。
 
@@ -198,12 +198,12 @@
 
 ### 2. 关键术语保留 + 1 行解释
 
-- 不可避免的术语(如"挑战者 / 意图链 / scope=meta / 公设 1")第一次出现时
+- 不可避免的术语(如"挑战者 / 意图链 / 凭证义务 / 公设 1")第一次出现时
   **1 行解释**,但不要全部翻译成大白话(会丢失精确度)
 - 例:
-  - ✅ "scope=meta(改动命中 governance 规则文件等,走 meta-review)"
-  - ❌ "scope=meta"(无解释,用户记不住所有 scope 类别)
-  - ❌ "本次改动属于元数据范畴需要走元数据审查流程"(术语翻译过度,丢精确度)
+  - ✅ "凭证义务(改动命中 credentials.conf,须 audit 凭证)"
+  - ❌ "凭证义务"(无解释,用户记不住所有触发类别)
+  - ❌ "本次改动属于受治理范畴需要走治理审查留凭证流程"(术语翻译过度,丢精确度)
 
 ### 3. 报告固定结构 4 段
 
@@ -224,7 +224,7 @@
 ## 细节链接
 [挑战者具体输出文件路径,需要深挖时看]
 - design-review-result:docs/active/design-review-result.md
-- 审查 audit:docs/audits/meta-review-YYYY-MM-DD-HHMMSS-...md
+- 审查 audit:docs/audits/audit-YYYY-MM-DD-HHMMSS-...md
 ```
 
 ### 4. 避免术语堆叠
@@ -273,7 +273,7 @@
 
 - `docs/governance/design-rules.md`(已引用 — 2026-05-13;原中性化规则节合并入此文件)
 - `docs/governance/review-rules.md`(已引用 — 2026-05-13)
-- `docs/governance/meta-review-rules.md` ⚠️ **仅 harness 自仓库,下游无此文件(M14 命名前缀过滤)**(已引用 — 2026-05-13)
+- `docs/governance/review-rules.md + credentials-rules.md(上下游同文分发)`(已引用 — 2026-05-13)
 - `docs/governance/finishing-rules.md`(process-audit / evaluate / security-scan 三处)(已引用 — 2026-05-13)
 
 引用形式:"调度者面对挑战者时遵守 `synthesis-rules.md` 事前 / 事后规则"

@@ -22,8 +22,8 @@
 #   - 中文 grep:统一 LC_ALL=C.UTF-8(无则 C),防字节级误匹配
 #   - 双层探测(M15 范式):docs/ 或 harness/docs/,与 check-handoff.sh 双层探测段逐字同构
 #
-# 命名:无 meta-/check-meta- 前缀 → setup.sh 不过滤 → 分发下游(下游是主战场)。
-#       落 .claude/hooks/ → meta-scope.conf B 组 glob 自动纳 meta scope(改本 hook 走 meta-review)。
+# 命名:无点名排除 → 分发下游(下游是主战场)。
+#       落 .claude/hooks/ → credentials.conf 自动纳凭证义务(改本 hook 须 audit 凭证)。
 
 set -u
 

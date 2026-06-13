@@ -7,7 +7,7 @@
 #   硬(收口):finishing(docs/active/evaluation-result.md 存在)且 docs/context/ 在场时,
 #            handoff 必须显式声明 `## context-chain: 已核(...)` 或 `## context-chain: skipped(理由: ...)`,
 #            否则 exit 2。真正的链核查由 AI 按 finishing-rules「收口硬核链」节做;
-#            本 hook 只机械逼"显式声明"(与 meta-review 必须有 audit 文件同套路,不解析对错)。
+#            本 hook 只机械逼"显式声明"(与治理审查必须有 audit 凭证同套路,不解析对错)。
 #
 # 协议(Claude Code Stop hook):
 #   输入 stdin JSON(stop_hook_active);exit 0=放行 / exit 2=阻断 + stderr 引导
@@ -20,8 +20,8 @@
 #
 # 剂量:仅在 docs/context/ 存在时生效;无则 exit 0(小探索项目零打扰)。upstream:[待定]/[] 放行。
 #
-# 命名:无 meta-/check-meta- 前缀 → setup.sh 不过滤 → 分发下游(下游是主战场)。
-#       落 .claude/hooks/ → meta-scope.conf B 组 glob 自动纳 meta scope(改本 hook 走 meta-review)。
+# 命名:无点名排除 → 分发下游(下游是主战场)。
+#       落 .claude/hooks/ → credentials.conf 自动纳凭证义务(改本 hook 须 audit 凭证)。
 
 set -u
 

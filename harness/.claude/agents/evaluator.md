@@ -71,32 +71,9 @@ Superpowers 的 code-review 关注"代码好不好"——它在每个任务之�
 >   - 新增的定制维度 + 理由: [列表]
 >   ```
 >
-> **静态约束(第七轮 fix-2 — 防下游污染)**:本 agent 文件的 prompt 段落**只放结构占位 + 引用 M2 路径**,**禁止抄 M2 实文**(详见 spec §3.1.6 agent 文件静态约束节)。
->
-> **在 harness 自身仓库时,调度者按 spec §3.1.7 runtime 嵌入契约 Read M2 (`harness/docs/governance/meta-review-rules.md`) / M1 必要节并嵌入挑战者 prompt**。下游项目使用 `/evaluate` 时无 meta 治理语境,B 段最低必选维度按下面静态列出,A/C 段由调度者按当次主题填充。
+> 维度选择权威 = docs/governance/review-rules.md 维度选择表;治理面改动审查产 audit 凭证(credentials-rules)
 
-> **scope 参数处理(第七轮 fix-6)**:本 agent 4 挑战者(尤其挑战者 1 测试充分性专项检查)prompt 接收 `scope` 参数,值为 `feature` / `meta` / `mixed`。
->
-> **领审员(调度者)在 fork 挑战者前确定本次 scope**,并在挑战者 prompt 内嵌入对应 evidence depth 文件路径:
->
-> | scope | 引哪份 evidence depth 文件 |
-> |---|---|
-> | `feature` | `docs/references/testing-standard.md`(L1-L4 定义) |
-> | `meta` | `harness/docs/governance/meta-finishing-rules.md`(meta-L1~meta-L4,spec §4.1.4) |
-> | `mixed` | 同时引两份(meta + feature 双套档位值,spec §4.1.4 mixed 8 行示例) |
->
-> 伪代码(领审员):
-> ```text
-> if scope == "feature":
->   embed_evidence_depth_path = "docs/references/testing-standard.md"
-> elif scope == "meta":
->   embed_evidence_depth_path = "harness/docs/governance/meta-finishing-rules.md"
-> elif scope == "mixed":
->   embed_evidence_depth_path = ["docs/references/testing-standard.md",
->                                 "harness/docs/governance/meta-finishing-rules.md"]
-> ```
->
-> 挑战者 1 prompt 内"测试充分性专项检查"段落按 scope 引相应路径,不再硬编码 testing-standard.md。挑战者 2/3/4 不强加此约束(架构一致性 / 文档健康 / Slop 检测不依赖 evidence depth 标准)。
+> **evidence depth 档位**:档位解释按改动类别 → credentials-rules §7(同名 L1-L4,按改动类别参数化;feature/代码改动细则见 docs/references/testing-standard.md)。挑战者 1 "测试充分性专项检查"段落引相应档位列。挑战者 2/3/4 不强加此约束(架构一致性 / 文档健康 / Slop 检测不依赖 evidence depth 标准)。
 
 ---
 
@@ -124,10 +101,7 @@ Superpowers 的 code-review 关注"代码好不好"——它在每个任务之�
 - 副作用: 不可省略(meta 改动审查基线)
 - scope 漂移: 不可省略(meta 改动审查基线)
 
-> 上述 B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> 在 harness 自身仓库审查 meta 改动时,调度者按 spec §3.1.7 runtime 嵌入契约
-> 读取 M2 必要节并嵌入本 prompt(实文不在本 agent 文件内)。
-> 下游项目走 feature scope 审查时,B 段维度由领审员按场景缩减或替换为空。
+> 上述 B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ## C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制
@@ -135,18 +109,17 @@ Superpowers 的 code-review 关注"代码好不好"——它在每个任务之�
 - 禁用的推荐维度 + 理由: [列表](禁用 minimum 项需用户确认)
 - 新增的定制维度 + 理由: [列表]
 
-## scope 参数(领审员 fork 前填入)
-scope = [feature / meta / mixed]
-embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数处理表]
+## evidence depth 档位(领审员 fork 前确认)
+改动类别 = [核心新功能 / 非核心新功能 / bug 修复 / 重构 / 配置 / 文档 / 治理改动]
+档位解释列 = [feature/代码改动见 testing-standard.md;治理改动见 credentials-rules §7,同名 L1-L4 按改动类别参数化]
 
 具体工作:
 1. 逐条检查 RUBRIC 通用基线(功能完整性、代码质量、一致性、简洁性、测试充分性):实现是否达标?特别关注简洁性——是否存在未被要求的抽象层、过度错误处理、可以更短的实现?
 2. **测试充分性专项检查**(参照领审员嵌入的 evidence depth 文件路径):
    - 本次变更属于哪类(核心新功能 / 非核心新功能 / bug 修复 / 重构 / 配置 / 文档)?
    - 按嵌入的 evidence depth 文件决策表,最低 Evidence Depth 是什么?
-     · scope=feature → 用 L1-L4(testing-standard.md 定义)
-     · scope=meta    → 用 meta-L1~meta-L4(meta-finishing-rules.md 定义)
-     · scope=mixed   → 双套档位均评(meta + feature 各列出)
+     · feature/代码改动 → 用 L1-L4(testing-standard.md 定义)
+     · 治理改动 → 用 L1-L4 治理列解释(credentials-rules §7 同名档位,按改动类别参数化)
    - handoff 的 Evidence Depth 字段声明的层级,是否有对应的证据?(命令 / 输出 / 文件路径)
    - 声称的 L 层级和实际证据是否匹配?(如声称 L3 自动化 API 测试但没有脚本文件 → 虚假声明)
    - 过度测试检查:非核心路径写了超出要求的测试 → 标注为简洁性问题
@@ -214,8 +187,7 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 - 副作用: 不可省略
 - scope 漂移: 不可省略
 
-> B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> harness 自身仓库 meta 改动时调度者按 spec §3.1.7 runtime 嵌入 M2 必要节。
+> B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ## C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制
@@ -290,8 +262,7 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 - 副作用: 不可省略
 - scope 漂移: 不可省略
 
-> B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> harness 自身仓库 meta 改动时调度者按 spec §3.1.7 runtime 嵌入 M2 必要节。
+> B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ## C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制
@@ -367,8 +338,7 @@ embedded_evidence_depth_path = [按 scope 取对应路径,见上方 scope 参数
 - 副作用: 不可省略
 - scope 漂移: 不可省略
 
-> B 段维度名引用自 M2 `harness/docs/governance/meta-review-rules.md`;
-> harness 自身仓库 meta 改动时调度者按 spec §3.1.7 runtime 嵌入 M2 必要节。
+> B 段维度名引用自 review-rules 维度选择表(docs/governance/review-rules.md);治理面改动审查产 audit 凭证(credentials-rules)。
 
 ## C. 定制理由字段(领审员当次填,留痕到 audit trail)
 ### 本次定制

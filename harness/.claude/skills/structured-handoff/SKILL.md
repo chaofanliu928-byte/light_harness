@@ -80,9 +80,9 @@ mkdir -p docs/completed && cp docs/active/handoff.md "docs/completed/handoff-$(d
 |---|---|---|---|
 | 决策 | 决策史 | `docs/decisions/YYYY-MM-DD-<slug>.md` | 文件名即卡;判断拐点另 append decision-trail(既有义务) |
 | 调研 / 参考 | 行业认知 | `docs/references/YYYY-MM-DD-<slug>.md` | 目录卡(references/README.md)加行 |
-| 经验(干活规矩级) | 干活规矩 | 对应 `docs/governance/*.md` | **命中 A 组 → 走 meta-review,不得收口顺手直插**;此类条目允许"顺延"跨覆写保留 |
+| 经验(干活规矩级) | 干活规矩 | 对应 `docs/governance/*.md` | **命中凭证义务 → 须 audit 凭证(credentials-rules),不得收口顺手直插**;此类条目允许"顺延"跨覆写保留 |
 | 经验(项目事实) | 系统真相 | ARCHITECTURE.md / 模块 README | 文档随码既有规矩 |
-| 偏好 | 用户偏好 | `docs/preferences.md` | 条目带日期+用户原话引录;命中 A 组 → 走 meta-review,用户原话直录可走 skip 字段轻路径 |
+| 偏好 | 用户偏好 | `docs/preferences.md` | 条目带日期+用户原话引录;命中凭证义务 → 须 audit 凭证(credentials-rules),用户原话直录可走 exempt 微 audit 轻路径(credentials-rules §4) |
 
 类型不在表(如 `[疑问]`)→ 按实质闸归并到最近的格,或问用户。
 
@@ -114,8 +114,8 @@ hook 整行校验: ^promotion: (未核|已核\(上架: [^;]+; 弃置: [0-9]+ 条
               (旧格式,B9 迁移场景)→ 视同 "- 无"(向后兼容)
 凭证设计: 有上架声明却无路径的"已核"被文法拒;空账形态(上架: 无; 弃置: 0 条)合法且跳过锚点抽查
         ("只写已阅读不算证据"仍由非空账形的锚点抽查承载)
-半角纪律: ( ) : ; , 全半角;全角不命中 → 按未做处理 + stderr 提示(与 meta-review skip 字段同教训,
-          meta-finishing-rules.md:116)
+半角纪律: ( ) : ; , 全半角;全角不命中 → 按未做处理 + stderr 提示(半角纪律权威即本 SKILL;
+          沿 2026-04-28 C3 Y3 教训)
 ```
 
 「阻塞」是台账中的合法中间态(非终态):清账裁决为阻塞或清账中途等用户拍板时,因固定序①归档已点燃覆写信号,当场把台账 promotion 行写为 `阻塞(理由: <非空>)`、其余保持原状——check-handoff.sh 在 60 分钟窗内视其为合法中间态放行;阻塞解除后重走本门禁,覆写步骤重写为 已核/skipped。

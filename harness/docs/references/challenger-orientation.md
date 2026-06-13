@@ -72,10 +72,9 @@ distribution: 本文件分发到下游(setup.sh 复制 references/)
 **挑战者 1(RUBRIC 合规)** — 条款对照法 + 测试充分性专项
 
 - 同 §1.2 挑战者 4 的条款对照法
-- **测试充分性专项**:按 scope 参数引 evidence depth 文件:
-  - `scope=feature` → 引 `docs/references/testing-standard.md`(L1-L4)
-  - `scope=meta` → 引 `docs/governance/meta-finishing-rules.md`(meta-L1~meta-L4)
-  - `scope=mixed` → 同时引两份(meta + feature 双套档位均评)
+- **测试充分性专项**:按改动类别引 evidence depth 档位:
+  - feature/代码改动 → 引 `docs/references/testing-standard.md`(L1-L4)
+  - 治理改动 → 引 credentials-rules §7 治理列(同名 L1-L4,按改动类别参数化)
 - 检查:声称的 L 层级是否有对应 evidence(命令 / 输出 / 文件路径)?声称 L3 自动化但没脚本 = 虚假声明
 
 **挑战者 2(架构一致性)** — 路径追踪法
@@ -163,7 +162,7 @@ harness/                          # 项目根
 │   │   │   ├── brainstorming-rules.md / design-rules.md / planning-rules.md
 │   │   │   ├── implementation-rules.md / testing-rules.md
 │   │   │   ├── review-rules.md / finishing-rules.md
-│   │   │   ├── meta-review-rules.md / meta-finishing-rules.md
+│   │   │   ├── credentials-rules.md(凭证与对账单入口)
 │   │   │   └── synthesis-rules.md(综合阶段中性化)
 │   │   ├── references/           # 参考文档(本文件 / DESIGN_TEMPLATE / multi-agent-review-guide)
 │   │   ├── audits/               # meta-review audit 历史
