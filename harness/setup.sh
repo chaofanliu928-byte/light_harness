@@ -65,20 +65,16 @@ cp "$SCRIPT_DIR/.claude/skills/design-review/SKILL.md" "$TARGET_DIR/.claude/skil
 cp "$SCRIPT_DIR/.claude/skills/project-setup/SKILL.md" "$TARGET_DIR/.claude/skills/project-setup/"
 cp "$SCRIPT_DIR/.claude/skills/process-audit/SKILL.md" "$TARGET_DIR/.claude/skills/process-audit/"
 
-# .claude/hooks
-# 命名前缀过滤(D12):跳过 meta-* / check-meta-* hooks(meta scope 治理 hook 不分发下游)
+# .claude/hooks:全量分发(治理同层 2026-06-13;对账工具 check-audit-coverage.sh 随分发)
 mkdir -p "$TARGET_DIR/.claude/hooks"
 for hook in "$SCRIPT_DIR/.claude/hooks/"*.sh; do
     [ -e "$hook" ] || continue
-    name=$(basename "$hook")
-    case "$name" in
-        meta-*) continue ;;       # meta-* hook 不分发下游(meta 治理仅 harness 自仓库用)
-        check-meta-*) continue ;; # check-meta 治理 hook(check-meta-review / check-meta-cross-ref)
-    esac
     cp "$hook" "$TARGET_DIR/.claude/hooks/"
 done
 chmod +x "$TARGET_DIR/.claude/hooks/"*.sh 2>/dev/null || true
-# settings.json 用 templates/settings.json(下游唯一来源;自仓库无接线——C 案追记①):下游零 meta hook 注册痕迹
+# 凭证要求表(机器版;与 docs/governance/credentials-rules.md 人读版双写同步)
+cp "$SCRIPT_DIR/.claude/hooks/credentials.conf" "$TARGET_DIR/.claude/hooks/"
+# settings.json 用 templates/settings.json(下游唯一来源;自仓库无接线——C 案追记①)
 cp "$SCRIPT_DIR/templates/settings.json" "$TARGET_DIR/.claude/"
 
 # docs
@@ -95,13 +91,9 @@ mkdir -p "$TARGET_DIR/docs/context"
 cp "$SCRIPT_DIR/docs/RUBRIC.md" "$TARGET_DIR/docs/"
 cp "$SCRIPT_DIR/docs/ARCHITECTURE.md" "$TARGET_DIR/docs/"
 cp "$SCRIPT_DIR/templates/PROGRESS.md" "$TARGET_DIR/docs/"
-# governance:命名前缀过滤(D12),跳过 meta-* 治理文件(M1 / M2 不分发下游)
+# governance:全量分发(治理同层;credentials-rules.md 随 *.md 自然拷入)
 for gov in "$SCRIPT_DIR/docs/governance/"*.md; do
     [ -e "$gov" ] || continue
-    name=$(basename "$gov")
-    case "$name" in
-        meta-*) continue ;;
-    esac
     cp "$gov" "$TARGET_DIR/docs/governance/"
 done
 # 初始台账:从模板单源(skill 捆绑资源)复制;活文件守卫(I7)— 已存在不覆盖
