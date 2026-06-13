@@ -5,6 +5,7 @@
 > **考古指针**:旧 spec + `docs/decisions/2026-06-10-preferences-scope-membership.md`(D11)+ `docs/decisions/2026-06-11-session-chain-reconciliation.md`(C 案,含追记①-④——现行执法哲学权威)+ 三份批级 audit `docs/audits/meta-review-2026-06-11-{135802,182559,222130}-*.md` + plan `docs/superpowers/plans/2026-06-11-context-layer.md`(23 任务)。
 > **锁定性质**:沿既有 spec 惯例**单件 immutable**(与九格表格 2「spec 单件 immutable」一致)——笔误级微修正走本状态头留痕;再有方向级变化 → 新 decision + 新版 spec 整体取代本文件(与本文件取代 2026-06-10 版同一模式)。
 > 微修正 ×1(2026-06-12,批审 P1/P4):§10 表 row3 去已撤案的"先修 F1"旧语改指 §7;§7 追记③引录改逐字(AI 释义移出引号)。
+> 受波及注记(2026-06-13,治理同层化):§5「scope 治理触点」、§6 对账命令 3 与欠账处置句、§7 工具箱成员行中的 meta-review / check-meta-review / check-meta-cross-ref / meta-scope.conf 表述,自治理同层化落地起以 `2026-06-13-governance-single-layer-design.md` 为准(对应物:治理审查凭证 / check-audit-coverage.sh / check-meta-cross-ref 已删除(互引守法归审查触点完整性维)/ credentials.conf;skip 字段制度消亡,豁免走 exempt 微 audit)。本文正文按 immutable 惯例不追改。
 > **路径约定**:文内 `docs/...`、`.claude/...` 以 `harness/` 为基准(与台账锚点写法同形);仓库根文件写「根 CLAUDE.md」「根 AGENTS.md」。
 
 ## §1 目标与第一性事实

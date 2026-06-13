@@ -26,7 +26,7 @@ Superpowers 管"怎么写好代码"。AI Dev Harness 管"按什么标准写、�
 - **2.2 扁平多挑战者架构** — 调度者直接 fork N 个独立挑战者,不二级嵌套。**Why**:Claude Code subagent 平台无 Agent 工具权限。**实现**:所有 skill 第一步统一 "在一条消息中并行 fork N 个"
 
 #### 层 3:流程哲学(vibe coding 启发)
-- **3.1 前期方案 + 最后验收 = 重头戏** — 力气放在 brainstorming/design 和 finishing/audit,中间放手。**Why**:vibe coding 启发 — 方案错全白做 + 最后验收守底线 + 中间放手提效。**实现**:前期 `project-setup` / `system-design` / `design-review`;最后 `evaluate` / `process-audit` / `security-scan` / `meta-review`;中间让 Superpowers 跑 implementation
+- **3.1 前期方案 + 最后验收 = 重头戏** — 力气放在 brainstorming/design 和 finishing/audit,中间放手。**Why**:vibe coding 启发 — 方案错全白做 + 最后验收守底线 + 中间放手提效。**实现**:前期 `project-setup` / `system-design` / `design-review`;最后 `evaluate` / `process-audit` / `security-scan` / 治理审查(同层,见 credentials-rules);中间让 Superpowers 跑 implementation
 - **3.2 文档先行** — 新建/变更先有文档再写代码。**Why**:强制结构化思考 + 智能体协作前提(通过 Read 对齐意图)。**实现**:`design-rules.md` 开头硬约束 + `check-module-docs.sh` hook
 - **3.3 边做边提升** — 不预设固化未来阶段,由真实需求拉动。**Why**:防 over-engineer 假设性需求 + 保留 optionality。**实现**:`ROADMAP.md` 工作哲学段 + `memory/feedback_iterative_progression.md`
 - **3.4 问题完美定义比解决问题重要**(debug 方法论)— debug 时,先把问题的 "是什么 / 在哪里 / 触发条件 / 已知边界" 定义清楚,再谈解。**Why**:问题定义错 = 解决方案必然错;debug 一旦跳进 "试错修复" 思维,容易跟随表象做错诊断;大部分时间该花在"理解问题",少量花在"修"。这是 vibe coding 在 debug 端的应用(3.1 是 plan 端)。**实现**:`docs/superpowers/specs/2026-05-12-p3-debug-sop-original-framework.md`(P3 debug SOP)+ `p0-9-4-self-check.md` §D P3 框架
@@ -36,7 +36,7 @@ Superpowers 管"怎么写好代码"。AI Dev Harness 管"按什么标准写、�
 - **4.1 智能体友好文档系统** — CLAUDE.md 索引 + 5 产物(spec/decision-trail/audit/banner/handoff)各司其职。**Why**:索引让智能体一眼找入口 / 维护良好让 Read 任何文件能拿到 fresh+actionable / 智能体友好 ≠ 人友好(需要 self-contained + structured + cross-referenced)。**实现**:`CLAUDE.md`(索引)+ `docs/superpowers/specs/`(spec)+ `decision-trail.md` + `docs/audits/` + inline banner + `docs/active/handoff.md`
 - **分层活上下文链(下游)** — `docs/context/` L1-L6 脊柱(对应 brainstorming→testing 阶段;松紧梯度:L1/L2 可探索"待定"合法,L3 对抗审查上场转严,L5/L6 最严)。每节 frontmatter `upstream: [编码]` 机读挂链(指编码不 grep)。**Why**:把跨会话上下文从"散文交叉引用"升级为"机读分层图",改上游可机械追下游,`待定` 是章法、静默断链是垃圾。**实现**:`docs/context/`(L1-vision/L2-INDEX 默认单表,L3-L6 随开发长)+ `check-context-chain.sh`(软早提醒)+ `finishing-rules.md`「收口硬核链」(AI 核 + handoff 声明)。注:这是 4.1 之外的新机制,**不计入上面"5 产物"**;harness 自仓库不建 context/(用 README 当 vision)。
 - **4.2 综合阶段中性化** — 调度者构造挑战者 prompt 必须中立(材料/排序/措辞);综合按 RUBRIC 维度评判。**Why**:防 anchoring,多智能体审查的有效性前提。**实现**:`docs/governance/synthesis-rules.md` 完整规范
-- **4.3 改动范围自动识别** — governance 改动 glob 机械触发 meta-review。**Why**:不靠 AI 自觉,机械触发不可被自我说服绕过。**实现**:`CLAUDE.md` §3-§4 + `.claude/hooks/meta-scope.conf` + `check-meta-*.sh` 系列 hook
+- **4.3 改动范围自动识别** — 治理面改动按凭证要求表机械负担 audit 凭证义务,开场对账核账。**Why**:不靠 AI 自觉,机械判据不可被自我说服绕过。**实现**:docs/governance/credentials-rules.md + .claude/hooks/credentials.conf + check-audit-coverage.sh --reconcile
 - **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:7 个 SKILL.md 统一结构
 - **4.5 挑战者导览体系**(挑战者侧基础设施)— 主智能体(调度者)进项目时读 `CLAUDE.md` 知道项目结构 / Skill 地图 / 文档索引;挑战者(fork 出的子智能体)对称地需要一份"挑战者侧导览" — 知道:怎么找问题(方法论 — 通用自检清单 + 角色专属技巧)/ 去哪找信息(数据来源向导 — 跨平台路径 + 命令模板)/ 怎么看调度者输入(批判看 + 自取用户原话校验主线 framing)/ 哪些陷阱要避(公设 1 / spec_gap_masking / framing / 越权)。**实现**:`docs/references/challenger-orientation.md`。fork 挑战者时 prompt 内含"先 Read 此文件";挑战者输出末尾必填 `### 已对照用户原话` section,调度者综合时校验(`synthesis-rules.md` 事后规则 5)
 - **4.6 主动调研 / 重视外部输入** — harness 默认"内向"(搜本仓库 + 问用户);本能力补上"从仓库外获取新信息作决策输入"的链路。规划方案时,需求定了、讨论方案前,**按需**(可逆性主轴 × 熟悉度次轴,默认跳过)fork 联网调研员,默认用 Claude Code 自带的 deep-research 调研业界方案。**Why**:别让 AI 闭门造车;但联网有成本且无差别检索会降质,所以按需触发。**红线**:调研结果只当**证据 / 选项**(经自己思考判断是否适用),不当判断依据——"别人这么做不单独构成理由"。**实现**:`.claude/agents/research-scout.md`(调研编排 + 红线契约)+ `brainstorming-rules.md` 阶段四前触发节
@@ -242,7 +242,7 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 - **Swap 列表**(11 角色,2026-05-22 修订):
   - 实现链路:designer / **planner** / **implementer** / **testing**
   - 审查链路:silent-failure-hunter / 设计自检 / design-review 4 挑战者 / **code-reviewer** / evaluate 非关键 / security-scan 危险+注入
-- **不 Swap**:调度者 / evaluate 关键 / security-scan 凭证 / meta-review / process-audit / 综合阶段
+- **不 Swap**:调度者 / evaluate 关键 / security-scan 凭证 / 治理审查 / process-audit / 综合阶段
 - **完整决策表 + sandbox/approval/model/effort**：[`docs/governance/model-route.md`](docs/governance/model-route.md)
 - **综合阶段规则**（防多 Agent 旁观者效应）：[`docs/governance/synthesis-rules.md`](docs/governance/synthesis-rules.md)
 - **理论锚点**（二公设）：见 `CLAUDE.md` §角色分离原则 段后的 blockquote

@@ -33,6 +33,7 @@
 | subagent dev | docs/governance/implementation-rules.md + testing-rules.md |
 | code-review | docs/governance/review-rules.md |
 | finishing | docs/governance/finishing-rules.md |
+| **凭证与对账(跨阶段)** | **docs/governance/credentials-rules.md** |
 
 ## Skill
 
@@ -57,6 +58,7 @@
 | check-shelf-registry | 落库登记软扫(未登记点名,永不阻断) |
 | check-evidence-depth | finishing 检查 Evidence Depth/CI 阻断字段 |
 | check-context-chain | docs/context/ 活链软提醒(断链/方向违法,只警告) |
+| check-audit-coverage | 凭证覆盖对账(--reconcile 开场用;治理面改动的 audit 凭证核) |
 
 ## 人必须做的事
 
@@ -78,6 +80,7 @@
 | docs/decisions/ | 架构决策 |
 | docs/context/ | 分层活上下文链(L1-L6;upstream 编码挂链) |
 | docs/references/ | 内部知识 + 提取的参考 |
+| docs/audits/ | 审查凭证(audit-*;频次低但生死攸关) |
 
 ## 上下文重置
 

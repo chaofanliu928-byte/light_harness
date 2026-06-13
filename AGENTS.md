@@ -35,6 +35,7 @@
 - 落库即登记: 写 references/ 带日期前缀留痕件同批登目录卡行(无前缀标准件豁免) → 全文与行文法住 harness/docs/references/README.md 目录卡头部
 - 覆写台账先清账: promotion 声明带锚点 → 全文住台账模板头 + structured-handoff SKILL(晋升门禁)
 - 过时标注不删改(immutable 格;本行即全文)
+- 治理面改动留凭证: 命中 credentials.conf 的改动收口前必有 audit(或 exempt 微 audit) → 全文住 harness/docs/governance/credentials-rules.md
 
 ## 手工校验(无 hook 运行时 / 纯人工)
 
