@@ -19,7 +19,8 @@
 ### 进行中
 - **治理同层化批 1+2 完成**(2026-06-13):批1=基线(4805a4c)+credentials-rules.md(1a60329)。批2=机器面原子换轨(745c03c:工具改名+conf改名+21件字段迁移audit:true+cross-ref删+命令行三处,V1 fixture 红1→绿10 过审)+setup分发改造(fc85321,V3六断言绿)+L48术语补(c9b7d9c)。G2 迁移对照:缩小集合7件全归因洗活、无abort、有效凭证16→20(归因留痕在基线登记簿)。
 - **批 3 完成**(文本合并):finishing-rules 唯一收口(b820547)+review-rules 唯一审查(41210ce)+四 SKILL 模板下放(8fe440a)+contracts-locked 退役注记(f7f0967)。两段审查 Approved;V9 逐字迁移保真核过(M1 StepC/M2 触点维+三段 pattern 字节级保真,实证段不摘);三件套互引 6 条 OK。M1/M2 本体仍在盘(批 4 末 git rm)。
-- 批 4 待开(地图清扫+退役件删除):M3 三节删除+单表化/M4/QUICKREF/README×2/AGENTS 硬规矩/agents×5/references×3/上下文层 spec 注记 → **末位 git rm M1/M2**(先改全部指针后删本体)+V3 复跑+V5+V6。
+- **批 4 完成**(地图清扫+退役件删除):M3 分流机器拆除单表化(cf38cda)+QUICKREF/README×2/AGENTS 硬规矩/spec 注记(c88eee4)+15 件消费点清扫(dde2d0b)+审查 concern 修(3c35c43 templates/README、bb22b0d 根 CLAUDE L65/L66 悬空旧词)+**M1/M2 退役 git rm**(3e96f58)。两段审查 Approved;V3 全断言绿(全树零 meta-* 文件名)+V5 双写一致+V6 七入口 1 步直达。
+- 批 5 待开(收尾自证):ROADMAP/decision-trail/PROGRESS+V8 制度自证 audit(新命名 audit-*,covers=批1-5全commit并集)+/structured-handoff 覆写+V4 断链核+三命令账齐实证+完成报告+挨个审查邀请。**批 5 V4 判据细化**:活层九术语命中逐处人工判读——合法字面(finishing 并入注/工具双前缀 glob/conf 沿革注与排除行)放行,仅活机制指针为红。
 
 ### 阻塞
 无。
