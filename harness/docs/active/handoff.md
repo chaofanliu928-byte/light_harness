@@ -3,8 +3,8 @@
 > 工作台只放状态和指针,知识住书架(找书:先指针,后目录卡 references/README.md)。
 > 覆写本文件只走 /structured-handoff(晋升门禁);入口地图:AGENTS.md / CLAUDE.md。
 
-更新时间: 2026-06-12 23:02
-当前阶段: 上下文层重构全部收口(批 0/1/会话链自执法批/C 案补完批);观察期
+更新时间: 2026-06-13(批 1 收尾,增量更新非覆写)
+当前阶段: 治理同层化执行中(子代理驱动,20 任务/5 批;批 1 完成,批 2 待开)
 当前分支: main
 
 ## 目标
@@ -17,16 +17,17 @@
 - 批 0+批 1+会话链自执法批(23 任务)+ **C 案补完批**(2026-06-12 挨个审查驱动:撤自仓库接线/登记簿规矩 M2 §7.5.1/F1 重定性+check-handoff --reconcile 纯状态对账/新 spec 整体取代)。四份批级 audit 全 pass(-after-revision);最终批 audit `meta-review-2026-06-12-230048-c-plan-completion-batch.md`
 
 ### 进行中
-- 观察期:每会话照 M3「会话开场规程」装载+对账(真实使用留痕 = meta-L4)
+- **治理同层化批 1 完成**(2026-06-13):基线留痕(4805a4c)+ credentials-rules.md 新件(1a60329,八节,审查 Approved)。旧工具/旧 conf 全程在岗,执法真空窗归零。
+- 批 2 待开(最重批):工具改名 check-audit-coverage.sh + conf 改名 credentials.conf + 21 件字段迁移 + 命令行三处 + cross-ref 删除——**原子同 commit**;setup.sh 单独 commit。开场对账自批 2 起带显式全窗 `--reconcile 99999`(G3)。
 
 ### 阻塞
 无。
 
 ## 下一步
 
-1. 观察期数据积累:开场对账三命令的真实使用留痕;SETUP_NEEDED 是否烦人(候选自仓库豁免);F1 假点燃若现实战反例再议(已重定性良性,详现行版 spec §7)
-2. 偏好 6 条待补原话:用户随时口述即升格(preferences.md)
-3. ROADMAP「批 1 留痕待办」其余各条按自带触发器逐件处置(无需主动开工)
+1. 治理同层化批 2-5 顺 plan `docs/superpowers/plans/2026-06-13-governance-single-layer.md` 执行(实现者+两段审查;批 1-4 小 checkpoint 过渡态不走旧 M1 四步,欠账批 5 V8 audit 统一销 = G6)
+2. **凭证欠账登记(G6)**:批 1-4 改动的凭证欠账暂挂,批 5 V8 audit(covers=批 1-5 全 commit name-only 并集机械汇编)统一销账
+3. 上下文层观察期项(SETUP_NEEDED/F1/偏好 6 条待补原话)不受本批影响,触发器照旧
 
 ## 待晋升暂存
 
