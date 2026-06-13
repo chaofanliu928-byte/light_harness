@@ -1,7 +1,8 @@
 # 治理同层化:meta/feature 双轨收敛为单层(凭证参数化)
 
 - 日期:2026-06-13
-- 状态:✅ 已决(用户拍板,需求清单+结构方案+第一性重推三轮确认)
+- 状态:✅ 已决并落地(用户拍板,需求清单+结构方案+第一性重推三轮确认;批 1-5 实现完毕,V8 制度自证账齐)
+- 关联实现:plan `docs/superpowers/plans/2026-06-13-governance-single-layer.md`(20 任务/5 批);decision commit c8e4b4a + 追记 ffc4b3a/2ebc7b7;实现 1a60329..a83a490(19 commit);V8 audit `docs/audits/audit-2026-06-13-133256-governance-single-layer.md`(verdict=pass-after-revision,4 挑战者)
 - 类型:方案选择型(三案并排)
 - 取代关系:取代 P0.9.1 的双轨结构(M1/M2/scope 分流/meta-* 体系;其"治理改动必须被审查留凭证"的不变量保留);2026-04-17 根源承认决策**不被推翻**(承认的缺口依旧成立,改的是解法结构)
 
