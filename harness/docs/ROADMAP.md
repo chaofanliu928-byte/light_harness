@@ -74,7 +74,7 @@
 - M3「会话开场规程」内联的两条手工校验命令与根 AGENTS.md「手工校验」节构成第三份拷贝,无声明的同步义务(任务 21 审查 Minor)——改 hook 路径/调用形态时记得三处同改;后续可补显式双写声明
 - 开场对账无机器可判的"干净/欠账"信号(--reconcile 恒 exit 0,by design:hook=工具箱,处置靠 AI 读输出)——若实践中出现"读了不补"再议升级
 - ✅ M2 Stop hook 兜底表述已补 C 案条件注(2026-06-12,§3.2 两处);M1 §4.2 示例为 spec fix-4 锁定逐字件**不动**——其语义在接线环境(下游)仍真,自仓库口径由 M2 注 + 现行版 spec §7 承载
-- check-handoff --reconcile 观察项(补完批件 4 审查):对账与 Stop 分支的 body 解析约 130 行近重复(文法 ERE/空账判定已单源,字段抽取未)——将来改抽取逻辑记得两处;拼错参数(如 --reconcil)落 Stop 模式会挂 stdin(与 check-meta-review 同族继承,交互场景注意)
+- check-handoff --reconcile 观察项(补完批件 4 审查):对账与 Stop 分支的 body 解析约 130 行近重复(文法 ERE/空账判定已单源,字段抽取未)——将来改抽取逻辑记得两处;拼错参数(如 --reconcil)落 Stop 模式会挂 stdin(与 check-audit-coverage 同族继承,交互场景注意)
 
 **本轮重审范围**(系统已变 → 逐件三问裁决:问题还在吗/新机制承载吗/什么形态;不预设"修复上岗"):
 - 8 个 hook + settings 接线(对抗审查实证:自仓库根启动会话从未加载 hook——"天然无 hook 实验"数据见 `references/2026-06-10-handoff-kb-integration-analysis.md` 地基事实 1)
@@ -89,6 +89,15 @@
 - 重审触发候选:ultracode 让渡决策(材料已备:`references/2026-06-10-scaffold-vs-ultracode-map.md`)、下次模型/运行时大变化、上下文层落地后的连带触点
 
 **外部参考输入**:用户提供的 16 步交付技能(外部项目 `_参考规则/skills/sixteen-step-delivery`)的机制库——读取凭证(证据锚点,"只写已阅读不算证据")/ 状态初值制度(空白=not-started 不得当通过)/ 三态准入(proceed/blocked/assumption-ready)/ 分流留痕(UGR/SCP/DCR+传播记录)/ 过程记录同步门禁。借机制模式不借官僚密度,逐个过简洁性反问。
+
+### 治理同层化(✅ 2026-06-13 批 1-5 完成)
+
+> **现行版 spec/decision:`specs/2026-06-13-governance-single-layer.md` + `decisions/2026-06-13-governance-single-layer.md`**
+
+**进展**:治理同层化批 1-5 完成(取代 P0.9.1 双轨结构——scope 分流机器拆除,凭证参数化 credentials.conf/credentials-rules 取代 meta-* 体系;"治理改动必须被审查留凭证"不变量保留)。
+
+**观察项(spec §10.2-i / decision 2026-06-13 追记三)**:
+- 治理批暂无机器安全扫——hook 脚本危险操作面 / AI 指令文本注入面在治理批暂无机器扫(安全扫描/流程审计维持 feature 侧,decision 2026-06-13 追记三);触发器:实战出险或用户重启
 
 ### 已识别但搁置
 

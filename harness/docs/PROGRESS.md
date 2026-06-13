@@ -14,6 +14,7 @@
 | # | 功能名称 | 完成时间 | 评估总分 | commit hash | 备注 |
 |---|---------|---------|---------|-------------|------|
 | 1 | P0.9.1 harness self-governance | 2026-04-28 | meta-review verdict=pass(after revision) | `6e8bda1..34129ae` | 首条 meta-L4 数据点,bootstrap loop 闭合;audit `docs/audits/meta-review-2026-04-28-102359-p0-9-1-self-review.md`;修订 decision `docs/decisions/2026-04-28-p0-9-1-meta-review-revision.md` |
+| 2 | 治理同层化(凭证参数化) | 2026-06-13 | (待任务 20 /evaluate + V8 audit verdict 封) | (待任务 20 milestone commit) | 治理批 1-5 完成,取代 P0.9.1 双轨结构;"治理改动必须被审查留凭证"不变量保留;spec/decision `docs/{superpowers/specs,decisions}/2026-06-13-governance-single-layer.md`;评估总分/audit 由任务 20 总 checkpoint 封 |
 
 <!-- 示例：
 | 1 | 用户注册与登录 | 2026-04-01 | 8.2 | a1b2c3d | 首个功能，架构基础 |
