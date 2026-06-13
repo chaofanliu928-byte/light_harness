@@ -17,15 +17,15 @@
 - 批 0+批 1+会话链自执法批(23 任务)+ **C 案补完批**(2026-06-12 挨个审查驱动:撤自仓库接线/登记簿规矩 M2 §7.5.1/F1 重定性+check-handoff --reconcile 纯状态对账/新 spec 整体取代)。四份批级 audit 全 pass(-after-revision);最终批 audit `meta-review-2026-06-12-230048-c-plan-completion-batch.md`
 
 ### 进行中
-- **治理同层化批 1 完成**(2026-06-13):基线留痕(4805a4c)+ credentials-rules.md 新件(1a60329,八节,审查 Approved)。旧工具/旧 conf 全程在岗,执法真空窗归零。
-- 批 2 待开(最重批):工具改名 check-audit-coverage.sh + conf 改名 credentials.conf + 21 件字段迁移 + 命令行三处 + cross-ref 删除——**原子同 commit**;setup.sh 单独 commit。开场对账自批 2 起带显式全窗 `--reconcile 99999`(G3)。
+- **治理同层化批 1+2 完成**(2026-06-13):批1=基线(4805a4c)+credentials-rules.md(1a60329)。批2=机器面原子换轨(745c03c:工具改名+conf改名+21件字段迁移audit:true+cross-ref删+命令行三处,V1 fixture 红1→绿10 过审)+setup分发改造(fc85321,V3六断言绿)+L48术语补(c9b7d9c)。G2 迁移对照:缩小集合7件全归因洗活、无abort、有效凭证16→20(归因留痕在基线登记簿)。
+- 批 3 待开(文本合并):finishing-rules/review-rules 改造+四 SKILL 模板下放+contracts-locked 注记;M1/M2 本体保留(git rm 挪批4末)。
 
 ### 阻塞
 无。
 
 ## 下一步
 
-1. 治理同层化批 2-5 顺 plan `docs/superpowers/plans/2026-06-13-governance-single-layer.md` 执行(实现者+两段审查;批 1-4 小 checkpoint 过渡态不走旧 M1 四步,欠账批 5 V8 audit 统一销 = G6)
+1. 治理同层化批 3-5 顺 plan `docs/superpowers/plans/2026-06-13-governance-single-layer.md` 执行(实现者+两段审查;批 1-4 小 checkpoint 过渡态不走旧 M1 四步,欠账批 5 V8 audit 统一销 = G6)。**G3 纪律:开场对账带 `--reconcile 99999` 全窗,直至批 5 V8 落账(迁移后默认窗锚=批2时刻,失真)**
 2. **凭证欠账登记(G6)**:批 1-4 改动的凭证欠账暂挂,批 5 V8 audit(covers=批 1-5 全 commit name-only 并集机械汇编)统一销账
 3. 上下文层观察期项(SETUP_NEEDED/F1/偏好 6 条待补原话)不受本批影响,触发器照旧
 
