@@ -5,13 +5,13 @@
 ## settings.json — 分发模板(M19)
 
 - 本文件是**下游项目唯一的 settings 来源**:setup.sh 从本路径拷贝到目标项目 `.claude/settings.json`
-- hooks 全量分发(check-meta-cross-ref 已删除,R14)
+- hooks 全量分发(无排除机制,R14——前缀过滤已退役)
 - harness 自仓库**无 settings 接线**(2026-06-12 撤除,C 案:hook=工具箱,手工模式为正身;详 `harness/docs/decisions/2026-06-11-session-chain-reconciliation.md` 追记①),本文件没有自仓库对照件
 
 ## 维护规约
 
 - **增删下游 hook** → 改本模板(templates/settings.json),并确认脚本随 hooks 循环分发(无排除机制)
-- **meta hook 永不入本文件**(自仓库 meta hook 以手工/工具箱模式运行,不走 settings 接线,更不分发)
+- **无 hook 分发排除**(治理同层 2026-06-13:上下游同一套 hook,对账工具 check-audit-coverage 随全量分发;前缀过滤机制已退役)
 
 ### 自检(可选)
 
