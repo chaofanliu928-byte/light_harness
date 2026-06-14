@@ -115,3 +115,126 @@ const FINDING_SCHEMA = {
     user_words_section: { type: 'string' }, // 「### 已对照用户原话」section 原文(synthesis 事后规则 5)
   },
 };
+
+// ───────────────────────────────────────────────────────────────────────────
+// 编排段(任务 2):侦察 → 对抗 两阶段 + challengerPrompt 构造 + 错误处理 + 出参
+// 上面契约常量(任务 1)不改;本段只加编排逻辑。
+// ───────────────────────────────────────────────────────────────────────────
+
+// scout fork 的 prompt(spec §3.2):传指针 + 会话意图 + 地板表 + 候选菜单,引导其读
+// review-scout.md 推维指令(scout agentType=general-purpose,有 Read/Grep,自读盘 — D9)。
+// workflow 无文件系统:指针只传路径字符串,由 scout fork 自己 Read/Grep。
+function scoutPrompt(reviewType, targets, sessionIntent) {
+  const floor = FloorTable[reviewType] || [];
+  return [
+    '你是审查侦察员(review-scout)。先 Read `docs/.claude/agents/review-scout.md`(下游分发版路径;',
+    '自仓库实际为 `harness/.claude/agents/review-scout.md`)取完整推维指令(A-3 判据 + B-8 加维引导),按它操作。',
+    '',
+    `审查类型 reviewType = ${reviewType}。`,
+    `本类地板维(照抄进 inherited_floor,不增删改): ${JSON.stringify(floor)}`,
+    `标准候选菜单(每次必考虑,不加须写进 skipped_candidates 留痕): ${JSON.stringify(DesignCandidateMenu)}`,
+    '',
+    '被审材料 / 上下文指针(用 Read / Grep 自读,不要等人喂内容):',
+    `  被审材料(必读): ${targets.spec}`,
+    `  方向盘 RUBRIC(A-3 判据 Read 它判 rubric_mode): ${targets.rubric}`,
+    `  架构(可缺;缺则 notes 标"跳过架构维"): ${targets.architecture}`,
+    `  决策史目录(按需 Grep): ${targets.decisionsDir}`,
+    `  审查凭证目录(按需 Grep): ${targets.auditsDir}`,
+    '',
+    // 会话意图按"任务边界、非结论引导"传入(synthesis 事前规则 5;workflow 不加结论倾向)
+    `本会话意图(任务边界,只界定审什么,不暗示结论): ${sessionIntent}`,
+    '',
+    '输出严格满足 SCOUT_SCHEMA(inherited_floor / added_dimensions / skipped_candidates / rubric_mode',
+    '[+ 可选 notes])。你只产审查计划,不下审查判定(judging 在调度者综合阶段 — D8)。',
+  ].join('\n');
+}
+
+// 单维挑战者 prompt(spec §3.3,100% scout 路自有;不读/不抄/不镜像 design-reviewer.md)。
+// 薄包装(自读盘 + 中性约束 + 通用方法论引导 + 主线-支线-关系 + 输出格式 + 已对照用户原话 section)
+//   + 该维 focus(floor/已知维 → FLOOR_FOCUS[d.name];动态加维 → d.challenger_focus)。
+function challengerPrompt(d, targets, sessionIntent) {
+  // focus 来源二选一:维名命中 FLOOR_FOCUS(地板+已知维)→ 取常量;否则用 scout 返回的 challenger_focus。
+  const focus = (d.name in FLOOR_FOCUS) ? FLOOR_FOCUS[d.name] : d.challenger_focus;
+  return [
+    `你是设计审查挑战者,负责「${d.name}」这一维。你是对抗者,不是评分员(只产 findings + 证据,不打总分 — D8)。`,
+    '',
+    '先 Read `docs/references/challenger-orientation.md` 取通用方法论(方法 / 数据来源 / 陷阱)。',
+    '注:其 §1.2「design-review 4 挑战者专属」的固定 4 维框定不适用本 scout 路的动态 N,不要被它误导。',
+    '',
+    // A-1:自读盘 + 中性约束(不主动搜罗支持某结论的旁证)
+    `被审材料路径(自己 Read,不要等人喂全文): ${targets.spec}`,
+    '中性约束:只读上面被审材料 + 与你这一维 focus 相关的 decisions/audits;',
+    '不要主动搜罗支持某个预设结论的旁证(对齐 synthesis-rules 事前规则中性化)。',
+    '',
+    // 主线-支线-关系(synthesis 事前规则 5;从 sessionIntent 构造,只描述边界不暗示结论)
+    '## 主线-支线-关系',
+    `- 主线: ${sessionIntent}`,
+    `- 支线: 审查被审材料的「${d.name}」维`,
+    `- 关系: 本维是本次审查计划中的一维,服务于对被审材料整体质量的判断`,
+    '',
+    `## 本维关注焦点(${d.name})`,
+    focus,
+    '',
+    '## 输出格式(严格满足 FINDING_SCHEMA)',
+    'dimension = 本维名;findings = [{title, location(文档节/路径), problem, evidence(原文引用), impact, severity(🔴|🟡|🟢)}];',
+    'user_words_section = 末尾必填「### 已对照用户原话」section 原文(对照用户原话锚点核对,守 synthesis 事后规则 5)。',
+  ].join('\n');
+}
+
+// workflow 默认导出:侦察 → 对抗 两阶段编排。
+// 入参契约见 spec §3.1;不下通过/不通过判定(D8),只返回 {plan, findings}。
+export default async function reviewScout({ phase, agent, parallel, log }, input) {
+  const { reviewType, targets, sessionIntent } = input || {};
+
+  // 入参校验(spec §3.1 错误处理):缺被审材料路径 → 报错 + 返回空,调度者按审查失败处理。
+  if (!targets || !targets.spec) {
+    log('review-scout: 入参缺 targets.spec(被审材料路径),无法侦察 → 返回 {plan:null, findings:[]}');
+    return { plan: null, findings: [] };
+  }
+
+  // ── 阶段 A 侦察:scout fork 读上下文产审查计划 ──
+  // 错误处理(spec §3.2 / §5.1):scout 空返回 / schema 校验失败 → 重试一次;二次仍败 → 返回空。
+  const plan = await phase('侦察', async () => {
+    const prompt = scoutPrompt(reviewType, targets, sessionIntent);
+    let result = await agent(prompt, { schema: SCOUT_SCHEMA, label: 'scout', agentType: 'general-purpose' });
+    if (!result) {
+      // 二次重试(仅一次)
+      result = await agent(prompt, { schema: SCOUT_SCHEMA, label: 'scout-retry', agentType: 'general-purpose' });
+    }
+    return result || null;
+  });
+
+  if (!plan) {
+    log('review-scout: scout 侦察重试一次仍失败 → 返回 {plan:null, findings:[]}(调度者标审查失败,不静默回落现有 4 维路)');
+    return { plan: null, findings: [] };
+  }
+
+  // 算实际扇出维列表:dims = inherited_floor ∪ added_dimensions.name(spec §4.2)。
+  // inherited_floor 是维名 string[];added_dimensions 是对象数组,取 name 后并集。
+  const floorDims = (plan.inherited_floor || []).map((name) => ({ name }));
+  const addedDims = plan.added_dimensions || [];
+  const dims = [...floorDims, ...addedDims];
+
+  // ── 阶段 B 对抗:一维一挑战者并行扇出 ──
+  // 错误处理(spec §3.3 / §5.1):某挑战者空返回 → 重试一次;仍败该项为 null,filter(Boolean) 剔除。
+  const findings = await phase('对抗', async () => {
+    return await parallel(
+      dims.map((d) => async () => {
+        const prompt = challengerPrompt(d, targets, sessionIntent);
+        let r = await agent(prompt, { schema: FINDING_SCHEMA, label: d.name, agentType: 'general-purpose' });
+        if (!r) {
+          // 二次重试(仅一次);仍败返回 null,由下方 filter(Boolean) 剔除(该维标盲区,调度者综合处理)
+          r = await agent(prompt, { schema: FINDING_SCHEMA, label: `${d.name}-retry`, agentType: 'general-purpose' });
+        }
+        return r || null;
+      })
+    );
+  });
+
+  // 出参(spec §3.5):plan(SCOUT_SCHEMA 原样)+ findings(已 filter(Boolean) 去掉失败挑战者)。
+  // 不在脚本内对 findings 下"通过/不通过"判定 — 综合判定在调度者(D8)。
+  return {
+    plan,
+    findings: (findings || []).filter(Boolean),
+  };
+}
