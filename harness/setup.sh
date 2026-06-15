@@ -61,6 +61,7 @@ mkdir -p "$TARGET_DIR/.claude/skills/system-design"
 mkdir -p "$TARGET_DIR/.claude/skills/design-review"
 mkdir -p "$TARGET_DIR/.claude/skills/project-setup"
 mkdir -p "$TARGET_DIR/.claude/skills/process-audit"
+mkdir -p "$TARGET_DIR/.claude/skills/code-review"
 cp "$SCRIPT_DIR/.claude/skills/evaluate/SKILL.md" "$TARGET_DIR/.claude/skills/evaluate/"
 cp "$SCRIPT_DIR/.claude/skills/structured-handoff/SKILL.md" "$TARGET_DIR/.claude/skills/structured-handoff/"
 cp "$SCRIPT_DIR/.claude/skills/structured-handoff/handoff-template.md" "$TARGET_DIR/.claude/skills/structured-handoff/"
@@ -69,6 +70,7 @@ cp "$SCRIPT_DIR/.claude/skills/system-design/SKILL.md" "$TARGET_DIR/.claude/skil
 cp "$SCRIPT_DIR/.claude/skills/design-review/SKILL.md" "$TARGET_DIR/.claude/skills/design-review/"
 cp "$SCRIPT_DIR/.claude/skills/project-setup/SKILL.md" "$TARGET_DIR/.claude/skills/project-setup/"
 cp "$SCRIPT_DIR/.claude/skills/process-audit/SKILL.md" "$TARGET_DIR/.claude/skills/process-audit/"
+cp "$SCRIPT_DIR/.claude/skills/code-review/SKILL.md" "$TARGET_DIR/.claude/skills/code-review/"
 
 # .claude/hooks:全量分发(治理同层 2026-06-13;对账工具 check-audit-coverage.sh 随分发)
 mkdir -p "$TARGET_DIR/.claude/hooks"
