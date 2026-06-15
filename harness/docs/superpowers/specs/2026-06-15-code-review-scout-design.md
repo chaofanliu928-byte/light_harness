@@ -164,7 +164,7 @@
     spec: 'docs/superpowers/specs/<被实现 spec>.md',  // 被实现的设计 spec 路径(code 审查对照"实现 vs 设计";可缺=纯 bugfix 无 spec 时 scout notes 标)
     diffRef: '<git 改动范围引用,如 "HEAD~N..HEAD" 或分支名>',  // ★ code 路新增:代码改动范围(scout/挑战者据此 Grep/Read 改动文件)
     rubric: 'docs/RUBRIC.md',                        // 方向盘路径(A-3 判据读它)
-    architecture: 'docs/ARCHITECTURE.md',            // 可缺(自仓库无 → scout notes 标跳过架构维)
+    architecture: 'docs/ARCHITECTURE.md',            // 可缺/仅模板占位(自仓库该文件存在但仅模板占位 → scout 判模板标记后 notes 标跳过架构维)
     decisionsDir: 'docs/decisions/',                 // 决策史目录(scout 按需 Grep)
     auditsDir: 'docs/audits/'                        // 审查凭证目录(scout 按需 Grep)
   },
@@ -179,7 +179,7 @@
 - **错误处理**:入参缺 `targets.diffRef` 且缺 `targets.spec` → workflow `log()` 报错并返回 `{plan:null, findings:[]}`,调度者视审查失败按 SKILL 错误处理重试。(运行时无 Workflow 工具 = 分支去走 Superpowers,非本接口错误。)
 
 > **scoutPrompt 改动点(A 簇 — 三处串 → reviewType 分支;governance 留口守卫)**:现 `scoutPrompt(reviewType, targets, sessionIntent)`(workflow.js L128-151)写死 ① `DesignCandidateMenu`(L136)② `targets.spec` 作"被审材料(必读)"(L139,无 diffRef)③ 通篇 design 语境。改为:
-> - **候选菜单按 reviewType 取**:`const menu = reviewType === 'code' ? CodeCandidateMenu : DesignCandidateMenu;`(L136 注入 `menu`)。
+> - **候选菜单按 reviewType 取**:`menu` 按 `reviewType` 取(L136 注入 `menu`);完整 3-way 取数逻辑(含 governance 留口)见下方「governance 留口守卫」段,权威终态以那一处为准。
 > - **被审材料指针按 reviewType**:code 路注入 `改动范围(必读,git diff/Read): ${targets.diffRef}` + `对照 spec(如有): ${targets.spec}`;design 路逐字保留 `被审材料(必读): ${targets.spec}`。
 > - **governance 留口守卫(A 簇收尾)**:`reviewType==='governance'`(本轮不接线)**不得落空注入 design 菜单**——`scoutPrompt` 加 guard:`const menu = reviewType === 'code' ? CodeCandidateMenu : reviewType === 'design' ? DesignCandidateMenu : [];`(governance → 空菜单 + 注 `notes:"governance 类未接线,本轮不应被调用"`);且 code-review/design-review SKILL 都不会用 `reviewType='governance'` 调本 workflow(治理审查仍走现 A/B/C)。即"留口"= FloorTable 有 governance 行但无调用方,不是"会落空跑 design 菜单"。
 
@@ -269,10 +269,10 @@ CodeCandidateMenu = ['类型契约合规', '架构合规', '模块文档一致�
 //     ★ A 簇修订:方向盘对齐 focus 不能两路共用(design 版「审查设计」语境);故 focus 取数处按 reviewType 选。
 //        取数实现(裁决 (b),§3.3/§7.2):challengerPrompt 取 focus 时 ——
 //          const isCode = reviewType === 'code';
-//          let focus;
-//          if (d.name === '方向盘对齐') focus = isCode ? FLOOR_FOCUS_CODE['方向盘对齐'] : FLOOR_FOCUS['方向盘对齐'];
-//          else if (d.name in FLOOR_FOCUS_CODE && isCode) focus = FLOOR_FOCUS_CODE[d.name];   // code 独有维
-//          else focus = (d.name in FLOOR_FOCUS) ? FLOOR_FOCUS[d.name] : d.challenger_focus;    // design 维 / 动态维
+//          const focus = (isCode && d.name in FLOOR_FOCUS_CODE) ? FLOOR_FOCUS_CODE[d.name]
+//                      : (d.name in FLOOR_FOCUS) ? FLOOR_FOCUS[d.name]
+//                      : d.challenger_focus;
+//        (「方向盘对齐」同在 FLOOR_FOCUS_CODE 与 FLOOR_FOCUS 两常量,按上式顺序处理即等价:code 路先命中 FLOOR_FOCUS_CODE,无需单独特判。)
 //        维名两路一致(都叫「方向盘对齐」,不加后缀污染 SCOUT_SCHEMA/双写),focus 文字按 reviewType 分。
 
 FLOOR_FOCUS = {   // design 路键,全不改(F 守住;design 路 challengerPrompt 走此)
@@ -300,7 +300,7 @@ const FLOOR_FOCUS_CODE = {
     '查涉 API 的代码是否从共享类型文件 import(无前后端各自定义)、新增/改 API 字段是否在共享类型文件有对应定义、字段命名与 DB 映射是否一致;自定义应在契约中的类型 = critical。(对齐 review-rules「类型契约合规」节)',
   '架构合规':
     '查改动是否违反 ARCHITECTURE.md 分层规则(跨层依赖)、新文件是否放在正确目录。' +
-    '先 Read targets.architecture;若缺失(自仓库无)→ 本维由 scout 在 notes 标跳过,不硬推。(对齐 review-rules「架构合规」节)',
+    '先 Read targets.architecture;若缺失或仅模板占位(自仓库 harness/docs/ARCHITECTURE.md 存在但仅模板占位 `<!-- 根据你的项目自定义 -->` / `[待定义]`)→ 本维由 scout 在 notes 标跳过,不硬推。(对齐 review-rules「架构合规」节)',
   '模块文档一致性':
     '查涉及模块的 README.md 是否存在、接口描述是否与代码导出一致、依赖关系是否与 import 一致、变更历史是否更新;文档与代码不一致 = critical。(对齐 review-rules「模块文档一致性」节)',
 };
@@ -352,7 +352,7 @@ const FLOOR_FOCUS_CODE = {
 | scout 空返回(code 路) | scout fork 返回 null / schema 不过 | workflow 重试一次;仍败 → `{plan:null,findings:[]}`,调度者标审查失败,报用户(复用 design 路)。**不静默回落 Superpowers**(scout 失败 ≠ ultracode 不在场) |
 | **无对照 spec(纯 bugfix)** | `targets.spec` 缺、仅 `targets.diffRef` | 合法:scout 在 notes 标"无对照 spec";**spec忠实性地板维仍跑**(D-C2,该维在 ultracode 路是地板必跑)——挑战者**回落对照"任务描述 / diff 自身意图"**审"做的是否就是这次该做的",**不把 sessionIntent 当忠实度评分锚**(F 簇,守 synthesis 事前规则 5;sessionIntent 只界定审查范围)。notes 标无 spec(FLOOR_FOCUS_CODE['spec忠实性'] 已含此回落,§4.1) |
 | **diffRef 缺 + spec 缺** | 两者皆缺 | workflow `log()` 报错 + 返回空,调度者标审查失败(无改动范围无法审 — §3.1 错误处理) |
-| **ARCHITECTURE.md 缺失** | 自仓库无该文件 | scout `notes` 标"跳过架构维";若"架构合规"在 CodeCandidateMenu 被 scout 考虑加,scout 检 targets.architecture 缺失则不加 + skipped 写"无 ARCHITECTURE,跳过"(沿 design 路 + review-rules 现状) |
+| **ARCHITECTURE.md 缺失 / 仅模板占位** | 自仓库 `harness/docs/ARCHITECTURE.md` 存在但仅模板占位(`<!-- 根据你的项目自定义 -->` / `[待定义]` 标记) | 运行时 scout 判模板标记(同缺失处理)后跳过架构维:scout `notes` 标"跳过架构维";若"架构合规"在 CodeCandidateMenu 被 scout 考虑加,scout 检 targets.architecture 缺失/仅占位则不加 + skipped 写"无实质 ARCHITECTURE,跳过"(回落由 FLOOR_FOCUS_CODE['架构合规'] focus 文字体现;沿 design 路 + review-rules 现状) |
 | **scout 误把代码质量另立为 added 维** | scout 把"代码质量"加进 added_dimensions | 代码质量已被「方向盘对齐」通用基线覆盖(D-C2)→ 另立 = 冗余;review-scout.md code 语境注明不另立;漏防时调度者综合识别并去重(synthesis 去重) |
 | added_dimensions 为空(code 路) | scout 判地板已足够 | 合法;但 `skipped_candidates` 必须解释 CodeCandidateMenu(类型契约合规/架构合规/模块文档一致性)为何都不加(空 skipped + 空 added → 视失职,调度者质疑) |
 | 维度爆量 / 维度重叠 | 同 design 路 | 复用 design 路处理(不静默截断 + parallel 排队 + 调度者综合合并;约束不重叠 + synthesis 去重) |
