@@ -113,11 +113,11 @@
 **观察项(收口 audit 副作用维 + 方向评估收敛;非阻断,接线/后续批处置)**:
 - **FloorTable code/governance 两行预填**:"覆盖三类"只需 reviewType 参数化 + design 一行真数据,留口 ≠ 必须预填两行维名;且 floor 维不带 challenger_focus → **接线 code/governance 时一并裁:两行维名是否预填 + 同步补 FLOOR_FOCUS 对应 focus**(否则 `challengerPrompt` 对其传 undefined focus)。spec §7.3 已接受当前 3 行形态,本轮不动。
 - ✅ **地板维表机读镜像显性化(2026-06-15 reframe 批 指令2 已解)**:FloorTable↔review-rules 地板维表注登记为 credentials-rules §8 第 6 条双写对,两处加"文档上游/代码派生"注。
-- **全量「活备份」→「回落」术语统一**(reframe 批 副作用维 needs-revision;术语桥 commit 2d97a11 已解 spec 内部自洽):spec 正文 ~28 处 + setup.sh/ROADMAP/PROGRESS/plans 等记录文件仍用旧"活备份"措辞——后续 cleanup 候选;**历史/记录文件按 R12 不追溯改写**(只统一活文档)。
+- ✅ **全量「活备份」→「回落」术语统一(2026-06-15 backlog 批 实质完成)**:活治理文档(review-rules/synthesis/CLAUDE)reframe 批已统一无残留;剩余"活备份"全在锁定 spec(2026-06-13,术语桥 D13 兜)+ 记录文件(audits/completed/PROGRESS/ROADMAP/decision-trail/plans/2026-06-13)——按 R12 不追溯,零 churn 即正确收尾。audit `audit-2026-06-15-215413-review-scout-backlog.md`。
 - **诚实认知上提**:"非 ultracode 路痛点未解 / ultracode 普及前主流路径净增益≈0 / 自仓库 dogfood 审不到自己主打痛点"——spec §7.3 已散见,建议作一句话结论上提 decision/handoff 可见处,免误判"review-scout 已解决固定 4 维痛点"。
 - **退化失败模式 meta-L4 实战观察**(spec §6):scout 是否退化成"只加固定维集(按类:design/code 地板/候选)同集"(换汤不换药)/ 加维是否真带 `why_this_time` 原文锚点——落地(ultracode 在场)实战观察。**code 路同样适用**(指令1 批 B-8 诚实标注已泛化两路)。
-- **(指令1 批观察)credentials-rules §8 双写清单未列 `CodeCandidateMenu`↔review-rules 候选注**:pre-existing 模式(既有 `DesignCandidateMenu`↔review-rules 设计注同样未登记进 §8);设计已决策 credentials 不改(所需 glob 均存在),review-rules code-scout 注内联"改名先改本注"自约束兜——后续若收紧 §8 至候选菜单类双写,两对一并补。
-- **(指令1 批观察)spec 勘误候选**(行为等价/不影响实现,非阻断):`2026-06-15-code-review-scout-design.md` §4.1(3) focus 取数伪码 vs 等价实现形态差 / §3.1 同注 menu 2-way→3-way 分层冗余 / §5.1 "自仓库无 ARCHITECTURE.md" 实为模板占位(运行时已兜底)。
+- ✅ **credentials-rules §8 候选菜单类双写收紧(2026-06-15 backlog 批 已解)**:§8 加第 7 条登记 DesignCandidateMenu/CodeCandidateMenu↔review-rules 候选注双写对;workflow.js 两常量派生注 + review-rules 两候选权威注两侧对称;review-rules L33 code 双写注 §8 指针拆为第 6 条[FloorTable]+第 7 条[CodeCandidateMenu]。audit `audit-2026-06-15-215413`。
+- ✅ **code-review-scout spec 3 勘误(2026-06-15 backlog 批 已解)**:§4.1(3) focus 伪码对齐等价实现 / §3.1 menu 2-way→只留 3-way 权威终态 / §5.1 ARCHITECTURE.md "无"→"存在但模板占位";连带 workflow.js `FLOOR_FOCUS_CODE['架构合规']` focus 同步(模板占位也跳过=修运行时噪音,spec↔workflow.js 复字节一致)。audit `audit-2026-06-15-215413`。
 - **(指令1 批观察)README L150 代码审查行未提 ultracode scout 路** = spec §8.2 已声明有据豁免(README 不分发下游 + 与设计审查行对称缺席 + 分发模板 CLAUDE×2 已同步);cleanup 候选。
 - 低优先:奖励项"活备份不丢能力"措辞可降为边界澄清(避免把"没动现状"记成正收益);spec 内"design-reviewer.md 零关系"重复 7+ 处可收敛单一权威段 + 指针。
 
