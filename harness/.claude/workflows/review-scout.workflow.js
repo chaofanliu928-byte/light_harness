@@ -22,6 +22,7 @@ export const meta = {
 
 // 地板维表(仅作用 scout/ultracode 路;非 ultracode 路用现有固定 4 维,不查本表)
 // 三类各一行;design 本轮接线,code/governance 留口(纯数据行,无实现代码 — spec §7.3 反向追问保 3 行)
+// 派生自 review-rules 设计行地板维表注(权威上游);改维名先改 review-rules 注、再改本常量 — 双写对见 credentials-rules §8 第 6 条。
 const FloorTable = {
   design:     ['方向盘对齐', '自洽性'],                              // D1: 地板 2 维(本轮接线)
   code:       ['方向盘对齐', '简洁性'],                              // D4: 留口,本轮不接线

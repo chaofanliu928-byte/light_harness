@@ -17,7 +17,7 @@
 
 > **方向 Y(2026-06-13 用户拍板,取代原 X/诚实双路)**:本功能 = **ADD review-scout 并排**,**不替换**现有 design-review。两条是**不同机制**:
 > - **ultracode 开** → 跑 review-scout workflow(scout 现推维:地板 2 维 + 动态加)。**scout 特性 = ultracode 专属**(用户接受的取舍)。
-> - **ultracode 关 / 非 Claude Code** → **现有 design-review 原样不动**(固定 4 维:自洽 / 完整 / 合理 / RUBRIC 对齐)。这是**活备份**——已存在、不新建、不归档。
+> - **ultracode 关 / 非 Claude Code** → **现有 design-review 原样不动**(固定 4 维:自洽 / 完整 / 合理 / RUBRIC 对齐)。这是**仅在不能用 scout(ultracode 不在场)时才执行的显式回落路**——已存在、不新建、不归档;scout 是主推路。
 
 1. **[P0] ultracode 在场:feature 设计审查走 scout**:调度者拿到设计文档要审,**且 Workflow/ultracode 可用** → 启动 review-scout workflow(传 `reviewType=design` + 指针 + 会话意图)→ scout agent 读方向盘 / 决策 / 历史 / 设计文档 → 产出 `{地板 2 维 + 动态加维(每条带证据)+ skipped 候选}` → workflow 一维一挑战者并行扇出 → 返回 plan + findings → 调度者按 `synthesis-rules.md` 综合判定(通过 / 需修复后重审)。
 2. **[P0] scout 自适应"方向盘对齐"维**(scout 路内):scout 读 RUBRIC.md,检到已填(无 `[待定义]`/`[示例,请替换]` 等模板标记)→ 对齐 RUBRIC;检到是空模板(harness 自仓库)→ 回落对齐 CLAUDE.md 原则 + 二条公设。
@@ -63,7 +63,7 @@
 - **D10 轻量跳过判据**:复用 design-rules 规模判断表;只约束设计审查的 scout-vs-地板。
 - **D11 novel 维挑战者 prompt**:对抗框固定(来自 multi-agent-review-guide:角色+数量+要证据+格式),scout 只供 `challenger_focus`;地板/已知维用现成模板;scout 加维须不与地板/候选重叠 + `why_this_time` 指证据。
 - **D12 N 无硬上限**:不静默截断(plan 列全维+skipped);真实边界 = 透明 + 并发自动排队 + 1000-agent 兜底 + 调度者综合合并重叠。
-- **D13 ADD 不替换(Y,用户 2026-06-13 拍板)**:review-scout 是 **ultracode 专属**的并排新路,**不替换**现有 design-review;现有固定 4 维 design-review **原样保留作活备份**(已存在、不新建、不归档),在 ultracode 不在场时承接。两路是不同机制(scout 现推维 vs 固定 4 维),非"同一 scout 两种跑法"。scout 动态推维拿不到 = 非 ultracode 环境的取舍,用户接受。**取代原 X(诚实双路:两路都 scout 驱动、扁平 fork 作 scout 路 B)。**
+- **D13 ADD 不替换(Y,用户 2026-06-13 拍板;2026-06-15 表述微调)**:review-scout 是 **ultracode 专属**的并排新路,**不替换**现有 design-review。**主次定调(2026-06-15)**:ultracode 在场时 **review-scout 是主推审查路**;现有固定 4 维 design-review **原样保留,作为 ultracode/Workflow 不在场时才执行的显式回落路**(已存在、不新建、不归档)。两路是不同机制(scout 现推维 vs 固定 4 维),非"同一 scout 两种跑法"。scout 动态推维拿不到 = 非 ultracode 环境的取舍,用户接受。**本次(2026-06-15)只调主次表述(scout 主推 / 老 4 维显式回落),不退役老路、不重建 X、架构与运行逻辑零改**——现 SKILL 分支本就是"ultracode 可用→scout / 不可用→老 4 维",仅措辞从"平级活备份/不标降级"改为"主推 + 显式回落"。**诚实**:非 ultracode 默认仍走老 4 维(这正是"不能用新功能才走旧能力")。**取代原 X(诚实双路:两路都 scout 驱动、扁平 fork 作 scout 路 B)。**
 
 ### 1.6 RUBRIC 风险标记(自仓库语境,代 RUBRIC = CLAUDE.md 原则 + 二条公设)
 

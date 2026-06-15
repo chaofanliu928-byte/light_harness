@@ -246,3 +246,4 @@ covers:
 3. 根 CLAUDE.md 治理表凭证行 ↔ 本件存在性(根 CLAUDE.md 治理表「凭证义务一句话」**不复制类目枚举**,只写"命中 credentials.conf 任一 include glob"+ 本件指针)。
 4. 对抗式模板 design-review SKILL ↔ evaluate SKILL(A/B/C 三段同构,同批改)。
 5. 对账命令拷贝组**四处同改**:根 CLAUDE.md 开场规程 / 根 AGENTS.md「手工校验」/ templates/AGENTS.md「手工校验」/ 本件 §6。
+6. review-rules 设计行地板维表注(三类维名:design / code / governance)↔ `.claude/workflows/review-scout.workflow.js` 的 `FloorTable` 常量(三类维名逐类逐维一致)。**文档上游、代码派生**:改维名先改 review-rules 地板维表注(权威源),再改 workflow.js FloorTable(机读派生镜像);改一处必同改另一处,审查时触点完整性维比对三类维名逐字一致。

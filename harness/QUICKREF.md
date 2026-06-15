@@ -41,7 +41,7 @@
 |-------|---------|
 | project-setup | 首次使用 — 对话式引导 |
 | system-design | 需求锁定后 — fork designer（自检由调度者另 fork 挑战者） |
-| design-review | 设计完成后 — fork reviewer team（4 并行子智能体）（ultracode 走 review-scout） |
+| design-review | 设计完成后 — 主推 ultracode 走 review-scout（scout 现推维）；回落 fork reviewer team（4 并行子智能体，仅 ultracode 不在场） |
 | evaluate | finishing — 自动触发（invocation: auto） |
 | security-scan | finishing — evaluate 之前 |
 | process-audit | finishing — evaluate 之后、分流之前 |

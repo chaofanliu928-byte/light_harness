@@ -21,14 +21,14 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Agent
 
 ## 执行
 
-> **运行时分支(ADD review-scout 并排 — Y,不替换现有 4 维路;spec §1.2/§2.2/D-A4)**:
+> **运行时分支(review-scout 主推 + 老 4 维显式回落 — Y,不替换、不重建 X;spec §1.2/§2.2/D13/D-A4;2026-06-15 主次定调)**:
 > 进入执行先做一次运行时探测——**Workflow/ultracode 工具是否可用**:
 >
-> - **可用(ultracode 开)→ 走 review-scout 路**:调度者用 Workflow 工具启动 `review-scout`,入参
+> - **可用(ultracode 开)→ 走 review-scout 路(主推审查路)**:调度者用 Workflow 工具启动 `review-scout`,入参
 >   `{reviewType:'design', targets:{spec:<最新 *-design.md 路径>, rubric:'docs/RUBRIC.md', architecture:'docs/ARCHITECTURE.md', decisionsDir:'docs/decisions/', auditsDir:'docs/audits/'}, sessionIntent:'<一行会话意图,措辞中性>'}`。
 >   workflow 返回 `{plan, findings}`。**scout 路综合维序说明(钉死此处,单一住址 — spec §3.5)**:scout 路维度由 `plan` 动态定,综合维序 = **按 plan 产出的维度清单顺序**交叉读 findings(**不用** synthesis-rules L151 固定 4 维序,L151 服务下面现有 4 维路)。综合仍按 synthesis-rules 事后规则(回意图/决策/客观/避先入为主 + 校验「已对照用户原话」section),写 `docs/active/design-review-result.md`。
 >   - scout 空返回/审查失败(`plan:null`)→ **显式报用户审查失败**(按本 skill 错误处理重试);**不静默回落现有 4 维路**(scout 失败 ≠ ultracode 不在场 — spec §5.1)。
-> - **不可用(ultracode 关 / 非 Claude Code / 逐会话未 opt-in)→ 走下面现有固定 4 维 design-review 流程,原样不动**(活备份,已存在的正常路,**不标"降级执行"** — spec §5.1)。scout 动态推维在此路不可得 = ultracode 专属取舍(D13)。
+> - **不可用(ultracode 关 / 非 Claude Code / 逐会话未 opt-in)→ 回落到下面现有固定 4 维 design-review 流程,原样执行**(**仅在 review-scout 不可用时才走的显式回落路**;完整保留、不退役、不标"降级执行" — spec §5.1/D13)。scout 是主推路;其动态推维在此回落路不可得 = ultracode 专属取舍(D13)。
 
 按 `.claude/agents/design-reviewer.md` 的指令执行审查。关键步骤:
 

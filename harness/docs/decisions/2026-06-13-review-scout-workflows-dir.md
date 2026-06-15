@@ -52,6 +52,7 @@ review-scout 用 Workflow 脚本(D6 = A 方案)做载体,脚本住 `.claude/work
 - **credentials-rules.md §2**:人读表加对应行(双写同步,行序同 conf)— 命中 §8 双写同步义务清单第 1 条。
 - **Y:ADD 不替换(用户附加要求)**:design-review SKILL 执行开头加运行时分支(ultracode 开→review-scout workflow / 关→走下面**现有固定 4 维流程,原样不动**)。现有 design-review 路、design-reviewer.md、synthesis-rules L113/L151 **零改动**(活备份)。详 spec §2.2 / D-A4 / D13。
 - **下游兼容**:ultracode 关的下游拿到 workflow 脚本走不了 scout,但走现有固定 4 维 design-review(已存在),设计审查不缺失。scout 动态推维 = ultracode 专属取舍。
+- **表述微调(2026-06-15,framing-only,架构零改)**:把 review-scout 在所有入口/文档里**作主推先讲**,现有固定 4 维 design-review **显式标为"仅 ultracode/Workflow 不在场时执行的回落路"**(原"平级活备份/不标降级"措辞升级为"主推 + 显式回落")。**守住 D13 两支柱**(不替换 + ultracode 专属)与本决策保 A:不退役老 4 维执行体(design-reviewer.md 零改)、不重建非 ultracode 的扁平 fork scout 路、SKILL 运行时逻辑零改。诚实边界:非 ultracode 默认仍走老 4 维。改动落点 = review-rules 设计行 scout 注 / SKILL 分支 blockquote / CLAUDE×2 角色表与地图 / QUICKREF 措辞(均 framing,不改运行逻辑)。
 
 ## 考虑过的备选(为什么排除) — 项目经验库
 
