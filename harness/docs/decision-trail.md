@@ -27,6 +27,12 @@
 
 ---
 
+## 2026-06-15 — code-review-scout(指令1:review-scout 扩展代码审查 reviewType='code')
+
+- **抉择(用户拍板 D-C1~D-C4 + 接口设计)**:给 review-scout 扩**代码审查**(reviewType='code'),**fork-N 同形**于设计审(scout 现推维 → workflow parallel 扇出 → 调度者综合);新建 harness 侧 **code-review SKILL**(镜像 design-review 运行时分支:ultracode→review-scout 传 reviewType=code+diffRef / 不在场→回落 Superpowers requesting-code-review,**either-or 不叠加、不改包**)。D-C1=A(类型契约入候选)/ **D-C2(spec忠实性入 code 地板,补 either-or 真空 — Superpowers 内嵌两段在 ultracode 路不跑)** / D-C3=B(无门)/ D-C4=A(本轮接通-usable)。
+- **关键技术抉择(撤回过度乐观)**:design-review dogfood(7 挑战者)揪出 designer "零改函数体/100% 复用" 过度乐观(scoutPrompt/challengerPrompt/FLOOR_FOCUS 写死 design 串)→ 回设计层改为 **两 prompt 函数加 reviewType 分支、design else 逐字保留**,design 路行为零变靠 **prompt 文本快照核(非只常量 diff)**。design 路逐字零变经 node 双版本渲染 byte-identical 实证。
+- **link**:`docs/decisions/2026-06-15-code-review-scout-decisions.md` + spec `docs/superpowers/specs/2026-06-15-code-review-scout-design.md` + audit `docs/audits/audit-2026-06-15-192631-code-review-scout.md`
+
 ## 2026-06-15 — review-scout 主次定调(scout 主推 / 老 4 维显式回落)+ FloorTable 文档上游双写
 
 - **抉择(用户拍板;表述微调 + 一条双写规则,架构零改)**:**指令3**——review-scout 作主推先讲、固定 4 维 design-review 显式标"仅 ultracode/Workflow 不在场时执行的回落路"(原"平级活备份/不标降级"→"主推+显式回落");framing-only,守 D13 两支柱(不替换 + ultracode 专属),**不退役老路、不重建 X**。**指令2**——FloorTable(workflow.js 机读)↔ review-rules 地板维表注(文档权威上游)登记 credentials-rules §8 第 6 条双写对(文档上游、代码派生),强化"先改文档再改代码"。**指令1(审代码接 scout)单开一轮走设计。**

@@ -106,14 +106,19 @@
 
 **进展**:给 design-review 增一条 **ultracode 专属**动态审查侦察路(ADD 并排,**不替换**现有固定 4 维 design-review;ultracode 不在场走现有路活备份)。scout agent 读上下文现推维(地板 2 维 方向盘对齐+自洽性 + 动态加 + skipped 强制留痕)→ workflow `parallel()` 一维一挑战者扇出 → 调度者综合。新引入 `.claude/workflows/` 目录(随 setup.sh 分发 + 纳 credentials.conf 凭证)。10 任务(wiring 4-10 逐任务 implementer+reviewer 两段审查)+ 收口治理审查 5 维(逮 A1🔴/A2🟡 workflow 读盘路径断链,修复 commit 36b7296)+ 方向评估 4/4 不推翻。audit `audit-2026-06-15-112342-review-scout.md` verdict=pass-after-revision,对账账齐。
 
-**reframe 批(2026-06-15,用户指令)**:① **指令3 表述调整**——review-scout 作主推先讲、固定 4 维显式标"仅 ultracode/Workflow 不在场时执行的回落路"(framing-only,不退役老路/不重建 X/运行逻辑零改,守 Y);② **指令2 文档上游双写**——FloorTable(workflow.js 机读)↔ review-rules 地板维表注登记 credentials-rules §8 第 6 条(文档上游/代码派生)。audit `audit-2026-06-15-134910-review-scout-reframe.md` pass-after-revision(副作用维 needs-revision→术语桥 commit 2d97a11)。**指令1(审代码接 scout)= 单开一轮走设计**(核心抉择:scout 当维度推荐器 vs 代码审改 fork-N;+ 触发宿主——代码审现走 Superpowers 包,harness 无自有入口)。
+**reframe 批(2026-06-15,用户指令)**:① **指令3 表述调整**——review-scout 作主推先讲、固定 4 维显式标"仅 ultracode/Workflow 不在场时执行的回落路"(framing-only,不退役老路/不重建 X/运行逻辑零改,守 Y);② **指令2 文档上游双写**——FloorTable(workflow.js 机读)↔ review-rules 地板维表注登记 credentials-rules §8 第 6 条(文档上游/代码派生)。audit `audit-2026-06-15-134910-review-scout-reframe.md` pass-after-revision(副作用维 needs-revision→术语桥 commit 2d97a11)。
+
+**指令1 批(code-review-scout,✅ 2026-06-15 实现+收口完成)**:给 review-scout 扩展**代码审查**(reviewType='code'),fork-N 同形于设计审。新建 harness 侧 **code-review SKILL**(镜像 design-review 运行时分支:ultracode→review-scout 传 reviewType=code+diffRef / 不在场→回落 Superpowers requesting-code-review,**either-or 不叠加、不改包**);workflow.js 加 code 常量(`FloorTable.code` 3 维=方向盘对齐+简洁性+spec忠实性 / `CodeCandidateMenu` / `FLOOR_FOCUS_CODE`)+ 两 prompt 函数 reviewType 分支(**design else 逐字保留=行为零变**)。决策 D-C1=A(类型契约入候选)/D-C2(spec忠实性入地板、either-or)/D-C3=B(无门)/D-C4=A(接通-usable),`decisions/2026-06-15-code-review-scout-decisions.md`。10 任务 subagent-driven(workflow.js 契约优先 commit + 6 独立文件并行,各 implementer+reviewer)+ 收口 9 挑战者(5 治理审查 + 4 方向评估)**全 pass、零🔴零🟡**。**design 路逐字零变 node 双版本渲染 byte-identical 实证**;守 Y 三处零改(design-reviewer.md/synthesis L153 维序/design-rules.md);双写逐字同序 + CLAUDE×2 字节一致 + 新 skill 五处登记。audit `audit-2026-06-15-192631-code-review-scout.md` verdict=pass,对账账齐。
 
 **观察项(收口 audit 副作用维 + 方向评估收敛;非阻断,接线/后续批处置)**:
 - **FloorTable code/governance 两行预填**:"覆盖三类"只需 reviewType 参数化 + design 一行真数据,留口 ≠ 必须预填两行维名;且 floor 维不带 challenger_focus → **接线 code/governance 时一并裁:两行维名是否预填 + 同步补 FLOOR_FOCUS 对应 focus**(否则 `challengerPrompt` 对其传 undefined focus)。spec §7.3 已接受当前 3 行形态,本轮不动。
 - ✅ **地板维表机读镜像显性化(2026-06-15 reframe 批 指令2 已解)**:FloorTable↔review-rules 地板维表注登记为 credentials-rules §8 第 6 条双写对,两处加"文档上游/代码派生"注。
 - **全量「活备份」→「回落」术语统一**(reframe 批 副作用维 needs-revision;术语桥 commit 2d97a11 已解 spec 内部自洽):spec 正文 ~28 处 + setup.sh/ROADMAP/PROGRESS/plans 等记录文件仍用旧"活备份"措辞——后续 cleanup 候选;**历史/记录文件按 R12 不追溯改写**(只统一活文档)。
 - **诚实认知上提**:"非 ultracode 路痛点未解 / ultracode 普及前主流路径净增益≈0 / 自仓库 dogfood 审不到自己主打痛点"——spec §7.3 已散见,建议作一句话结论上提 decision/handoff 可见处,免误判"review-scout 已解决固定 4 维痛点"。
-- **退化失败模式 meta-L4 实战观察**(spec §6):scout 是否退化成"只加现有 4 维同集"(换汤不换药)/ 加维是否真带 `why_this_time` 原文锚点——落地(ultracode 在场)实战观察。
+- **退化失败模式 meta-L4 实战观察**(spec §6):scout 是否退化成"只加固定维集(按类:design/code 地板/候选)同集"(换汤不换药)/ 加维是否真带 `why_this_time` 原文锚点——落地(ultracode 在场)实战观察。**code 路同样适用**(指令1 批 B-8 诚实标注已泛化两路)。
+- **(指令1 批观察)credentials-rules §8 双写清单未列 `CodeCandidateMenu`↔review-rules 候选注**:pre-existing 模式(既有 `DesignCandidateMenu`↔review-rules 设计注同样未登记进 §8);设计已决策 credentials 不改(所需 glob 均存在),review-rules code-scout 注内联"改名先改本注"自约束兜——后续若收紧 §8 至候选菜单类双写,两对一并补。
+- **(指令1 批观察)spec 勘误候选**(行为等价/不影响实现,非阻断):`2026-06-15-code-review-scout-design.md` §4.1(3) focus 取数伪码 vs 等价实现形态差 / §3.1 同注 menu 2-way→3-way 分层冗余 / §5.1 "自仓库无 ARCHITECTURE.md" 实为模板占位(运行时已兜底)。
+- **(指令1 批观察)README L150 代码审查行未提 ultracode scout 路** = spec §8.2 已声明有据豁免(README 不分发下游 + 与设计审查行对称缺席 + 分发模板 CLAUDE×2 已同步);cleanup 候选。
 - 低优先:奖励项"活备份不丢能力"措辞可降为边界澄清(避免把"没动现状"记成正收益);spec 内"design-reviewer.md 零关系"重复 7+ 处可收敛单一权威段 + 指针。
 
 ### 已识别但搁置
