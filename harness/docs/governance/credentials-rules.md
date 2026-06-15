@@ -30,6 +30,7 @@
 | settings(local) | `.claude/settings.local.json` | audit |
 | skills(SKILL.md+捆绑资源,D15) | `.claude/skills/*/*.md` | audit |
 | agents | `.claude/agents/*.md` | audit |
+| workflows(review-scout 等 ultracode 编排脚本) | `.claude/workflows/*` | audit |
 | RUBRIC | `docs/RUBRIC.md` | audit |
 | 设计模板 | `docs/references/DESIGN_TEMPLATE.md` | audit |
 | setup 脚本 | `setup.sh` | audit |
