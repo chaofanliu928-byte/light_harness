@@ -30,7 +30,7 @@
 > - **code 地板 3 维** = **方向盘对齐 + 简洁性 + spec忠实性**(D-C2:spec忠实性入地板,填 either-or 真空;代码质量由「方向盘对齐」focus 的 code 通用基线覆盖,不单设维)。三维与上方地板维表 code 行逐字一致。
 > - **code 候选** = **类型契约合规 + 架构合规 + 模块文档一致性**(D-C1=A:类型契约入候选,diff 驱动;scout 按 diff 选,每个候选不加须 `skipped_candidates` 留痕)。
 > - **either-or**:ultracode 路走 scout(**不跑** Superpowers);非 ultracode 路走 Superpowers `requesting-code-review`(五节 + 内嵌两段:spec 忠实性 + 代码质量)。两路**互斥,不叠加**。
-> - **双写派生(文档上游、代码派生)**:`.claude/workflows/review-scout.workflow.js` 的 `FloorTable.code` / `CodeCandidateMenu` 常量是本注的**机读镜像**;**本注为权威上游**,改维名须**先改本注、再改 workflow.js**,两处维名逐字一致(对齐上方 design 双写派生注;credentials-rules §8 第 6 条)。
+> - **双写派生(文档上游、代码派生)**:`.claude/workflows/review-scout.workflow.js` 的 `FloorTable.code` / `CodeCandidateMenu` 常量是本注的**机读镜像**;**本注为权威上游**,改维名须**先改本注、再改 workflow.js**,两处维名逐字一致(对齐上方 design 双写派生注;双写对见 credentials-rules §8 **第 6 条**[`FloorTable` 三类维名]+ **第 7 条**[`CodeCandidateMenu` 候选菜单])。
 
 - 一批含多类改动:按类各取维度集,审查可同批 fork、凭证按 credentials-rules 归账(audit covers 列治理面文件即可)。
 - 模态与模板的住址:对抗式模板住 design-review / evaluate SKILL;混合式(凭证扫描 + 对抗判定)住 security-scan SKILL;事实统计式住 process-audit SKILL。本表只定"选哪些维度、多大力度",模板细节去 skill 家读。
