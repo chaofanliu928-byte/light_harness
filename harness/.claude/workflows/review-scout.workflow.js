@@ -38,7 +38,7 @@ const DesignCandidateMenu = ['完整性', '过度工程化'];
 // 故 workflow 按维名 d.name 从本常量映射 focus。
 const FLOOR_FOCUS = {
   '方向盘对齐':
-    '审查设计是否对齐项目方向盘。先 Read docs/RUBRIC.md 判断:' +
+    '审查设计是否对齐项目方向盘。先 Read docs/RUBRIC.md(自仓库为 harness/docs/RUBRIC.md)判断:' +
     '若「项目特定标准」段已填(无模板标记串「(示例,请替换)」/「你必须根据自己的项目替换」/占位 [列出...] [例如:...])→ 按 RUBRIC 项目特定标准逐项对齐;' +
     '若是空模板 → 回落对齐 CLAUDE.md 原则(文档第一公民/最小变更/角色分离/回退规则)+ 二条公设(Pathological Optimist 做审分离 / 行动公设 不确定执行外部动作),' +
     '读取范围 = Read 仓库根 /CLAUDE.md 或 harness/CLAUDE.md(均含二公设全文)。' +
@@ -127,7 +127,7 @@ const FINDING_SCHEMA = {
 function scoutPrompt(reviewType, targets, sessionIntent) {
   const floor = FloorTable[reviewType] || [];
   return [
-    '你是审查侦察员(review-scout)。先 Read `docs/.claude/agents/review-scout.md`(下游分发版路径;',
+    '你是审查侦察员(review-scout)。先 Read `.claude/agents/review-scout.md`(下游分发版路径;',
     '自仓库实际为 `harness/.claude/agents/review-scout.md`)取完整推维指令(A-3 判据 + B-8 加维引导),按它操作。',
     '',
     `审查类型 reviewType = ${reviewType}。`,
@@ -158,7 +158,7 @@ function challengerPrompt(d, targets, sessionIntent) {
   return [
     `你是设计审查挑战者,负责「${d.name}」这一维。你是对抗者,不是评分员(只产 findings + 证据,不打总分 — D8)。`,
     '',
-    '先 Read `docs/references/challenger-orientation.md` 取通用方法论(方法 / 数据来源 / 陷阱)。',
+    '先 Read `docs/references/challenger-orientation.md`(自仓库为 harness/docs/references/challenger-orientation.md)取通用方法论(方法 / 数据来源 / 陷阱)。',
     '注:其 §1.2「design-review 4 挑战者专属」的固定 4 维框定不适用本 scout 路的动态 N,不要被它误导。',
     '',
     // A-1:自读盘 + 中性约束(不主动搜罗支持某结论的旁证)
