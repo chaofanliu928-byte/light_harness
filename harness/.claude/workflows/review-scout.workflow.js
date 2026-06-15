@@ -82,7 +82,7 @@ const FLOOR_FOCUS_CODE = {
     '查涉 API 的代码是否从共享类型文件 import(无前后端各自定义)、新增/改 API 字段是否在共享类型文件有对应定义、字段命名与 DB 映射是否一致;自定义应在契约中的类型 = critical。(对齐 review-rules「类型契约合规」节)',
   '架构合规':
     '查改动是否违反 ARCHITECTURE.md 分层规则(跨层依赖)、新文件是否放在正确目录。' +
-    '先 Read targets.architecture;若缺失(自仓库无)→ 本维由 scout 在 notes 标跳过,不硬推。(对齐 review-rules「架构合规」节)',
+    '先 Read targets.architecture;若缺失或仅模板占位(自仓库 harness/docs/ARCHITECTURE.md 存在但仅模板占位 `<!-- 根据你的项目自定义 -->` / `[待定义]`)→ 本维由 scout 在 notes 标跳过,不硬推。(对齐 review-rules「架构合规」节)',
   '模块文档一致性':
     '查涉及模块的 README.md 是否存在、接口描述是否与代码导出一致、依赖关系是否与 import 一致、变更历史是否更新;文档与代码不一致 = critical。(对齐 review-rules「模块文档一致性」节)',
 };
