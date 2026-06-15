@@ -27,7 +27,7 @@
 |------|------|------|
 | **调度** | 你(主 AI) | 需求对接、编排流程、与用户沟通 |
 | **设计** | 调度者 fork designer → 调度者再 fork 自检挑战者 | 逐节写设计文档 + 独立自检 |
-| **设计审查** | 调度者并行 fork 4 个挑战者 | 自洽性 / 完整性 / 合理性 / RUBRIC 对齐 |
+| **设计审查** | 调度者并行 fork 4 个挑战者 | 自洽性 / 完整性 / 合理性 / RUBRIC 对齐(ultracode 下走 review-scout:scout 现推维) |
 | **治理审查** | 调度者按 review-rules 维度选择表 fork N 挑战者 | 治理面改动审查(凭证义务详 credentials-rules) |
 | **开发** | Superpowers subagent | 写代码(TDD + code review) |
 | **安全扫描** | 调度者并行 fork 3 个挑战者 | 凭证数据 / 危险操作 / 注入混淆 |
