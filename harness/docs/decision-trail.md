@@ -27,6 +27,12 @@
 
 ---
 
+## 2026-06-15 — review-scout 动态审查侦察(Y:ADD 并排不替换,取代 X 诚实双路)
+
+- **抉择(架构选择 + 替代方案否决)**:design-review 增**ultracode 专属**动态审查路(scout 现推维 + workflow `parallel()` 扇出);用户拍板 **Y(ADD 不替换,现有固定 4 维 design-review 原样作活备份)取代原 X(双路都 scout 驱动)** + **保 A(workflow 脚本载体 + 随 setup.sh 分发 + 纳凭证)**。scout 路 prompt 与 design-reviewer.md 零关系(第 3 轮根治:floor focus 住 workflow.js 常量,非镜像/非运行时取检查点)。
+- **缺口承认**:动态推维仅 ultracode 路兑现,非 ultracode 路(含自仓库默认运行)原始痛点未解——不用活备份粉饰。
+- **link**:`docs/decisions/2026-06-13-review-scout-workflows-dir.md`
+
 ## 2026-06-13 — 双轨治理收敛单层(scope 分流机器拆除,凭证参数化取代 meta-* 体系)
 
 - **抉择(解法整体取代)**:双轨治理收敛单层——scope 分流机器拆除,凭证参数化(credentials.conf/credentials-rules)取代 meta-* 体系。"治理改动必须被审查留凭证"不变量保留,解法结构整体取代(上下游同一套治理与凭证义务,无另册)。

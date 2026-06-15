@@ -100,6 +100,19 @@
 - 治理批暂无机器安全扫——hook 脚本危险操作面 / AI 指令文本注入面在治理批暂无机器扫(安全扫描/流程审计维持 feature 侧,decision 2026-06-13 追记三);触发器:实战出险或用户重启。**收口审查曾建议给核心 hook 逻辑改动加"手动挂一次 security-scan"硬兜底 → 2026-06-13 用户拍板「不加」**(维持现状,触发器照旧)
 - cross-ref 删除后互引断链单防线(审查触点完整性维)——**2026-06-13 用户认可:头几个治理批显式记录"三件套互引(finishing↔review↔credentials)核了没",攒几次实证再确认单防线够用**(收口审查方向评估/触点维建议,用户拍板纳入)
 
+### review-scout 动态审查侦察(✅ 2026-06-15 实现 + 收口完成)
+
+> **spec/decision:`specs/2026-06-13-dynamic-review-scout-design.md`(已锁,3 轮 design-review 收敛)+ `decisions/2026-06-13-review-scout-workflows-dir.md`(🟢 用户拍板保 A + Y)**
+
+**进展**:给 design-review 增一条 **ultracode 专属**动态审查侦察路(ADD 并排,**不替换**现有固定 4 维 design-review;ultracode 不在场走现有路活备份)。scout agent 读上下文现推维(地板 2 维 方向盘对齐+自洽性 + 动态加 + skipped 强制留痕)→ workflow `parallel()` 一维一挑战者扇出 → 调度者综合。新引入 `.claude/workflows/` 目录(随 setup.sh 分发 + 纳 credentials.conf 凭证)。10 任务(wiring 4-10 逐任务 implementer+reviewer 两段审查)+ 收口治理审查 5 维(逮 A1🔴/A2🟡 workflow 读盘路径断链,修复 commit 36b7296)+ 方向评估 4/4 不推翻。audit `audit-2026-06-15-112342-review-scout.md` verdict=pass-after-revision,对账账齐。
+
+**观察项(收口 audit 副作用维 + 方向评估收敛;非阻断,接线/后续批处置)**:
+- **FloorTable code/governance 两行预填**:"覆盖三类"只需 reviewType 参数化 + design 一行真数据,留口 ≠ 必须预填两行维名;且 floor 维不带 challenger_focus → **接线 code/governance 时一并裁:两行维名是否预填 + 同步补 FLOOR_FOCUS 对应 focus**(否则 `challengerPrompt` 对其传 undefined focus)。spec §7.3 已接受当前 3 行形态,本轮不动。
+- **地板维表机读镜像显性化**:维名清单在 `workflow.js FloorTable` + `review-rules.md` 两处镜像(后者声明"权威住此"但运行时真相在前者);建议 review-rules 注点明"workflow.js FloorTable 为机读镜像,改维名须双改"(对齐 credentials-rules §8 双写同步义务)。
+- **诚实认知上提**:"非 ultracode 路痛点未解 / ultracode 普及前主流路径净增益≈0 / 自仓库 dogfood 审不到自己主打痛点"——spec §7.3 已散见,建议作一句话结论上提 decision/handoff 可见处,免误判"review-scout 已解决固定 4 维痛点"。
+- **退化失败模式 meta-L4 实战观察**(spec §6):scout 是否退化成"只加现有 4 维同集"(换汤不换药)/ 加维是否真带 `why_this_time` 原文锚点——落地(ultracode 在场)实战观察。
+- 低优先:奖励项"活备份不丢能力"措辞可降为边界澄清(避免把"没动现状"记成正收益);spec 内"design-reviewer.md 零关系"重复 7+ 处可收敛单一权威段 + 指针。
+
 ### 已识别但搁置
 
 > **[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。本段保留作日后基线,不预设重启时间(`feedback_iterative_progression`)。详见 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点。

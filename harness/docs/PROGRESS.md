@@ -15,6 +15,7 @@
 |---|---------|---------|---------|-------------|------|
 | 1 | P0.9.1 harness self-governance | 2026-04-28 | meta-review verdict=pass(after revision) | `6e8bda1..34129ae` | 首条 meta-L4 数据点,bootstrap loop 闭合;audit `docs/audits/meta-review-2026-04-28-102359-p0-9-1-self-review.md`;修订 decision `docs/decisions/2026-04-28-p0-9-1-meta-review-revision.md` |
 | 2 | 治理同层化(凭证参数化) | 2026-06-13 | (待任务 20 /evaluate + V8 audit verdict 封) | (待任务 20 milestone commit) | 治理批 1-5 完成,取代 P0.9.1 双轨结构;"治理改动必须被审查留凭证"不变量保留;spec/decision `docs/{superpowers/specs,decisions}/2026-06-13-governance-single-layer.md`;评估总分/audit 由任务 20 总 checkpoint 封 |
+| 3 | review-scout 动态审查侦察(ADD 并排路) | 2026-06-15 | 方向评估通过(4/4 不推翻)+ audit verdict=pass-after-revision | `4c3010d..f0c3705`(+milestone) | ultracode 专属动态审查路:scout 现推维 + workflow 扇出,ADD 不替换现有固定 4 维 design-review(活备份零改);新引入 `.claude/workflows/` 分发+纳凭证;收口逮 A1🔴/A2🟡 workflow 读盘路径断链已修(36b72964);spec/decision `docs/{superpowers/specs/2026-06-13-dynamic-review-scout-design,decisions/2026-06-13-review-scout-workflows-dir}.md`;audit `docs/audits/audit-2026-06-15-112342-review-scout.md` |
 
 <!-- 示例：
 | 1 | 用户注册与登录 | 2026-04-01 | 8.2 | a1b2c3d | 首个功能，架构基础 |
