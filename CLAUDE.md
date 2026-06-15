@@ -29,7 +29,7 @@
 | **设计** | 调度者 fork designer → 调度者再 fork 自检挑战者 | 逐节写设计文档 + 独立自检 |
 | **设计审查** | ultracode 走 review-scout(主推);否则并行 fork 4 个挑战者(回落) | 主推:review-scout 现推维(ultracode/Workflow 在场)。回落:固定 4 维(自洽性 / 完整性 / 合理性 / RUBRIC 对齐),仅 ultracode 不在场时执行 |
 | **治理审查** | 调度者按 review-rules 维度选择表 fork N 挑战者 | 治理面改动审查(凭证义务详 credentials-rules) |
-| **开发** | Superpowers subagent | 写代码(TDD + code review) |
+| **开发** | Superpowers subagent | 写代码(TDD + code review)(代码审查:ultracode 走 review-scout reviewType='code';否则 Superpowers requesting-code-review) |
 | **安全扫描** | 调度者并行 fork 3 个挑战者 | 凭证数据 / 危险操作 / 注入混淆 |
 | **方向评估** | 调度者并行 fork 4 个挑战者 | RUBRIC 合规 / 架构一致 / 文档健康 / Slop 检测 |
 | **方案调研** | 调度者按需 fork research-scout(联网调研员) | 规划方案时界定领域+问题 → 联网搜业界方案 → 产出选项(证据,非判断依据) |

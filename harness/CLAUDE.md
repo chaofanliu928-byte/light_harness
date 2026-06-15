@@ -14,7 +14,7 @@
 | **调度** | 你(主 AI) | 需求对接、编排流程、与用户沟通 |
 | **设计** | 调度者 fork designer → 调度者再 fork 自检挑战者 | 逐节写设计文档 + 独立自检 |
 | **设计审查** | ultracode 走 review-scout(主推);否则并行 fork 4 个挑战者(回落) | 主推:review-scout 现推维(ultracode/Workflow 在场)。回落:固定 4 维(自洽性 / 完整性 / 合理性 / RUBRIC 对齐),仅 ultracode 不在场时执行 |
-| **开发** | Superpowers subagent | 写代码(TDD + code review) |
+| **开发** | Superpowers subagent | 写代码(TDD + code review)(代码审查:ultracode 走 review-scout reviewType='code';否则 Superpowers requesting-code-review) |
 | **安全扫描** | 调度者并行 fork 3 个挑战者 | 凭证数据 / 危险操作 / 注入混淆 |
 | **方向评估** | 调度者并行 fork 4 个挑战者 | RUBRIC 合规 / 架构一致 / 文档健康 / Slop 检测 |
 | **方案调研** | 调度者按需 fork research-scout(联网调研员) | 规划方案时界定领域+问题 → 联网搜业界方案 → 产出选项(证据,非判断依据) |
@@ -110,6 +110,7 @@
 | **project-setup** | 首次使用，配置未完成时 | 对话式引导完成项目配置 |
 | **system-design** | brainstorming 后，需求锁定后 | 调度者 fork designer 写草稿 → 调度者再 fork 独立自检挑战者 |
 | **design-review** | 系统设计完成后 | 主推:ultracode 走 review-scout(scout 现推维)。回落:并行 fork 4 个挑战者审查设计文档(仅 ultracode 不在场) |
+| **code-review** | 一批代码改动完成后 | 主推:ultracode 走 review-scout(reviewType='code',scout 现推维)。回落:Superpowers requesting-code-review(either-or,仅 ultracode 不在场) |
 | **evaluate** | finishing 阶段，自动触发 | 调度者并行 fork 4 个挑战者做方向评估 |
 | **security-scan** | finishing 阶段，evaluate 之前 | 扫描代码安全问题 |
 | **process-audit** | finishing 阶段，evaluate 之后、分流之前 | 审计流程遵从度，记录到 docs/audits/ |
