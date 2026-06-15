@@ -106,9 +106,12 @@
 
 **进展**:给 design-review 增一条 **ultracode 专属**动态审查侦察路(ADD 并排,**不替换**现有固定 4 维 design-review;ultracode 不在场走现有路活备份)。scout agent 读上下文现推维(地板 2 维 方向盘对齐+自洽性 + 动态加 + skipped 强制留痕)→ workflow `parallel()` 一维一挑战者扇出 → 调度者综合。新引入 `.claude/workflows/` 目录(随 setup.sh 分发 + 纳 credentials.conf 凭证)。10 任务(wiring 4-10 逐任务 implementer+reviewer 两段审查)+ 收口治理审查 5 维(逮 A1🔴/A2🟡 workflow 读盘路径断链,修复 commit 36b7296)+ 方向评估 4/4 不推翻。audit `audit-2026-06-15-112342-review-scout.md` verdict=pass-after-revision,对账账齐。
 
+**reframe 批(2026-06-15,用户指令)**:① **指令3 表述调整**——review-scout 作主推先讲、固定 4 维显式标"仅 ultracode/Workflow 不在场时执行的回落路"(framing-only,不退役老路/不重建 X/运行逻辑零改,守 Y);② **指令2 文档上游双写**——FloorTable(workflow.js 机读)↔ review-rules 地板维表注登记 credentials-rules §8 第 6 条(文档上游/代码派生)。audit `audit-2026-06-15-134910-review-scout-reframe.md` pass-after-revision(副作用维 needs-revision→术语桥 commit 2d97a11)。**指令1(审代码接 scout)= 单开一轮走设计**(核心抉择:scout 当维度推荐器 vs 代码审改 fork-N;+ 触发宿主——代码审现走 Superpowers 包,harness 无自有入口)。
+
 **观察项(收口 audit 副作用维 + 方向评估收敛;非阻断,接线/后续批处置)**:
 - **FloorTable code/governance 两行预填**:"覆盖三类"只需 reviewType 参数化 + design 一行真数据,留口 ≠ 必须预填两行维名;且 floor 维不带 challenger_focus → **接线 code/governance 时一并裁:两行维名是否预填 + 同步补 FLOOR_FOCUS 对应 focus**(否则 `challengerPrompt` 对其传 undefined focus)。spec §7.3 已接受当前 3 行形态,本轮不动。
-- **地板维表机读镜像显性化**:维名清单在 `workflow.js FloorTable` + `review-rules.md` 两处镜像(后者声明"权威住此"但运行时真相在前者);建议 review-rules 注点明"workflow.js FloorTable 为机读镜像,改维名须双改"(对齐 credentials-rules §8 双写同步义务)。
+- ✅ **地板维表机读镜像显性化(2026-06-15 reframe 批 指令2 已解)**:FloorTable↔review-rules 地板维表注登记为 credentials-rules §8 第 6 条双写对,两处加"文档上游/代码派生"注。
+- **全量「活备份」→「回落」术语统一**(reframe 批 副作用维 needs-revision;术语桥 commit 2d97a11 已解 spec 内部自洽):spec 正文 ~28 处 + setup.sh/ROADMAP/PROGRESS/plans 等记录文件仍用旧"活备份"措辞——后续 cleanup 候选;**历史/记录文件按 R12 不追溯改写**(只统一活文档)。
 - **诚实认知上提**:"非 ultracode 路痛点未解 / ultracode 普及前主流路径净增益≈0 / 自仓库 dogfood 审不到自己主打痛点"——spec §7.3 已散见,建议作一句话结论上提 decision/handoff 可见处,免误判"review-scout 已解决固定 4 维痛点"。
 - **退化失败模式 meta-L4 实战观察**(spec §6):scout 是否退化成"只加现有 4 维同集"(换汤不换药)/ 加维是否真带 `why_this_time` 原文锚点——落地(ultracode 在场)实战观察。
 - 低优先:奖励项"活备份不丢能力"措辞可降为边界澄清(避免把"没动现状"记成正收益);spec 内"design-reviewer.md 零关系"重复 7+ 处可收敛单一权威段 + 指针。

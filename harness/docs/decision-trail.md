@@ -27,6 +27,12 @@
 
 ---
 
+## 2026-06-15 — review-scout 主次定调(scout 主推 / 老 4 维显式回落)+ FloorTable 文档上游双写
+
+- **抉择(用户拍板;表述微调 + 一条双写规则,架构零改)**:**指令3**——review-scout 作主推先讲、固定 4 维 design-review 显式标"仅 ultracode/Workflow 不在场时执行的回落路"(原"平级活备份/不标降级"→"主推+显式回落");framing-only,守 D13 两支柱(不替换 + ultracode 专属),**不退役老路、不重建 X**。**指令2**——FloorTable(workflow.js 机读)↔ review-rules 地板维表注(文档权威上游)登记 credentials-rules §8 第 6 条双写对(文档上游、代码派生),强化"先改文档再改代码"。**指令1(审代码接 scout)单开一轮走设计。**
+- **诚实**:非 ultracode 默认仍走老 4 维(即"不能用新功能才走旧能力");"隐藏老功能"按用户 refinement 软化为"显式回落、保持可见"(真隐藏冲突 D13 不退役)。
+- **link**:`docs/decisions/2026-06-13-review-scout-workflows-dir.md`(后续影响段)+ audit `docs/audits/audit-2026-06-15-134910-review-scout-reframe.md`
+
 ## 2026-06-15 — review-scout 动态审查侦察(Y:ADD 并排不替换,取代 X 诚实双路)
 
 - **抉择(架构选择 + 替代方案否决)**:design-review 增**ultracode 专属**动态审查路(scout 现推维 + workflow `parallel()` 扇出);用户拍板 **Y(ADD 不替换,现有固定 4 维 design-review 原样作活备份)取代原 X(双路都 scout 驱动)** + **保 A(workflow 脚本载体 + 随 setup.sh 分发 + 纳凭证)**。scout 路 prompt 与 design-reviewer.md 零关系(第 3 轮根治:floor focus 住 workflow.js 常量,非镜像/非运行时取检查点)。
