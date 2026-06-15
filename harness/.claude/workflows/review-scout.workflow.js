@@ -25,7 +25,7 @@ export const meta = {
 // 派生自 review-rules 设计行地板维表注(权威上游);改维名先改 review-rules 注、再改本常量 — 双写对见 credentials-rules §8 第 6 条。
 const FloorTable = {
   design:     ['方向盘对齐', '自洽性'],                              // D1: 地板 2 维(本轮接线)
-  code:       ['方向盘对齐', '简洁性'],                              // D4: 留口,本轮不接线
+  code:       ['方向盘对齐', '简洁性', 'spec忠实性'],               // D-C1=A 地板 + D-C2 spec忠实性入地板(用户拍板 2026-06-15)
   governance: ['核心原则合规', '目的达成度', '副作用', 'scope 漂移'], // D4: bootstrap-4 锁死,本轮不接线
 };
 
@@ -33,6 +33,11 @@ const FloorTable = {
 // 执行层实际名(design-reviewer.md L198「过度工程化」,非治理层别名"合理性");
 // = 现有 4 维里地板外的 2 维,scout 路降为"必考虑候选"(降级只在 scout 路)。
 const DesignCandidateMenu = ['完整性', '过度工程化'];
+
+// 标准候选菜单(scout 路 code 类;scout 每次必考虑,不加须进 skipped_candidates — A4 / D-C1=A)
+// = review-rules 代码类五节里"非地板、且 diff 驱动条件相关"的维(B 维度分类:条件相关降候选)。
+// 派生自 review-rules 代码行 code 候选注(权威上游,任务 6);改名先改 review-rules、再改本常量。
+const CodeCandidateMenu = ['类型契约合规', '架构合规', '模块文档一致性'];  // D-C1=A:类型契约入候选(diff 驱动,非地板)
 
 // floor/已知维挑战者 focus 常量库(spec §3.3 — 100% scout 路自有,不镜像 design-reviewer.md)
 // workflow 无 FS → focus 必在脚本内;SCOUT_SCHEMA.inherited_floor 是 string[](只有维名、无 focus 通道),
@@ -53,6 +58,32 @@ const FLOOR_FOCUS = {
   '过度工程化':
     '查多做的害处(副作用维):有无未被需求要求的抽象层、"未来可能用到"的配置/预留、不可能触发的错误处理;' +
     '对每个新增抽象做反向追问「不用这个方式,原问题怎么解?」有替代解则视过度工程。',
+};
+
+// ★ 新增 code 维 focus 常量(scout 路自有,code 语境;与 design FLOOR_FOCUS 分开,避免污染 design 键)。
+// design 版 FLOOR_FOCUS(L40-56)键全不改(F 守住);focus 取数处按 reviewType 选(challengerPrompt,任务 3)。
+const FLOOR_FOCUS_CODE = {
+  '方向盘对齐':   // ★ D 簇:code 独立方向盘对齐 focus(不复用 design「审查设计」语境)
+    '审查本次代码改动(diff)是否对齐项目方向盘 + code 通用基线。先 Read docs/RUBRIC.md(自仓库 harness/docs/RUBRIC.md)判 rubric_mode:' +
+    '「项目特定标准」段已填(无模板标记串)→ 按 RUBRIC 项目特定标准逐项对齐 diff;空模板 → 回落 CLAUDE.md 原则(文档第一公民/最小变更/角色分离/回退)+ 二条公设(读取范围 = /CLAUDE.md 或 harness/CLAUDE.md)。' +
+    'code 通用基线段始终检查 = 功能正确(diff 是否真实现了功能,不只编译过)/ 真实代码质量(命名/结构/错误处理是否达项目标准)/ 测试(改动有无对应测试)/ 一致性(与既有代码风格/pattern 一致)/ 简洁性。据 targets.diffRef 读改动文件核。' +
+    '⚠️ 互斥边界(E 簇):本维审"对齐项目长期标准 + 通用基线",不审"是否忠于本次任务 spec"(那是 spec忠实性维)、不审"多做的害处"(那是简洁性维)。',
+  'spec忠实性':   // ★ 地板第 3 维(D-C2 用户拍板入地板);scout 路自有,不镜像 design-reviewer.md
+    '审实现代码是否忠于"本次任务"的 spec/需求:① 该做的做了没(本次任务 spec 列的需求/场景是否都在 diff 中落地)?② 做歪没 / 跑题没(diff 是否偏离任务要求做了别的)?' +
+    '据 targets.diffRef 读改动文件,对照 targets.spec(被实现的设计 spec)逐项核,引 diff 具体锚点。' +
+    'targets.spec 缺(纯 bugfix)→ 对照"任务描述 / diff 自身意图"审"做的是否就是这次该做的"(回落不把 sessionIntent 当评分锚——F 簇,sessionIntent 只界定审什么、不当忠实度判据),notes 标无 spec。' +
+    '⚠️ 互斥边界(E 簇):本维只审"实现 vs 本次任务意图的吻合度(该做的/做歪的)";不审"多做了 spec 没要求的"那一面里"过度抽象/单次 helper"(归简洁性维)、不审"是否达项目长期标准"(归方向盘对齐)。与 design 路「自洽性」(设计内部一致)/「完整性」(设计覆盖需求)对象不同——本维对象 = 代码 vs 本次任务 spec。',
+  '简洁性':
+    '查"多做的害处":有无明显更简方案 / 只用一次的抽象(helper/wrapper/factory 建议内联)/ diff 中与任务无关的变更(格式/注释重写/import 排序)/ 200 行能 50 行解决的(critical)。' +
+    '据 targets.diffRef 读改动文件。(对齐 review-rules「简洁性审查」节 L66)' +
+    '⚠️ 互斥边界(E 簇):本维只审"多做 / 过度抽象 / 无关变更";不审"该做的没做"(归 spec忠实性维)、不审"是否对齐项目长期标准"(归方向盘对齐)。',
+  '类型契约合规':   // 候选维 focus(D-C1=A 入候选;scout 选加时映射本键)
+    '查涉 API 的代码是否从共享类型文件 import(无前后端各自定义)、新增/改 API 字段是否在共享类型文件有对应定义、字段命名与 DB 映射是否一致;自定义应在契约中的类型 = critical。(对齐 review-rules「类型契约合规」节)',
+  '架构合规':
+    '查改动是否违反 ARCHITECTURE.md 分层规则(跨层依赖)、新文件是否放在正确目录。' +
+    '先 Read targets.architecture;若缺失(自仓库无)→ 本维由 scout 在 notes 标跳过,不硬推。(对齐 review-rules「架构合规」节)',
+  '模块文档一致性':
+    '查涉及模块的 README.md 是否存在、接口描述是否与代码导出一致、依赖关系是否与 import 一致、变更历史是否更新;文档与代码不一致 = critical。(对齐 review-rules「模块文档一致性」节)',
 };
 
 // scout fork 返回对象的 schema(agent({schema}) 校验)— spec §3.2 / §4.1(2)
@@ -127,16 +158,25 @@ const FINDING_SCHEMA = {
 // workflow 无文件系统:指针只传路径字符串,由 scout fork 自己 Read/Grep。
 function scoutPrompt(reviewType, targets, sessionIntent) {
   const floor = FloorTable[reviewType] || [];
+  // 候选菜单按 reviewType 取;governance(本轮不接线)→ 空菜单 + 守卫注,不落空注入 design 菜单(spec §3.1)
+  const menu = reviewType === 'code' ? CodeCandidateMenu
+             : reviewType === 'design' ? DesignCandidateMenu
+             : [];  // governance 留口:无调用方用 governance 调本 workflow(治理审查走现 A/B/C)
   return [
     '你是审查侦察员(review-scout)。先 Read `.claude/agents/review-scout.md`(下游分发版路径;',
     '自仓库实际为 `harness/.claude/agents/review-scout.md`)取完整推维指令(A-3 判据 + B-8 加维引导),按它操作。',
     '',
     `审查类型 reviewType = ${reviewType}。`,
     `本类地板维(照抄进 inherited_floor,不增删改): ${JSON.stringify(floor)}`,
-    `标准候选菜单(每次必考虑,不加须写进 skipped_candidates 留痕): ${JSON.stringify(DesignCandidateMenu)}`,
+    `标准候选菜单(每次必考虑,不加须写进 skipped_candidates 留痕): ${JSON.stringify(menu)}`,
+    ...(reviewType !== 'code' && reviewType !== 'design'
+        ? ['(注:本 reviewType 未接线,不应被调用——notes 标 "未接线")'] : []),
     '',
     '被审材料 / 上下文指针(用 Read / Grep 自读,不要等人喂内容):',
-    `  被审材料(必读): ${targets.spec}`,
+    ...(reviewType === 'code'
+        ? [`  改动范围(必读,git diff / Read 改动文件): ${targets.diffRef}`,
+           `  对照 spec(被实现的设计 spec,如有;缺则纯 bugfix,notes 标无对照 spec): ${targets.spec}`]
+        : [`  被审材料(必读): ${targets.spec}`]),
     `  方向盘 RUBRIC(A-3 判据 Read 它判 rubric_mode): ${targets.rubric}`,
     `  架构(可缺;缺则 notes 标"跳过架构维"): ${targets.architecture}`,
     `  决策史目录(按需 Grep): ${targets.decisionsDir}`,
@@ -153,17 +193,26 @@ function scoutPrompt(reviewType, targets, sessionIntent) {
 // 单维挑战者 prompt(spec §3.3,100% scout 路自有;不读/不抄/不镜像 design-reviewer.md)。
 // 薄包装(自读盘 + 中性约束 + 通用方法论引导 + 主线-支线-关系 + 输出格式 + 已对照用户原话 section)
 //   + 该维 focus(floor/已知维 → FLOOR_FOCUS[d.name];动态加维 → d.challenger_focus)。
-function challengerPrompt(d, targets, sessionIntent) {
-  // focus 来源二选一:维名命中 FLOOR_FOCUS(地板+已知维)→ 取常量;否则用 scout 返回的 challenger_focus。
-  const focus = (d.name in FLOOR_FOCUS) ? FLOOR_FOCUS[d.name] : d.challenger_focus;
+function challengerPrompt(d, targets, sessionIntent, reviewType) {
+  // focus 取数按 reviewType 选(spec §4.1(3) / §3.3):code 路优先取 FLOOR_FOCUS_CODE(含 code 版方向盘对齐),
+  // design 维 / 动态维(无 code 键)回落 design FLOOR_FOCUS 或 scout 的 challenger_focus。维名两路一致(不加后缀污染 SCOUT_SCHEMA/双写)。
+  const isCode = reviewType === 'code';
+  const focus = (isCode && d.name in FLOOR_FOCUS_CODE) ? FLOOR_FOCUS_CODE[d.name]
+              : (d.name in FLOOR_FOCUS) ? FLOOR_FOCUS[d.name]
+              : d.challenger_focus;
+  const locHint = reviewType === 'code' ? 'location(改动文件路径:行号)' : 'location(文档节/路径)';
   return [
-    `你是设计审查挑战者,负责「${d.name}」这一维。你是对抗者,不是评分员(只产 findings + 证据,不打总分 — D8)。`,
+    (reviewType === 'code'
+      ? `你是代码审查挑战者,负责「${d.name}」这一维。审查对象 = 本次代码改动(diff),不是设计文档。你是对抗者,不是评分员(只产 findings + 证据,不打总分 — D8)。`
+      : `你是设计审查挑战者,负责「${d.name}」这一维。你是对抗者,不是评分员(只产 findings + 证据,不打总分 — D8)。`),
     '',
     '先 Read `docs/references/challenger-orientation.md`(自仓库为 harness/docs/references/challenger-orientation.md)取通用方法论(方法 / 数据来源 / 陷阱)。',
     '注:其 §1.2「design-review 4 挑战者专属」的固定 4 维框定不适用本 scout 路的动态 N,不要被它误导。',
     '',
     // A-1:自读盘 + 中性约束(不主动搜罗支持某结论的旁证)
-    `被审材料路径(自己 Read,不要等人喂全文): ${targets.spec}`,
+    (reviewType === 'code'
+      ? `改动范围(自己 git diff / Read 改动文件): ${targets.diffRef}\n对照 spec/任务(如有,审 spec 忠实性用;缺则注"对照 sessionIntent / diff 自身意图"): ${targets.spec}`
+      : `被审材料路径(自己 Read,不要等人喂全文): ${targets.spec}`),
     '中性约束:只读上面被审材料 + 与你这一维 focus 相关的 decisions/audits;',
     '不要主动搜罗支持某个预设结论的旁证(对齐 synthesis-rules 事前规则中性化)。',
     '',
@@ -177,7 +226,7 @@ function challengerPrompt(d, targets, sessionIntent) {
     focus,
     '',
     '## 输出格式(严格满足 FINDING_SCHEMA)',
-    'dimension = 本维名;findings = [{title, location(文档节/路径), problem, evidence(原文引用), impact, severity(🔴|🟡|🟢)}];',
+    `dimension = 本维名;findings = [{title, ${locHint}, problem, evidence(原文引用), impact, severity(🔴|🟡|🟢)}];`,
     'user_words_section = 末尾必填「### 已对照用户原话」section 原文(对照用户原话锚点核对,守 synthesis 事后规则 5)。',
   ].join('\n');
 }
@@ -187,9 +236,14 @@ function challengerPrompt(d, targets, sessionIntent) {
 export default async function reviewScout({ phase, agent, parallel, log }, input) {
   const { reviewType, targets, sessionIntent } = input || {};
 
-  // 入参校验(spec §3.1 错误处理):缺被审材料路径 → 报错 + 返回空,调度者按审查失败处理。
-  if (!targets || !targets.spec) {
-    log('review-scout: 入参缺 targets.spec(被审材料路径),无法侦察 → 返回 {plan:null, findings:[]}');
+  // 入参校验(spec §3.1 / §5.1):
+  // - 缺 targets 整体 → 报错返回空。
+  // - design 路:缺 targets.spec(被审材料路径)→ 报错。
+  // - code 路:缺 targets.diffRef 且缺 targets.spec(改动范围与对照 spec 皆无,无法审)→ 报错。
+  const codeMissing = reviewType === 'code' && !targets?.diffRef && !targets?.spec;
+  const designMissing = reviewType !== 'code' && (!targets || !targets.spec);
+  if (!targets || codeMissing || designMissing) {
+    log('review-scout: 入参缺被审材料指针(design 缺 targets.spec / code 缺 targets.diffRef+spec)→ 返回 {plan:null, findings:[]}');
     return { plan: null, findings: [] };
   }
 
@@ -221,7 +275,7 @@ export default async function reviewScout({ phase, agent, parallel, log }, input
   const findings = await phase('对抗', async () => {
     return await parallel(
       dims.map((d) => async () => {
-        const prompt = challengerPrompt(d, targets, sessionIntent);
+        const prompt = challengerPrompt(d, targets, sessionIntent, reviewType);
         let r = await agent(prompt, { schema: FINDING_SCHEMA, label: d.name, agentType: 'general-purpose' });
         if (!r) {
           // 二次重试(仅一次);仍败返回 null,由下方 filter(Boolean) 剔除(该维标盲区,调度者综合处理)
