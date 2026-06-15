@@ -32,6 +32,7 @@ const FloorTable = {
 // 标准候选菜单(scout 路 design 类;scout 每次必考虑,不加须进 skipped_candidates — D-A2)
 // 执行层实际名(design-reviewer.md L198「过度工程化」,非治理层别名"合理性");
 // = 现有 4 维里地板外的 2 维,scout 路降为"必考虑候选"(降级只在 scout 路)。
+// 派生自 review-rules 设计行候选菜单注(权威上游);改菜单项先改 review-rules、再改本常量 — 双写对见 credentials-rules §8 第 7 条。
 const DesignCandidateMenu = ['完整性', '过度工程化'];
 
 // 标准候选菜单(scout 路 code 类;scout 每次必考虑,不加须进 skipped_candidates — A4 / D-C1=A)

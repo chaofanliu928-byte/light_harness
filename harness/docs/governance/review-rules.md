@@ -21,6 +21,8 @@
 >
 > **双写派生(文档上游、代码派生)**:`.claude/workflows/review-scout.workflow.js` 的 `FloorTable` 常量是本地板维表的**机读镜像**(运行时按它扇出);**本注为权威上游**,改维名须**先改本注、再改 workflow.js FloorTable**,两处三类维名逐字一致(双写对见 credentials-rules §8 第 6 条)。
 >
+> **设计候选菜单(完整性 / 过度工程化)双写派生(文档上游、代码派生)**:上面降为「必考虑候选」的两维 = `.claude/workflows/review-scout.workflow.js` 的 `DesignCandidateMenu` 常量的**权威上游**;改菜单项须**先改本注、再改 workflow.js DesignCandidateMenu**,两处菜单项逐字一致(对齐下方 code 候选双写派生注;双写对见 credentials-rules §8 第 7 条)。
+>
 > **非 ultracode 路(回落)**:仅在 ultracode/Workflow 不在场时,用上面设计行现有固定 4 维(自洽性 / 完整性 / 合理性 / RUBRIC 对齐),不变;不退役、不重建 scout(scout 为 ultracode 专属)。
 
 > **【代码行 scout 注 / code 地板·候选(权威住此)】** **review-scout 也是代码审查的主推路**:ultracode / Workflow 在场时,代码行**默认走 review-scout `reviewType='code'`**(主推),不跑 Superpowers `requesting-code-review`;scout 现推维 = **code 地板 3 维 + 动态加维**。
