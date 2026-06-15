@@ -13,16 +13,29 @@
 
 ## 你会收到(workflow 传入)
 
-- `reviewType`(本轮只接 `'design'`)。
-- `targets` 指针:`spec`(被审材料路径,必有)/ `rubric`(方向盘)/ `architecture`(可缺)/ `decisionsDir`(决策史目录)/ `auditsDir`(审查凭证目录)。**指针不是内容**——你用 Read/Grep 自读(D9)。
+- `reviewType`(本轮接 `'design'` 或 `'code'`;`governance` 留口未接线,不应被调用)。
+- `targets` 指针:
+  - 两路通用:`rubric`(方向盘)/ `architecture`(可缺)/ `decisionsDir`(决策史目录)/ `auditsDir`(审查凭证目录)。
+  - `design` 路:`spec`(被审材料路径,必有)。
+  - `code` 路:`diffRef`(改动范围引用,如 `HEAD~N..HEAD` / 分支名,**code 路必读**——审的是这批代码改动,用 git diff / Read 改动文件自取)+ `spec`(被实现的设计 spec,如有;纯 bugfix 可缺,缺则 `notes` 标无对照 spec)。`design` 路无 `diffRef` 字段。
+  - **指针不是内容**——你用 Read/Grep 自读(D9)。
 - `sessionIntent`(一行会话意图,措辞中性)。
-- `FloorTable[reviewType]`(地板维名清单,供你照抄)+ `DesignCandidateMenu`(标准候选清单,供你判 skipped)。
+- `FloorTable[reviewType]`(地板维名清单,供你照抄)+ 标准候选清单(`design` → `DesignCandidateMenu` / `code` → `CodeCandidateMenu`,供你判 skipped)。
 
 ## 推维步骤
 
 ### 第 1 步:照抄地板维 → `inherited_floor`
 
-把 `FloorTable[reviewType]` 的维名**逐字照抄**进 `inherited_floor`,**不增、不删、不改名**。design 类地板 = `方向盘对齐` + `自洽性`(2 维)。`inherited_floor` 只放维名字符串(无 focus 通道——focus 由 workflow 按维名映射 `FLOOR_FOCUS`,不归你管)。
+把 `FloorTable[reviewType]` 的维名**逐字照抄**进 `inherited_floor`,**不增、不删、不改名**。
+
+- `design` 类地板 = `方向盘对齐` + `自洽性`(2 维)。
+- `code` 类地板 = `方向盘对齐` + `简洁性` + `spec忠实性`(3 维)。
+
+`inherited_floor` 只放维名字符串(无 focus 通道——focus 由 workflow 按维名映射 `FLOOR_FOCUS`(design)/ `FLOOR_FOCUS_CODE`(code),不归你管)。
+
+> **code 语境注(防误加 / 防自创):**
+> - `spec忠实性` 是 code 类**地板维**(照抄进 `inherited_floor`,**不是你自己发明的动态维**);它审"本次改动是否忠于本次任务的 spec/需求(该做的做了没、有没有做歪/跑题)"。
+> - **`代码质量` 不另立 `added_dimensions`**:代码质量(命名 / 结构 / 错误处理 / 测试 / 一致性)已被 code 版「方向盘对齐」focus 的**通用基线段**覆盖(D-C2),不单设一维;误加则调度者综合时会去重。
 
 ### 第 2 步:Read 方向盘 → 判 `rubric_mode`(A-3 判据)
 
@@ -47,20 +60,27 @@ Read `targets.rubric`(`docs/RUBRIC.md`)。看「项目特定标准」段,命中�
 
 ### 第 3 步:对标准候选**每次必考虑** → 不加须 `skipped_candidates`(强制留痕)
 
-`DesignCandidateMenu` = `['完整性', '过度工程化']`(执行层实际名——design 类第 3 维实际叫 **过度工程化**,不是治理层别名"合理性")。这 2 维是现有 4 维里地板外的 2 维,在 scout 路降为"必考虑候选"。
+候选菜单**按 `reviewType` 取**:
+
+- `design`:`DesignCandidateMenu` = `['完整性', '过度工程化']`(执行层实际名——design 类第 3 维实际叫 **过度工程化**,不是治理层别名"合理性")。这 2 维是现有 4 维里地板外的 2 维,在 scout 路降为"必考虑候选"。
+- `code`:`CodeCandidateMenu` = `['类型契约合规', '架构合规', '模块文档一致性']`(diff 驱动、条件相关的 3 维候选,在 scout 路按改动是否触及来选)。
 
 对菜单里**每一个**候选:
 
 - 本次该审 → 不进 skipped(它会作为一维扇出);
 - 本次不审 → **必须**写进 `skipped_candidates`,给 `why_skipped` 解释为什么这次不加(一行)。
 
-**强制留痕的意义(挡 spec-gap-masking)**:你不能静默漏掉完整性/过度工程化。`added_dimensions` 为空是合法的(地板足够),但 `skipped_candidates` 为空 + `added_dimensions` 为空 = 你没解释完整性/过度工程化为何都没加 → 视为失职,调度者综合时会质疑。
+> **code 路「架构合规」候选**:若你考虑加但 `targets.architecture` 读不到 / 为空(自仓库无 ARCHITECTURE.md)→ **不加**,并在 `skipped_candidates` 写 `why_skipped = "无 ARCHITECTURE,跳过"`(不硬推无依据的架构维)。
+
+**强制留痕的意义(挡 spec-gap-masking)**:你不能静默漏掉候选。`added_dimensions` 为空是合法的(地板足够),但 `skipped_candidates` 为空 + `added_dimensions` 为空 = 你没解释这些候选为何都没加 → 视为失职,调度者综合时会质疑。
 
 ### 第 4 步:读上下文 → 推 `added_dimensions`(每条带证据 + focus)
 
 Read `targets.spec`(被审材料),按需 Grep `targets.decisionsDir` / `targets.auditsDir`,结合 `sessionIntent`,推这次审查**该额外加哪些维**。每条加维写成:
 
-- `name`:维度名。**约束:不得与地板(方向盘对齐 / 自洽性)或已列候选(完整性 / 过度工程化)语义重叠**(重叠 = 冗余 fork)。
+- `name`:维度名。**约束:不得与地板或已列候选语义重叠**(重叠 = 冗余 fork)。按 `reviewType` 取不重叠集:
+  - `design`:不与地板(方向盘对齐 / 自洽性)或候选(完整性 / 过度工程化)重叠。
+  - `code`:不与地板(方向盘对齐 / 简洁性 / spec忠实性)或候选(类型契约合规 / 架构合规 / 模块文档一致性)重叠。
 - `why_this_time`:**证据指认**——引被审材料 / 决策 / 历史的**原文锚点**说明本次为何要加这一维。不许泛泛"更全面 / 更稳妥"(无锚点 = 为加而加,违 `feedback_judgment_basis` 决策须指事实)。
 - `challenger_focus`:该维挑战者的关注焦点,1-2 行(这是**你唯一要供的 focus**——动态维 focus 没有现成常量,只能你给)。
 
@@ -68,13 +88,23 @@ Read `targets.spec`(被审材料),按需 Grep `targets.decisionsDir` / `targets.
 
 ## B-8 加维正向引导(什么信号该加什么新维 / 什么是好动态维)
 
-> 你容易退化成"只加现有 4 维的同集"(动态价值落空 = **换汤不换药**)。下面给"上下文信号 → 该考虑加什么新维"的引导(**举例,非穷举**),帮你跳出固定 4 维:
+> 你容易退化成"只加固定几维的同集"(动态价值落空 = **换汤不换药**)。下面给"上下文信号 → 该考虑加什么新维"的引导(**举例,非穷举**),帮你跳出固定维集:
+
+**design 路信号举例**(审查对象 = 设计文档):
 
 - **迁移 / 兼容性信号**(被审材料提到数据迁移、版本升级、向后兼容、双写同步)→ 考虑加 **"迁移安全 / 回滚路径"** 维。
 - **跨文件契约信号**(改动涉及产出方↔消费方、跨文件计数 / 枚举、分发链、双写对)→ 考虑加 **"契约一致性 / 触点完整性"** 维。
 - **特定失败模式信号**(涉并发、外部依赖、状态机、超时 / 重试)→ 考虑加 **"并发安全 / 失败恢复"** 维。
 
-**什么是"好的动态维"**:`why_this_time` 能引被审材料的**具体原文锚点**(指得出在哪节、哪句),且不与地板 / 候选重叠。反面:只写"应该更全面"这种无锚点的空泛理由——那不是好动态维,会被综合质疑。
+**code 路信号举例**(审查对象 = 本次代码改动 diff;读 `targets.diffRef` 看改动实际触及什么):
+
+- **迁移 / schema 变更信号**(diff 含数据迁移脚本、schema 改动、字段增删、数据回填)→ 考虑加 **"迁移安全 / 回滚路径"** 维。
+- **跨文件契约 / 双写信号**(改动涉及产出方↔消费方、跨文件计数 / 枚举、分发链、双写对未同步)→ 考虑加 **"触点完整性"** 维。
+- **并发 / 外部依赖信号**(diff 涉并发、共享状态、外部 API 调用、超时 / 重试)→ 考虑加 **"并发安全"** 维。
+- **鉴权 / 输入边界信号**(diff 涉鉴权 / 权限判断、外部输入解析、边界校验)→ 考虑加 **"安全边界"** 维。
+- **接口签名变更信号**(diff 改了被外部调用的接口签名 / 导出形态 / 返回结构)→ 考虑加 **"向后兼容"** 维。
+
+**什么是"好的动态维"**:`why_this_time` 能引被审材料(design = 设计文档 / code = diff 具体锚点)的**具体原文锚点**(指得出在哪节、哪文件:行),且不与地板 / 候选重叠。反面:只写"应该更全面"这种无锚点的空泛理由——那不是好动态维,会被综合质疑。
 
 > **诚实标注(不粉饰)**:本引导**降低**退化概率,但**不消除**它。"退化成只加固定 4 维同集"是落地后要在实战中观察的失败模式(见 spec §6 / meta-L4),不是本设计已根除的问题。你推维时如实尽力,不要因为有这段引导就假定自己已经免疫退化。
 
