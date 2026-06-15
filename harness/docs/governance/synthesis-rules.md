@@ -1,6 +1,6 @@
 # 综合阶段治理规则
 
-> **何时读本文件**:调度者在 design-review / evaluate / 治理审查 / process-audit / security-scan 等 fork 出多个挑战者**前**(事前 — 构造 prompt)或**后**(事后 — 综合结论)时必读。
+> **何时读本文件**:调度者在 design-review / evaluate / 治理审查 / process-audit / security-scan / review-scout 等 fork 出多个挑战者**前**(事前 — 构造 prompt)或**后**(事后 — 综合结论)时必读。
 >
 > **2026-05-13 引入** — 合并原 design-rules.md "挑战者 prompt 构造中性化规则" + 综合阶段规则,作为 harness 扁平 fork 架构下"调度者面对挑战者的完整行为规则集"。
 
@@ -13,6 +13,7 @@
 | 场景 | 挑战者数量 | 综合者 |
 |---|---|---|
 | design-review | 4(自洽 / 完整 / 合理 / RUBRIC) | 调度者(Claude) |
+| review-scout | 动态 N(地板 2 + 动态加) | 调度者(Claude) |
 | evaluate | 4(RUBRIC / 架构 / 文档 / Slop) | 调度者(Claude) |
 | 治理审查 | N(模态决定) | 调度者(Claude) |
 | process-audit | 1(流程遵从) | 调度者(Claude) |
@@ -97,6 +98,7 @@
 
 事前规则 5 适用所有"调度者面对挑战者"的 fork 场景(对齐本文件适用范围表):
 - design-review(4 挑战者)
+- review-scout(scout 驱动 N 挑战者,N=地板 2+动态加)
 - evaluator(4 挑战者)
 - process-audit(1 挑战者)
 - security-scan(3 挑战者)
@@ -166,7 +168,7 @@
 
 **升级条件**:section 显示主线偏离 🔴 → 升为综合阶段 finding,可能触发主线段重写。
 
-**适用范围**:design-review / evaluate / process-audit / security-scan / 治理审查 所有 fork 场景 — 与事前规则 5 同步生效。
+**适用范围**:design-review / evaluate / process-audit / security-scan / 治理审查 / review-scout 所有 fork 场景 — 与事前规则 5 同步生效。
 
 **与挑战者侧导览的关系**:本规则的挑战者侧动作落入 `harness/docs/references/challenger-orientation.md` §3.3(自取用户原话)+ §3.4(输出必填 section)。本规则是调度者综合阶段的校验落地。
 
