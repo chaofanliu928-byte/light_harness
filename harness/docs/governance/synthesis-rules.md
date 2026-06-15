@@ -13,7 +13,7 @@
 | 场景 | 挑战者数量 | 综合者 |
 |---|---|---|
 | design-review | 4(自洽 / 完整 / 合理 / RUBRIC) | 调度者(Claude) |
-| review-scout | 动态 N(地板 2 + 动态加) | 调度者(Claude) |
+| review-scout | 动态 N(地板按类:design 2 / code 3 + 动态加) | 调度者(Claude) |
 | evaluate | 4(RUBRIC / 架构 / 文档 / Slop) | 调度者(Claude) |
 | 治理审查 | N(模态决定) | 调度者(Claude) |
 | process-audit | 1(流程遵从) | 调度者(Claude) |
@@ -98,7 +98,7 @@
 
 事前规则 5 适用所有"调度者面对挑战者"的 fork 场景(对齐本文件适用范围表):
 - design-review(4 挑战者)
-- review-scout(scout 驱动 N 挑战者,N=地板 2+动态加)
+- review-scout(scout 驱动 N 挑战者,N=地板按类 design 2/code 3+动态加)
 - evaluator(4 挑战者)
 - process-audit(1 挑战者)
 - security-scan(3 挑战者)
