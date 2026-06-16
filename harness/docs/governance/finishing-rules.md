@@ -92,6 +92,14 @@
 - **方向评估 = 全批适用,含治理批**(用户原话:"方向评估重要")。分工:治理审查核"这批合规达标"(以 decision/spec 为前提),方向评估问"方向本身对不对/该不该推翻"(连前提一起审)——verdict 三路同构但站位不同,非重复。
 - **安全扫描与流程审计 = 维持 feature 侧,治理批暂不纳入**(用户原话:"其他的我觉得可以暂时不用担心了";连带风险登记 ROADMAP 观察项)。
 
+### 触点漂移检测(凭证批 audit 内机械预检)
+
+> 仅当**本批命中 `credentials.conf`(收口须产 audit)**时执行——在该凭证批的 audit 内,drift-scout 作触点完整性的**机械预检自动跑**(不依赖审查者是否选了「触点完整性维」;人工触点完整性维保持 review-rules 条件必选作互补深审,机械预检 + 人工深审双层,不互斥)。**非凭证批 → 不 fork**(注册表 13 触点端点多落 governance/config 凭证-hit 文件,非凭证批罕碰触点端点,真漏由人工触点维终兜)。门控理由详 spec `docs/superpowers/specs/2026-06-16-drift-detection-design.md` §4.2 注。
+
+19. **需 agent 运行时** → 调度者 fork `drift-scout`(契约 `.claude/agents/drift-scout.md`),注入 `{registryPointer: docs/governance/touchpoint-registry.md, scope: all, repoRoot, today, credentialsConf, rulesPointer}` → scout 读注册表、逐触点读两端点、按判据判 → 返回报告(每触点 ✅一致 / 🔴漂移[附差异指针] / ⚠️不确定;报告分层:🔴 突出逐条 / ✅ 折叠计数)。
+20. 消费报告:**🔴** 当场修或登记;**⚠️** 并入治理审查触点完整性维人核;据报告**手工回填**注册表现状列(`待③b查` → `✅一致`/`🔴漂移`;scout 只读不写,回填由调度者手工 — spec §7 D4)。
+21. **软、不阻断**:**无 agent 运行时 / fork 失败** → 软提醒"本会话漂移检测未执行" + **回落人工触点完整性维**(治理审查那个维本就在查),不阻断收口、不算欠账(诚实降级,同 freshness-scout)。
+
 ### decision 立档(若有架构决策)
 
 **调度者动作**:
