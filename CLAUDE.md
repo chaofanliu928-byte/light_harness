@@ -73,6 +73,11 @@
    - `echo '{}' | bash harness/.claude/hooks/check-shelf-registry.sh`(落库登记)
    - `bash harness/.claude/hooks/check-audit-coverage.sh --reconcile`(已提交凭证义务改动的 audit 覆盖)
    - 欠账处置:缺凭证 → 按 review-rules 维度选择表治理行补审产 audit,或(豁免边界内)exempt 微 audit;漏登记 → 补目录卡行;promotion 不合形 → 走 /structured-handoff 重新清账
+3. **开场新鲜度侦察(需 agent 运行时;软,不阻断)**:第 1 步装载 + 第 2 步对账走完后,fork 一个 `freshness-scout` 子智能体扫活文档 frontmatter(范围/判据/owner 二分权威住 `harness/docs/governance/freshness-rules.md`),**只回有问题的、全干净静默**:
+   - 入参 `{today: 当天日期, scopeList: 核心集+增量, N: 90}`;子智能体算三类问题(孤儿/时间腐/缺 frontmatter),按 owner 二分回 routeTo(`用户` owner → 报给用户拍 / `调度者` owner → AI 自己复核)。
+   - **全干净 → 不向用户输出任何新鲜度内容**(静默,不刷屏)。
+   - 复核确认还准(或顺手修了)→ 把该文档 `last-reviewed` 推到今天;收口时本批动过的活文档顺手推。
+   - **诚实降级**:无 agent 运行时(纯人工)则**跳过**本步(对账三命令不受影响,仍纯人工可跑);fork 失败 → 软提醒"本会话新鲜度未扫",不阻断、不挡收口。
 
 依据:`harness/docs/decisions/2026-06-11-session-chain-reconciliation.md`(C 案;hook=工具箱,手工模式为正身)
 
