@@ -11,7 +11,7 @@
 |---|---|---|---|
 | **代码** | 业务代码 / 测试 / 构建脚本(不命中 credentials.conf) | ultracode / Workflow 在场时,代码行**默认走 review-scout `reviewType='code'`**(主推:scout 现推维 = code 地板 3 维 + 动态加);Superpowers 默认维度 + 本文件「代码类维度集」五节(RUBRIC / 架构合规 / 类型契约 / 简洁性 / 模块文档一致性)+ 内嵌两段(spec 忠实性 + 代码质量)为 **ultracode 不在场时回落**(either-or,不与 scout 叠加跑)。code 地板/候选权威见下方 code scout 注。 | 实现内嵌两段审查(spec 忠实性 + 代码质量);重大改动可加 fork |
 | **设计** | `docs/superpowers/specs/` 设计文档 | 自洽性 / 完整性 / 合理性 / RUBRIC 对齐(4 维;**此为 ultracode 不在场时的回落维度集**——主推路见下方 scout 注;模板住 design-review SKILL) | 并行 fork 4 挑战者(回落路;design-review skill 定义) |
-| **治理** | 命中 credentials.conf include glob(治理规则 / 入口地图 / hooks / skills / agents / RUBRIC / 设计模板 / setup / 分发模板) | **bootstrap 4 维强制基线(禁止删减;禁用需用户确认)**:核心原则合规 / 目的达成度 / 副作用 / scope 漂移。**+ 触点完整性维(条件必选)**:改动涉及机制的产出/消费契约、跨文件计数/枚举、或分发链时必选;孤立单文件 typo 可不选(定制理由段记录) | N 弹性 2-5+(由主题复杂度定,不机械按 skill 数;上限受单 prompt 64 kB 软上限约束,超限拆多轮 fork)。审查产物 = audit 凭证(文法住 credentials-rules §3) |
+| **治理** | 命中 credentials.conf include glob(举例:治理规则 / 核心入口 / 入口地图 / 偏好层 / hooks / settings / skills / agents / workflows / RUBRIC / 设计模板 / setup / 分发模板;**完整类目以 credentials.conf 为准**) | **bootstrap 4 维强制基线(禁止删减;禁用需用户确认)**:核心原则合规 / 目的达成度 / 副作用 / scope 漂移。**+ 触点完整性维(条件必选)**:改动涉及机制的产出/消费契约、跨文件计数/枚举、或分发链时必选;孤立单文件 typo 可不选(定制理由段记录) | N 弹性 2-5+(由主题复杂度定,不机械按 skill 数;上限受单 prompt 64 kB 软上限约束,超限拆多轮 fork)。审查产物 = audit 凭证(文法住 credentials-rules §3) |
 
 > **【设计行 scout 注 / 地板维表(权威住此)】** **review-scout 是设计审查的主推路**:ultracode / Workflow 在场时,设计行**默认走 review-scout workflow**(主推),不走上面固定 4 维;scout 现推维 = **地板 2 维(方向盘对齐 + 自洽性)+ 动态加维**;完整性 / 过度工程化降为「必考虑候选」(不加须 skipped 留痕)。上面 L12 表格行的固定 4 维 = **仅 ultracode/Workflow 不在场时执行的回落维度集**。
 >

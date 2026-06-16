@@ -48,6 +48,7 @@ cp "$SCRIPT_DIR/.claude/agents/process-auditor.md" "$TARGET_DIR/.claude/agents/"
 # 注:本文件改动须 audit 凭证(命中 credentials.conf),但属下游可用工件 — "凭证义务路径" ≠ "分发范围"。
 cp "$SCRIPT_DIR/.claude/agents/research-scout.md" "$TARGET_DIR/.claude/agents/"
 cp "$SCRIPT_DIR/.claude/agents/review-scout.md" "$TARGET_DIR/.claude/agents/"
+cp "$SCRIPT_DIR/.claude/agents/freshness-scout.md" "$TARGET_DIR/.claude/agents/"
 
 # .claude/workflows(review-scout — ultracode 运行时审查编排;ultracode 关时下游走现有 design-review)
 mkdir -p "$TARGET_DIR/.claude/workflows"
