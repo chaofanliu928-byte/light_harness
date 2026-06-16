@@ -98,7 +98,18 @@
 
 **Step 1 反腐烂/新鲜度(✅ 2026-06-16 实现+收口完成)**:给会腐"活文档"加保质期标签(frontmatter owner/last-reviewed/生命周期,沿用 preferences L2)+ 会话开场 fork 新鲜度侦察子智能体(扫活文档、**只报问题、干净静默、需 agent 运行时无则跳过**)+ owner 二分(用户=preferences/RUBRIC/方向级,调度者=governance/ARCHITECTURE/README/标准件)+ 90 天初值待实战调 + 复核=推日期 + **软不阻断**。**时间腐+孤儿腐轻组合,漂移腐留 Step 2**。新建 `freshness-rules.md`(单源权威)+ `freshness-scout.md`(子智能体契约);核心集 11 文件回填 frontmatter;接线 根 CLAUDE 第3步 + AGENTS×2 新鲜度节(三处同核登记 credentials §8 第8条,**独立于第5条对账拷贝组**)。8 任务 subagent-driven。经 自检挑战者(2🔴宿主结构)+ **design-review review-scout dogfood**(1🔴三处同核拷贝组+7🟡)两轮修订 + 治理审查 5/5 pass。audit `audit-2026-06-16-163954-freshness-mechanism.md` verdict=pass,对账账齐。**meta-L4 正向数据点**:review-scout dogfood scout 现推维**未退化**(保留地板2+跳过2候选留痕+现推"触点完整性/守住凭证"2 专属维,后者抓出真 🔴)。
 
-**Step 2(待启)= ★ 设计层到手边**:契约/模块地图/why/坑 在写代码·重构·调试场景可靠到手边(含漂移腐检测)。**边界厘清(知识/偏好/规则)随 Step 2 真案例解,不单独前置**。
+**Step 2 ★ 设计层到手边(✅ 上游段 ①②③a③b 完成 2026-06-16;C 下游导航押后)= 漂移检测 + 触点完整性**:契约/模块地图/why/坑 在写代码·重构·调试场景可靠到手边(含漂移腐检测)。用户「先派侦察员摸 territory 再分头查」拆出执行序 **①体检漏改修复 → ②B 已知坑索引 → ③a 触点机读注册表(地基)→ ③b 漂移检测机制**;A+B 上游(harness 自身漂移检测/触点完整性),C(下游设计层导航)押后(上游理清后再设计)。**边界厘清(知识/偏好/规则)随 Step 2 真案例解,不单独前置**。
+- **①体检漏改修复**(audit-2026-06-16-183410;3 挑战者 pass):5-detector 设计层健康体检逮真漏改——setup.sh 漏分发 freshness-scout(TP-09 glob覆盖类)🔴 + gawk 坑描述不准 + review-rules 括号类目 🟡。
+- **②B known-pitfalls-index**(非凭证,无 audit):31 条坑按 8 场景可查,坑权威住源只指不抄,freshness frontmatter 自保鲜;references 标准件。
+- **③a 触点机读注册表**(audit-2026-06-16-192154 pass-after-revision):新建 `touchpoint-registry.md`(13 触点机读表 = credentials §8 机读派生形 + 体检散落触点;id/类型/端点/判据/来源/现状)+ §8 第9条(§8↔registry 派生双写)。MVP 只建数据。4 挑战者 2🟡 修订(L39 覆盖判据 / TP-12 类型 enum)。
+- **③b 漂移检测机制 drift-scout**(audit-2026-06-16-220000 pass):新建 `.claude/agents/drift-scout.md`(收口·凭证批·audit 内 fork,读注册表逐触点读两端点、5 类判据全覆盖判漂移、报告分层、只读不写、软降级;镜像 freshness-scout 形态)+ setup.sh 自指 cp + finishing-rules step 19-21(门控=仅凭证批自动跑、不依赖选维,人工触点维互补深审)。设计:brainstorming(选 scout B 非 hook)→ spec → 自检 → design-review review-scout dogfood 两轮修订 → 4 任务 subagent-driven → 收口 5 挑战者(4pass+1concern,0🔴 2🟡)。**红线测前置实证 scout 真能逮漂移**:baseline 干净仓库 13✅ 不误报 + 注入两真漂移精确逮 TP-09 分发链/TP-06 逐字。**完成"做3再做1"**(做3 review-scout backlog + 做1 知识组织上游段)。**meta-L4 正向数据点**:design-review review-scout dogfood 第 3 次未退化(地板维保留 + 候选 skipped 留痕 + 现推 spec 专属维);且收口当场用 drift-scout 自己跑红线测验证自己(自举闭环)。
+
+**Step 2 观察项(③b 收口 + 跟进,非阻断)**:
+- **③b 语义判类判松率未实证**(audit 220000 目的达成度 🟡):红线只实证 glob覆盖(TP-09)+ 逐字一致(TP-06)两类;结构等价/单源派生类(LLM 语义判)判松漏报率待 meta-L4 观实战,必要时补红线。spec §6.3 已诚实声明。
+- **drift-scout↔registry 派生未登 TP 行**(audit 220000 触点完整性 🟡 → ③a 跟进):drift-scout 判据→判法映射表 派生自 registry 判据列(同 TP-12 同构),构成新触点未登;是否加该 TP 行值得小决策(drift-scout 自查自身有递归性 + L10 散文已声明派生 + 人工触点维兜底,边际价值待判;加 registry 行=凭证改动须自己 audit)。
+- **③a 🟡-1 registry 加结构化抽取列**(交回 ③a):加"端点抽取/分发模型"结构化列以机械化逐字/结构判据;scout 已能读散文,该列 nice-to-have,待实战判值不值。
+- **③b 门控 3 边沿**(spec 观察):①触点端点须命中凭证 glob 的不变量(未来非凭证端点触点会逃门控)②exempt 微 audit 批是否也跑 drift-scout(待明确)③流程外手工编辑触点端点的延迟检出(下个凭证批才逮)。
+- **C 下游设计层导航**(押后):上游(harness 自身)理清后再设计下游产品侧的设计层到手边导航。
 
 **Step 1 观察项**:90 天阈值实战标定(误报/漏报/刷屏感)/ 子智能体每次开场 fork 的成本实战观察 / `.claude/agents`·`.claude/skills` 增量采纳推进 / ARCHITECTURE.md 仍空模板(本批已加 owner=调度者标签,待用户填或标"故意留空")。
 
