@@ -4,67 +4,67 @@
 > 覆写本文件只走 /structured-handoff(晋升门禁);入口地图:AGENTS.md / CLAUDE.md。
 
 更新时间: 2026-06-16
-当前阶段: freshness 反腐烂/新鲜度机制(知识系统 llm-wiki Step 1)实现+收口完成;合并入 main;Step 2 = ★ 设计层到手边 待启
+当前阶段: 知识系统 Step 2(★ 设计层到手边)进行中;①体检漏改修复 收口完成、合并入 main;下一步 ②B known-pitfalls-index
 当前分支: main
 
 ## 目标
 
-知识系统(llm-wiki 方向续)执行排序「0 留痕 → 1 反腐烂 → 2 ★ 设计层 → 边界随」(用户拍板)。Step 1 反腐烂已完成,转 Step 2。
+知识系统 Step 2「★ 设计层到手边」落到 harness = 漂移检测 + 触点完整性(自仓库真痛点;漂移腐 Step1 留此)。用户把它拆为执行序:**①体检漏改修复 ✅ → ②B 已知坑可索引层 → ③a 触点机读注册表(地基)→ ③b 漂移检测机制(注册表之上,scout/混合)**。C(下游设计层导航)押后(上游理清再设计)。
 
 ## 进度
 
 ### 已完成
-- **freshness 反腐烂/新鲜度机制(2026-06-16)**:活文档贴 frontmatter(owner/last-reviewed/生命周期 沿用 preferences)+ 会话开场 fork 新鲜度侦察子智能体(只报问题/干净静默/需 agent 运行时无则跳过)+ owner 二分(用户/调度者)+ 90 天初值 + 复核推日期 + 软不阻断;时间腐+孤儿腐轻组合,漂移腐留 Step 2。新建 freshness-rules.md/freshness-scout.md + 核心集 11 回填 + 三处同核拷贝组(credentials §8 第8条独立第5条)。8 任务 subagent-driven。自检(2🔴)+ design-review review-scout dogfood(1🔴+7🟡)两轮修订 + 治理审查 5/5 pass。audit `audit-2026-06-16-163954-freshness-mechanism.md`,对账账齐。
-- 前序(本会话):code-review-scout(指令1)+ review-scout backlog 清理 + 知识系统方向收敛留痕(Step 0)。
+- **设计层健康体检(2026-06-16,两阶段侦察)**:recon 摸 territory + 5-detector 实查。结论:**大体健康**(28🟢:§8 拷贝组/review-rules↔workflow.js 常量双写/对账三命令/新鲜度三处同核 大多一致),抓到 **2🔴+1🟡**。
+- **①体检漏改修复(2026-06-16)**:🔴 setup.sh 补 cp freshness-scout.md(下游开场会 fork 不存在 agent)+ 🟡 review-rules L14 括号补类目+标"以 conf 为准" + 🔴 gawk 坑描述纠正(死锁→扩展语法非 gawk 环境解析失败,对齐 hook 头注)。治理审查 3/3 pass 零🔴🟡。audit `audit-2026-06-16-183410-health-fixes.md`,对账账齐。
+- 前序(本会话):freshness 反腐烂(Step1)+ code-review-scout + review-scout backlog 清理。
 
 ### 进行中
-- 观察期:每会话照根 CLAUDE.md「会话开场规程」装载+对账(**现含第 3 步:开场新鲜度侦察**)。
+- 知识系统 Step 2:②B 待启。
+- 观察期:开场规程含第 3 步开场新鲜度侦察(freshness 已上线)。
 
 ### 阻塞
 无。
 
 ## 下一步
 
-1. **Step 2 = ★ 设计层到手边(走 brainstorming)**:契约/模块地图/why/坑 在写代码·重构·调试场景可靠到手边(含漂移腐检测)。**边界厘清(知识/偏好/规则)随 Step 2 真案例解,不单独前置**。详 ROADMAP「知识系统 backlog」节 + 留痕 `references/2026-06-16-knowledge-system-what-to-preserve.md`。
-2. **Step 1 观察项**:90 天阈值实战标定(误报/漏报/刷屏)/ 开场 fork 成本实战观察 / `.claude/agents`·`.claude/skills` 增量采纳 / ARCHITECTURE.md 仍空模板(已加 owner=调度者标签,待用户填或标"故意留空")。
+1. **②B known-pitfalls-index**(料已齐):把 5-detector I-5 摸到的 **15 类坑**(待办5/搁置4/观察3/关闭3:codex搁置/P0.9.2四项/D类残留/review-scout退化meta-L4/非ultracode痛点/漂移腐留Step2/治理批无安全扫/批级观察项簇散ROADMAP4段…)理成按场景可索引的 `known-pitfalls-index` + frontmatter 标"是否影响自仓库开发"。**注:体检 scan 可重跑**(只读现状),细节在本会话 scan task `wooowlm6y` 输出 / 重跑即得。
+2. **③a 触点机读注册表(地基)**:把 §8 散文 + 体检 类1 的 **11 双写对/触点** 结构化成机读注册表(每条:文件A:锚 ↔ 文件B:锚 + 判据),让 hook/scout 有据。
+3. **③b 漂移检测机制**:注册表之上建可复用漂移检测(scout 驱动 / 混合;收口时跑;机械化现有人工"触点完整性维")。
+4. C(下游设计层导航):③ 完后再设计(上游理清后)。
 
 ## 待晋升暂存
 
-<!-- 本会话出生、还没上架的有价值内容;一行一条,文法见行内示例;覆写前必须清账 -->
 <!-- 文法: - [决策|经验|调研|参考|偏好] 一句话(细节在哪) -->
 - 无
 
 ## 指针
 
-<!-- 接手要读的书;只指不抄。文法: - -> 路径 — 为什么读 -->
-- -> docs/superpowers/specs/2026-06-16-freshness-mechanism-design.md — freshness 机制设计(frontmatter/子智能体/owner二分/三处同核拷贝组)
-- -> docs/audits/audit-2026-06-16-163954-freshness-mechanism.md — freshness 治理审查(5/5 pass;守住5项零改实证;covers 17文件)
-- -> docs/references/2026-06-16-knowledge-system-what-to-preserve.md — 知识系统收敛留痕(该保留什么/按场景/边界 + Step1/2 排序)= Step 2 打底
-- -> docs/ROADMAP.md「知识系统 backlog」节 — 方向进展 + Step2 待启 + 观察项
+- -> docs/audits/audit-2026-06-16-183410-health-fixes.md — ①体检漏改修复治理审查(3/3 pass)
+- -> docs/references/2026-06-16-knowledge-system-what-to-preserve.md — 知识系统收敛留痕(Step1/2 排序 + 该保留什么/按场景/边界)
+- -> docs/ROADMAP.md「知识系统 backlog」节 — 方向进展(Step1✅ + Step2 进行中)
 
 ## 关键上下文
 
-- **会话开场规程现含第 3 步「开场新鲜度侦察(需 agent 运行时)」** —— 下次开场应 fork freshness-scout(扫核心集活文档 frontmatter,只报孤儿/超90天/缺标签,干净静默)。无 agent 运行时则跳过(对账三命令不受影响)。
-- 反腐烂只管 时间腐(超 90 天)+ 孤儿腐(缺 owner);**漂移腐(文档↔代码不一致)是 Step 2 ★ 的活**,本机制不管。
-- **守住 5 项零改**(若再碰):对账三命令 / credentials §8 第5条对账拷贝组 / references 过时横幅 / audit 失效判定 / preferences frontmatter 格式。
-- 新鲜度标签 = HTML 注释 `<!-- owner; last-reviewed; 生命周期 -->`(≠ YAML `---` custom-agent);新鲜度开场步 = credentials §8 第8条三处同核拷贝组(独立于第5条对账)。
-- 开场对账三命令(根 CLAUDE.md):check-handoff --reconcile / check-shelf-registry / check-audit-coverage --reconcile。
+- **Step 2 执行序(用户拍板)**:①修复✅→②B索引→③a触点机读注册表→③b漂移检测机制;C 押后。
+- **体检证明了 ★ 价值**:漂移检测 dogfood 抓到 2 个真漏改(setup.sh 漏分发 + 自己抄了 7 遍的 gawk 坑描述错误)。**现状无 hook 机械查双写对/漂移点,全靠人工触点完整性维**(③b 要机械化它)。
+- **守住**(若再碰):对账三命令 / credentials §8 各拷贝组 / references 过时横幅 / audit 失效 / preferences 格式 零改。
+- 开场对账三命令 + 第 3 步开场新鲜度侦察(根 CLAUDE.md 会话开场规程)。
 
 ## 已知问题
 
-- check-audit-coverage.sh extract_covers 的 gawk 三参数 match 在 mawk/BSD awk 死锁(历史遗留,独立待办)。
+- check-audit-coverage.sh extract_covers 的 gawk 三参数 match 是 gawk 扩展语法,在非 gawk 环境(mawk/busybox/BSD awk)**解析失败 → 该 audit 视为不贡献 covers**(**非"死锁"**——旧 handoff 抄错,已纠;对齐 hook 头注 L39-41;历史遗留,独立待办)。
 
 ## 晋升声明
 
 promotion: 已核(上架: 无; 弃置: 0 条)
 
 ## Evidence Depth
-- L1: ✅ per-task reviewer(workflow `freshness-impl`,7 任务 pass 零🔴,1🟡=brief/计划边界非缺陷)+ T8 §6/§8 静态核全过
-- L2: ✅ 守住 5 项逐文件 diff 零改实证(对账三命令四处 IDENTICAL / §8第5条 / 过时横幅 / audit失效 / preferences)+ 三处同核等价 + frontmatter 单源 + 凭证 covers 17 文件完整对账账齐
-- L3: ✅ 治理审查 audit verdict=pass(audit-2026-06-16-163954;5 挑战者 bootstrap-4+触点完整性 全 pass 零🔴🟡)+ 前序 design-review(review-scout dogfood)对 spec 对抗审
-- L4: ⏳ 观察期:90 天阈值实战标定 + 开场 fork 成本 + scout 推维退化(meta-L4)归 ultracode 在场实战;review-scout dogfood 本批已是正向数据点(推维未退化)
+- L1: ✅ 5-detector 体检(独立实查 territory + 抓 2🔴1🟡)+ ①修复 3 挑战者审 pass
+- L2: ✅ ①修复守住零改实证(setup.sh 分发链/review-rules 判定语 byte-identical)+ 触点修复后一致(freshness-scout 分发闭/13类目↔conf/gawk↔头注)+ 对账账齐
+- L3: ✅ 治理审查 audit verdict=pass(audit-2026-06-16-183410;3 挑战者)
+- L4: ➖ 不适用(纯触点修复;漂移检测可复用机制[③b]落地后才有运行时 meta-L4)
 
 ## CI 阻断
-❌ 无 CI 阻断(harness meta:markdown 治理 + 子智能体行为契约,无可运行 CI;验证 = 静态核 + 逐文件 diff + audit 对账)
+❌ 无 CI 阻断(harness meta:markdown + bash + 子智能体契约;验证 = 静态核 + audit 对账)
 
 ## context-chain: skipped(理由: harness 自仓库按 dogfood 边界不建 docs/context/,本仓无活链可核)
