@@ -49,6 +49,7 @@ cp "$SCRIPT_DIR/.claude/agents/process-auditor.md" "$TARGET_DIR/.claude/agents/"
 cp "$SCRIPT_DIR/.claude/agents/research-scout.md" "$TARGET_DIR/.claude/agents/"
 cp "$SCRIPT_DIR/.claude/agents/review-scout.md" "$TARGET_DIR/.claude/agents/"
 cp "$SCRIPT_DIR/.claude/agents/freshness-scout.md" "$TARGET_DIR/.claude/agents/"
+cp "$SCRIPT_DIR/.claude/agents/drift-scout.md" "$TARGET_DIR/.claude/agents/"
 
 # .claude/workflows(review-scout — ultracode 运行时审查编排;ultracode 关时下游走现有 design-review)
 mkdir -p "$TARGET_DIR/.claude/workflows"
