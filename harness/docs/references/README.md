@@ -39,6 +39,7 @@
 | 2026-06-10 | 2026-06-10-literature-map-llm-wiki-knowledge-org.md | llm-wiki/知识组织文献地图 | 3-0/补读 混合 |
 | 2026-06-10 | 2026-06-10-opensource-memory-solutions-map.md | 开源「工作记忆×知识库」方案分档对照(档位二/三决策参照) | — |
 | 2026-06-10 | 2026-06-10-scaffold-vs-ultracode-map.md | 脚手架 60 组件 × ultracode 覆盖度对照 | — |
+| 2026-06-16 | 2026-06-16-knowledge-system-what-to-preserve.md | 知识系统:该保留什么/按场景要什么/三者边界 + 反腐烂→★设计层 执行排序(brainstorming 料) | — |
 
 ## 维护
 
