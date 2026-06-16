@@ -41,6 +41,11 @@
 | 2026-06-10 | 2026-06-10-scaffold-vs-ultracode-map.md | 脚手架 60 组件 × ultracode 覆盖度对照 | — |
 | 2026-06-16 | 2026-06-16-knowledge-system-what-to-preserve.md | 知识系统:该保留什么/按场景要什么/三者边界 + 反腐烂→★设计层 执行排序(brainstorming 料) | — |
 
+## 标准件(无日期前缀,evolving;豁免目录卡,在此列出供发现)
+
+- `DESIGN_TEMPLATE.md` — 系统设计文档结构模板
+- `known-pitfalls-index.md` — **已知坑/技术债/观察项 按场景可查索引**(写码/调试前查"这块已知有坑没";坑权威细节住源文档[decision-trail/ROADMAP/audit],本索引只指不抄)
+
 ## 维护
 
 - 留痕件(带日期前缀)immutable:过时**加横幅标注,不删改**(横幅文法见上)。
