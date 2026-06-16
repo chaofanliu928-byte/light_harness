@@ -88,7 +88,7 @@
 8. 修改模块代码时同步更新模块 README.md（hook 会提醒）
 9. 对话变长时运行 `/structured-handoff` 更新交接文档，提示用户 `/clear`
 10. **活上下文链(用 docs/context/ 时)**:需求/设计写进 `docs/context/`，编码 + frontmatter `upstream: [编码]` 串成分层链(L1→L6，方向永不反：低层不定义高层）。改上游（推翻/改名）**当场**把下游 repoint 或标 `upstream: [待定]`（待定是章法，静默断链是垃圾）。探索期 `待定` 合法、`check-context-chain.sh` 只软提醒；收口由 finishing「收口硬核链」AI 核 + handoff 声明。frontmatter 只用半角 `[ ] : ,`
-11. **会话开场先装载再对账**:读 docs/active/handoff.md(台账)→ 跑 AGENTS.md「手工校验」命令核上次收口凭证;欠账先补再开新工作(会话链自执法)
+11. **会话开场先装载再对账**:读 docs/active/handoff.md(台账)→ 跑 AGENTS.md「手工校验」命令核上次收口凭证;欠账先补再开新工作(会话链自执法)。**有 agent 运行时**再走 AGENTS.md「开场新鲜度侦察」节(fork freshness-scout 扫活文档、只报有问题的、全干净静默;权威 docs/governance/freshness-rules.md)
 
 ## 回退规则
 
