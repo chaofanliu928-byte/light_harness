@@ -27,6 +27,13 @@
 
 ---
 
+## 2026-06-16 — 知识系统方向:反腐烂/新鲜度机制(llm-wiki Step 1)
+
+- **方向收敛(需求侧)**:llm-wiki/知识组织基础设施大体已建,本轮从需求侧重收敛——**该保留什么**(存"读全代码也重建不出的层":为什么/意图/不变量/设计层/坑/偏好,代码能答的不存)+ **什么场景要什么**(按场景索引非大 wiki 全塞,缺口集中在 写代码·重构·调试 = 设计层没到手边)+ **知识/偏好/规则边界**(糊点:偏好硬化成规则 / memory 拍平三者)。留痕 `references/2026-06-16-knowledge-system-what-to-preserve.md`。
+- **执行排序抉择(用户「做3再做1」+「按你的顺序」拍板)**:0 落留痕 → **1 反腐烂(地基:过时地图会误导,先保鲜再堆内容)** → 2 ★ 设计层到手边 → 边界随真案例解。否决"边界先行"(纯概念易空谈)+ "★ 先行"(最大最散、且无保鲜会堆更多腐)。
+- **反腐烂机制抉择(用户拍板 D-1~D-9)**:**时间腐+孤儿腐轻组合,漂移腐留 Step 2**(强检测要挂文档↔代码、是 ★ 的活);**开场用子智能体不是第四个 hook**(用户定:要读文档判断、干净静默、需 agent 运行时无则跳过);owner 二分(用户=能自证的 / 调度者=AI 日常维护,自评不替代对抗审查—闭公设1);90 天初值待实战调;软不阻断。
+- **link**:spec `docs/superpowers/specs/2026-06-16-freshness-mechanism-design.md` + audit `docs/audits/audit-2026-06-16-163954-freshness-mechanism.md` + ROADMAP「知识系统 backlog」节
+
 ## 2026-06-15 — code-review-scout(指令1:review-scout 扩展代码审查 reviewType='code')
 
 - **抉择(用户拍板 D-C1~D-C4 + 接口设计)**:给 review-scout 扩**代码审查**(reviewType='code'),**fork-N 同形**于设计审(scout 现推维 → workflow parallel 扇出 → 调度者综合);新建 harness 侧 **code-review SKILL**(镜像 design-review 运行时分支:ultracode→review-scout 传 reviewType=code+diffRef / 不在场→回落 Superpowers requesting-code-review,**either-or 不叠加、不改包**)。D-C1=A(类型契约入候选)/ **D-C2(spec忠实性入 code 地板,补 either-or 真空 — Superpowers 内嵌两段在 ultracode 路不跑)** / D-C3=B(无门)/ D-C4=A(本轮接通-usable)。

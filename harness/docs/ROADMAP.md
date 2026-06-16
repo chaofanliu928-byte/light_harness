@@ -90,6 +90,18 @@
 
 **外部参考输入**:用户提供的 16 步交付技能(外部项目 `_参考规则/skills/sixteen-step-delivery`)的机制库——读取凭证(证据锚点,"只写已阅读不算证据")/ 状态初值制度(空白=not-started 不得当通过)/ 三态准入(proceed/blocked/assumption-ready)/ 分流留痕(UGR/SCP/DCR+传播记录)/ 过程记录同步门禁。借机制模式不借官僚密度,逐个过简洁性反问。
 
+### 知识系统 backlog(llm-wiki 方向续:反腐烂 Step 1 ✅ 2026-06-16)
+
+> **brainstorming 收敛留痕:`references/2026-06-16-knowledge-system-what-to-preserve.md`**(该保留什么 / 按场景要什么 / 知识·偏好·规则边界 + 反腐烂→★ 执行排序)
+
+**背景**:2026-06-10 知识组织地图已驱动一大批落地(工作台/书架二层、晋升门禁、AGENTS.md、上下文链、落库登记)。本轮需求侧再收敛"什么该保留 / 什么场景要什么 / 三者边界",定执行排序(用户「做3再做1」+「按你的顺序」拍板):**0 落留痕草稿 → 1 反腐烂/新鲜度(地基)→ 2 ★ 设计层到手边 → 边界随**。
+
+**Step 1 反腐烂/新鲜度(✅ 2026-06-16 实现+收口完成)**:给会腐"活文档"加保质期标签(frontmatter owner/last-reviewed/生命周期,沿用 preferences L2)+ 会话开场 fork 新鲜度侦察子智能体(扫活文档、**只报问题、干净静默、需 agent 运行时无则跳过**)+ owner 二分(用户=preferences/RUBRIC/方向级,调度者=governance/ARCHITECTURE/README/标准件)+ 90 天初值待实战调 + 复核=推日期 + **软不阻断**。**时间腐+孤儿腐轻组合,漂移腐留 Step 2**。新建 `freshness-rules.md`(单源权威)+ `freshness-scout.md`(子智能体契约);核心集 11 文件回填 frontmatter;接线 根 CLAUDE 第3步 + AGENTS×2 新鲜度节(三处同核登记 credentials §8 第8条,**独立于第5条对账拷贝组**)。8 任务 subagent-driven。经 自检挑战者(2🔴宿主结构)+ **design-review review-scout dogfood**(1🔴三处同核拷贝组+7🟡)两轮修订 + 治理审查 5/5 pass。audit `audit-2026-06-16-163954-freshness-mechanism.md` verdict=pass,对账账齐。**meta-L4 正向数据点**:review-scout dogfood scout 现推维**未退化**(保留地板2+跳过2候选留痕+现推"触点完整性/守住凭证"2 专属维,后者抓出真 🔴)。
+
+**Step 2(待启)= ★ 设计层到手边**:契约/模块地图/why/坑 在写代码·重构·调试场景可靠到手边(含漂移腐检测)。**边界厘清(知识/偏好/规则)随 Step 2 真案例解,不单独前置**。
+
+**Step 1 观察项**:90 天阈值实战标定(误报/漏报/刷屏感)/ 子智能体每次开场 fork 的成本实战观察 / `.claude/agents`·`.claude/skills` 增量采纳推进 / ARCHITECTURE.md 仍空模板(本批已加 owner=调度者标签,待用户填或标"故意留空")。
+
 ### 治理同层化(✅ 2026-06-13 批 1-5 完成)
 
 > **现行版 spec/decision:`specs/2026-06-13-governance-single-layer.md` + `decisions/2026-06-13-governance-single-layer.md`**
