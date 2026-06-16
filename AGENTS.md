@@ -44,3 +44,12 @@
 - bash harness/.claude/hooks/check-audit-coverage.sh --reconcile
 
 (hook 是 Claude Code 增强层;换运行时丢自动触发,不丢可校验性)
+
+## 开场新鲜度侦察(需 agent 运行时)
+
+- 开场对账(步 2)之后,fork 一个 `freshness-scout` 子智能体扫活文档 frontmatter,**只回有问题的、全干净静默**(软,不阻断)。
+- 范围清单 / 三类问题判据(孤儿 / 时间腐 / 缺 frontmatter)/ owner 二分(用户·调度者)+ routeTo:权威住 harness/docs/governance/freshness-rules.md;子智能体契约住 harness/.claude/agents/freshness-scout.md。
+- 复核确认还准 → 把该文档 last-reviewed 推到今天(收口时本批动过的顺手推)。
+- 凭证义务:freshness-rules.md 落 governance glob;改动须 audit(详 harness/docs/governance/credentials-rules.md)。
+
+(需 agent 运行时;无 agent 运行时则跳过本步——同 hook 降级,丢自动触发不丢可校验性;对账三命令不受影响)
