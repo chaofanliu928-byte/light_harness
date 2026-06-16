@@ -1,4 +1,5 @@
 # 审查阶段治理规则(唯一审查规则 — 治理同层)
+<!-- owner: 调度者; last-reviewed: 2026-06-16; 生命周期: evolving -->
 
 > 一切审查(代码 / 设计 / 治理)的维度选择从本文件「审查维度选择表」出发;各模态的挑战者 prompt 模板由对应 skill 自带(design-review / evaluate / security-scan / process-audit 的 SKILL.md),本文件不载模板全文。
 > Superpowers 的 requesting-code-review skill 激活时,读本文件「代码类维度集」各节(在 Superpowers 默认审查维度之上追加)。

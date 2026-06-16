@@ -1,4 +1,5 @@
 # 系统设计阶段治理规则
+<!-- owner: 调度者; last-reviewed: 2026-06-16; 生命周期: evolving -->
 
 > 在 brainstorming 完成（需求锁定）之后、writing-plans 之前读取本文件。
 > 本阶段的核心职责是**产出自洽的系统设计文档**。

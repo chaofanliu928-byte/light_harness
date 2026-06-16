@@ -1,4 +1,5 @@
 # Writing-plans 阶段治理规则
+<!-- owner: 调度者; last-reviewed: 2026-06-16; 生命周期: evolving -->
 
 > 当 Superpowers 的 writing-plans skill 激活时，读取本文件。
 

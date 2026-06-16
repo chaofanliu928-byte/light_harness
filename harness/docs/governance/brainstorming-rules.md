@@ -1,4 +1,5 @@
 # Brainstorming 阶段治理规则
+<!-- owner: 调度者; last-reviewed: 2026-06-16; 生命周期: evolving -->
 
 > 当 Superpowers 的 brainstorming skill 激活时，读取本文件。
 > 本阶段的核心职责是**需求对接**，不是直接跳到方案设计。

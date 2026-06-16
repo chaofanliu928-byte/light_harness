@@ -1,4 +1,5 @@
 # 综合阶段治理规则
+<!-- owner: 调度者; last-reviewed: 2026-06-16; 生命周期: evolving -->
 
 > **何时读本文件**:调度者在 design-review / evaluate / 治理审查 / process-audit / security-scan / review-scout 等 fork 出多个挑战者**前**(事前 — 构造 prompt)或**后**(事后 — 综合结论)时必读。
 >

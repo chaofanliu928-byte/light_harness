@@ -1,4 +1,5 @@
 # Finishing 阶段治理规则
+<!-- owner: 调度者; last-reviewed: 2026-06-16; 生命周期: evolving -->
 
 > 当 Superpowers 的 finishing-a-development-branch skill 激活时,读取本文件。
 > 以下步骤在 Superpowers 的合并/PR/清理**之前**执行。

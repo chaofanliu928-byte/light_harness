@@ -1,4 +1,5 @@
 # Model-Route 治理规则
+<!-- owner: 调度者; last-reviewed: 2026-06-16; 生命周期: evolving -->
 
 > **[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。本文件保留作日后基线,不预设重启时间(`feedback_iterative_progression`)。详见 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `decision-trail.md` 2026-05-24 拐点。
 

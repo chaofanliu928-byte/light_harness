@@ -1,4 +1,5 @@
 # 项目评分标准（Rubric）
+<!-- owner: 用户; last-reviewed: 2026-06-16; 生命周期: evolving -->
 
 > **这个文件是整个 harness 的方向盘。**
 > 你怎么定义"好"，AI 就怎么生成。
