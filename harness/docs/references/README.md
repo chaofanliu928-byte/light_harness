@@ -40,6 +40,7 @@
 | 2026-06-10 | 2026-06-10-opensource-memory-solutions-map.md | 开源「工作记忆×知识库」方案分档对照(档位二/三决策参照) | — |
 | 2026-06-10 | 2026-06-10-scaffold-vs-ultracode-map.md | 脚手架 60 组件 × ultracode 覆盖度对照 | — |
 | 2026-06-16 | 2026-06-16-knowledge-system-what-to-preserve.md | 知识系统:该保留什么/按场景要什么/三者边界 + 反腐烂→★设计层 执行排序(brainstorming 料) | — |
+| 2026-06-18 | 2026-06-18-knowledge-preference-rule-boundary.md | 知识/偏好/规则边界厘清(#3:两轴+流动 + 三升格判据 + 执法连续谱 + 4 真缺口;接续 §C「没定论」,真案例反推) | — |
 
 ## 标准件(无日期前缀,evolving;豁免目录卡,在此列出供发现)
 
