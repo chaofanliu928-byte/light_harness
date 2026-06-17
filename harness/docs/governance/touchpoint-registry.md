@@ -32,6 +32,8 @@
 | TP-11 | 同核拷贝组 | `<root>/CLAUDE.md`(M3 自治理入口);`harness/CLAUDE.md`(M4 分发模板) | 结构等价(同被 `CLAUDE.md` 凭证 glob 覆盖;角色分离/二公设/治理表结构共享,M3 治理入口与 M4 模板各有侧重不逐字一致) | 体检2026-06-16 | 待③b查 |
 | TP-12 | 漂移点(spec↔代码) | `docs/governance/freshness-rules.md`(范围清单/字段→kind 映射/owner→routeTo 单源权威);`.claude/agents/freshness-scout.md`(扫描判据/范围/取值域/出参) | 单源派生一致(freshness-rules 为权威上游,freshness-scout 各处重述均派生;改判据先改 freshness-rules) | 体检2026-06-16 | 待③b查 |
 | TP-13 | 双写对 | `docs/governance/credentials-rules.md` §8 人读双写义务清单;`docs/governance/touchpoint-registry.md`(本表,机读派生) | 单源派生一致(§8 上游、本表派生;§8 增触点条须同步本表新增行,反之亦然) | §8 第9条 | 待③b查 |
+| TP-14 | 漂移点(spec↔代码) | `docs/governance/design-context-map.md` 各业务模块行的设计背景住址指针列(接口契约/数据模型/模块边界/取舍决策/不变量约束/既知坑/业务规则索引/并发约束);各指针指向的设计文档/README/ARCHITECTURE/decisions/坑索引实际锚 | 存在性(地图住址指针指向的锚还在不在;指针失效=漂移) | 体检2026-06-17 | 待③b查 |
+| TP-15 | 漂移点(spec↔代码) | `docs/governance/design-context-map.md` 各行成员文件 glob;被指向的实际业务模块代码文件成员 | 单源派生一致(地图 memberGlob 还覆盖不覆盖实际模块成员;成员漂移=地图边界腐化) | 体检2026-06-17 | 待③b查 |
 
 ## 维护
 
