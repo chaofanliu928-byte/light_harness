@@ -50,6 +50,7 @@ cp "$SCRIPT_DIR/.claude/agents/research-scout.md" "$TARGET_DIR/.claude/agents/"
 cp "$SCRIPT_DIR/.claude/agents/review-scout.md" "$TARGET_DIR/.claude/agents/"
 cp "$SCRIPT_DIR/.claude/agents/freshness-scout.md" "$TARGET_DIR/.claude/agents/"
 cp "$SCRIPT_DIR/.claude/agents/drift-scout.md" "$TARGET_DIR/.claude/agents/"
+cp "$SCRIPT_DIR/.claude/agents/design-context-scout.md" "$TARGET_DIR/.claude/agents/"
 
 # .claude/workflows(review-scout — ultracode 运行时审查编排;ultracode 关时下游走现有 design-review)
 mkdir -p "$TARGET_DIR/.claude/workflows"
@@ -103,8 +104,13 @@ cp "$SCRIPT_DIR/templates/PROGRESS.md" "$TARGET_DIR/docs/"
 # governance:全量分发(治理同层;credentials-rules.md 随 *.md 自然拷入)
 for gov in "$SCRIPT_DIR/docs/governance/"*.md; do
     [ -e "$gov" ] || continue
+    [ "$(basename "$gov")" = "design-context-map.md" ] && continue   # 活文件(下游逐模块填),守卫单独 cp,不无条件覆盖
     cp "$gov" "$TARGET_DIR/docs/governance/"
 done
+# 设计背景地图:活文件守卫(I7)— 下游逐模块填,已存在不覆盖(与上方 basename skip 成对:漏 skip=重装覆盖下游已填地图 / 漏守卫=地图不分发空转)
+if [ ! -f "$TARGET_DIR/docs/governance/design-context-map.md" ]; then
+    cp "$SCRIPT_DIR/docs/governance/design-context-map.md" "$TARGET_DIR/docs/governance/" 2>/dev/null || true
+fi
 # 初始台账:从模板单源(skill 捆绑资源)复制;活文件守卫(I7)— 已存在不覆盖
 if [ ! -f "$TARGET_DIR/docs/active/handoff.md" ]; then
     cp "$SCRIPT_DIR/.claude/skills/structured-handoff/handoff-template.md" "$TARGET_DIR/docs/active/handoff.md" 2>/dev/null || true
@@ -155,3 +161,6 @@ echo "    辅助审查 AI 工作产出的真实性)"
 echo "    仓库: https://github.com/chaofanliu928-byte/glassbox"
 echo "    建议装在 ~/tools/glassbox/ 之类全局位置,装不装、装哪、装啥版本由你决定"
 echo "    harness 治理流程不依赖此工具在场,不装也能正常工作"
+echo ""
+echo "🗺️  设计背景地图:进写码/调试/重构时,AI 可 fork design-context-scout 把设计层背景按场景拉到手边。"
+echo "    已有项目搬进地图格式见 docs/governance/design-context-migration.md(必备内容 11 类 + 三步)。"

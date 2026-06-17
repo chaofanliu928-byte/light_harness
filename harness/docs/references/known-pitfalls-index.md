@@ -74,6 +74,7 @@
 | freshness 90 天阈值实战标定:误报/漏报/刷屏感未经实战;初值待调 | 观察期(等实战标定) | 是 | ROADMAP.md「知识系统 backlog Step 1 观察项」+ decision-trail.md 2026-06-16(D-1~D-9) | 🟡 |
 | 子智能体每次开场 fork 的成本未实战观察;`.claude/agents`·`.claude/skills` 增量采纳推进中 | 观察期(等实战观察) | 是 | ROADMAP.md「知识系统 backlog Step 1 观察项」 | ⚪ |
 | 知识/偏好/规则三者边界糊(偏好硬化成规则 / 决策隐含规则 / memory 拍平三者),边界厘清随 Step 2 真案例解,不单独前置 | 待办(随 ★ 真案例解) | 是 | ROADMAP.md「知识系统 backlog Step 2」+ `references/2026-06-16-knowledge-system-what-to-preserve.md §C` | ⚪ |
+| drift-scout.md 硬编码「13 触点」计数(L2/L24/L48/L146)随注册表增行变 stale:C「设计层到手边」加 TP-14/15 后注册表 15 行;drift-scout 检测 count-agnostic(L85-87 不依赖 13)功能不受影响,但 illustrative 计数过时。用户 2026-06-17 拍板**单独一批**改 count-agnostic 措辞(那批触 drift-scout 自走 covers,C 本批按 spec §10.1「零改」不动 drift-scout) | 待办(单独一批,count-agnostic 化) | 是 | `docs/superpowers/plans/2026-06-17-design-context-delivery.md` T7 + `.claude/agents/drift-scout.md` L2/L24/L48/L146 + 用户 2026-06-17 拍板 | ⚪ |
 
 ## 场景:decision-trail / 记录维护
 

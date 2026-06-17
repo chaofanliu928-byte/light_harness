@@ -27,6 +27,14 @@
 
 ---
 
+## 2026-06-17 — 知识系统 Step2 ★ 主项 C「设计层到手边」(design-context delivery)
+
+- **抉择(D1-D7 + 用户锁定)**:让"代码答不出的"设计层背景在写码/调试/重构按场景**自动到手边**——机制 = 机读·设计背景地图(套 ③a touchpoint-registry 范式,只指不抄,业务模块权威清单)+ fork 侦察员(克隆 ③b drift-scout 形态:pull 主动 fork / 两跳 file→模块→住址 / 按 scenario 取片 / 消化 briefing / 只读不写 / 软降级)。复用现有家 6-7 类 + 两洞补法。
+- **替代(否决)**:大 wiki 全塞窗(腐+刷屏,§D 镜头1 否)/ 新建要保鲜的独立 wiki(多双写腐,D2 否)/ push hook 强制(无干净触发点,D3 取 pull)/ scout 自动回写地图(写坏格式自伤,D4 取只读)。
+- **writing-plans 裁决(spec 留待项,据实读证据)**:洞② `// WHY:` = 采纳但 scattered-only(known-pitfalls-index 无独立已关闭列、来源指针不指 code file:line、零散承重墙永不入索引)落 implementation-rules;洞① DESIGN_TEMPLATE 加 §1.7 业务规则 + §5.1 理由列(升 audit covers 必含)。
+- **赌注(用户确认接受为已知边界)**:①下游真写设计文档/README(没写→EmptyHanded 空手不编造)②pull 够(无 push 强制)③业务模块边界清(糊则第一跳 ⚠️ 不硬猜 + drift-scout 逮成员漂移)。dogfood:自仓库不建地图数据,稳定性推真实项目验(meta-L4)。
+- **link**:spec `docs/superpowers/specs/2026-06-17-design-context-delivery-design.md` + plan `docs/superpowers/plans/2026-06-17-design-context-delivery.md` + audit `docs/audits/audit-2026-06-17-230642-design-context-delivery.md`(verdict=pass;8 covers;2🟡 收口[示意行入注释 / missingKinds accept-with-rationale])+ ROADMAP「知识系统 backlog Step2」
+
 ## 2026-06-16 — 知识系统方向:反腐烂/新鲜度机制(llm-wiki Step 1)
 
 - **方向收敛(需求侧)**:llm-wiki/知识组织基础设施大体已建,本轮从需求侧重收敛——**该保留什么**(存"读全代码也重建不出的层":为什么/意图/不变量/设计层/坑/偏好,代码能答的不存)+ **什么场景要什么**(按场景索引非大 wiki 全塞,缺口集中在 写代码·重构·调试 = 设计层没到手边)+ **知识/偏好/规则边界**(糊点:偏好硬化成规则 / memory 拍平三者)。留痕 `references/2026-06-16-knowledge-system-what-to-preserve.md`。
