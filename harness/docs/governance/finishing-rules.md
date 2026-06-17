@@ -1,5 +1,5 @@
 # Finishing 阶段治理规则
-<!-- owner: 调度者; last-reviewed: 2026-06-16; 生命周期: evolving -->
+<!-- owner: 调度者; last-reviewed: 2026-06-17; 生命周期: evolving -->
 
 > 当 Superpowers 的 finishing-a-development-branch skill 激活时,读取本文件。
 > 以下步骤在 Superpowers 的合并/PR/清理**之前**执行。
@@ -105,7 +105,7 @@
 > 进**写代码 / 调试 / 重构**场景时,设计层背景(契约/边界/数据/业务规则/坑/残留 why)按场景**pull 拉到手边**——调度者主动 fork `design-context-scout` 读设计背景地图、按 scenario 取片、消化成 briefing。**软、只读不写、不阻断**;pull 主动 fork 无 push 强制力(赌注②:AI 得记得 fork)。契约详 spec `docs/superpowers/specs/2026-06-17-design-context-delivery-design.md`(§3.1/§4.3/§5)。
 
 22. **需 agent 运行时** → 进写码/调试/重构场景,调度者 fork `design-context-scout`(契约 `.claude/agents/design-context-scout.md`),注入 `{scenario: write|debug|refactor, touchedFiles: [正在动的文件], mapPointer: docs/governance/design-context-map.md, repoRoot, today}` → scout 读地图两跳(file→业务模块 glob→各设计背景住址)、按 scenario 取片、照住址 Read 源消化成 briefing → 返回 `Briefing`(modules[].slices: kind+pointer+gist / unsure[] ⚠️)或 `EmptyHanded`(料缺,带 missingKinds + seeGuide)。
-23. 消费 briefing:据 `slices` 的 pointer/gist 写码/调试/重构;**⚠️**(file 未匹配模块 / 住址料缺 / 定位不准)→ 复核模块边界 / 推下游补料(对照 `docs/governance/design-context-migration.md`)/ 人核;**EmptyHanded** → 一句话提示(料缺/未匹配),继续,**不阻断**(赌注① 暴露面:下游未写设计文档/README)。
+23. 消费 briefing:据 `slices` 的 pointer/gist 写码/调试/重构;**⚠️**(file 未匹配模块 / 住址料缺 / 定位不准)→ 复核模块边界 / 推下游补料(对照 `docs/governance/design-context-migration.md`)/ 人核;**EmptyHanded** → 一句话提示(料缺/未匹配),继续,**不阻断**(赌注① 暴露面:下游未写设计文档/README)。**公设1(消费侧)**:briefing 的 gist 是**待核的料、不是结论**——采不采纳、据它改不改,由调度者据事实判,不把 scout 的提要当判断照做。
 24. **软、不阻断、只读不写**:scout 只读地图+端点、报 briefing,不写不改地图;**无 agent 运行时 / fork 失败** → 软提醒"本次设计背景未拉" + **回落 AI 自读代码**(本机制上线前的原状,诚实降级,同 drift-scout/freshness),不阻断、不算欠账(软强度)。
 
 > **保鲜闭环(地图登记成触点)**:`design-context-map.md` 是活文档会腐——已登记进 `docs/governance/touchpoint-registry.md`(地图住址漂移点 + 成员 glob 漂移点,类型=漂移点(spec↔代码),判据=存在性 + 单源派生一致),由 drift-scout 收口凭证批逮地图指针失效 / 成员漂移 + 人工触点完整性维兜(spec §4.5)。登记是机制落地时的**一次性动作**(非每次收口重做)。

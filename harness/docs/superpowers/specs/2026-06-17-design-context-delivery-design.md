@@ -411,7 +411,7 @@ ModuleRow {
 
 ### 5.3 报告分层 vs 全干净静默(明确判据)
 
-- **全干净静默(EmptyHanded)**:地图无对应模块行 ∨ 住址料全缺 → scout 返回 `EmptyHanded{reason}` → 调度者只输出一句话(如"本块暂无设计背景料,下游未写设计文档/README")(沿 ③b/freshness"全干净静默"惯例,不刷长报告)。
+- **全干净静默(EmptyHanded)**:**无任何模块可 brief**(第一跳全不命中 = 地图无对应模块行 ∨ 地图空表/读不到)→ scout 返回 `EmptyHanded{reason}` → 调度者只输出一句话(如"本块暂无设计背景料,下游未写设计文档/README")(沿 ③b/freshness"全干净静默"惯例,不刷长报告)。**注**:某模块命中但住址料全缺 → 走 Briefing(该模块 slices 全 ⚠️),非 EmptyHanded(对齐 §5.1「全无料」∧ 判据;『匹配到但没写』与『没匹配到』是不同信号)。
 - **报告分层(Briefing)**:有料 → scout 返回 `Briefing`,调度者据分层展示:
   - **正常 briefing 逐模块**:每模块列取的片(kind + pointer + gist),调度者据此写码/调试/重构。
   - **⚠️ 逐条**:file 未匹配模块 / 住址料缺 / 定位不准 → `unsure[]` 逐条,调度者复核模块边界 / 推下游补料 / 人核。

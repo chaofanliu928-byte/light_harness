@@ -63,10 +63,11 @@
 出参 = Briefing | EmptyHanded
 
 EmptyHanded: { delivered: false,
-               reason: "<一句话>",                    // 如"地图无对应模块行" / "住址料全缺,下游未写设计文档/README" / "地图读不到"
+               reason: "<一句话>",                    // 如"地图无对应模块行(第一跳全不命中)" / "地图空表/无模块行(下游未填/dogfood)" / "地图读不到"
                missingKinds: ["<本场景该取却缺的片>", ...],  // 本 scenario 取片子集里缺的(≠ B1 全 11 类)
                seeGuide: "docs/governance/design-context-migration.md 下游迁移指南" }
-            // 空手态 = 地图无对应模块行 / 住址料全缺 / 地图读不到
+            // 空手态 = 无任何模块可 brief:第一跳全不命中(地图无对应模块行)∨ 地图读不到 ∨ 地图空表
+            //   ——某模块命中但其住址料全缺 → 走 Briefing(该模块 slices 全 ⚠️),非空手态(详「报告分层」)
             //   → 调度者一句话提示,不刷屏(沿 drift-scout/freshness 全干净静默惯例),不阻断写码
 
 Briefing:   { delivered: true,
@@ -106,7 +107,7 @@ ContextSlice = {
 
 ## 报告分层 vs 全干净静默
 
-- **EmptyHanded(全干净静默)**:地图无对应模块行 ∨ 住址料全缺 ∨ 地图读不到 → 返回 `EmptyHanded{reason, missingKinds, seeGuide}` → 调度者只输出一句话,不刷长报告。
+- **EmptyHanded(全干净静默)**:**无任何模块可 brief**——第一跳全不命中(地图无对应模块行)∨ 地图读不到 ∨ 地图空表 → 返回 `EmptyHanded{reason, missingKinds, seeGuide}` → 调度者只输出一句话,不刷长报告。**注**:某模块第一跳命中但住址料全缺 → 走 Briefing(该模块 slices 全 ⚠️),**非 EmptyHanded**——『匹配到但下游没写』是有用信号(⚠️ 逐条利于推下游补哪个模块的哪类料;与 §5.1 边界 + 验收 TC4 一致)。
 - **Briefing(有料分层)**:正常片进 `modules[].slices`(kind+pointer+gist,**gist 一两句要点不抄代码**);⚠️(file 未匹配 / 住址料缺 / 定位不准)进 `unsure[]` 逐条,不硬猜不静默漏。
 
 ## 边界条件(逐条)
@@ -120,7 +121,7 @@ ContextSlice = {
 - **描述性住址锚定位不到** → 该片 ⚠️ "住址锚为描述性,未定位到实际内容,需人核"(同 drift-scout 死结一处理,不误判料缺)。
 - **全角符号污染住址锚** → 该片 ⚠️ "疑似全角符号,住址锚约定半角"。
 - **touchedFiles 跨多模块** → `modules[]` 多条,各模块各自取片(不合并,让调度者看清跨模块)。
-- **全无料**(无对应模块行 ∧ 住址料全缺)→ `EmptyHanded{missingKinds, seeGuide}`,不刷屏。
+- **全无料**(= 无任何模块可 brief:第一跳全不命中 ∨ 地图空表/读不到)→ `EmptyHanded{missingKinds, seeGuide}`,不刷屏。**(模块命中但料全缺 ≠ 全无料 → 走 Briefing+该模块全 ⚠️,见「报告分层」)**
 
 ## 错误传播 + fork 失败降级
 

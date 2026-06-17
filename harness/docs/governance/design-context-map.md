@@ -13,6 +13,7 @@
 
 | 业务模块 | 成员文件 glob | 接口契约 | 数据模型 | 模块边界 | 取舍决策 | 不变量约束 | 既知坑/已知问题 | 业务规则索引 | 并发/同步/排序约束 |
 |---|---|---|---|---|---|---|---|---|---|
-<!-- 示意样板行(填法演示,非真实数据;下游按此格式逐模块填,自仓库不填——dogfood 边界): -->
+<!-- 示意样板行(填法演示,非真实数据;自仓库主表此处留空——dogfood 边界 §10.2,自仓库不填;下游照此格式把下面这行取消注释后逐模块填真行):
 | 订单 | src/order/**;src/checkout/** | design/order.md:§3 + src/order/README.md:对外接口 | design/order.md:§4 | ARCHITECTURE.md:订单层 + src/order/README.md:职责 | decisions/2025-xx-order-split.md + design/order.md:§7 | ARCHITECTURE.md:订单不变量 + src/order/README.md:约束和规则 | known-pitfalls-index.md:订单 + src/order/README.md:已知问题和技术债 | design/order.md:§1.7业务规则 | design/order.md:§5.1 |
-<!-- 怎么填:① 一模块一行;② 成员 glob 指本模块代码文件(多 glob 分号分隔);③ 各列填"文件:锚"住址指针(只指不抄),无料填 —;④ 照 design-context-migration.md B1 清单确保住址真有料;⑤ 残留 why 不进本表列——由侦察员 grep 代码就近 // WHY: 注释拉 -->
+怎么填:① 一模块一行;② 成员 glob 指本模块代码文件(多 glob 分号分隔);③ 各列填"文件:锚"住址指针(只指不抄),无料填 —;④ 照 design-context-migration.md B1 清单确保住址真有料;⑤ 残留 why 不进本表列——由侦察员 grep 代码就近 // WHY: 注释拉
+-->

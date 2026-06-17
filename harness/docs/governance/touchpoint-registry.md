@@ -1,5 +1,5 @@
 # 触点机读注册表(touchpoint-registry)
-<!-- owner: 调度者; last-reviewed: 2026-06-16; 生命周期: evolving -->
+<!-- owner: 调度者; last-reviewed: 2026-06-17; 生命周期: evolving -->
 
 > 本表是 `credentials-rules.md` §8 双写同步义务清单的**机读派生形**——把散在 §8 散文的双写对 + 体检摸到的散落触点,结构化成一份机读表,给知识系统 Step2 ③b 漂移检测当喂料地基。③b(不管走 hook 还是 scout)从本表读"该查哪些端点、按什么判据判"。
 
