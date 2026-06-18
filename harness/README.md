@@ -18,11 +18,11 @@ Superpowers 管"怎么写好代码"。AI Dev Harness 管"按什么标准写、�
 按从认知根基到物理实现 7 层组织:
 
 #### 层 1:认知约束(根基)
-- **1.1 AI 自评乐观偏差公设** — AI 评估自己产出有系统性乐观偏差;做事和判断必须分开。**实现**:所有 fork 机制 + 5 个 agent 文件
+- **1.1 AI 自评乐观偏差公设** — AI 评估自己产出有系统性乐观偏差;做事和判断必须分开。**实现**:所有 fork 机制 + agent 文件(现 10 个)
 - **1.2 行动公设** — 不确定时执行外部动作(Grep/Read/WebFetch),不内省。**实现**:`session-init.sh` hook(开头注入历史)+ 不确定时调度者直接 Grep/Read(行动公设本体)
 
 #### 层 2:结构原则(实现公设)
-- **2.1 实现-审查分离** — 调度 / 设计 / 实施 / 审查 各不同 agent。**Why**:**上下文隔离 = 独立性前提**(对抗者必须有独立心智模型才能真发现盲区 — 同 context 内分角色,挑战者脑子里还留着设计者的思路,做不出真对抗)+ 避免上下文腐烂 + 突破公设 1 单智能体维护决策的死结。**实现**:5 个 agent(designer / design-reviewer / evaluator / process-auditor / security-reviewer)
+- **2.1 实现-审查分离** — 调度 / 设计 / 实施 / 审查 各不同 agent。**Why**:**上下文隔离 = 独立性前提**(对抗者必须有独立心智模型才能真发现盲区 — 同 context 内分角色,挑战者脑子里还留着设计者的思路,做不出真对抗)+ 避免上下文腐烂 + 突破公设 1 单智能体维护决策的死结。**实现**:5 个核心领审员 agent(designer / design-reviewer / evaluator / process-auditor / security-reviewer)+ 5 个 scout 侦察员(research / review / freshness / drift / design-context),共 10 个
 - **2.2 扁平多挑战者架构** — 调度者直接 fork N 个独立挑战者,不二级嵌套。**Why**:Claude Code subagent 平台无 Agent 工具权限。**实现**:所有 skill 第一步统一 "在一条消息中并行 fork N 个"
 
 #### 层 3:流程哲学(vibe coding 启发)
@@ -37,7 +37,7 @@ Superpowers 管"怎么写好代码"。AI Dev Harness 管"按什么标准写、�
 - **分层活上下文链(下游)** — `docs/context/` L1-L6 脊柱(对应 brainstorming→testing 阶段;松紧梯度:L1/L2 可探索"待定"合法,L3 对抗审查上场转严,L5/L6 最严)。每节 frontmatter `upstream: [编码]` 机读挂链(指编码不 grep)。**Why**:把跨会话上下文从"散文交叉引用"升级为"机读分层图",改上游可机械追下游,`待定` 是章法、静默断链是垃圾。**实现**:`docs/context/`(L1-vision/L2-INDEX 默认单表,L3-L6 随开发长)+ `check-context-chain.sh`(软早提醒)+ `finishing-rules.md`「收口硬核链」(AI 核 + handoff 声明)。注:这是 4.1 之外的新机制,**不计入上面"5 产物"**;harness 自仓库不建 context/(用 README 当 vision)。
 - **4.2 综合阶段中性化** — 调度者构造挑战者 prompt 必须中立(材料/排序/措辞);综合按 RUBRIC 维度评判。**Why**:防 anchoring,多智能体审查的有效性前提。**实现**:`docs/governance/synthesis-rules.md` 完整规范
 - **4.3 改动范围自动识别** — 治理面改动按凭证要求表机械负担 audit 凭证义务,开场对账核账。**Why**:不靠 AI 自觉,机械判据不可被自我说服绕过。**实现**:docs/governance/credentials-rules.md + .claude/hooks/credentials.conf + check-audit-coverage.sh --reconcile
-- **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:7 个 SKILL.md 统一结构
+- **4.4 人-智能体协作契约**(skill 输出契约)— 每个 skill 统一定义 输入/阶段/输出/反模式/自检。**Why**:可预期(智能体知道什么阶段给什么)+ 可中断恢复(handoff + skill 阶段标识 = 续接锚点)+ 智能体友好(不依赖人在旁边凭感觉指导)。**实现**:8 个 SKILL.md 统一结构
 - **4.5 挑战者导览体系**(挑战者侧基础设施)— 主智能体(调度者)进项目时读 `CLAUDE.md` 知道项目结构 / Skill 地图 / 文档索引;挑战者(fork 出的子智能体)对称地需要一份"挑战者侧导览" — 知道:怎么找问题(方法论 — 通用自检清单 + 角色专属技巧)/ 去哪找信息(数据来源向导 — 跨平台路径 + 命令模板)/ 怎么看调度者输入(批判看 + 自取用户原话校验主线 framing)/ 哪些陷阱要避(公设 1 / spec_gap_masking / framing / 越权)。**实现**:`docs/references/challenger-orientation.md`。fork 挑战者时 prompt 内含"先 Read 此文件";挑战者输出末尾必填 `### 已对照用户原话` section,调度者综合时校验(`synthesis-rules.md` 事后规则 5)
 - **4.6 主动调研 / 重视外部输入** — harness 默认"内向"(搜本仓库 + 问用户);本能力补上"从仓库外获取新信息作决策输入"的链路。规划方案时,需求定了、讨论方案前,**按需**(可逆性主轴 × 熟悉度次轴,默认跳过)fork 联网调研员,默认用 Claude Code 自带的 deep-research 调研业界方案。**Why**:别让 AI 闭门造车;但联网有成本且无差别检索会降质,所以按需触发。**红线**:调研结果只当**证据 / 选项**(经自己思考判断是否适用),不当判断依据——"别人这么做不单独构成理由"。**实现**:`.claude/agents/research-scout.md`(调研编排 + 红线契约)+ `brainstorming-rules.md` 阶段四前触发节
 
@@ -113,7 +113,7 @@ Superpowers 管"怎么写好代码"。AI Dev Harness 管"按什么标准写、�
 cd /path/to/your-project
 claude
 # AI 检测到配置未完成，自动提示运行 /project-setup
-# 通过 5 个问题的对话，自动生成 CLAUDE.md、RUBRIC.md、ARCHITECTURE.md
+# 通过对话式向导（AI 能推断的不问），自动生成 CLAUDE.md、RUBRIC.md、ARCHITECTURE.md
 ```
 
 ## 架构
@@ -233,19 +233,9 @@ Superpowers 自动编排开发流程，我们通过规则注入来约束每个�
 
 上下文快满时 → 更新 handoff.md → `/clear` → 新会话自动加载
 
-## 可选：接入 OpenAI Codex（多模型成本路由）
+## 可选（当前搁置）:接入 OpenAI Codex 多模型成本路由
 
-> **[2026-05-24] codex 接入搁置** — fork 子任务维持全 Claude。本段保留作日后基线,不预设重启时间(`feedback_iterative_progression`);若日后激活 codex 接入,先读 `docs/superpowers/specs/2026-05-24-codex-shelved-batch-design.md` + `docs/decision-trail.md` 2026-05-24 拐点回溯本搁置背景。下方 swap 列表 + 不 Swap 列表 + 决策表入口保留作完整参考。
-
-部分 sub-agent 角色可 swap 到 codex（Claude 同等能力比 codex 贵 → 成本节省）。
-
-- **Swap 列表**(11 角色,2026-05-22 修订):
-  - 实现链路:designer / **planner** / **implementer** / **testing**
-  - 审查链路:silent-failure-hunter / 设计自检 / design-review 4 挑战者 / **code-reviewer** / evaluate 非关键 / security-scan 危险+注入
-- **不 Swap**:调度者 / evaluate 关键 / security-scan 凭证 / 治理审查 / process-audit / 综合阶段
-- **完整决策表 + sandbox/approval/model/effort**：[`docs/governance/model-route.md`](docs/governance/model-route.md)
-- **综合阶段规则**（防多 Agent 旁观者效应）：[`docs/governance/synthesis-rules.md`](docs/governance/synthesis-rules.md)
-- **理论锚点**（二公设）：见 `CLAUDE.md` §角色分离原则 段后的 blockquote
+> **[2026-05-24] codex 接入搁置,fork 子任务维持全 Claude —— 不接入完全可用。** 当初设想是把部分非关键 sub-agent 角色 swap 到 codex 省成本(11 角色 swap 列表 + 不 swap 列表)。日后若激活:完整决策表见 [`docs/governance/model-route.md`](docs/governance/model-route.md),背景见 `docs/decision-trail.md` 2026-05-24 拐点。本段不预设重启时间(`feedback_iterative_progression`)。
 
 安装步骤详见根目录 `README.md`。
 
