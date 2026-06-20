@@ -177,6 +177,49 @@ if [ "$RECONCILE" -eq 1 ]; then
         exit 0
     fi
 
+    # ========================================================================
+    # 活跃任务索引结构核(--reconcile 追加段,Task 2 — 恒 exit 0 全软提醒)
+    # 核①:机读表头存在性 + 半角文法 ERE
+    # 核②:挂起行复活触发器列非空(awk -F'|' section 窗内扫)
+    # ========================================================================
+
+    # 核①:取 ## 活跃任务索引 段标题下一非空行作为机读表头
+    _ATI_HEADER=$(awk '
+        { sub(/\r$/, "") }
+        /^## 活跃任务索引/ { in_sec=1; next }
+        in_sec && /^[[:space:]]*$/ { next }
+        in_sec { print; exit }
+    ' "$HANDOFF" 2>/dev/null)
+
+    if [ -z "$_ATI_HEADER" ]; then
+        echo "活跃任务索引机读表头缺失 — 请在 ## 活跃任务索引 段标题下补写机读表头(格式: 活跃任务: N(进行中 X / 挂起 Y))。" >&2
+    elif printf '%s' "$_ATI_HEADER" | grep -qE '^活跃任务: [0-9]+\(进行中 [0-9]+ / 挂起 [0-9]+\)$'; then
+        : # 核①通过
+    elif printf '%s' "$_ATI_HEADER" | grep -qF -e '（' -e '）' -e '：'; then
+        echo "检测到全角符号 — 活跃任务索引机读表头 token 必须半角(: ( ) / 须为半角);现行: $_ATI_HEADER" >&2
+    else
+        echo "机读表头文法不合 — 现行: $_ATI_HEADER(期望格式: 活跃任务: N(进行中 X / 挂起 Y))。" >&2
+    fi
+
+    # 核②:挂起行复活触发器列非空(awk section 窗:## 活跃任务索引 开窗、遇下一 ## 关窗)
+    awk -F'|' '
+        { sub(/\r$/, "") }
+        /^## 活跃任务索引/ { in_sec=1; next }
+        in_sec && /^## / { in_sec=0 }
+        in_sec {
+            # 跳过表头行、分隔行(占位行/进行中行因 $2 != 挂起 自然跳过,无须特判)
+            status = $2; gsub(/^[[:space:]]+|[[:space:]]+$/, "", status)
+            if (status == "状态" || status ~ /^[-|]+$/) next
+            if (status == "挂起") {
+                trigger = $4; gsub(/^[[:space:]]+|[[:space:]]+$/, "", trigger)
+                task = $3; gsub(/^[[:space:]]+|[[:space:]]+$/, "", task)
+                if (trigger == "" || trigger == "—") {
+                    print "挂起行触发器为空: " task
+                }
+            }
+        }
+    ' "$HANDOFF" >&2
+
     case "$PROMO" in
         "promotion: 未核")
             # 状态判据(追记③):未核 × 归档件存在 = 上次覆写可能未走门禁(不依赖时钟)

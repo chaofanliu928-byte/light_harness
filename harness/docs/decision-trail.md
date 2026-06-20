@@ -27,6 +27,13 @@
 
 ---
 
+## 2026-06-20 — 活跃任务索引(handoff 升格挂起任务线住处)
+
+- **抉择(用户逐环节锁定)**:handoff 单台账装不下挂起/并行任务线 + 开场不可数 → `### 进行中/阻塞` 跨节升格 `## 活跃任务索引`(机读表头计数 + 二态表)。**方案B**(人声明任务线、不锚 git)+ **强度=中**(对齐现状不加码)。4旋钮:机器核最窄(只表头文法+挂起触发器非空,恒 exit0)/ 软上限5 / 不做超期点名 / 触发器只非空+AI语义核。
+- **替代(否决)**:方案A 锚 git 分支(保活更硬但只数开分支的线,否);强度「重」(每K次fork审挂起线,过度,留"真出现僵尸线实证"升级);黑名单字面核(design-review 两维独立判 marginal + grep 死检查 bug,删)。
+- **诚实限度(留档不掩盖,spec §10.2)**:僵尸线判断=做事者覆写自答=公设1 已知击穿点(中强度无独立眼睛盯,留「重」升级);①③在场性同源(非两道独立闸);只部分规避 kb 击穿点5(局部持久层无独立闸)。
+- **link**:spec `docs/superpowers/specs/2026-06-19-active-task-index-design.md`(design-review×2 修订)+ decision `docs/decisions/2026-06-20-active-task-index.md` + audit `docs/audits/audit-2026-06-20-104617-active-task-index.md`(verdict=pass;9 挑战者无🔴;covers 5)+ plan `docs/superpowers/plans/2026-06-20-active-task-index.md`
+
 ## 2026-06-17 — 知识系统 Step2 ★ 主项 C「设计层到手边」(design-context delivery)
 
 - **抉择(D1-D7 + 用户锁定)**:让"代码答不出的"设计层背景在写码/调试/重构按场景**自动到手边**——机制 = 机读·设计背景地图(套 ③a touchpoint-registry 范式,只指不抄,业务模块权威清单)+ fork 侦察员(克隆 ③b drift-scout 形态:pull 主动 fork / 两跳 file→模块→住址 / 按 scenario 取片 / 消化 briefing / 只读不写 / 软降级)。复用现有家 6-7 类 + 两洞补法。

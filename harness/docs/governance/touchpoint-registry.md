@@ -34,6 +34,7 @@
 | TP-13 | 双写对 | `docs/governance/credentials-rules.md` §8 人读双写义务清单;`docs/governance/touchpoint-registry.md`(本表,机读派生) | 单源派生一致(§8 上游、本表派生;§8 增触点条须同步本表新增行,反之亦然) | §8 第9条 | 待③b查 |
 | TP-14 | 漂移点(spec↔代码) | `docs/governance/design-context-map.md` 各业务模块行的设计背景住址指针列(接口契约、数据模型、模块边界、取舍决策、不变量约束、既知坑/已知问题、业务规则索引、并发/同步/排序约束——逐字同地图列头,`、`分列、列名内`/`不是分隔符);各指针指向的设计文档/README/ARCHITECTURE/decisions/坑索引实际锚 | 存在性(地图住址指针指向的锚还在不在;指针失效=漂移) | 体检2026-06-17 | 待③b查 |
 | TP-15 | 漂移点(spec↔代码) | `docs/governance/design-context-map.md` 各行成员文件 glob;被指向的实际业务模块代码文件成员 | 单源派生一致(地图 memberGlob 还覆盖不覆盖实际模块成员;成员漂移=地图边界腐化) | 体检2026-06-17 | 待③b查 |
+| TP-16 | 双写对 | `.claude/skills/structured-handoff/handoff-template.md` 机读表头行 `活跃任务: N(进行中 X / 挂起 Y)` 整条版式 + section 标题 `## 活跃任务索引`;`.claude/hooks/check-handoff.sh` `--reconcile` 表头文法 ERE + 核② awk `^## 活跃任务索引` 开窗 | 逐字一致(表头版式空格/斜杠/括号 + section 标题字面;T1 上游、T3 派生) | §8 第10条 | 待③b查 |
 
 ## 维护
 
