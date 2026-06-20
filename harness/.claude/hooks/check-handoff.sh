@@ -209,7 +209,7 @@ if [ "$RECONCILE" -eq 1 ]; then
         in_sec {
             # 跳过表头行、分隔行、占位行
             status = $2; gsub(/^[[:space:]]+|[[:space:]]+$/, "", status)
-            if (status == "状态" || status ~ /^[-|]+$/ || status == "(无活跃任务)") next
+            if (status == "状态" || status ~ /^[-|]+$/) next
             if (status == "挂起") {
                 trigger = $4; gsub(/^[[:space:]]+|[[:space:]]+$/, "", trigger)
                 task = $3; gsub(/^[[:space:]]+|[[:space:]]+$/, "", task)
