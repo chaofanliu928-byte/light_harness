@@ -207,7 +207,7 @@ if [ "$RECONCILE" -eq 1 ]; then
         /^## 活跃任务索引/ { in_sec=1; next }
         in_sec && /^## / { in_sec=0 }
         in_sec {
-            # 跳过表头行、分隔行、占位行
+            # 跳过表头行、分隔行(占位行/进行中行因 $2 != 挂起 自然跳过,无须特判)
             status = $2; gsub(/^[[:space:]]+|[[:space:]]+$/, "", status)
             if (status == "状态" || status ~ /^[-|]+$/) next
             if (status == "挂起") {
