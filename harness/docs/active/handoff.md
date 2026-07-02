@@ -3,7 +3,7 @@
 > 工作台只放状态和指针,知识住书架(找书:先指针,后目录卡 references/README.md)。
 > 覆写本文件只走 /structured-handoff(晋升门禁);入口地图:AGENTS.md / CLAUDE.md。
 
-更新时间: 2026-06-20
+更新时间: 2026-07-02
 当前阶段: **活跃任务索引(active-task-index)实现完成 + 收口**。handoff 升格出「活跃任务索引」全链跑通(brainstorm→design→自检→design-review×2→修订→code-review→凭证 audit verdict=pass→方向评估通过),待合并 main。
 当前分支: feat/active-task-index
 
@@ -13,14 +13,14 @@ harness 知识系统(llm-wiki 方向)+ 台账机制。本批:让挂起任务线�
 
 ## 活跃任务索引
 
-活跃任务: 0(进行中 0 / 挂起 0)
+活跃任务: 1(进行中 0 / 挂起 1)
 
 <!-- 一行一条人声明的任务线(方案B:不锚 git,含未开分支探索线)。状态枚举仅 进行中|挂起(与 promotion「阻塞(理由)」正交,不混)。 -->
 <!-- 挂起行「复活触发器」列必填非空(何条件下重新捡起);进行中行填 —。指针 = -> docs/相对路径 — 为什么读 / — / 未沉淀线 [未沉淀]。 -->
 <!-- 机读表头半角纪律:活跃任务: N(进行中 X / 挂起 Y);空账写 0 不写「无」。覆写时逐行重声明「这条还活着吗」(SKILL ③覆写步)。 -->
 | 状态 | 任务 | 复活触发器 | 指针 |
 |---|---|---|---|
-| (无活跃任务) | | | |
+| 挂起 | 采纳 PIX2 迁移回流改进(7 条采纳清单,含终态契合入地板+audit 锚洞规约) | 新会话开场读到本行即触发(先读指针简报,再与用户立项) | -> docs/active/2026-07-02-pix2-adoption-brief.md — 第一读:为什么/改什么/证据锚/边界全在 |
 
 ## 进度
 
@@ -29,7 +29,7 @@ harness 知识系统(llm-wiki 方向)+ 台账机制。本批:让挂起任务线�
 
 ## 下一步(新窗口照此续作)
 
-1. **推真实项目验**(最有价值):活跃任务索引 + 整套机制在真实下游首用,采 meta-L4(挂起线真实腐烂率/僵尸线实证/误报感)—— 自仓库 dogfood 审不到。
+1. **✅ 真实项目首用已发生**(2026-06-30~07-02):PIX2 完成全量迁移并实战运转(6 阶段+7 份 audit 凭证,单轨闭环)。产出回流采纳清单 → **读 docs/active/2026-07-02-pix2-adoption-brief.md(挂起任务,第一优先)**。
 2. 知识系统 backlog 续(ROADMAP Step 2 节)。
 
 ## 待晋升暂存
@@ -44,6 +44,7 @@ harness 知识系统(llm-wiki 方向)+ 台账机制。本批:让挂起任务线�
 - -> docs/audits/audit-2026-06-20-104617-active-task-index.md — 凭证 audit verdict=pass(covers 5)
 - -> docs/active/evaluation-result.md — 方向评估通过(4维)
 - -> docs/ROADMAP.md「知识系统 backlog」Step 2 — backlog + meta-L4 待办
+- -> docs/active/2026-07-02-pix2-adoption-brief.md — PIX2 回流采纳简报(挂起任务的第一读)
 
 ## 关键上下文
 
